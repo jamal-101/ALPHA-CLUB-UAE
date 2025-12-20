@@ -21,6 +21,8 @@ class CommonBottomNabVar extends StatelessWidget {
           ),
         ),
         child: StylishBottomBar(
+
+
           elevation: 0,
           option: AnimatedBarOptions(
             iconSize: 28,
