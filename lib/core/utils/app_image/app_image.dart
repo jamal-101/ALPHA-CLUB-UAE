@@ -4,6 +4,7 @@ class AssetPath {
 
   static const String splashImage = 'assets/images/splash_image.png';
   static const String splashBackground = 'assets/images/Splash_background.jpg';
+  static const String userProfile = 'assets/images/user_profile.jpg';
 
 
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>> icons <<<<<<<<<<<<<<<<<<<<<<<<<//

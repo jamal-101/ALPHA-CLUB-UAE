@@ -1,11 +1,17 @@
 import 'package:alpha_club/core/global/common_button.dart';
 import 'package:alpha_club/core/global/common_text_field.dart';
 import 'package:alpha_club/core/global/commont_text.dart';
+import 'package:alpha_club/core/route/app_route.dart';
 import 'package:alpha_club/core/utils/app_color/app_color.dart';
 import 'package:alpha_club/core/utils/app_image/app_image.dart';
 import 'package:alpha_club/core/utils/app_string/app_string.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_pinput/flutter_pinput.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class SingInOtp extends StatelessWidget {
   const SingInOtp({super.key});
@@ -60,27 +66,102 @@ class SingInOtp extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 20,right: 20),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         SizedBox(height: 159.h),
-                        CommonText(
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                              fontSize: 14.sp,
+                        Pinput(
+                          length: 4,
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                          ],
+                          // controller: singUpOtpController.singUpOtp,
+                          // validator: FormValidation.validatePin,
+                          defaultPinTheme: PinTheme(
+                            height: 60.h,
+                            width: 60.w,
+                            margin: EdgeInsets.symmetric(horizontal: 4, vertical: 16),
+                            textStyle: TextStyle(
+                              fontFamily: 'SFPro',
+                              fontSize: 20,
                               fontWeight: FontWeight.w400,
                               color: AppColors.blue,
-                              fontFamily: 'SFPro'
+                            ),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(16.r),
+                              color: AppColors.otpFillColor,
+                              border: Border.all(
+                                width: 1.w,
+                                color: AppColors.otpBorderColor,
+                              ),
+                            ),
                           ),
-                          text: AppString.email,
+                          preFilledWidget: Text(
+                            '-',
+                            style: TextStyle(
+                              fontFamily: 'SFPro',
+                              fontSize: 20,
+                              fontWeight: FontWeight.w400,
+                              color: AppColors.blue,
+                            ),
+                          ),
+                          onCompleted: (value) {
+                            // otpController.otpController.text = value;
+                            // errorMessage.value = '';
+                          },
+                          onChanged: (value) {
+                            if (value.isNotEmpty) {
+                              // errorMessage.value = '';
+                            }
+                          },
                         ),
-                        SizedBox(height: 12.h),
-                        CommonTextField(
-                          hintText: AppString.enterEmailAddress,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CommonText(
+                              style: TextStyle(
+                                fontFamily: 'SFPro',
+                                fontSize: 20,
+                                fontWeight: FontWeight.w400,
+                                color: AppColors.blue,
+                              ),
+                                text:AppString.resendCodeIn),
+                            SizedBox(width: 6.w),
+                            CommonText(
+                                style: TextStyle(
+                                  fontFamily: 'SFPro',
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w400,
+                                  color: AppColors.yellow,
+                                ),
+                                text:AppString.second),
+                          ],
                         ),
                         SizedBox(height: 60.h),
                         CommonButton(onTap: (){
+                          Get.toNamed(AppRoute.newPasswordScreen);
                         }, text: AppString.verifyCode),
-                        SizedBox(height: 40.h),
+                        SizedBox(height: 24.h),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CommonText(
+                                style: TextStyle(
+                                  fontFamily: 'SFPro',
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                  color: AppColors.blue,
+                                ),
+                                text:AppString.donTReceive),
+                            SizedBox(width: 15.w),
+                            CommonText(
+                                text:AppString.resendCode,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 14,
+                              color: AppColors.yellow,
+                            ),
+                          ],
+                        )
                       ],
                     ),
                   ),

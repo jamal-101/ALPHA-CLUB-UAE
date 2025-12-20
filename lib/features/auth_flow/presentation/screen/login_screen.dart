@@ -5,6 +5,7 @@ import 'package:alpha_club/core/route/app_route.dart';
 import 'package:alpha_club/core/utils/app_color/app_color.dart';
 import 'package:alpha_club/core/utils/app_image/app_image.dart';
 import 'package:alpha_club/core/utils/app_string/app_string.dart';
+import 'package:alpha_club/features/common_bottom_nav_bar/presentation/common_bottom_nab_var.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -102,21 +103,21 @@ class LoginScreen extends StatelessWidget {
                           hintText: '********',
                         ),
                         SizedBox(height: 24.h),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            SizedBox(),
-                            CommonText(
-                              style: TextStyle(
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColors.blue,
-                                  fontFamily: 'SFPro'
-                              ),
-                              text: AppString.forgetPass,
-                            ),
-                          ],
-                        ),
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //   children: [
+                        //     SizedBox(),
+                        //     CommonText(
+                        //       style: TextStyle(
+                        //           fontSize: 14.sp,
+                        //           fontWeight: FontWeight.w600,
+                        //           color: AppColors.blue,
+                        //           fontFamily: 'SFPro'
+                        //       ),
+                        //       text: AppString.forgetPass,
+                        //     ),
+                        //   ],
+                        // ),
                         SizedBox(height: 24.h),
                         CommonButton(onTap: (){
                           Get.toNamed(AppRoute.singInVerify);
@@ -156,12 +157,13 @@ class LoginScreen extends StatelessWidget {
                               ),
                             ),
                           ],
-                        )
+                        ),
                       ],
                     ),
                   ),
                 ),
               ),
+              CommonBottomNabVar(selectedIndex: 2)
             ],
           ),
         ),

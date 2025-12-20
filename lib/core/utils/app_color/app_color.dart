@@ -11,5 +11,9 @@ class AppColors {
   static const linearGradient1 = Color(0xFFFFD700);
   static const linearGradient2 = Color(0xFFFDB931);
   static const whiteFoundation1 = Color(0xFFF1F1F1);
+  static const otpFillColor = Color(0xFFF9F9F9);
+  static const otpBorderColor = Color(0xFFF1F1F1);
+  static const yellow = Color(0xFFFFCB20);
+  static const goldColor = Color(0xFFDFB97A);
 
 }

@@ -13,4 +13,10 @@ class AppString {
   static const email = "Email";
   static const enterEmailAddress = "Enter E-mail Address";
   static const verifyCode = "Verify Code";
+  static const resendCodeIn = "Resend code in";
+  static const second = "53s";
+  static const donTReceive = "Don’t receive the code?";
+  static const resendCode = "Resend Code";
+  static const newPassword = "New Password";
+  static const confirmNewPass = "Confirm New Password";
 }
