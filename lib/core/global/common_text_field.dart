@@ -14,6 +14,9 @@ class CommonTextField extends StatelessWidget {
     this.hintText,
     this.prefixIcon,
     this.isPassword = false,
+    this.controller,
+    this.onChanged,
+    this.validator,
   });
 
   final Color containerColor;
@@ -21,7 +24,10 @@ class CommonTextField extends StatelessWidget {
   final Color borderColor;
   final String? hintText;
   final Widget? prefixIcon;
+  final TextEditingController? controller;
   final bool isPassword;
+  final Function(String)? onChanged;
+  final String? Function(String?)? validator;
 
 
   @override
@@ -38,6 +44,9 @@ class CommonTextField extends StatelessWidget {
           border: Border.all(width: 1.w, color: borderColor),
         ),
         child: TextFormField(
+          controller: controller,
+          onChanged: onChanged,
+          validator: validator,
           style: TextStyle(
               fontFamily: 'SFPro',
               fontSize: 14.sp,

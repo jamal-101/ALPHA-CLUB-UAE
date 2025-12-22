@@ -1,17 +1,24 @@
 import 'package:alpha_club/core/global/common_button.dart';
 import 'package:alpha_club/core/global/common_text_field.dart';
 import 'package:alpha_club/core/global/commont_text.dart';
-import 'package:alpha_club/core/route/app_route.dart';
 import 'package:alpha_club/core/utils/app_color/app_color.dart';
 import 'package:alpha_club/core/utils/app_image/app_image.dart';
 import 'package:alpha_club/core/utils/app_string/app_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+
+import '../../controller/new_passWord_controller.dart';
+import '../widget/new_password_dialog.dart';
 
 class NewPasswordScreen extends StatelessWidget {
-  const NewPasswordScreen({super.key});
+     NewPasswordScreen({super.key});
+
+
+  final PasswordController newPassController = Get.put(PasswordController());
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +35,9 @@ class NewPasswordScreen extends StatelessWidget {
         child: Center(
           child: Column(
             children: [
-              SizedBox(height: 90.h),
-              Image.asset(AssetPath.splashImage, height: 132, width: 267),
               SizedBox(height: 70.h),
+              Image.asset(AssetPath.splashImage, height: 132, width: 267),
+              SizedBox(height: 50.h),
               CommonText(
                 style: TextStyle(
                   fontFamily: 'SFPro',
@@ -38,17 +45,24 @@ class NewPasswordScreen extends StatelessWidget {
                   fontWeight: FontWeight.w400,
                   fontSize: 20.sp,
                 ),
-                text: AppString.forgetPass,
+                text: AppString.createNewPass,
               ),
               SizedBox(height: 10.h),
               CommonText(
                 textAlign: TextAlign.center,
-                text: AppString.enterYourMobile,
+                text: AppString.yourNewPass,
                 color: AppColors.whiteFoundation1,
                 fontWeight: FontWeight.w400,
                 fontSize: 14.sp,
               ),
-              SizedBox(height: 55.h),
+              CommonText(
+                textAlign: TextAlign.center,
+                text: AppString.previous,
+                color: AppColors.whiteFoundation1,
+                fontWeight: FontWeight.w400,
+                fontSize: 14.sp,
+              ),
+              SizedBox(height: 40.h),
               Expanded(
                 child: Container(
                   height: double.infinity,
@@ -65,7 +79,7 @@ class NewPasswordScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(height: 159.h),
+                        SizedBox(height: 50.h),
                         CommonText(
                           textAlign: TextAlign.start,
                           style: TextStyle(
@@ -78,6 +92,8 @@ class NewPasswordScreen extends StatelessWidget {
                         ),
                         SizedBox(height: 12.h),
                         CommonTextField(
+                          controller: newPassController.passwordController,
+                          onChanged: (value) => newPassController.validatePassword(value),
                           isPassword: true,
                           hintText: '********',
                         ),
@@ -94,13 +110,37 @@ class NewPasswordScreen extends StatelessWidget {
                         ),
                         SizedBox(height: 12.h),
                         CommonTextField(
+                          controller: newPassController.confirmPasswordController,
                           isPassword: true,
                           hintText: '********',
+                          onChanged: (value) => newPassController.checkPasswordMatch(),
                         ),
-                        SizedBox(height: 60.h),
+                        const SizedBox(height: 20),
+                        Column(
+                          children: [
+                            validationRow("At least 8 characters", newPassController.isLengthValid),
+                            validationRow("Numbers (0-9)", newPassController.hasNumbers),
+                            validationRow("Upper & Lower case letters", newPassController.hasLetters),
+                            validationRow("Special characters", newPassController.hasSpecialChars),
+                          ],
+                        ),
+                        SizedBox(height: 58.h),
                         CommonButton(onTap: (){
                           // Get.toNamed(AppRoute.);
-                        }, text: AppString.sendOtp),
+
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return Dialog(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16.r),
+                                ),
+                                child: NewPasswordDialog(),
+                              );
+                            },
+                          );
+
+                        }, text: AppString.resendCodeIn),
                         SizedBox(height: 40.h),
                       ],
                     ),
@@ -113,4 +153,31 @@ class NewPasswordScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+
+
+Widget validationRow(String title, RxBool isValid) {
+  return Obx(() => Padding(
+    padding: const EdgeInsets.symmetric(vertical: 4.0),
+    child: Row(
+      children: [
+        Icon(
+          isValid.value ? Icons.check_circle : Icons.radio_button_unchecked,
+          color: isValid.value ? AppColors.green : AppColors.blueBase,
+          size: 20,
+        ),
+        const SizedBox(width: 10),
+        Text(
+          title,
+          style: TextStyle(
+            fontFamily: 'SFPro',
+            color: isValid.value ? AppColors.green : AppColors.blueBase,
+            fontWeight: FontWeight.w400,
+            fontSize: 14,
+          ),
+        ),
+      ],
+    ),
+  ));
 }

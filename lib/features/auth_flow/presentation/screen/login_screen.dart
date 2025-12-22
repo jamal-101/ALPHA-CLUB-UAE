@@ -103,24 +103,24 @@ class LoginScreen extends StatelessWidget {
                           hintText: '********',
                         ),
                         SizedBox(height: 24.h),
-                        // Row(
-                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //   children: [
-                        //     SizedBox(),
-                        //     CommonText(
-                        //       style: TextStyle(
-                        //           fontSize: 14.sp,
-                        //           fontWeight: FontWeight.w600,
-                        //           color: AppColors.blue,
-                        //           fontFamily: 'SFPro'
-                        //       ),
-                        //       text: AppString.forgetPass,
-                        //     ),
-                        //   ],
-                        // ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedBox(),
+                            CommonText(
+                              style: TextStyle(
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.blue,
+                                  fontFamily: 'SFPro'
+                              ),
+                              text: AppString.forgetPass,
+                            ),
+                          ],
+                        ),
                         SizedBox(height: 24.h),
                         CommonButton(onTap: (){
-                          Get.toNamed(AppRoute.singInVerify);
+                          Get.toNamed(AppRoute.profileScreen);
                         }, text: AppString.sinIn),
                         SizedBox(height: 40.h),
                         Row(
@@ -163,7 +163,7 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              CommonBottomNabVar(selectedIndex: 2)
+              // CommonBottomNabVar(selectedIndex: 2)
             ],
           ),
         ),

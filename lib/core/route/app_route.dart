@@ -2,7 +2,7 @@ import 'package:alpha_club/features/auth_flow/presentation/screen/login_screen.d
 import 'package:alpha_club/features/auth_flow/presentation/screen/new_password_screen.dart';
 import 'package:alpha_club/features/auth_flow/presentation/screen/sing_in_otp.dart';
 import 'package:alpha_club/features/auth_flow/presentation/screen/sing_in_verify.dart';
-import 'package:alpha_club/features/profile_flow/presentation/screen/profile_screen.dart';
+import 'package:alpha_club/features/profile_flow/presentation/screen/profile_screen/profile_screen.dart';
 import 'package:alpha_club/features/splash_view/screen/splash_screen.dart';
 import 'package:get/get.dart';
 
