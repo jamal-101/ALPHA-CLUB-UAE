@@ -1,5 +1,4 @@
 import 'package:alpha_club/core/global/commont_text.dart';
-import 'package:alpha_club/core/route/app_route.dart';
 import 'package:alpha_club/core/utils/app_color/app_color.dart';
 import 'package:alpha_club/core/utils/app_image/app_image.dart';
 import 'package:alpha_club/core/utils/app_string/app_string.dart';
@@ -22,7 +21,6 @@ class ProfileScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 20, right: 20),
             child: Column(
-
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 50.h),

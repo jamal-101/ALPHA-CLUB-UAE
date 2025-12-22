@@ -31,7 +31,6 @@ class ProfileDataContainer extends StatelessWidget {
       height: 100.h,
       width: double.infinity,
       decoration: BoxDecoration(
-
         color: Colors.white,
         borderRadius: BorderRadius.circular(12.r),
         border: showBorder ? Border.all(width: 1.w, color: AppColors.whiteFoundation1) : null,
