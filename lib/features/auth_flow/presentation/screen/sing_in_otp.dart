@@ -1,5 +1,4 @@
 import 'package:alpha_club/core/global/common_button.dart';
-import 'package:alpha_club/core/global/common_text_field.dart';
 import 'package:alpha_club/core/global/commont_text.dart';
 import 'package:alpha_club/core/route/app_route.dart';
 import 'package:alpha_club/core/utils/app_color/app_color.dart';
@@ -11,7 +10,6 @@ import 'package:flutter_pinput/flutter_pinput.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class SingInOtp extends StatelessWidget {
   const SingInOtp({super.key});
@@ -85,7 +83,7 @@ class SingInOtp extends StatelessWidget {
                               fontFamily: 'SFPro',
                               fontSize: 20,
                               fontWeight: FontWeight.w400,
-                              color: AppColors.blue,
+                              color: AppColors.blue1,
                             ),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(16.r),
@@ -102,7 +100,7 @@ class SingInOtp extends StatelessWidget {
                               fontFamily: 'SFPro',
                               fontSize: 20,
                               fontWeight: FontWeight.w400,
-                              color: AppColors.blue,
+                              color: AppColors.blue1,
                             ),
                           ),
                           onCompleted: (value) {
@@ -123,7 +121,7 @@ class SingInOtp extends StatelessWidget {
                                 fontFamily: 'SFPro',
                                 fontSize: 20,
                                 fontWeight: FontWeight.w400,
-                                color: AppColors.blue,
+                                color: AppColors.blue1,
                               ),
                                 text:AppString.resendCodeIn),
                             SizedBox(width: 6.w),
@@ -150,7 +148,7 @@ class SingInOtp extends StatelessWidget {
                                   fontFamily: 'SFPro',
                                   fontSize: 14,
                                   fontWeight: FontWeight.w400,
-                                  color: AppColors.blue,
+                                  color: AppColors.blue1,
                                 ),
                                 text:AppString.donTReceive),
                             SizedBox(width: 15.w),

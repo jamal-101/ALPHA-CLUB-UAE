@@ -1,0 +1,84 @@
+import 'package:alpha_club/core/global/common_button.dart';
+import 'package:alpha_club/core/global/commont_text.dart';
+import 'package:alpha_club/core/route/app_route.dart';
+import 'package:alpha_club/core/utils/app_color/app_color.dart';
+import 'package:alpha_club/core/utils/app_string/app_string.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
+import '../widget/all_features_listview.dart';
+import '../widget/alpha_member_ship_widget.dart';
+
+class AlphaScreen extends StatelessWidget {
+  const AlphaScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Container(
+        color: Colors.white,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: 10.h),
+            AlphaMemberShipWidget(),
+            SizedBox(height: 16.h),
+            CommonText(
+              style: TextStyle(
+                fontWeight: FontWeight.w500,
+                fontSize: 16,
+                color: AppColors.blue1,
+              ),
+                text: AppString.allFeaturesIncluded,
+            ),
+            SizedBox(height: 16.h),
+            AllFeaturesListview(),
+            SizedBox(height: 16.h),
+            Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: AppColors.appBackgroundColor,
+                borderRadius: BorderRadius.circular(8.0.r),
+                border: Border.all(
+                  width: 1.w,
+                  color: AppColors.otpBorderColor
+                )
+              ),child: Padding(
+                padding: EdgeInsets.all(12.0),
+                child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CommonText(
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.blue1,
+                    ),
+                      text: AppString.readYtoJoin,
+                  ),
+                  SizedBox(height: 4.h),
+                  CommonText(
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.foundationWhite,
+                    ),
+                      text: AppString.contactOurTeam,
+                  ),
+                  SizedBox(height: 24.h),
+                  CommonButton(onTap: (){
+                    Get.toNamed(AppRoute.informationScreen);
+                  }, text: AppString.getMemberShip)
+                ],
+                            ),
+              ),
+            ),
+            SizedBox(height: 30.h),
+          ],
+        ),
+      ),
+    );
+  }
+}

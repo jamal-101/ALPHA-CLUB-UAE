@@ -5,11 +5,10 @@ import 'package:alpha_club/core/utils/app_string/app_string.dart';
 import 'package:alpha_club/features/profile_flow/presentation/screen/profile_screen/widget/profile_data_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'custom_brand_card.dart';
 import 'custom_check_list.dart';
 import 'member_ship_info_container.dart';
-import 'membershipInfoCard.dart';
+
 
 class DigitalMembershipContainer extends StatelessWidget {
   const DigitalMembershipContainer({super.key});
@@ -40,7 +39,7 @@ class DigitalMembershipContainer extends StatelessWidget {
               width: 46.w,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: AppColors.blue.withValues(alpha: 0.2),
+                color: AppColors.blue1.withValues(alpha: 0.2),
               ),
               child: Center(
                 child: Image.asset(
@@ -197,7 +196,7 @@ Widget modelBottomSheet(BuildContext context) {
                 fontFamily: 'SFPro',
                 fontWeight: FontWeight.w500,
                 fontSize: 14.sp,
-                color: AppColors.blue,
+                color: AppColors.blue1,
               ),
               text: AppString.ourSponsors,
             ),

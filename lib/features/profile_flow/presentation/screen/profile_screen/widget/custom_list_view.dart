@@ -1,8 +1,13 @@
 import 'package:alpha_club/core/global/commont_text.dart';
 import 'package:alpha_club/core/utils/app_color/app_color.dart';
 import 'package:alpha_club/core/utils/app_image/app_image.dart';
+import 'package:alpha_club/features/profile_flow/presentation/screen/profile_screen/screen/about_us_screen.dart';
+import 'package:alpha_club/features/profile_flow/presentation/screen/profile_screen/screen/change_password_screen.dart';
+import 'package:alpha_club/features/profile_flow/presentation/screen/profile_screen/screen/contact_info_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 
 class CustomListView extends StatelessWidget {
   const CustomListView({super.key});
@@ -38,7 +43,25 @@ class CustomListView extends StatelessWidget {
             final item = menuData[index];
             return GestureDetector(
               onTap: () {
-
+                switch (index) {
+                  case 0:
+                    Get.to(()=>ContactInfoScreen());
+                    break;
+                  case 1:
+                    Get.to(()=>ChangePasswordScreen());
+                    break;
+                  case 2:
+                    break;
+                  case 3:
+                    Get.to(()=>AboutUsScreen());
+                    break;
+                  case 4:
+                    break;
+                  case 5:
+                    break;
+                  case 6:
+                    break;
+                }
               },
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),

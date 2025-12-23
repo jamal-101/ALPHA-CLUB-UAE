@@ -2,6 +2,7 @@ import 'package:alpha_club/core/utils/app_color/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CommonTextField extends StatelessWidget {
 
@@ -17,6 +18,7 @@ class CommonTextField extends StatelessWidget {
     this.controller,
     this.onChanged,
     this.validator,
+    this.isPopins = false,
   });
 
   final Color containerColor;
@@ -28,6 +30,8 @@ class CommonTextField extends StatelessWidget {
   final bool isPassword;
   final Function(String)? onChanged;
   final String? Function(String?)? validator;
+  final bool isPopins;
+
 
 
   @override
@@ -55,7 +59,11 @@ class CommonTextField extends StatelessWidget {
           ),
           obscureText: isVisible.value,
           decoration: InputDecoration(
-            hintStyle: TextStyle(
+            hintStyle: isPopins ? GoogleFonts.poppins(
+              fontWeight: FontWeight.w400,
+              fontSize: 14.sp,
+              color: AppColors.blueBase,
+            ) : TextStyle(
               fontFamily: 'SFPro',
               fontSize: 14.sp,
               fontWeight: FontWeight.w400,

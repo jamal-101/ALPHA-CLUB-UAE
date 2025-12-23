@@ -55,7 +55,7 @@ class NewPasswordDialog extends StatelessWidget {
                 fontSize: 20.sp,
                 fontFamily: 'SFPro'
               ),
-                color: AppColors.blue,
+                color: AppColors.blue1,
                 text: AppString.passwordChange),
             SizedBox(height: 12.h),
             CommonText(

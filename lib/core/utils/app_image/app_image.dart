@@ -17,7 +17,11 @@ class AssetPath {
   static const String autoMillennium = 'assets/images/autoMillennium.png';
   static const String alImage = 'assets/images/al.png';
   static const String autoMillennium1 = 'assets/autoMillennium1.png';
-  static const String watch = 'assets/watch.png';
+  static const String watch = 'assets/images/watch.png';
+  static const String memberShipImage = 'assets/images/member_ship.png';
+  static const String informationImage = 'assets/images/informationImage.jpg';
+
+
 
 
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>> icons <<<<<<<<<<<<<<<<<<<<<<<<<//
@@ -31,4 +35,18 @@ class AssetPath {
   static const String clubsIcon = 'assets/icons/clubs_icon.png';
   static const String profileIcon = 'assets/icons/profile_icon.png';
   static const String editeIcon = 'assets/icons/edite_image.png';
+  static const String checkIcon = 'assets/icons/check_icon.png';
+  static const String eventImage = 'assets/icons/events_image.png';
+  static const String locationImage = 'assets/icons/location_image.png';
+  static const String priorityImage = 'assets/icons/priority_image.png';
+  static const String memberShip_card1 = 'assets/icons/memberShip_card.png';
+  static const String offerImage = 'assets/icons/offer_icon.png';
+  static const String familyProfile = 'assets/icons/family_profile.png';
+  static const String childrenImage = 'assets/icons/childrenImage.png';
+  static const String premiumIcon = 'assets/icons/premium_icon.png';
+  static const String eventPackageIcon = 'assets/icons/event_packageIcon.png';
+  static const String editeProfile = 'assets/icons/edite_profile.png';
+  static const String emailIcon = 'assets/icons/email_icon.png';
+  static const String callIcon = 'assets/icons/call.png';
+  static const String location = 'assets/icons/location.png';
 }

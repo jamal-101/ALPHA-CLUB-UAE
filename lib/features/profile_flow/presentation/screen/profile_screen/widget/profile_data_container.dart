@@ -1,5 +1,8 @@
+import 'package:alpha_club/core/route/app_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 import '../../../../../../core/global/commont_text.dart';
 import '../../../../../../core/utils/app_color/app_color.dart';
 import '../../../../../../core/utils/app_image/app_image.dart';
@@ -80,21 +83,26 @@ class ProfileDataContainer extends StatelessWidget {
               ),
             ),
             if (showEditButton)
-           Container(
-              height: 36.h,
-              width: 36.w,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.r),
-                color: AppColors.foundation1,
-              ),
-              child: Center(
-                child: Image.asset(
-                  AssetPath.editeIcon,
-                  height: 20.h,
-                  width: 20.w,
+           GestureDetector(
+             onTap: (){
+               Get.toNamed(AppRoute.editeProfileScreen);
+             },
+             child: Container(
+                height: 36.h,
+                width: 36.w,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8.r),
+                  color: AppColors.foundation1,
+                ),
+                child: Center(
+                  child: Image.asset(
+                    AssetPath.editeIcon,
+                    height: 20.h,
+                    width: 20.w,
+                  ),
                 ),
               ),
-            )
+           )
           ],
         ),
       ),

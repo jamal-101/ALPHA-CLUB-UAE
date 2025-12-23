@@ -24,7 +24,7 @@ class CustomCheckList extends StatelessWidget {
           padding: EdgeInsets.only(top: 4.0),
           child: Icon(
             Icons.check,
-            color: AppColors.blue,
+            color: AppColors.blue1,
             size: 12,
           ),
         ),

@@ -46,7 +46,7 @@ Widget _infoRow(String title, String value) {
           style: TextStyle(
             fontFamily: 'SFPro',
             fontSize: 14.sp,
-            color: AppColors.blue,
+            color: AppColors.blue1,
             fontWeight: FontWeight.w400,
           ),
         ),
@@ -55,7 +55,7 @@ Widget _infoRow(String title, String value) {
          text: " : ",
        fontWeight: FontWeight.w400,
        fontSize: 14,
-       color: AppColors.blue,
+       color: AppColors.blue1,
      ),
       Expanded(
         flex: 3,
@@ -65,7 +65,7 @@ Widget _infoRow(String title, String value) {
           style: TextStyle(
             fontFamily: 'SFPro',
             fontSize: 14.sp,
-            color: AppColors.blue,
+            color: AppColors.blue1,
             fontWeight: FontWeight.w500,
           ),
         ),

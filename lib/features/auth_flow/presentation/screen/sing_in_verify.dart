@@ -71,7 +71,7 @@ class SingInVerify extends StatelessWidget {
                           style: TextStyle(
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w400,
-                              color: AppColors.blue,
+                              color: AppColors.blue1,
                               fontFamily: 'SFPro'
                           ),
                           text: AppString.email,

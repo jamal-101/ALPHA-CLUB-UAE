@@ -8,6 +8,9 @@ import 'package:alpha_club/features/profile_flow/presentation/screen/profile_scr
 import 'package:alpha_club/features/profile_flow/presentation/screen/profile_screen/widget/profile_data_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
+import '../../../../../../core/route/app_route.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -25,9 +28,14 @@ class ProfileScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 50.h),
-                ProfileDataContainer(
-                  imagePath: AssetPath.userProfile, userName: AppString.userName,
-                  membershipType: AppString.alphaMember, userId: AppString.userId,
+                GestureDetector(
+                  onTap: (){
+                    Get.toNamed(AppRoute.personalInformation);
+                  },
+                  child: ProfileDataContainer(
+                    imagePath: AssetPath.userProfile, userName: AppString.userName,
+                    membershipType: AppString.alphaMember, userId: AppString.userId,
+                  ),
                 ),
                 SizedBox(height: 16.h),
                 DigitalMembershipContainer(),
@@ -38,7 +46,7 @@ class ProfileScreen extends StatelessWidget {
                     fontSize: 16,
                     fontFamily: 'SFPro',
                   ),
-                  color: AppColors.blue,
+                  color: AppColors.blue1,
                   text: AppString.memberShip,
                 ),
                 SizedBox(height: 16.h),
@@ -50,7 +58,7 @@ class ProfileScreen extends StatelessWidget {
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
                   ),
-                    color: AppColors.blue,
+                    color: AppColors.blue1,
                     text: AppString.setting
                 ),
                 SizedBox(height: 16.h),
@@ -104,7 +112,7 @@ Widget memberShipContainer (){
           ),
           GestureDetector(
             onTap: (){
-              // Get.toNamed(AppRoute.)
+              Get.toNamed(AppRoute.memberShipScreen);
             },
             child: Icon(
               Icons.arrow_forward_ios_outlined,

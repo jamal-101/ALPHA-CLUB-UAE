@@ -76,7 +76,7 @@ class LoginScreen extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w400,
-                            color: AppColors.blue,
+                            color: AppColors.blue1,
                             fontFamily: 'SFPro'
                           ),
                           text: AppString.contactNumber,
@@ -92,7 +92,7 @@ class LoginScreen extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w400,
-                            color: AppColors.blue,
+                            color: AppColors.blue1,
                             fontFamily: 'SFPro'
                           ),
                           text: AppString.contactNumber,
@@ -111,7 +111,7 @@ class LoginScreen extends StatelessWidget {
                               style: TextStyle(
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w600,
-                                  color: AppColors.blue,
+                                  color: AppColors.blue1,
                                   fontFamily: 'SFPro'
                               ),
                               text: AppString.forgetPass,
@@ -131,7 +131,7 @@ class LoginScreen extends StatelessWidget {
                                   fontFamily: 'SFPro',
                                   fontWeight: FontWeight.w400,
                                   fontSize: 14.sp,
-                                  color: AppColors.blue,
+                                  color: AppColors.blue1,
                                 ),
                                 text: AppString.becomeAnd),
                             SizedBox(width: 10.w),

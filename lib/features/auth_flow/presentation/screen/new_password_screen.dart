@@ -85,7 +85,7 @@ class NewPasswordScreen extends StatelessWidget {
                           style: TextStyle(
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w400,
-                              color: AppColors.blue,
+                              color: AppColors.blue1,
                               fontFamily: 'SFPro'
                           ),
                           text: AppString.newPassword,
@@ -103,7 +103,7 @@ class NewPasswordScreen extends StatelessWidget {
                           style: TextStyle(
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w400,
-                              color: AppColors.blue,
+                              color: AppColors.blue1,
                               fontFamily: 'SFPro'
                           ),
                           text: AppString.confirmNewPass,
@@ -164,7 +164,7 @@ Widget validationRow(String title, RxBool isValid) {
       children: [
         Icon(
           isValid.value ? Icons.check_circle : Icons.radio_button_unchecked,
-          color: isValid.value ? AppColors.green : AppColors.blueBase,
+          color: isValid.value ? AppColors.green1 : AppColors.blueBase,
           size: 20,
         ),
         const SizedBox(width: 10),
@@ -172,7 +172,7 @@ Widget validationRow(String title, RxBool isValid) {
           title,
           style: TextStyle(
             fontFamily: 'SFPro',
-            color: isValid.value ? AppColors.green : AppColors.blueBase,
+            color: isValid.value ? AppColors.green1 : AppColors.blueBase,
             fontWeight: FontWeight.w400,
             fontSize: 14,
           ),
