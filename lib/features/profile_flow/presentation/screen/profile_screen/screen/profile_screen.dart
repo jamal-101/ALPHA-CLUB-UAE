@@ -8,12 +8,15 @@ import 'package:alpha_club/features/profile_flow/presentation/screen/profile_scr
 import 'package:alpha_club/features/profile_flow/presentation/screen/profile_screen/widget/profile_data_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:get/get.dart';
 import '../../../../../../core/route/app_route.dart';
+import '../widget/activite_family_member.dart';
 
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+    const ProfileScreen({super.key});
+
+
+     static final RxBool isFamilyListVisible = false.obs;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +25,6 @@ class ProfileScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Padding(
-
             padding: const EdgeInsets.only(left: 20, right: 20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,17 +42,29 @@ class ProfileScreen extends StatelessWidget {
                 SizedBox(height: 16.h),
                 DigitalMembershipContainer(),
                 SizedBox(height: 16.h),
-                CommonText(
-                  style: TextStyle(
+                Obx(() => isFamilyListVisible.value == false
+                    ? CommonText(
+                  style: const TextStyle(
                     fontWeight: FontWeight.w500,
                     fontSize: 16,
                     fontFamily: 'SFPro',
                   ),
                   color: AppColors.blue1,
                   text: AppString.memberShip,
+                ) : CommonText(
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 16,
+                    fontFamily: 'SFPro',
+                  ),
+                  color: AppColors.blue1,
+                  text: AppString.familyMembers,
+                ),
                 ),
                 SizedBox(height: 16.h),
-                memberShipContainer(),
+                Obx(()=> isFamilyListVisible.value == false ?
+                    memberShipContainer() : FamilyListWidget()
+                ),
                 SizedBox(height: 16.h),
                 CommonText(
                   style: TextStyle(
@@ -66,7 +80,7 @@ class ProfileScreen extends StatelessWidget {
               ],
             ),
           ),
-          CommonBottomNabVar(selectedIndex: 0),
+          CommonBottomNabVar(selectedIndex: 4),
         ],
       ),
     );

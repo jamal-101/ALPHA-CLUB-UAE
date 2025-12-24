@@ -1,3 +1,4 @@
+import 'package:alpha_club/core/route/app_route.dart';
 import 'package:alpha_club/core/utils/app_color/app_color.dart';
 import 'package:alpha_club/core/utils/app_image/app_image.dart';
 import 'package:alpha_club/core/utils/app_string/app_string.dart';
@@ -15,6 +16,7 @@ class CommonBottomNabVar extends StatelessWidget {
     final BottomNavController controller = Get.put(BottomNavController());
     return Obx(
       () => Container(
+        height: 100,
         decoration: const BoxDecoration(
           border: Border(
             top: BorderSide(color: AppColors.appBackgroundColor, width: 1),
@@ -63,16 +65,42 @@ class CommonBottomNabVar extends StatelessWidget {
                   currentIndex: controller.currentIndex.value),
             ),
             BottomBarItem(
-              icon: gradientImageContainer(imagePath: AssetPath.profileIcon,index: 4,
+              icon: gradientImageContainer(imagePath: AssetPath.clubsIcon,
+                  index: 4,
+                  currentIndex: controller.currentIndex.value),
+              title:  gradientText(text: AppString.clubs,index: 4,
+                  currentIndex: controller.currentIndex.value),
+            ),
+            BottomBarItem(
+              icon: gradientImageContainer(imagePath: AssetPath.profileIcon,index: 5,
                   currentIndex: controller.currentIndex.value),
               title:  gradientText(text: AppString.profile,
-                  index: 4,
+                  index: 5,
                   currentIndex: controller.currentIndex.value),
             ),
           ],
           currentIndex: controller.currentIndex.value,
           onTap: (index) {
             controller.changeIndex(index);
+            switch (index) {
+              case 0:
+               Get.toNamed(AppRoute.homeScreen);
+                break;
+              case 1:
+                Get.toNamed(AppRoute.offerScreen);
+                break;
+              case 2:
+                break;
+              case 3:
+                break;
+              case 4:
+                break;
+              case 5:
+                Get.toNamed(AppRoute.profileScreen);
+                break;
+              default:
+                break;
+            }
           },
         ),
       ),
@@ -86,9 +114,9 @@ Widget gradientImageContainer({required String imagePath, required int index, re
   return AnimatedContainer(
     duration: Duration(milliseconds: 300),
     curve: Curves.easeOut,
-    transform: Matrix4.translationValues(0, isSelected ? -12.h : 0, 0),
-    height: 50.h,
-    width: 50.w,
+    transform: Matrix4.translationValues(0, isSelected ? -10.h : 0, 0),
+    height: 40.h,
+    width: 40.w,
     decoration: BoxDecoration(
       gradient: RadialGradient(
         center: Alignment(0.0, 0.0),
@@ -101,8 +129,8 @@ Widget gradientImageContainer({required String imagePath, required int index, re
     child: Center(
       child: Image.asset(
         imagePath,
-        height: 30.h,
-        width: 30.w,
+        height: 25.h,
+        width: 25.w,
         fit: BoxFit.contain,
       ),
     ),

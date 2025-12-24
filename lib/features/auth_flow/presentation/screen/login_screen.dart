@@ -120,7 +120,7 @@ class LoginScreen extends StatelessWidget {
                         ),
                         SizedBox(height: 24.h),
                         CommonButton(onTap: (){
-                          Get.toNamed(AppRoute.profileScreen);
+                          Get.toNamed(AppRoute.homeScreen);
                         }, text: AppString.sinIn),
                         SizedBox(height: 40.h),
                         Row(

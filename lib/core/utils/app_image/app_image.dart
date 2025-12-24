@@ -20,6 +20,12 @@ class AssetPath {
   static const String watch = 'assets/images/watch.png';
   static const String memberShipImage = 'assets/images/member_ship.png';
   static const String informationImage = 'assets/images/informationImage.jpg';
+  static const String latestStoriesImage = 'assets/images/latestStories_image.png';
+  static const String exclusiveDetailsImage = 'assets/images/exclusive_details_image.png';
+  static const String premiumServiceImage = 'assets/images/premium_service_image.png';
+  static const String partnerImage = 'assets/images/partner_image.png';
+  static const String luxuryImage = 'assets/images/luxury_image.png';
+  static const String sponsorImage = 'assets/images/sponsor_Image.png';
 
 
 
@@ -49,4 +55,12 @@ class AssetPath {
   static const String emailIcon = 'assets/icons/email_icon.png';
   static const String callIcon = 'assets/icons/call.png';
   static const String location = 'assets/icons/location.png';
+  static const String addSquare = 'assets/icons/add_square.png';
+  static const String minus = 'assets/icons/minus_square.png';
+  static const String tabIcon1 = 'assets/icons/tab_icon1.png';
+  static const String tabIcon2 = 'assets/icons/tab_icon2.png';
+  static const String tabIcon3 = 'assets/icons/tab_icon3.png';
+  static const String likeIcon = 'assets/icons/like_icon.png';
+  static const String locationIcon = 'assets/icons/locationIcon.png';
+  static const String filterIcon = 'assets/icons/filter_icon.png';
 }

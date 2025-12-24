@@ -2,6 +2,7 @@ import 'package:alpha_club/core/global/common_app_bar.dart';
 import 'package:alpha_club/core/global/commont_text.dart';
 import 'package:alpha_club/core/utils/app_color/app_color.dart';
 import 'package:alpha_club/core/utils/app_string/app_string.dart';
+import 'package:alpha_club/features/profile_flow/presentation/screen/profile_screen/widget/what_offer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -31,15 +32,46 @@ class AboutUsScreen extends StatelessWidget {
             CommonText(
                 textAlign: TextAlign.start,
                 maxLines: 5,
-                fontSize: 16,
+                fontSize: 14,
                 fontWeight: FontWeight.w400,
                 color: AppColors.blue1,
                 text: AppString.aboutUs1),
             SizedBox(height: 20.h),
             CommonText(
               fontWeight: FontWeight.w500,
-                text: AppString.ourMission)
-
+                fontSize: 16,
+                color: AppColors.goldColor1,
+                text: AppString.ourMission),
+            SizedBox(height: 10.h),
+            CommonText(
+                textAlign: TextAlign.start,
+                maxLines: 5,
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                color: AppColors.blue1,
+                text: AppString.toSimplify), 
+            SizedBox(height: 20.h),
+            CommonText(
+                fontWeight: FontWeight.w500,
+                fontSize: 16,
+                color: AppColors.goldColor1,
+                text: AppString.ourVision),
+            SizedBox(height: 10.h),
+            CommonText(
+                textAlign: TextAlign.start,
+                maxLines: 5,
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                color: AppColors.blue1,
+                text: AppString.toBecome),
+            SizedBox(height: 20.h),
+            CommonText(
+                fontWeight: FontWeight.w500,
+                fontSize: 16,
+                color: AppColors.goldColor1,
+                text: AppString.whatWeOffer),
+            SizedBox(height: 20.h),
+            Expanded(child: WhatOfferWidget()),
           ],
         ),
       ),

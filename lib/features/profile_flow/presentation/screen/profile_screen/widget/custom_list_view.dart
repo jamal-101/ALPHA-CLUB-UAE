@@ -4,10 +4,15 @@ import 'package:alpha_club/core/utils/app_image/app_image.dart';
 import 'package:alpha_club/features/profile_flow/presentation/screen/profile_screen/screen/about_us_screen.dart';
 import 'package:alpha_club/features/profile_flow/presentation/screen/profile_screen/screen/change_password_screen.dart';
 import 'package:alpha_club/features/profile_flow/presentation/screen/profile_screen/screen/contact_info_screen.dart';
+import 'package:alpha_club/features/profile_flow/presentation/screen/profile_screen/screen/faq_screen.dart';
+import 'package:alpha_club/features/profile_flow/presentation/screen/profile_screen/screen/privacy_policy_screen.dart';
+import 'package:alpha_club/features/profile_flow/presentation/screen/profile_screen/screen/terms_and_condition_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
+
+import 'logout_dialog.dart';
 
 class CustomListView extends StatelessWidget {
   const CustomListView({super.key});
@@ -51,15 +56,24 @@ class CustomListView extends StatelessWidget {
                     Get.to(()=>ChangePasswordScreen());
                     break;
                   case 2:
+                    Get.to(()=>FaqScreen());
                     break;
                   case 3:
                     Get.to(()=>AboutUsScreen());
                     break;
                   case 4:
+                    Get.to(()=>PrivacyPolicyScreen());
                     break;
                   case 5:
+                    Get.to(()=>TermsAndConditionScreen());
                     break;
                   case 6:
+                    Get.dialog(
+                      const Dialog(
+                        backgroundColor: Colors.transparent,
+                        child: LogoutDialog(),
+                      ),
+                    );
                     break;
                 }
               },

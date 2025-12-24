@@ -127,7 +127,6 @@ class NewPasswordScreen extends StatelessWidget {
                         SizedBox(height: 58.h),
                         CommonButton(onTap: (){
                           // Get.toNamed(AppRoute.);
-
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
@@ -139,7 +138,6 @@ class NewPasswordScreen extends StatelessWidget {
                               );
                             },
                           );
-
                         }, text: AppString.resendCodeIn),
                         SizedBox(height: 40.h),
                       ],

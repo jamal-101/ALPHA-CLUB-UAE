@@ -180,17 +180,6 @@ class FamilyMembership extends StatelessWidget {
               ),
               text: AppString.moreFeatures,
             ),
-            SizedBox(height: 16.h),
-            CommonText(
-              style: TextStyle(
-                fontFamily: 'SFPro',
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                color: AppColors.blue1,
-              ),
-              text: AppString.featureComparison,
-            ),
-            SizedBox(height: 16.h)
           ],
         ),
       ),

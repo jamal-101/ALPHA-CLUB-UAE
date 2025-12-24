@@ -27,6 +27,13 @@ class AppColors {
   static const blueLiner2 = Color(0xFF9C57FF);
   static const foundationWhite1 = Color(0xFFABABAB);
   static const profileBorderColor = Color(0xFF1E293B);
+  static const tabSelectedBorderColor = Color(0xFF40587E);
+  static const tabContainerColor = Color(0xFF0F172A);
+  static const tabUnselectBorderColor = Color(0xFF6C7B98);
+  static const storiesBorderColor = Color(0xFF1E293B);
+  static const strokeColor = Color(0xFFEFEFEF);
+
+
 
 
 

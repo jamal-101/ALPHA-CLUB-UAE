@@ -2,6 +2,9 @@ import 'package:alpha_club/features/auth_flow/presentation/screen/login_screen.d
 import 'package:alpha_club/features/auth_flow/presentation/screen/new_password_screen.dart';
 import 'package:alpha_club/features/auth_flow/presentation/screen/sing_in_otp.dart';
 import 'package:alpha_club/features/auth_flow/presentation/screen/sing_in_verify.dart';
+import 'package:alpha_club/features/home_flow/presentation/screen/home_screen.dart';
+import 'package:alpha_club/features/home_flow/presentation/screen/offer_screen.dart';
+import 'package:alpha_club/features/home_flow/presentation/screen/our_sponsor_screen.dart';
 import 'package:alpha_club/features/profile_flow/presentation/screen/information/screen/information_details_screen.dart';
 import 'package:alpha_club/features/profile_flow/presentation/screen/information/screen/information_screen.dart';
 import 'package:alpha_club/features/profile_flow/presentation/screen/member_ship/member_ship_screen/member_ship_screen.dart';
@@ -23,6 +26,9 @@ class AppRoute {
   static String informationDetailsScreen = '/informationDetailsScreen';
   static String personalInformation = '/personalInformation';
   static String editeProfileScreen = '/editeProfileScreen';
+  static String homeScreen = '/homeScreen';
+  static String ourSponsorScreen = '/ourSponsorScreen';
+  static String offerScreen = '/offerScreen';
 
   static List<GetPage> route = [
     GetPage(name: splashScreen, page: ()=>SplashScreen()),
@@ -36,5 +42,8 @@ class AppRoute {
     GetPage(name: informationDetailsScreen, page: ()=>InformationDetailsScreen()),
     GetPage(name: personalInformation, page: ()=> PersonalInformation()),
     GetPage(name: editeProfileScreen, page: ()=> EditeProfileScreen()),
+    GetPage(name: homeScreen, page: ()=> HomeScreen()),
+    GetPage(name: ourSponsorScreen, page: ()=> OurSponsorScreen()),
+    GetPage(name: offerScreen, page: ()=> OfferScreen()),
   ];
 }
