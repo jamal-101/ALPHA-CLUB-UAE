@@ -32,9 +32,8 @@ class AppColors {
   static const tabUnselectBorderColor = Color(0xFF6C7B98);
   static const storiesBorderColor = Color(0xFF1E293B);
   static const strokeColor = Color(0xFFEFEFEF);
-
-
-
-
-
+  static const blueBase50 = Color(0xFFE9EBF0);
+  static const blueBase900 = Color(0xFF0F182B);
+  static const gold50 = Color(0xFFFBF6EE);
+  static const gold60 = Color(0xFF898888);
 }

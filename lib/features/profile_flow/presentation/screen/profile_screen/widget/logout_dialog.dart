@@ -59,41 +59,51 @@ class LogoutDialog extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                  height: 46.h,
-                  width: 128.w,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8.r),
-                    color: AppColors.borderColor
-                  ),child: Center(
-                  child: CommonText(
-                    style: TextStyle(
-                      fontFamily: 'SFPro',
-                      fontWeight: FontWeight.w400,
-                      fontSize: 16.sp,
-                      color: AppColors.blueBase
-                    ),
-                      text: AppString.no
-                  ),
-                ),
-                ),
-                Container(
-                  height: 46.h,
-                  width: 128.w,
-                  decoration: BoxDecoration(
+                GestureDetector(
+                  onTap: (){
+                    Get.back();
+                  },
+                  child: Container(
+                    height: 46.h,
+                    width: 128.w,
+                    decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.r),
-                      color: AppColors.redColor.withValues(alpha: 0.1)
-                  ),child: Center(
-                  child: CommonText(
+                      color: AppColors.borderColor
+                    ),child: Center(
+                    child: CommonText(
                       style: TextStyle(
-                          fontFamily: 'SFPro',
-                          fontWeight: FontWeight.w400,
-                          fontSize: 16.sp,
-                          color: AppColors.redColor
+                        fontFamily: 'SFPro',
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16.sp,
+                        color: AppColors.blueBase
                       ),
-                      text: AppString.yes
+                        text: AppString.no
+                    ),
+                  ),
                   ),
                 ),
+                GestureDetector(
+                  onTap: (){
+                    Get.back();
+                  },
+                  child: Container(
+                    height: 46.h,
+                    width: 128.w,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.r),
+                        color: AppColors.redColor.withValues(alpha: 0.1)
+                    ),child: Center(
+                    child: CommonText(
+                        style: TextStyle(
+                            fontFamily: 'SFPro',
+                            fontWeight: FontWeight.w400,
+                            fontSize: 16.sp,
+                            color: AppColors.redColor
+                        ),
+                        text: AppString.yes
+                    ),
+                  ),
+                  ),
                 )
               ],
             )

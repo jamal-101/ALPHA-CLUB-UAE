@@ -26,6 +26,9 @@ class AssetPath {
   static const String partnerImage = 'assets/images/partner_image.png';
   static const String luxuryImage = 'assets/images/luxury_image.png';
   static const String sponsorImage = 'assets/images/sponsor_Image.png';
+  static const String gridImage1 = 'assets/images/gridImage1.jpg';
+  static const String upComingEventImage = 'assets/images/upComming_image.png';
+  static const String gymImage = 'assets/images/gym_image.png';
 
 
 
@@ -63,4 +66,7 @@ class AssetPath {
   static const String likeIcon = 'assets/icons/like_icon.png';
   static const String locationIcon = 'assets/icons/locationIcon.png';
   static const String filterIcon = 'assets/icons/filter_icon.png';
+  static const String loveIcon = 'assets/icons/favourite.png';
+  static const String searchIcons = 'assets/icons/searchIcon.png';
+  static const String calenderIcon = 'assets/icons/calander_image.png';
 }

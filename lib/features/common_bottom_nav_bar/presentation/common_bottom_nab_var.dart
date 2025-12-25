@@ -16,7 +16,7 @@ class CommonBottomNabVar extends StatelessWidget {
     final BottomNavController controller = Get.put(BottomNavController());
     return Obx(
       () => Container(
-        height: 100,
+        height: 80,
         decoration: const BoxDecoration(
           border: Border(
             top: BorderSide(color: AppColors.appBackgroundColor, width: 1),
@@ -61,7 +61,7 @@ class CommonBottomNabVar extends StatelessWidget {
               icon: gradientImageContainer(imagePath: AssetPath.eventIcon,
                   index: 3,
                   currentIndex: controller.currentIndex.value),
-              title:  gradientText(text: AppString.schedule,index: 3,
+              title:  gradientText(text: AppString.events,index: 3,
                   currentIndex: controller.currentIndex.value),
             ),
             BottomBarItem(
@@ -90,10 +90,13 @@ class CommonBottomNabVar extends StatelessWidget {
                 Get.toNamed(AppRoute.offerScreen);
                 break;
               case 2:
+                Get.toNamed(AppRoute.favoriteScreen);
                 break;
               case 3:
+                Get.toNamed(AppRoute.eventScreen);
                 break;
               case 4:
+                Get.toNamed(AppRoute.clubScreen);
                 break;
               case 5:
                 Get.toNamed(AppRoute.profileScreen);
@@ -112,7 +115,7 @@ Widget gradientImageContainer({required String imagePath, required int index, re
   bool isSelected = index == currentIndex;
 
   return AnimatedContainer(
-    duration: Duration(milliseconds: 300),
+    duration: Duration(milliseconds: 1),
     curve: Curves.easeOut,
     transform: Matrix4.translationValues(0, isSelected ? -10.h : 0, 0),
     height: 40.h,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../common_bottom_nav_bar/presentation/common_bottom_nab_var.dart';
 import '../widget/home_tab_bar.dart';
 
@@ -17,6 +18,7 @@ class HomeScreen extends StatelessWidget {
               Expanded(
                 child: HomeTabBar(),
               ),
+              SizedBox(height: 20.h),
             ],
           ),
         ),

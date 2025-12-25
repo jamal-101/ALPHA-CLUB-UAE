@@ -31,7 +31,7 @@ class AppString {
   static const home = 'Home';
   static const offer = 'Offer';
   static const favourite = 'Favourite';
-  static const schedule = 'Schedule';
+  static const events = 'Events';
   static const profile = 'Profile';
   static const userName = 'Michael Anderson';
   static const alphaMember = 'ALPHA Member';
@@ -147,4 +147,14 @@ class AppString {
   static const reservationRec = "Reservation recommended";
   static const exclusiveOffers = "Exclusive Offers";
   static const offersAvailable = "6 offers available";
+  static const filter = "Filter";
+  static const category = "Category";
+  static const distance = "Distance";
+  static const applyFilter = "Apply Filter";
+  static const validFor = "Valid for dine-in only. One per table";
+  static const cannotBe = "Cannot be combined with other offers or promotions.";
+  static const reservation = "Reservation recommended for peak dining hours.";
+  static const upcomingEvent = "Upcoming Events";
+  static const joinUsfor = "Join us for exclusive experiences";
+  static const searchClubs = "Search clubs....";
 }
