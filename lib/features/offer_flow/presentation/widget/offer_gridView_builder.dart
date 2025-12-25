@@ -100,6 +100,7 @@ class OfferGridviewBuilder extends StatelessWidget {
                         ),
                       ),
                     ),
+
                     Positioned(
                       top: 9.h,
                       left: 9.w,

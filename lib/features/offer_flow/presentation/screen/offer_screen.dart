@@ -62,6 +62,7 @@ class OfferScreen extends StatelessWidget {
               ),
               SizedBox(height: 16.h),
               OfferGridviewBuilder(),
+
               SizedBox(height: 16.h),
               Center(
                 child: CommonText(
