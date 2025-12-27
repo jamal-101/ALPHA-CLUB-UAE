@@ -15,7 +15,7 @@ class DiscoverClub extends StatelessWidget {
     final List<Map<String, String>> eventData = [
       {
         "title": "Veo Gym",
-        "desc": "Memberships",
+        "desc": "5 Memberships",
         "image": AssetPath.gymImage
       },
       {
@@ -38,7 +38,7 @@ class DiscoverClub extends StatelessWidget {
         crossAxisCount: 2,
         crossAxisSpacing: 12.w,
         mainAxisSpacing: 12.h,
-        childAspectRatio: 0.99,
+        childAspectRatio: 0.80,
       ),
       itemBuilder: (context, index) {
         final item = eventData[index];
@@ -48,6 +48,20 @@ class DiscoverClub extends StatelessWidget {
           },
           child: Container(
             decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: const Color(0xFF333333).withValues(alpha: 0.04),
+                  blurRadius: 1,
+                  offset: const Offset(0, 0),
+                  spreadRadius: 1,
+                ),
+                BoxShadow(
+                  color: const Color(0xFF8F8F8F).withValues(alpha: 0.20),
+                  blurRadius: 3,
+                  offset: const Offset(0, 1),
+                  spreadRadius: 1,
+                ),
+              ],
               color: Colors.white,
               borderRadius: BorderRadius.circular(16.r),
               border: Border.all(color: Colors.grey.shade200),
@@ -61,20 +75,20 @@ class DiscoverClub extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8.r),
                     child: Image.asset(
                       item["image"]!,
-                      height: 120.h,
+                      height: 144.h,
                       width: double.infinity,
                       fit: BoxFit.cover,
                     ),
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(10.w),
+                  padding: EdgeInsets.all(4.w),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CommonText(
                         style: TextStyle(
-                            fontSize: 14.sp,
+                            fontSize: 16.sp,
                             fontWeight: FontWeight.w500,
                             color: AppColors.blue1,
                             fontFamily: 'SFPro'
@@ -85,7 +99,7 @@ class DiscoverClub extends StatelessWidget {
                       CommonText(
                         style: TextStyle(
                           fontWeight: FontWeight.w400,
-                          fontSize: 10,
+                          fontSize: 14,
                           color: AppColors.blueBase,
                         ),
                         textAlign: TextAlign.start,

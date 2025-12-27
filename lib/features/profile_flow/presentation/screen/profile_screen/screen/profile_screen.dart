@@ -91,50 +91,50 @@ class ProfileScreen extends StatelessWidget {
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MemberShipContainer <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<//
 
 Widget memberShipContainer (){
-  return Container(
-    height: 44.h,
-    width: double.infinity,
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(8.r),
-      border: Border.all(
-        width: 1.w,
-        color: AppColors.otpBorderColor,
+  return GestureDetector(
+    onTap: (){
+      Get.toNamed(AppRoute.memberShipScreen);
+    },
+    child: Container(
+      height: 54.h,
+      width: double.infinity,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8.r),
+        border: Border.all(
+          width: 1.w,
+          color: AppColors.otpBorderColor,
+        ),
+        color: Colors.white,
       ),
-      color: Colors.white,
-    ),
-    child: Padding(
-      padding: EdgeInsets.only(left: 13,right: 13),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            children: [
-              Image.asset(
-                AssetPath.memberShipCard,
-                fit: BoxFit.contain,
-                height: 25,
-                width: 25,
-              ),
-              SizedBox(width: 10.w),
-              CommonText(
-                text: AppString.memberShipPlan,
-                fontWeight: FontWeight.w400,
-                fontSize: 14,
-                color: AppColors.blueBase,
-              ),
-            ],
-          ),
-          GestureDetector(
-            onTap: (){
-              Get.toNamed(AppRoute.memberShipScreen);
-            },
-            child: Icon(
+      child: Padding(
+        padding: EdgeInsets.only(left: 12,right: 12),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                Image.asset(
+                  AssetPath.memberShipCard,
+                  fit: BoxFit.contain,
+                  height: 25,
+                  width: 25,
+                ),
+                SizedBox(width: 10.w),
+                CommonText(
+                  text: AppString.memberShipPlan,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 14,
+                  color: AppColors.blueBase,
+                ),
+              ],
+            ),
+            Icon(
               Icons.arrow_forward_ios_outlined,
               color: AppColors.blueBase,
               size: 12,
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     ),
   );

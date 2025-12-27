@@ -4,6 +4,8 @@ import 'package:alpha_club/core/utils/app_string/app_string.dart';
 import 'package:alpha_club/features/profile_flow/presentation/screen/profile_screen/widget/contact_us_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 
 class ContactInfoScreen extends StatelessWidget {
   const ContactInfoScreen({super.key});
@@ -16,7 +18,9 @@ class ContactInfoScreen extends StatelessWidget {
         child: Column(
           children: [
             SizedBox(height: 50.h),
-            CommonAppBar(title: AppString.contactUs),
+            CommonAppBar(title: AppString.contactUs,onTap: (){
+              Get.back();
+            },),
             SizedBox(height: 40.h),
             ContactUsContainer(
               image: AssetPath.emailIcon,

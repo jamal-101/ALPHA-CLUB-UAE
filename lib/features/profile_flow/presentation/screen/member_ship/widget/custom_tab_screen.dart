@@ -17,7 +17,7 @@ class CustomTabScreen extends StatelessWidget {
       child: Column(
         children: [
           _buildTabbarHeader(),
-          const Expanded(
+           Expanded(
             child: TabBarView(
               children: [
                 ComparisonScreen(),

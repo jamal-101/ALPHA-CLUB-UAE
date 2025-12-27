@@ -81,12 +81,13 @@ class AlphaFamilyWidget extends StatelessWidget {
             ),
             SizedBox(height: 12.h),
             CommonText(
+              maxLines: 4,
               textAlign: TextAlign.start,
               style: TextStyle(
                 fontFamily: 'SFPro',
-                fontSize: 12,
+                fontSize: 14,
                 fontWeight: FontWeight.w400,
-                color: AppColors.foundationWhite,
+                color: AppColors.blueBase,
               ),
               text: AppString.withTheFamilyMemberShip,
             ),

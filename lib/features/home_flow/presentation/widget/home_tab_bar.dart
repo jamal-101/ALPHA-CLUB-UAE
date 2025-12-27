@@ -52,16 +52,14 @@ class HomeTabBar extends StatelessWidget {
             tabs: [
               _buildTabItem(0, AssetPath.tabIcon1, "Latest Stories"),
               _buildTabItem(1, AssetPath.tabIcon2, "Sponsors"),
-              _buildTabItem(2, AssetPath.tabIcon3, "Partner Offers"),
             ],
           ),
         ),
-        const Expanded(
+        Expanded(
           child: TabBarView(
             children: [
               NewsListView(),
               SponsorWidgetScreen(),
-              PartnerOffersList(),
             ],
           ),
         ),
@@ -102,7 +100,7 @@ class HomeTabBar extends StatelessWidget {
               Flexible(
                 child: CommonText(
                   style: TextStyle(
-                    fontSize: 10.sp,
+                    fontSize: 16.sp,
                     fontWeight: FontWeight.w400,
                     color: isSelected
                         ? AppColors.borderColor

@@ -115,7 +115,7 @@ class OfferDetailsScreen extends StatelessWidget {
                 textAlign: TextAlign.start,
                 fontWeight: FontWeight.w400,
                 fontSize: 14,
-                color: AppColors.foundationWhite1,
+                color: AppColors.blue1,
                 text: AppString.landingAutoMotive),
             SizedBox(height: 16.h),
             Row(

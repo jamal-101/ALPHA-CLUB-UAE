@@ -68,7 +68,7 @@ class NewPasswordDialog extends StatelessWidget {
                 text: AppString.returnTo),
             SizedBox(height: 57.h),
             CommonButton(onTap: (){
-               Get.toNamed(AppRoute.loginScreen);
+               Get.toNamed(AppRoute.homeScreen);
             }, text: AppString.cont)
           ],
         ),

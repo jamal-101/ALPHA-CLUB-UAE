@@ -1,7 +1,9 @@
+import 'package:alpha_club/core/global/commont_text.dart';
 import 'package:alpha_club/core/utils/app_color/app_color.dart';
 import 'package:alpha_club/core/utils/app_image/app_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 
 class AllFeaturesListview extends StatelessWidget {
   AllFeaturesListview({super.key});
@@ -76,25 +78,24 @@ class AllFeaturesListview extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      item['title'],
+                    CommonText(
                       style: TextStyle(
                         fontSize: 14.sp,
-                        fontFamily: 'SFPro',
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.blue1,
+                            fontFamily: 'SFPro',
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.blue1,
                       ),
-                    ),
+                      text: item['title'],),
                     SizedBox(height: 4.h),
-                    Text(
-                      item['desc'],
+                    CommonText(
+                      textAlign: TextAlign.start,
                       style: TextStyle(
                         fontFamily: 'SFPro',
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.foundationWhite1
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.blueBase
                       ),
-                    ),
+                      text: item['desc'],)
                   ],
                 ),
               ),

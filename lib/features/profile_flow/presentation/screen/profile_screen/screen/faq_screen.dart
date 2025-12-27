@@ -40,7 +40,9 @@ class FaqScreen extends StatelessWidget {
         child: Column(
           children: [
             SizedBox(height: 50.h),
-           CommonAppBar(title: AppString.faq),
+           CommonAppBar(title: AppString.faq,onTap: (){
+             Get.back();
+           },),
             SizedBox(height: 20.h),
             Expanded(
               child: ListView.builder(

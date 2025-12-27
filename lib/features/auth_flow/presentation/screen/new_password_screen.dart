@@ -138,7 +138,7 @@ class NewPasswordScreen extends StatelessWidget {
                               );
                             },
                           );
-                        }, text: AppString.resendCodeIn),
+                        }, text: AppString.cont),
                         SizedBox(height: 40.h),
                       ],
                     ),

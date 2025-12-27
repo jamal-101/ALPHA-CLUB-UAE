@@ -1,3 +1,4 @@
+import 'package:alpha_club/core/global/commont_text.dart';
 import 'package:alpha_club/core/utils/app_color/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -59,15 +60,16 @@ class FamilyCoverageContainer extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 2.h),
-                Text(
-                  subTitle,
+                CommonText(
+                  maxLines: 1,
+                  textAlign: TextAlign.start,
                   style: TextStyle(
                     fontSize: 12.sp,
-                    fontFamily: 'SFPro',
-                    fontWeight: FontWeight.w400,
-                    color: AppColors.foundationWhite,
+                        fontFamily: 'SFPro',
+                        fontWeight: FontWeight.w400,
+                        color: AppColors.blueBase,
                   ),
-                ),
+                    text: subTitle)
               ],
             ),
           ),

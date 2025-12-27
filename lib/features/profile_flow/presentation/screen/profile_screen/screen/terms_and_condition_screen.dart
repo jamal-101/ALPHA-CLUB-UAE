@@ -2,6 +2,8 @@ import 'package:alpha_club/core/global/common_app_bar.dart';
 import 'package:alpha_club/core/utils/app_string/app_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../../../core/global/commont_text.dart';
@@ -18,7 +20,9 @@ class TermsAndConditionScreen extends StatelessWidget {
         child: Column(
           children: [
             SizedBox(height: 50.h),
-            CommonAppBar(title: AppString.termsAndCondition),
+            CommonAppBar(title: AppString.termsAndCondition,onTap: (){
+              Get.back();
+            },),
             SizedBox(height: 24.h),
             RichText(
               text: TextSpan(

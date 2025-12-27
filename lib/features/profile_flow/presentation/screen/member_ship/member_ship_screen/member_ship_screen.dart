@@ -38,10 +38,13 @@ class MemberShipScreen extends StatelessWidget {
             ),
             SizedBox(height: 8.h),
             CommonText(
+              fontSize: 14,
+              fontWeight: FontWeight.w400,
               textAlign: TextAlign.start,
+                color: AppColors.blueBase,
                 text: AppString.chooseThePerfect),
+            SizedBox(height: 10.h),
             Expanded(child: CustomTabScreen()),
-
           ],
         ),
       ),

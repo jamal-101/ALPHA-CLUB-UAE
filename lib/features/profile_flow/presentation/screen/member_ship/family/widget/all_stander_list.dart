@@ -109,7 +109,7 @@ class AllStanderList extends StatelessWidget {
                             fontFamily: 'SFPro',
                             fontSize: 12.sp,
                             fontWeight: FontWeight.w400,
-                            color: AppColors.foundationWhite1
+                            color: AppColors.blueBase
                         ),
                       ),
                     ),

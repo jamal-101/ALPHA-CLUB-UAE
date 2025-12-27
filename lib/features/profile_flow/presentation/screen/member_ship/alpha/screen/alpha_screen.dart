@@ -21,7 +21,7 @@ class AlphaScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 10.h),
+            SizedBox(height: 22.h),
             AlphaMemberShipWidget(),
             SizedBox(height: 16.h),
             CommonText(
@@ -61,9 +61,10 @@ class AlphaScreen extends StatelessWidget {
                   CommonText(
                     textAlign: TextAlign.start,
                     style: TextStyle(
-                      fontSize: 12.sp,
+                      fontFamily: 'SFPro',
+                      fontSize: 14.sp,
                       fontWeight: FontWeight.w400,
-                      color: AppColors.foundationWhite,
+                      color: AppColors.blueBase,
                     ),
                       text: AppString.contactOurTeam,
                   ),

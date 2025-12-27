@@ -2,6 +2,8 @@ import 'package:alpha_club/core/global/common_app_bar.dart';
 import 'package:alpha_club/core/utils/app_string/app_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 
 import '../../../../../../core/global/common_text_field.dart';
 import '../../../../../../core/global/commont_text.dart';
@@ -22,7 +24,9 @@ class PersonalInformation extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SizedBox(height: 50.h),
-            CommonAppBar(title: AppString.personalInformation),
+            CommonAppBar(title: AppString.personalInformation,onTap: (){
+              Get.back();
+            },),
             SizedBox(height: 30.h),
             ProfileDataContainer(
               showEditButton: false,

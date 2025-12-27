@@ -40,6 +40,17 @@ dependencies:
   flutter_pinput: ^1.0.3
   convex_bottom_bar: ^3.2.0
   stylish_bottom_bar: ^1.1.1
+  flutter_launcher_icons: ^0.14.4
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/app_logo.png"
+
+  adaptive_icon_background: "#000000"
+  adaptive_icon_foreground: "assets/images/app_logo.png"
+
+
 
 dev_dependencies:
   flutter_test:

@@ -5,6 +5,8 @@ import 'package:alpha_club/core/utils/app_string/app_string.dart';
 import 'package:alpha_club/features/profile_flow/presentation/screen/profile_screen/widget/what_offer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 
 class AboutUsScreen extends StatelessWidget {
   const AboutUsScreen({super.key});
@@ -19,7 +21,9 @@ class AboutUsScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SizedBox(height: 50.h),
-            CommonAppBar(title: AppString.aboutUs),
+            CommonAppBar(title: AppString.aboutUs,onTap:(){
+              Get.back();
+            },),
             SizedBox(height: 20.h),
             CommonText(
               textAlign: TextAlign.start,

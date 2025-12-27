@@ -72,7 +72,7 @@ class OurSponsorScreen extends StatelessWidget {
             SizedBox(height: 16.h),
             CommonText(
               fontWeight: FontWeight.w500,
-                fontSize: 16,
+                fontSize: 18,
                 color: AppColors.blue1,
                 text: AppString.description),
             SizedBox(height: 16.h),
@@ -80,7 +80,7 @@ class OurSponsorScreen extends StatelessWidget {
               textAlign: TextAlign.start,
                 fontWeight: FontWeight.w400,
                 fontSize: 14,
-                color: AppColors.foundationWhite1,
+                color: AppColors.blueBase,
                 text: AppString.landingAutoMotive),
             SizedBox(height: 16.h),
             Row(
@@ -88,7 +88,7 @@ class OurSponsorScreen extends StatelessWidget {
                 Image.asset(AssetPath.checkIcon,height: 12.h,width: 12.w,),
                 SizedBox(width: 6.w),
                 CommonText(
-                  fontSize: 14,
+                  fontSize: 16,
                     fontWeight: FontWeight.w400,
                     color: AppColors.blue1,
                     text: AppString.choiceOf
@@ -101,7 +101,7 @@ class OurSponsorScreen extends StatelessWidget {
                 Image.asset(AssetPath.checkIcon,height: 12.h,width: 12.w,),
                 SizedBox(width: 6.w),
                 CommonText(
-                  fontSize: 14,
+                  fontSize: 16,
                     fontWeight: FontWeight.w400,
                     color: AppColors.blue1,
                     text: AppString.validMon
@@ -114,7 +114,7 @@ class OurSponsorScreen extends StatelessWidget {
                 Image.asset(AssetPath.checkIcon,height: 12.h,width: 12.w,),
                 SizedBox(width: 6.w),
                 CommonText(
-                  fontSize: 14,
+                  fontSize: 16,
                     fontWeight: FontWeight.w400,
                     color: AppColors.blue1,
                     text: AppString.reservationRec

@@ -1,5 +1,8 @@
+import 'package:alpha_club/core/global/commont_text.dart';
 import 'package:alpha_club/core/utils/app_color/app_color.dart';
+import 'package:alpha_club/core/utils/app_image/app_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomCheckList extends StatelessWidget {
   const CustomCheckList({super.key});
@@ -9,8 +12,11 @@ class CustomCheckList extends StatelessWidget {
     return Column(
       children: [
         _buildCustomItem("Access to all Alpha networking events"),
+        SizedBox(height: 6.h),
         _buildCustomItem("Exclusive member discounts and offers"),
+        SizedBox(height: 6.h),
         _buildCustomItem("Priority event registration"),
+        SizedBox(height: 6.h),
         _buildCustomItem("Access to co-working spaces"),
       ],
     );
@@ -20,15 +26,11 @@ class CustomCheckList extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
-          padding: EdgeInsets.only(top: 4.0),
-          child: Icon(
-            Icons.check,
-            color: AppColors.blue1,
-            size: 12,
-          ),
+        Padding(
+          padding: EdgeInsets.only(top: 6),
+          child: Image.asset(AssetPath.checkIcon,color: AppColors.blue1,height: 10.h,width: 10.w),
         ),
-        const SizedBox(width: 5),
+        const SizedBox(width: 6),
         Expanded(
           child:
           ShaderMask(
@@ -43,14 +45,12 @@ class CustomCheckList extends StatelessWidget {
                 end: Alignment.bottomRight,
               ).createShader(bounds);
             },
-            child: Text(
-              text,
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w400,
-                fontFamily: 'SFPro',
-              ),
-            ),
+            child: CommonText(
+              textAlign: TextAlign.start,
+              fontWeight: FontWeight.w400,
+              fontSize: 20.sp,
+              color: AppColors.appBackgroundColor,
+              text: text,)
           )
         ),
       ],

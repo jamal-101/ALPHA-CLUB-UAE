@@ -1,4 +1,5 @@
 import 'package:alpha_club/core/global/commont_text.dart';
+import 'package:alpha_club/core/route/app_route.dart';
 import 'package:alpha_club/core/utils/app_string/app_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -84,7 +85,7 @@ class LogoutDialog extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: (){
-                    Get.back();
+                    Get.toNamed(AppRoute.loginScreen);
                   },
                   child: Container(
                     height: 46.h,

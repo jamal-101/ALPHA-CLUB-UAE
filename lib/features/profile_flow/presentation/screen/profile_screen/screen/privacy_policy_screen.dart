@@ -4,6 +4,8 @@ import 'package:alpha_club/core/utils/app_color/app_color.dart';
 import 'package:alpha_club/core/utils/app_string/app_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PrivacyPolicyScreen extends StatelessWidget {
@@ -17,7 +19,9 @@ class PrivacyPolicyScreen extends StatelessWidget {
         child: Column(
           children: [
             SizedBox(height: 50.h),
-            CommonAppBar(title: AppString.privacyPolicy),
+            CommonAppBar(title: AppString.privacyPolicy,onTap: (){
+              Get.back();
+            },),
             SizedBox(height: 16.h),
             RichText(
               text: TextSpan(

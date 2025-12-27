@@ -1,12 +1,18 @@
 import 'package:alpha_club/core/global/commont_text.dart';
+import 'package:alpha_club/core/route/app_route.dart';
 import 'package:alpha_club/core/utils/app_color/app_color.dart';
 import 'package:alpha_club/core/utils/app_image/app_image.dart';
+import 'package:alpha_club/features/home_flow/controller/home_controller.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class NewsListView extends StatelessWidget {
-  const NewsListView({super.key});
+  NewsListView({super.key});
+
+  final HomeController likeController = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +23,6 @@ class NewsListView extends StatelessWidget {
         "desc":
             "Electric vehicle sales have reached unprecedented levels globally, driven by innovation, sustainability goals, and government incentives....",
         "time": "4 hours ago",
-        "likes": 567,
       },
       {
         "image": AssetPath.latestStoriesImage,
@@ -25,14 +30,13 @@ class NewsListView extends StatelessWidget {
         "desc":
             "Electric vehicle sales have reached unprecedented levels globally, driven by innovation, sustainability goals, and government incentives....",
         "time": "4 hours ago",
-        "likes": 567,
-      }, {
+      },
+      {
         "image": AssetPath.latestStoriesImage,
         "title": "Global EV Market Surges with Record Sales",
         "desc":
             "Electric vehicle sales have reached unprecedented levels globally, driven by innovation, sustainability goals, and government incentives....",
         "time": "4 hours ago",
-        "likes": 567,
       },
     ];
 
@@ -42,7 +46,7 @@ class NewsListView extends StatelessWidget {
       itemBuilder: (context, index) {
         final item = newsData[index];
         return Container(
-          margin: EdgeInsets.only(left: 20,bottom: 10.h,right: 20),
+          margin: EdgeInsets.only(left: 20, bottom: 10.h, right: 20),
           padding: EdgeInsets.all(8.w),
           decoration: BoxDecoration(
             color: Colors.white,
@@ -67,37 +71,60 @@ class NewsListView extends StatelessWidget {
                   Positioned(
                     top: 12.h,
                     right: 10.w,
-                    child: Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 10.w,
-                        vertical: 5.h,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppColors.appBackgroundColor,
-                        borderRadius: BorderRadius.circular(20.r),
-                      ),
-                      child: Row(
-                        children: [
-                          Image.asset(AssetPath.likeIcon,height: 16.h,width: 16),
-                          SizedBox(width: 4.w),
-                          ShaderMask(
-                            shaderCallback: (bounds) => LinearGradient(
-                              colors: [
-                                AppColors.blueLiner1,
-                                AppColors.blueLiner2,
-                              ],
-                            ).createShader(bounds),
-                            child: CommonText(
-                                text: item["likes"].toString(),
-                              fontWeight: FontWeight.w400,
-                              fontSize: 10,
-                              color: AppColors.appBackgroundColor,
-                            )
-                          )
-                        ],
+                    child: GestureDetector(
+                      onTap: () {
+                        likeController.toggleLike(index);
+                      },
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 10.w,
+                          vertical: 5.h,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.appBackgroundColor,
+                          borderRadius: BorderRadius.circular(20.r),
+                        ),
+                        child: Obx(() {
+                          bool currentIsLiked = likeController.isLiked(index);
+                          int currentCount = currentIsLiked
+                              ? likeController.baseLikeCount + 1
+                              : likeController.baseLikeCount;
+                          return Row(
+                            children: [
+                              currentIsLiked
+                                  ? Icon(
+                                      Icons.thumb_up,
+                                      size: 18.sp,
+                                      color: Colors.blueAccent,
+                                    )
+                                  : Image.asset(
+                                      AssetPath.likeIcon,
+                                      height: 16,
+                                      width: 16,
+                                    ),
+
+                              SizedBox(width: 4.w),
+                              ShaderMask(
+                                shaderCallback: (bounds) => LinearGradient(
+                                  colors: [
+                                    AppColors.blueLiner1,
+                                    AppColors.blueLiner2,
+                                  ],
+                                ).createShader(bounds),
+                                child: CommonText(
+                                  text: "$currentCount",
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14,
+                                  color: AppColors.appBackgroundColor,
+                                ),
+                              ),
+                            ],
+                          );
+                        }),
                       ),
                     ),
                   ),
+                  // ),
                 ],
               ),
               SizedBox(height: 12.h),
@@ -109,17 +136,16 @@ class NewsListView extends StatelessWidget {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       gradient: LinearGradient(
-                        colors: [
-                          AppColors.blueLiner1,
-                          AppColors.blueLiner2,
-                        ],
+                        colors: [AppColors.blueLiner1, AppColors.blueLiner2],
                       ),
-                    ),child: Center(
+                    ),
+                    child: Center(
                       child: CommonText(
-                      fontSize: 12,
+                        fontSize: 12,
                         fontWeight: FontWeight.w500,
                         color: AppColors.borderColor,
-                        text: "A"),
+                        text: "A",
+                      ),
                     ),
                   ),
                   SizedBox(width: 10.w),
@@ -151,31 +177,34 @@ class NewsListView extends StatelessWidget {
               SizedBox(height: 12.h),
               CommonText(
                 style: TextStyle(
+                  fontFamily: 'SFPro',
                   color: AppColors.blue1,
                   fontWeight: FontWeight.w500,
-                  fontSize: 14.sp
+                  fontSize: 14.sp,
                 ),
-                  text: item["title"],
+                text: item["title"],
               ),
               SizedBox(height: 8.h),
               RichText(
                 text: TextSpan(
                   style: GoogleFonts.poppins(
-                    fontSize: 10.sp,
+                    fontSize: 14.sp,
                     fontWeight: FontWeight.w400,
                     color: AppColors.tabUnselectBorderColor,
                   ),
                   children: [
+                    TextSpan(text: item["desc"]),
                     TextSpan(
-                        text: item["desc"],
-                    ),
-                    const TextSpan(
                       text: " See More",
                       style: TextStyle(
                         color: AppColors.yellow,
-                        fontSize: 10,
+                        fontSize: 12,
                         fontWeight: FontWeight.w600,
                       ),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () {
+                          Get.toNamed(AppRoute.latestStoriesDetailsScreen);
+                        },
                     ),
                   ],
                 ),
@@ -183,20 +212,13 @@ class NewsListView extends StatelessWidget {
               SizedBox(height: 12.h),
               Row(
                 children: [
-                  Icon(
-                    Icons.access_time,
-                    size: 14.sp,
-                    color: AppColors.green1,
-                  ),
+                  Icon(Icons.access_time, size: 16.sp, color: AppColors.green1),
                   SizedBox(width: 5.w),
-                  Text(
-                    item["time"],
-                    style: TextStyle(
-                      fontFamily: 'SFPro',
-                      fontSize: 10.sp,
-                      color: AppColors.green1,
-                      fontWeight: FontWeight.w400,
-                    ),
+                  CommonText(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    color: AppColors.green1,
+                    text: item["time"],
                   ),
                 ],
               ),

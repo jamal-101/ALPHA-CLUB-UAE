@@ -79,7 +79,7 @@ class ClubSponsorScreen extends StatelessWidget {
             CommonText(
                 textAlign: TextAlign.start,
                 fontWeight: FontWeight.w400,
-                fontSize: 14,
+                fontSize: 16,
                 color: AppColors.foundationWhite1,
                 text: AppString.landingAutoMotive),
             SizedBox(height: 16.h),
@@ -88,7 +88,7 @@ class ClubSponsorScreen extends StatelessWidget {
                 Image.asset(AssetPath.checkIcon,height: 12.h,width: 12.w,),
                 SizedBox(width: 6.w),
                 CommonText(
-                    fontSize: 14,
+                    fontSize: 16,
                     fontWeight: FontWeight.w400,
                     color: AppColors.blue1,
                     text: AppString.choiceOf
@@ -101,7 +101,7 @@ class ClubSponsorScreen extends StatelessWidget {
                 Image.asset(AssetPath.checkIcon,height: 12.h,width: 12.w,),
                 SizedBox(width: 6.w),
                 CommonText(
-                    fontSize: 14,
+                    fontSize: 16,
                     fontWeight: FontWeight.w400,
                     color: AppColors.blue1,
                     text: AppString.validMon
@@ -114,7 +114,7 @@ class ClubSponsorScreen extends StatelessWidget {
                 Image.asset(AssetPath.checkIcon,height: 12.h,width: 12.w,),
                 SizedBox(width: 6.w),
                 CommonText(
-                    fontSize: 14,
+                    fontSize: 16,
                     fontWeight: FontWeight.w400,
                     color: AppColors.blue1,
                     text: AppString.reservationRec

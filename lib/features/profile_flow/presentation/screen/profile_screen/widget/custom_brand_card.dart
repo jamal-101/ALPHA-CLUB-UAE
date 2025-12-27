@@ -39,9 +39,9 @@ class CustomBrandCard extends StatelessWidget {
             title,
             textAlign: TextAlign.center,
             style: const TextStyle(
-              color: Color(0xFF2E436A),
+              color: AppColors.blue1,
               fontSize: 16,
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w400,
               fontFamily: 'SFPro',
             ),
           ),

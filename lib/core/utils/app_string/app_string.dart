@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 class AppString {
   static const sinIn = "Sign In";
   static const enterYourMobile = "Enter your mobile number to";
@@ -157,4 +159,15 @@ class AppString {
   static const upcomingEvent = "Upcoming Events";
   static const joinUsfor = "Join us for exclusive experiences";
   static const searchClubs = "Search clubs....";
+  static const discoverClubs = "Discover Clubs";
+  static const findYOur = "Find your perfect membership";
+  static const veoGym = "Veo Gym";
+  static const membership5 = "5 Memberships";
+  static const memberForm = "Member Form";
+  static const name = "Name";
+  static const enterYOurName = "Enter your name";
+  static const enterEmail = "Enter your email";
+  static const message = "Message";
+  static const writeYourMessage = "Write your message";
+  static const saveChange = "Save Change";
 }

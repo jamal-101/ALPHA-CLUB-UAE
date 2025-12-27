@@ -36,4 +36,5 @@ class AppColors {
   static const blueBase900 = Color(0xFF0F182B);
   static const gold50 = Color(0xFFFBF6EE);
   static const gold60 = Color(0xFF898888);
+  static const skipColor = Color(0xFF6277B3);
 }

@@ -5,7 +5,6 @@ import 'package:alpha_club/core/route/app_route.dart';
 import 'package:alpha_club/core/utils/app_color/app_color.dart';
 import 'package:alpha_club/core/utils/app_image/app_image.dart';
 import 'package:alpha_club/core/utils/app_string/app_string.dart';
-import 'package:alpha_club/features/common_bottom_nav_bar/presentation/common_bottom_nab_var.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -29,7 +28,38 @@ class LoginScreen extends StatelessWidget {
         child: Center(
           child: Column(
             children: [
-              SizedBox(height: 140.h),
+              SizedBox(height: 50.h),
+              Padding(
+                padding: EdgeInsets.only(right: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(),
+                    GestureDetector(
+                      onTap: (){
+                        Get.toNamed(AppRoute.homeScreen);
+                      },
+                      child: Container(
+                        height: 27.h,
+                        width: 57.w,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(25.r),
+                          border: Border.all(
+                            width: 1.w,
+                            color: AppColors.skipColor,
+                          )
+                        ),child: Center(
+                          child: CommonText(
+                          fontWeight: FontWeight.w400,
+                            fontSize: 14,
+                            color: AppColors.skipColor,
+                            text: "Skip"),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
               Image.asset(AssetPath.splashImage, height: 132, width: 267),
               CommonText(
                 text: AppString.sinIn,
@@ -107,20 +137,25 @@ class LoginScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             SizedBox(),
-                            CommonText(
-                              style: TextStyle(
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColors.blue1,
-                                  fontFamily: 'SFPro'
+                            GestureDetector(
+                              onTap: (){
+                                Get.toNamed(AppRoute.newPasswordScreen);
+                              },
+                              child: CommonText(
+                                style: TextStyle(
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w600,
+                                    color: AppColors.blue1,
+                                    fontFamily: 'SFPro'
+                                ),
+                                text: AppString.forgetPass,
                               ),
-                              text: AppString.forgetPass,
                             ),
                           ],
                         ),
                         SizedBox(height: 24.h),
                         CommonButton(onTap: (){
-                          Get.toNamed(AppRoute.homeScreen);
+                          Get.toNamed(AppRoute.singInOtp);
                         }, text: AppString.sinIn),
                         SizedBox(height: 40.h),
                         Row(
@@ -144,15 +179,20 @@ class LoginScreen extends StatelessWidget {
                                   AppColors.linearGradient2,
                                 ],
                               ).createShader(Rect.fromLTWH(0, 0, bounds.width, bounds.height)),
-                              child: Text(
-                                AppString.applyHere,
-                                style: TextStyle(
-                                  fontFamily: 'SFPro',
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.white,
-                                  decoration: TextDecoration.underline,
-                                  decorationColor: Color(0xFFDFBB0B)
+                              child: GestureDetector(
+                                onTap: (){
+                                  Get.toNamed(AppRoute.memberFormScreen);
+                                },
+                                child: Text(
+                                  AppString.applyHere,
+                                  style: TextStyle(
+                                    fontFamily: 'SFPro',
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
+                                    decoration: TextDecoration.underline,
+                                    decorationColor: Color(0xFFDFBB0B)
+                                  ),
                                 ),
                               ),
                             ),

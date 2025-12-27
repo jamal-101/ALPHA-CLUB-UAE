@@ -48,25 +48,6 @@ class ClubDetailsScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                Positioned(
-                  top: 12.h,
-                  right: 12.w,
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 18.w,vertical: 4),
-                    decoration: BoxDecoration(
-                      color: AppColors.blueBase50,
-                      borderRadius: BorderRadius.circular(20.r),
-                    ),
-                    child: Text(
-                      "30%",
-                      style: TextStyle(
-                        color: const Color(0xFF2E7D32),
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14.sp,
-                      ),
-                    ),
-                  ),
-                ),
               ],
             ),
             SizedBox(height: 20.h),
@@ -74,7 +55,7 @@ class ClubDetailsScreen extends StatelessWidget {
                 fontSize: 18.sp,
                 fontWeight: FontWeight.w500,
                 color: AppColors.blue1,
-                text: AppString.autoMillennium1
+                text: AppString.veoGym
             ),
             SizedBox(height: 8.h),
             CommonText(
@@ -84,7 +65,7 @@ class ClubDetailsScreen extends StatelessWidget {
                     fontSize: 14,
                     fontFamily: 'SFPro'
                 ),
-                text: AppString.autoGroup),
+                text: AppString.membership5),
             SizedBox(height: 12.h),
             Row(
               children: [
@@ -115,7 +96,7 @@ class ClubDetailsScreen extends StatelessWidget {
                 textAlign: TextAlign.start,
                 fontWeight: FontWeight.w400,
                 fontSize: 14,
-                color: AppColors.foundationWhite1,
+                color: AppColors.blue1,
                 text: AppString.landingAutoMotive),
             SizedBox(height: 16.h),
             Row(

@@ -2,11 +2,15 @@ import 'package:alpha_club/core/global/common_app_bar.dart';
 import 'package:alpha_club/core/global/common_button.dart';
 import 'package:alpha_club/core/global/common_text_field.dart';
 import 'package:alpha_club/core/global/commont_text.dart';
+import 'package:alpha_club/core/route/app_route.dart';
 import 'package:alpha_club/core/utils/app_string/app_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 import '../../../../../../core/utils/app_color/app_color.dart';
 import '../../../../../../core/utils/app_image/app_image.dart';
+import '../../profile_screen/screen/profile_screen.dart';
 
 class InformationDetailsScreen extends StatelessWidget {
   const InformationDetailsScreen({super.key});
@@ -22,7 +26,10 @@ class InformationDetailsScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 50.h),
-              CommonAppBar(title: AppString.information),
+              CommonAppBar(title: AppString.information,onTap: (){
+                ProfileScreen.isFamilyListVisible.value = true;
+                Get.toNamed(AppRoute.profileScreen);
+              },),
               SizedBox(height: 30.h),
               Center(
                 child: Stack(
@@ -146,7 +153,10 @@ class InformationDetailsScreen extends StatelessWidget {
                 hintText: AppString.location,
               ),
               SizedBox(height: 150.h),
-              CommonButton(onTap: (){}, text: AppString.cont)
+              CommonButton(onTap: (){
+                ProfileScreen.isFamilyListVisible.value = true;
+                Get.toNamed(AppRoute.profileScreen);
+              }, text: AppString.cont)
             ],
           ),
         ),

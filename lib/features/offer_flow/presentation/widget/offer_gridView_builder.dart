@@ -2,13 +2,17 @@ import 'package:alpha_club/core/global/commont_text.dart';
 import 'package:alpha_club/core/route/app_route.dart';
 import 'package:alpha_club/core/utils/app_color/app_color.dart';
 import 'package:alpha_club/core/utils/app_image/app_image.dart';
+import 'package:alpha_club/features/offer_flow/controller/offer_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:get/get.dart';
 
 class OfferGridviewBuilder extends StatelessWidget {
-  const OfferGridviewBuilder({super.key});
+  OfferGridviewBuilder({super.key});
+
+
+  final OfferController offerController = Get.put(OfferController());
+
 
   @override
   Widget build(BuildContext context) {
@@ -49,12 +53,12 @@ class OfferGridviewBuilder extends StatelessWidget {
         crossAxisCount: 2,
         crossAxisSpacing: 12.w,
         mainAxisSpacing: 12.h,
-        childAspectRatio: 0.95,
+        childAspectRatio: 0.93,
       ),
       itemBuilder: (context, index) {
         final item = offers[index];
         return GestureDetector(
-          onTap: (){
+          onTap: () {
             Get.toNamed(AppRoute.offerDetailsScreen);
           },
           child: Container(
@@ -71,7 +75,7 @@ class OfferGridviewBuilder extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.only(top: 4, left: 4, right: 4),
                       child: ClipRRect(
-                        borderRadius:BorderRadius.circular(8.r),
+                        borderRadius: BorderRadius.circular(8.r),
                         child: Image.asset(
                           item["image"]!,
                           height: 120.h,
@@ -100,29 +104,35 @@ class OfferGridviewBuilder extends StatelessWidget {
                         ),
                       ),
                     ),
-
                     Positioned(
                       top: 9.h,
                       left: 9.w,
-                      child: Container(
-                        height: 24.w,
-                        width: 24.w,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withValues(alpha: 0.1),
-                              blurRadius: 4,
-                              offset: const Offset(0, 2),
+                      child: GestureDetector(
+                        onTap: (){
+                          offerController.toggleLove(index);
+                        },
+                        child: Obx(()=>
+                          Container(
+                            height: 24.w,
+                            width: 24.w,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withValues(alpha: 0.1),
+                                  blurRadius: 4,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                        child: Center(
-                          child: Image.asset(
-                            AssetPath.loveIcon,
-                            height: 12.w,
-                            width: 12.w,
+                            child: Icon(
+                              offerController.isOffer(index)
+                                  ? Icons.favorite_rounded
+                                  : Icons.favorite_outline_rounded,
+                              color: AppColors.redColor,
+                              size: 16.sp,
+                            ),
                           ),
                         ),
                       ),
@@ -136,7 +146,7 @@ class OfferGridviewBuilder extends StatelessWidget {
                     children: [
                       CommonText(
                         textAlign: TextAlign.start,
-                        fontSize: 14,
+                        fontSize: 16,
                         fontWeight: FontWeight.w500,
                         color: AppColors.blue1,
                         text: item['name']!,
@@ -144,7 +154,7 @@ class OfferGridviewBuilder extends StatelessWidget {
                       SizedBox(height: 4.h),
                       CommonText(
                         textAlign: TextAlign.start,
-                        fontSize: 10,
+                        fontSize: 12,
                         fontWeight: FontWeight.w400,
                         color: AppColors.blue1,
                         text: item["desc"]!,

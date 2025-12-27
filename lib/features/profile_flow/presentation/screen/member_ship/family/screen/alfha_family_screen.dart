@@ -10,8 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
-import '../../alpha/widget/all_features_listview.dart';
-import '../../alpha/widget/alpha_member_ship_widget.dart';
+import '../../../profile_screen/screen/profile_screen.dart';
 import '../widget/alpha_family_widget.dart';
 
 
@@ -26,11 +25,12 @@ class FamilyScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 10.h),
+            SizedBox(height: 22.h),
             AlphaFamilyWidget(),
             SizedBox(height: 16.h),
             CommonText(
               style: TextStyle(
+                fontFamily: 'SFPro',
                 fontWeight: FontWeight.w500,
                 fontSize: 16,
                 color: AppColors.blue1,
@@ -62,6 +62,7 @@ class FamilyScreen extends StatelessWidget {
             SizedBox(height: 16.h),
             CommonText(
               style: TextStyle(
+                fontFamily: 'SFPro',
                 fontWeight: FontWeight.w500,
                 fontSize: 16,
                 color: AppColors.blue1,
@@ -98,13 +99,15 @@ class FamilyScreen extends StatelessWidget {
                     textAlign: TextAlign.start,
                     style: TextStyle(
                       fontSize: 12.sp,
+                      fontFamily: 'SFPro',
                       fontWeight: FontWeight.w400,
-                      color: AppColors.foundationWhite,
+                      color: AppColors.blueBase,
                     ),
                     text: AppString.contactOurTeamToUpgrade,
                   ),
                   SizedBox(height: 24.h),
                   CommonButton(onTap: (){
+                    ProfileScreen.isFamilyListVisible.value = false;
                     Get.toNamed(AppRoute.informationDetailsScreen);
                   }, text: AppString.getFamilyMemberShip)
                 ],
