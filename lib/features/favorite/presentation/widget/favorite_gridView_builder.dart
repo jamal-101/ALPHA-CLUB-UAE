@@ -121,7 +121,6 @@ class FavoriteGridviewBuilder extends StatelessWidget {
                       text: item['name']!,
                     ),
                     SizedBox(height: 4.h),
-
                     CommonText(
                       textAlign: TextAlign.start,
                       fontSize: 12,

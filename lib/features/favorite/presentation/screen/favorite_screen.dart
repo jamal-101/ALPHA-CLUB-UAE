@@ -16,7 +16,6 @@ class FavoriteScreen extends StatelessWidget {
           child: Column(
             children: [
               SizedBox(height: 40.h),
-
               FavoriteGridviewBuilder()
             ],
           ),
