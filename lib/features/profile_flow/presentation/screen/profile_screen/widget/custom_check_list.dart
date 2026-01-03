@@ -27,8 +27,8 @@ class CustomCheckList extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.only(top: 6),
-          child: Image.asset(AssetPath.checkIcon,color: AppColors.blue1,height: 10.h,width: 10.w),
+          padding: EdgeInsets.only(top: 8),
+          child: Image.asset(AssetPath.checkIcon,color: AppColors.blue1,height: 8.h,width: 8.w),
         ),
         const SizedBox(width: 6),
         Expanded(
@@ -48,7 +48,7 @@ class CustomCheckList extends StatelessWidget {
             child: CommonText(
               textAlign: TextAlign.start,
               fontWeight: FontWeight.w400,
-              fontSize: 20.sp,
+              fontSize: 16.sp,
               color: AppColors.appBackgroundColor,
               text: text,)
           )

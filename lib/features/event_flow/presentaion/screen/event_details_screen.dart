@@ -1,9 +1,13 @@
+import 'package:alpha_club/core/global/common_button.dart';
 import 'package:alpha_club/core/global/commont_text.dart';
+import 'package:alpha_club/core/route/app_route.dart';
 import 'package:alpha_club/core/utils/app_color/app_color.dart';
 import 'package:alpha_club/core/utils/app_image/app_image.dart';
 import 'package:alpha_club/core/utils/app_string/app_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 
 
 class EventDetailsScreen extends StatelessWidget {
@@ -252,7 +256,11 @@ class EventDetailsScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              )
+              ),
+              SizedBox(height: 24.h),
+              CommonButton(onTap: (){
+                Get.toNamed(AppRoute.eventRegisterScreen);
+              }, text: AppString.register)
             ],
           ),
         ),

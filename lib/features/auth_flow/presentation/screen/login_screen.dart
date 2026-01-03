@@ -125,7 +125,7 @@ class LoginScreen extends StatelessWidget {
                             color: AppColors.blue1,
                             fontFamily: 'SFPro'
                           ),
-                          text: AppString.contactNumber,
+                          text: AppString.newPassword,
                         ),
                         SizedBox(height: 12.h),
                         CommonTextField(

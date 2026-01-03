@@ -8,8 +8,10 @@ import '../utils/app_string/app_string.dart';
 
 class MessageField extends StatelessWidget {
   final TextEditingController textController;
+  final Color?containerColor;
+  final Color?fillColor;
 
-  const MessageField({super.key, required this.textController});
+  const MessageField({super.key, required this.textController, this.containerColor, this.fillColor});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +19,7 @@ class MessageField extends StatelessWidget {
       width: double.infinity,
       height: 166.h,
       decoration: BoxDecoration(
-        color: AppColors.appBackgroundColor,
+        color: containerColor,
         borderRadius: BorderRadius.circular(12.r),
         border: Border.all(width: 1.w, color: AppColors.otpBorderColor),
       ),
@@ -39,7 +41,7 @@ class MessageField extends StatelessWidget {
             color: AppColors.blueBase,
           ),
           filled: true,
-          fillColor: AppColors.appBackgroundColor,
+          fillColor: fillColor,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12.r),
             borderSide: BorderSide.none,

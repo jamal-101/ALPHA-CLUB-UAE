@@ -170,4 +170,6 @@ class AppString {
   static const message = "Message";
   static const writeYourMessage = "Write your message";
   static const saveChange = "Save Change";
+  static const eventRegister = "Event register";
+  static const register = "Register";
 }

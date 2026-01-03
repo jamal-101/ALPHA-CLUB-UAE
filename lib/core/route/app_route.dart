@@ -7,6 +7,7 @@ import 'package:alpha_club/features/clubs/presentation/screen/club_details_scree
 import 'package:alpha_club/features/clubs/presentation/screen/club_screen.dart';
 import 'package:alpha_club/features/clubs/presentation/screen/club_sponsor_screen.dart';
 import 'package:alpha_club/features/event_flow/presentaion/screen/event_details_screen.dart';
+import 'package:alpha_club/features/event_flow/presentaion/screen/event_register_screen.dart';
 import 'package:alpha_club/features/event_flow/presentaion/screen/event_screen.dart';
 import 'package:alpha_club/features/home_flow/presentation/screen/home_screen.dart';
 import 'package:alpha_club/features/home_flow/presentation/widget/latest_stories_details_screen.dart';
@@ -51,6 +52,7 @@ class AppRoute {
   static String cardDetailsSponsorScreen = '/cardDetailsSponsorScreen';
   static String memberFormScreen = '/memberFormScreen';
   static String latestStoriesDetailsScreen = '/latestStoriesDetailsScreen';
+  static String eventRegisterScreen = '/eventRegisterScreen';
 
   static List<GetPage> route = [
     GetPage(name: splashScreen, page: ()=>SplashScreen()),
@@ -78,5 +80,6 @@ class AppRoute {
     GetPage(name: cardDetailsSponsorScreen, page: ()=> CardDetailsSponsorScreen()),
     GetPage(name: memberFormScreen, page: ()=> MemberFormScreen()),
     GetPage(name: latestStoriesDetailsScreen, page: ()=> LatestStoriesDetailsScreen()),
+    GetPage(name: eventRegisterScreen, page: ()=> EventRegisterScreen()),
   ];
 }

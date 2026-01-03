@@ -27,17 +27,6 @@ class MemberFormScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 10.h),
-                  // Center(
-                  //   child: CommonText(
-                  //     style: TextStyle(
-                  //       fontFamily: 'SFPro',
-                  //       fontWeight: FontWeight.w500,
-                  //       fontSize: 20.sp,
-                  //       color: AppColors.blue1,
-                  //     ),
-                  //     text: AppString.memberForm,
-                  //   ),
-                  // ),
               CommonAppBar(title: AppString.memberForm,onTap: (){
                 Get.toNamed(AppRoute.loginScreen);
               }),
@@ -87,7 +76,10 @@ class MemberFormScreen extends StatelessWidget {
                 text: AppString.message,
               ),
               SizedBox(height: 12.h),
-              MessageField(textController: textController),
+              MessageField(
+                containerColor: AppColors.appBackgroundColor,
+                  fillColor: AppColors.appBackgroundColor,
+                  textController: textController),
               SizedBox(height: 16.h),
               CommonButton(onTap: (){
                 Get.toNamed(AppRoute.loginScreen);

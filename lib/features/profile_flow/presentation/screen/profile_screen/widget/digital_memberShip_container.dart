@@ -1,14 +1,10 @@
 import 'package:alpha_club/core/global/commont_text.dart';
-import 'package:alpha_club/core/route/app_route.dart';
 import 'package:alpha_club/core/utils/app_color/app_color.dart';
 import 'package:alpha_club/core/utils/app_image/app_image.dart';
 import 'package:alpha_club/core/utils/app_string/app_string.dart';
 import 'package:alpha_club/features/profile_flow/presentation/screen/profile_screen/widget/profile_data_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/src/extension_navigation.dart';
-import 'custom_brand_card.dart';
 import 'custom_check_list.dart';
 import 'member_ship_info_container.dart';
 
@@ -123,7 +119,7 @@ class DigitalMembershipContainer extends StatelessWidget {
 
 Widget modelBottomSheet(BuildContext context) {
   return Container(
-    height: 890.h,
+    height: 550.h,
     width: double.infinity,
     decoration: BoxDecoration(
       color: Colors.white,
@@ -185,63 +181,13 @@ Widget modelBottomSheet(BuildContext context) {
           CommonText(
             style: TextStyle(
               fontFamily: 'SFPro',
-              fontSize: 14.sp,
+              fontSize: 16.sp,
               fontWeight: FontWeight.w500,
             ),
             text: AppString.memberShipBenefits,
           ),
           SizedBox(height: 20.h),
           CustomCheckList(),
-          SizedBox(height: 24.h),
-          Center(
-            child: CommonText(
-              style: TextStyle(
-                fontFamily: 'SFPro',
-                fontWeight: FontWeight.w500,
-                fontSize: 16.sp,
-                color: AppColors.blue1,
-              ),
-              text: AppString.ourSponsors,
-            ),
-          ),
-          SizedBox(height: 20.h),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              GestureDetector(
-                onTap: (){
-                  Get.toNamed(AppRoute.cardDetailsSponsorScreen);
-                },
-                child: CustomBrandCard(
-                  imagePath: AssetPath.autoMillennium,
-                  title: AppString.autoMillennium,
-                ),
-              ),
-              GestureDetector(
-                onTap: (){
-                  Get.toNamed(AppRoute.cardDetailsSponsorScreen);
-                },
-                child: CustomBrandCard(
-                  imagePath: AssetPath.alImage,
-                  title: AppString.autoMillennium,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 12.h),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              CustomBrandCard(
-                imagePath: AssetPath.autoMillennium,
-                title: AppString.autoMillennium,
-              ),
-              CustomBrandCard(
-                imagePath: AssetPath.alImage,
-                title: AppString.autoMillennium,
-              ),
-            ],
-          ),
           SizedBox(height: 20.h),
         ],
       ),
