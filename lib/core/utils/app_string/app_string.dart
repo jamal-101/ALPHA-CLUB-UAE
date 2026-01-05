@@ -172,4 +172,9 @@ class AppString {
   static const saveChange = "Save Change";
   static const eventRegister = "Event register";
   static const register = "Register";
+  static const startServer = "Start Server";
+  static const someThingWrong = "Some Thing Wrong";
+  static const requestTimeOut = "RequestTimeOut";
+  static const noInternetConnection = "No Internet Connection";
+  static const seemore = "See More";
 }

@@ -1,7 +1,6 @@
 import 'package:alpha_club/core/global/commont_text.dart';
 import 'package:alpha_club/core/utils/app_color/app_color.dart';
 import 'package:alpha_club/core/utils/app_image/app_image.dart';
-import 'package:alpha_club/features/home_flow/presentation/widget/partner_offers_list.dart';
 import 'package:alpha_club/features/home_flow/presentation/widget/sponsor_widget_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -16,54 +15,57 @@ class HomeTabBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          margin: EdgeInsets.symmetric(vertical: 16.h),
-          height: 40.h,
-          child: TabBar(
-            onTap: (index) {
-              currentIndex.value = index;
-            },
-            labelPadding: EdgeInsets.zero,
-            dividerColor: Colors.transparent,
-            indicatorSize: TabBarIndicatorSize.tab,
-            indicatorPadding: EdgeInsets.symmetric(horizontal: 12.w),
-
-            indicator: BoxDecoration(
-              borderRadius: BorderRadius.circular(40.r),
-              color: AppColors.tabContainerColor,
-              border: Border.all(
-                width: 1,
-                color: AppColors.tabSelectedBorderColor,
+    return DefaultTabController(
+      length: 2,
+      child: Column(
+        children: [
+          Container(
+            margin: EdgeInsets.symmetric(vertical: 16.h),
+            height: 40.h,
+            child: TabBar(
+              onTap: (index) {
+                currentIndex.value = index;
+              },
+              labelPadding: EdgeInsets.zero,
+              dividerColor: Colors.transparent,
+              indicatorSize: TabBarIndicatorSize.tab,
+              indicatorPadding: EdgeInsets.symmetric(horizontal: 12.w),
+      
+              indicator: BoxDecoration(
+                borderRadius: BorderRadius.circular(40.r),
+                color: AppColors.tabContainerColor,
+                border: Border.all(
+                  width: 1,
+                  color: AppColors.tabSelectedBorderColor,
+                ),
               ),
+              labelColor: Colors.white,
+              unselectedLabelColor: const Color(0xFF7A869A),
+              labelStyle: GoogleFonts.poppins(
+                fontSize: 10.sp,
+                fontWeight: FontWeight.w600,
+              ),
+              unselectedLabelStyle: GoogleFonts.poppins(
+                fontSize: 10.sp,
+                fontWeight: FontWeight.w500,
+              ),
+      
+              tabs: [
+                _buildTabItem(0, AssetPath.tabIcon1, "Latest Stories"),
+                _buildTabItem(1, AssetPath.tabIcon2, "Sponsors"),
+              ],
             ),
-            labelColor: Colors.white,
-            unselectedLabelColor: const Color(0xFF7A869A),
-            labelStyle: GoogleFonts.poppins(
-              fontSize: 10.sp,
-              fontWeight: FontWeight.w600,
-            ),
-            unselectedLabelStyle: GoogleFonts.poppins(
-              fontSize: 10.sp,
-              fontWeight: FontWeight.w500,
-            ),
-
-            tabs: [
-              _buildTabItem(0, AssetPath.tabIcon1, "Latest Stories"),
-              _buildTabItem(1, AssetPath.tabIcon2, "Sponsors"),
-            ],
           ),
-        ),
-        Expanded(
-          child: TabBarView(
-            children: [
-              NewsListView(),
-              SponsorWidgetScreen(),
-            ],
+          Expanded(
+            child: TabBarView(
+              children: [
+                NewsListView(),
+                SponsorWidgetScreen(),
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

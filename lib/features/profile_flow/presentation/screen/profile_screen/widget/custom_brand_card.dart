@@ -29,7 +29,7 @@ class CustomBrandCard extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset(
+          Image.network(
             imagePath,
             height: 40,
             fit: BoxFit.contain,
