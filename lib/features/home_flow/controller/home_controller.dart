@@ -109,7 +109,7 @@ class HomeController extends GetxController {
     }
 
     ApiResponseModel response = await ApiService.get(
-      "${ApiEndPoint.sponsor}?page=$currentPage&limit=10",
+      "${ApiEndPoint.sponsor}?page=$currentPage&limit=3",
     );
 
     response.handleResponse(
