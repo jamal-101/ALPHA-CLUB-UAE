@@ -18,4 +18,8 @@ class OfferController extends GetxController{
     }
   }
 
+
+
+
+
 }

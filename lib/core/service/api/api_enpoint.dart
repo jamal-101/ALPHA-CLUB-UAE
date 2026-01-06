@@ -4,4 +4,6 @@ class ApiEndPoint {
   static const stories = '/stories';
   static const imageBaseUrl = 'http://10.10.7.11:7000';
   static const sponsor = '/sponsor';
+  static const event = '/event';
+  static const club = '/club';
 }
