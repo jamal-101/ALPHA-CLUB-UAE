@@ -1,13 +1,10 @@
-import 'package:alpha_club/core/global/common_button.dart';
 import 'package:alpha_club/core/global/commont_text.dart';
-import 'package:alpha_club/core/route/app_route.dart';
 import 'package:alpha_club/core/utils/app_color/app_color.dart';
 import 'package:alpha_club/core/utils/app_image/app_image.dart';
 import 'package:alpha_club/core/utils/app_string/app_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/src/extension_navigation.dart';
+
 
 
 class EventDetailsScreen extends StatelessWidget {
@@ -121,146 +118,146 @@ class EventDetailsScreen extends StatelessWidget {
                   color: AppColors.blue1,
                   text: AppString.landingAutoMotive),
               SizedBox(height: 16.h),
-              Row(
-                children: [
-                  Image.asset(AssetPath.checkIcon,height: 12.h,width: 12.w,),
-                  SizedBox(width: 6.w),
-                  CommonText(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.blue1,
-                      text: AppString.choiceOf
-                  )
-                ],
-              ),
-              SizedBox(height: 5.h),
-              Row(
-                children: [
-                  Image.asset(AssetPath.checkIcon,height: 12.h,width: 12.w,),
-                  SizedBox(width: 6.w),
-                  CommonText(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.blue1,
-                      text: AppString.validMon
-                  )
-                ],
-              ),
-              SizedBox(height: 5.h),
-              Row(
-                children: [
-                  Image.asset(AssetPath.checkIcon,height: 12.h,width: 12.w,),
-                  SizedBox(width: 6.w),
-                  CommonText(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.blue1,
-                      text: AppString.reservationRec
-                  )
-                ],
-              ),
-              SizedBox(height: 16.h),
-              Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16.0.r),
-                    border: Border.all(
-                      width: 1.w,
-                      color: AppColors.otpBorderColor,
-                    ),
-                    color: AppColors.appBackgroundColor
-                ),child: Padding(
-                padding: EdgeInsets.only(left: 8,right: 8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 12.h),
-                    CommonText(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.blue1,
-                        text: AppString.termsAndCondition),
-                    SizedBox(height: 8.h),
-                    Row(children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 2,left: 9),
-                        child: Container(
-                          height: 5.w,
-                          width: 5.w,
-                          decoration: BoxDecoration(
-                            color: AppColors.blueBase,
-                            shape: BoxShape.circle,
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 9.w),
-                      CommonText(
-                          color: AppColors.blueBase,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 16,
-                          text: AppString.validFor)
-                    ],),
-                    SizedBox(height: 12.h),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 9,left: 9),
-                          child: Container(
-                            height: 5.w,
-                            width: 5.w,
-                            decoration: BoxDecoration(
-                              color: AppColors.blueBase,
-                              shape: BoxShape.circle,
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 9.w),
-                        Expanded(
-                          child: CommonText(
-                              textAlign: TextAlign.start,
-                              maxLines: 2,
-                              color: AppColors.blueBase,
-                              fontWeight: FontWeight.w400,
-                              fontSize: 16,
-                              text: AppString.cannotBe),
-                        ),
-                      ],),
-                    SizedBox(height: 12.h),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10,left: 9),
-                          child: Container(
-                            height: 5.w,
-                            width: 5.w,
-                            decoration: BoxDecoration(
-                              color: AppColors.blueBase,
-                              shape: BoxShape.circle,
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 9.w),
-                        Expanded(
-                          child: CommonText(
-                              textAlign: TextAlign.start,
-                              maxLines: 2,
-                              color: AppColors.blueBase,
-                              fontWeight: FontWeight.w400,
-                              fontSize: 16,
-                              text: AppString.reservation),
-                        )
-                      ],),
-                    SizedBox(height: 10.h,),
-                  ],
-                ),
-              ),
-              ),
-              SizedBox(height: 24.h),
-              CommonButton(onTap: (){
-                Get.toNamed(AppRoute.eventRegisterScreen);
-              }, text: AppString.register)
+              // Row(
+              //   children: [
+              //     Image.asset(AssetPath.checkIcon,height: 12.h,width: 12.w,),
+              //     SizedBox(width: 6.w),
+              //     CommonText(
+              //         fontSize: 16,
+              //         fontWeight: FontWeight.w400,
+              //         color: AppColors.blue1,
+              //         text: AppString.choiceOf
+              //     )
+              //   ],
+              // ),
+              // SizedBox(height: 5.h),
+              // Row(
+              //   children: [
+              //     Image.asset(AssetPath.checkIcon,height: 12.h,width: 12.w,),
+              //     SizedBox(width: 6.w),
+              //     CommonText(
+              //         fontSize: 16,
+              //         fontWeight: FontWeight.w400,
+              //         color: AppColors.blue1,
+              //         text: AppString.validMon
+              //     )
+              //   ],
+              // ),
+              // SizedBox(height: 5.h),
+              // Row(
+              //   children: [
+              //     Image.asset(AssetPath.checkIcon,height: 12.h,width: 12.w,),
+              //     SizedBox(width: 6.w),
+              //     CommonText(
+              //         fontSize: 16,
+              //         fontWeight: FontWeight.w400,
+              //         color: AppColors.blue1,
+              //         text: AppString.reservationRec
+              //     )
+              //   ],
+              // ),
+              // SizedBox(height: 16.h),
+              // Container(
+              //   width: double.infinity,
+              //   decoration: BoxDecoration(
+              //       borderRadius: BorderRadius.circular(16.0.r),
+              //       border: Border.all(
+              //         width: 1.w,
+              //         color: AppColors.otpBorderColor,
+              //       ),
+              //       color: AppColors.appBackgroundColor
+              //   ),child: Padding(
+              //   padding: EdgeInsets.only(left: 8,right: 8),
+              //   child: Column(
+              //     crossAxisAlignment: CrossAxisAlignment.start,
+              //     children: [
+              //       SizedBox(height: 12.h),
+              //       CommonText(
+              //           fontSize: 16,
+              //           fontWeight: FontWeight.w500,
+              //           color: AppColors.blue1,
+              //           text: AppString.termsAndCondition),
+              //       SizedBox(height: 8.h),
+              //       Row(children: [
+              //         Padding(
+              //           padding: const EdgeInsets.only(top: 2,left: 9),
+              //           child: Container(
+              //             height: 5.w,
+              //             width: 5.w,
+              //             decoration: BoxDecoration(
+              //               color: AppColors.blueBase,
+              //               shape: BoxShape.circle,
+              //             ),
+              //           ),
+              //         ),
+              //         SizedBox(width: 9.w),
+              //         CommonText(
+              //             color: AppColors.blueBase,
+              //             fontWeight: FontWeight.w400,
+              //             fontSize: 16,
+              //             text: AppString.validFor)
+              //       ],),
+              //       SizedBox(height: 12.h),
+              //       // Row(
+              //       //   crossAxisAlignment: CrossAxisAlignment.start,
+              //       //   children: [
+              //       //     Padding(
+              //       //       padding: const EdgeInsets.only(top: 9,left: 9),
+              //       //       child: Container(
+              //       //         height: 5.w,
+              //       //         width: 5.w,
+              //       //         decoration: BoxDecoration(
+              //       //           color: AppColors.blueBase,
+              //       //           shape: BoxShape.circle,
+              //       //         ),
+              //       //       ),
+              //       //     ),
+              //       //     SizedBox(width: 9.w),
+              //       //     // Expanded(
+              //       //     //   child: CommonText(
+              //       //     //       textAlign: TextAlign.start,
+              //       //     //       maxLines: 2,
+              //       //     //       color: AppColors.blueBase,
+              //       //     //       fontWeight: FontWeight.w400,
+              //       //     //       fontSize: 16,
+              //       //     //       text: AppString.cannotBe),
+              //       //     // ),
+              //       //   ],),
+              //       // SizedBox(height: 12.h),
+              //       // Row(
+              //       //   crossAxisAlignment: CrossAxisAlignment.start,
+              //       //   children: [
+              //       //     Padding(
+              //       //       padding: const EdgeInsets.only(top: 10,left: 9),
+              //       //       child: Container(
+              //       //         height: 5.w,
+              //       //         width: 5.w,
+              //       //         decoration: BoxDecoration(
+              //       //           color: AppColors.blueBase,
+              //       //           shape: BoxShape.circle,
+              //       //         ),
+              //       //       ),
+              //       //     ),
+              //       //     SizedBox(width: 9.w),
+              //       //     Expanded(
+              //       //       child: CommonText(
+              //       //           textAlign: TextAlign.start,
+              //       //           maxLines: 2,
+              //       //           color: AppColors.blueBase,
+              //       //           fontWeight: FontWeight.w400,
+              //       //           fontSize: 16,
+              //       //           text: AppString.reservation),
+              //       //     )
+              //       //   ],),
+              //       // SizedBox(height: 10.h,),
+              //     ],
+              //   ),
+              // ),
+              // ),
+              // SizedBox(height: 24.h),
+              // CommonButton(onTap: (){
+              //   Get.toNamed(AppRoute.eventRegisterScreen);
+              // }, text: AppString.register)
             ],
           ),
         ),

@@ -52,7 +52,7 @@ class AppRoute {
   static String cardDetailsSponsorScreen = '/cardDetailsSponsorScreen';
   static String memberFormScreen = '/memberFormScreen';
   // static String latestStoriesDetailsScreen = '/latestStoriesDetailsScreen';
-  static String eventRegisterScreen = '/eventRegisterScreen';
+  // static String eventRegisterScreen = '/eventRegisterScreen';
 
   static List<GetPage> route = [
     GetPage(name: splashScreen, page: ()=>SplashScreen()),
@@ -80,6 +80,6 @@ class AppRoute {
     GetPage(name: cardDetailsSponsorScreen, page: ()=> CardDetailsSponsorScreen()),
     GetPage(name: memberFormScreen, page: ()=> MemberFormScreen()),
     // GetPage(name: latestStoriesDetailsScreen, page: ()=> LatestStoriesDetailsScreen()),
-    GetPage(name: eventRegisterScreen, page: ()=> EventRegisterScreen()),
+    // GetPage(name: eventRegisterScreen, page: ()=> EventRegisterScreen()),
   ];
 }
