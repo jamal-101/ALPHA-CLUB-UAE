@@ -46,13 +46,13 @@ class AppRoute {
   // static String eventOurSponsorScreen = '/eventOurSponsorScreen';
   static String eventDetailsScreen = '/eventDetailsScreen';
   static String clubScreen = '/clubScreen';
-  static String clubDetailsScreen = '/clubDetailsScreen';
+  // static String clubDetailsScreen = '/clubDetailsScreen';
   static String clubSponsorScreen = '/clubSponsorScreen';
   static String favoriteScreen = '/favoriteScreen';
   static String cardDetailsSponsorScreen = '/cardDetailsSponsorScreen';
   static String memberFormScreen = '/memberFormScreen';
   // static String latestStoriesDetailsScreen = '/latestStoriesDetailsScreen';
-  static String eventRegisterScreen = '/eventRegisterScreen';
+  // static String eventRegisterScreen = '/eventRegisterScreen';
 
   static List<GetPage> route = [
     GetPage(name: splashScreen, page: ()=>SplashScreen()),
@@ -74,12 +74,12 @@ class AppRoute {
     GetPage(name: eventDetailsScreen, page: ()=> EventDetailsScreen()),
     // GetPage(name: eventOurSponsorScreen, page: ()=> EventOurSponsorScreen()),
     GetPage(name: clubScreen, page: ()=> ClubScreen()),
-    GetPage(name: clubDetailsScreen, page: ()=> ClubDetailsScreen()),
+    // GetPage(name: clubDetailsScreen, page: ()=> ClubDetailsScreen()),
     GetPage(name: clubSponsorScreen, page: ()=> ClubSponsorScreen()),
     GetPage(name: favoriteScreen, page: ()=> FavoriteScreen()),
     GetPage(name: cardDetailsSponsorScreen, page: ()=> CardDetailsSponsorScreen()),
     GetPage(name: memberFormScreen, page: ()=> MemberFormScreen()),
     // GetPage(name: latestStoriesDetailsScreen, page: ()=> LatestStoriesDetailsScreen()),
-    GetPage(name: eventRegisterScreen, page: ()=> EventRegisterScreen()),
+    // GetPage(name: eventRegisterScreen, page: ()=> EventRegisterScreen()),
   ];
 }

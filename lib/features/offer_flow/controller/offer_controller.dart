@@ -32,6 +32,11 @@ class OfferController extends GetxController {
     }
   }
 
+
+
+
+
+}
   /// Toggle favourite status for an offer
   Future<void> toggleFavourite(String offerId) async {
     try {

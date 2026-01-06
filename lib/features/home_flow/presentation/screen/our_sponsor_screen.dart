@@ -22,7 +22,18 @@ class OurSponsorScreen extends StatelessWidget {
       body: Obx(() {
 
         final sponsor = homeController.singleSponsorDetails;
-        
+
+        if (homeController.isLoading.value) {
+          return Container(
+            height: 219.h,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: Colors.grey[200],
+              borderRadius: BorderRadius.circular(16.r),
+            ),
+            child: const Center(child: CircularProgressIndicator()),
+          );
+        }
 
         return Padding(
           padding: const EdgeInsets.only(left: 20, right: 20),
