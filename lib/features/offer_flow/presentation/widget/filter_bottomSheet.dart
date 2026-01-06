@@ -1,5 +1,5 @@
-import 'package:alpha_club/core/global/common_app_bar.dart';
 import 'package:alpha_club/core/global/common_button.dart';
+import 'package:alpha_club/features/offer_flow/controller/offer_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -9,20 +9,9 @@ import '../../../../core/utils/app_string/app_string.dart';
 
 class FilterSheet extends StatelessWidget {
   FilterSheet({super.key});
-  final RxString selectedCategory = "Retail".obs;
+  
+  final OfferController controller = Get.find<OfferController>();
   final RxString selectedDistance = "0 - 1 km".obs;
-
-  final List<String> categories = [
-    "Retail",
-    "Social",
-    "Health And Fitness",
-    "Seasonal",
-    "Automotive",
-    "Brunch",
-    "Staycation",
-    "Seasonal",
-    "Special Offers New",
-  ];
 
   final List<String> distances = [
     "0 - 1 km",
@@ -78,16 +67,40 @@ class FilterSheet extends StatelessWidget {
             ),
           ),
           SizedBox(height: 12.h),
-          Padding(
-            padding: EdgeInsets.only(left: 20),
-            child: Wrap(
-              spacing: 23.w,
-              runSpacing: 15.h,
-              children: categories
-                  .map((cat) => _buildFilterChip(cat, isCategory: true))
-                  .toList(),
-            ),
-          ),
+          Obx(() {
+            if (controller.isLoadingCategories.value) {
+              return Padding(
+                padding: EdgeInsets.only(left: 20, top: 20, bottom: 20),
+                child: Center(
+                  child: CircularProgressIndicator(
+                    color: AppColors.blue1,
+                  ),
+                ),
+              );
+            }
+
+            if (controller.categories.isEmpty) {
+              return Padding(
+                padding: EdgeInsets.only(left: 20, top: 20, bottom: 20),
+                child: CommonText(
+                  text: 'No categories available',
+                  fontSize: 12,
+                  color: AppColors.blueBase,
+                ),
+              );
+            }
+
+            return Padding(
+              padding: EdgeInsets.only(left: 20),
+              child: Wrap(
+                spacing: 23.w,
+                runSpacing: 15.h,
+                children: controller.categories
+                    .map((cat) => _buildFilterChip(cat.displayName, isCategory: true))
+                    .toList(),
+              ),
+            );
+          }),
           SizedBox(height: 12.h),
           Padding(
             padding: const EdgeInsets.only(left: 20),
@@ -125,13 +138,13 @@ class FilterSheet extends StatelessWidget {
   Widget _buildFilterChip(String label, {required bool isCategory}) {
     return Obx(() {
       bool isSelected = isCategory
-          ? (selectedCategory.value == label)
+          ? (controller.selectedCategory.value == label)
           : (selectedDistance.value == label);
 
       return GestureDetector(
         onTap: () {
           if (isCategory) {
-            selectedCategory.value = label;
+            controller.selectCategory(label);
           } else {
             selectedDistance.value = label;
           }

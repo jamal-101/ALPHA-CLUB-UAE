@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'dart:developer' as developer;
 import 'package:intl/intl.dart';
+import 'dart:convert';
 
 enum LogLevel { debug, info, warning, error, critical }
 
@@ -8,11 +9,26 @@ class AppLogger {
   static final AppLogger _instance = AppLogger._internal();
   static const String _logTag = '🔷 ALPHA_CLUB';
 
+  // ANSI Color Codes
+  static const String _reset = '\x1B[0m';
+  static const String _white = '\x1B[97m';
+  static const String _brightWhite = '\x1B[97;1m';
+  static const String _cyan = '\x1B[96m';
+  static const String _green = '\x1B[92m';
+  static const String _yellow = '\x1B[93m';
+  static const String _red = '\x1B[91m';
+  static const String _magenta = '\x1B[95m';
+
   factory AppLogger() {
     return _instance;
   }
 
   AppLogger._internal();
+
+  /// Apply color to text
+  static String _colorize(String text, String color) {
+    return '$color$text$_reset';
+  }
 
   /// Format timestamp
   static String _getTimestamp() {
@@ -147,26 +163,29 @@ class AppLogger {
     String? tag,
   }) {
     StringBuffer buffer = StringBuffer();
-    buffer.writeln('📤 API REQUEST');
-    buffer.writeln('├─ Endpoint: $endpoint');
-    buffer.writeln('├─ Method: $method');
+    buffer.writeln(_colorize('📤 API REQUEST', _cyan));
+    buffer.writeln(_colorize('├─ Endpoint: $endpoint', _white));
+    buffer.writeln(_colorize('├─ Method: $method', _white));
 
     if (headers != null && headers.isNotEmpty) {
-      buffer.writeln('├─ Headers:');
+      buffer.writeln(_colorize('├─ Headers:', _white));
       headers.forEach((key, value) {
         // Mask sensitive data
         final displayValue = _maskSensitiveData(key, value);
-        buffer.writeln('│  ├─ $key: $displayValue');
+        buffer.writeln(_colorize('│  ├─ $key: $displayValue', _white));
       });
     }
 
     if (body != null) {
-      buffer.writeln('├─ Body:');
+      buffer.writeln(_colorize('├─ Body:', _white));
       final bodyString = _formatJson(body);
-      buffer.writeln('│  $bodyString');
+      // Split by lines and colorize each
+      bodyString.split('\n').forEach((line) {
+        buffer.writeln(_colorize('│  $line', _brightWhite));
+      });
     }
 
-    buffer.writeln('└─ End Request');
+    buffer.writeln(_colorize('└─ End Request', _cyan));
 
     if (kDebugMode) {
       debugPrint(buffer.toString());
@@ -182,18 +201,21 @@ class AppLogger {
     String? tag,
   }) {
     StringBuffer buffer = StringBuffer();
-    buffer.writeln('📥 API RESPONSE');
-    buffer.writeln('├─ Endpoint: $endpoint');
-    buffer.writeln('├─ Status Code: $statusCode');
-    buffer.writeln('├─ Duration: ${duration}ms');
+    buffer.writeln(_colorize('📥 API RESPONSE', _green));
+    buffer.writeln(_colorize('├─ Endpoint: $endpoint', _white));
+    buffer.writeln(_colorize('├─ Status Code: $statusCode', _white));
+    buffer.writeln(_colorize('├─ Duration: ${duration}ms', _white));
 
     if (responseData != null) {
-      buffer.writeln('├─ Response Data:');
+      buffer.writeln(_colorize('├─ Response Data:', _white));
       final dataString = _formatJson(responseData);
-      buffer.writeln('│  $dataString');
+      // Split by lines and colorize each
+      dataString.split('\n').forEach((line) {
+        buffer.writeln(_colorize('│  $line', _brightWhite));
+      });
     }
 
-    buffer.writeln('└─ End Response');
+    buffer.writeln(_colorize('└─ End Response', _green));
 
     if (kDebugMode) {
       debugPrint(buffer.toString());
@@ -210,23 +232,25 @@ class AppLogger {
     String? tag,
   }) {
     StringBuffer buffer = StringBuffer();
-    buffer.writeln('❌ API ERROR');
-    buffer.writeln('├─ Endpoint: $endpoint');
-    buffer.writeln('├─ Method: $method');
+    buffer.writeln(_colorize('❌ API ERROR', _red));
+    buffer.writeln(_colorize('├─ Endpoint: $endpoint', _white));
+    buffer.writeln(_colorize('├─ Method: $method', _white));
 
     if (statusCode != null) {
-      buffer.writeln('├─ Status Code: $statusCode');
+      buffer.writeln(_colorize('├─ Status Code: $statusCode', _white));
     }
 
-    buffer.writeln('├─ Error: $error');
+    buffer.writeln(_colorize('├─ Error: $error', _red));
 
     if (responseData != null) {
-      buffer.writeln('├─ Error Response:');
+      buffer.writeln(_colorize('├─ Error Response:', _white));
       final dataString = _formatJson(responseData);
-      buffer.writeln('│  $dataString');
+      dataString.split('\n').forEach((line) {
+        buffer.writeln(_colorize('│  $line', _brightWhite));
+      });
     }
 
-    buffer.writeln('└─ End Error');
+    buffer.writeln(_colorize('└─ End Error', _red));
 
     if (kDebugMode) {
       debugPrint(buffer.toString());
@@ -263,10 +287,19 @@ class AppLogger {
   static String _formatJson(dynamic data) {
     try {
       if (data is String) {
-        return data;
+        // Try to parse string as JSON
+        try {
+          final decoded = jsonDecode(data);
+          const encoder = JsonEncoder.withIndent('  ');
+          return encoder.convert(decoded);
+        } catch (_) {
+          return data;
+        }
       }
       if (data is Map || data is List) {
-        return data.toString();
+        // Pretty print JSON with indentation
+        const encoder = JsonEncoder.withIndent('  ');
+        return encoder.convert(data);
       }
       return data.toString();
     } catch (e) {

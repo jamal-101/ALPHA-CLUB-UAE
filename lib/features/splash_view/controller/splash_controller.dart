@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'package:get/get.dart';
-
 import '../../../core/route/app_route.dart';
+import '../../../core/stroge/storage_service.dart';
+import '../../../core/service/logger/app_logger.dart';
 
 class SplashController extends GetxController {
   var progressValue = 0.0.obs;
@@ -14,7 +15,7 @@ class SplashController extends GetxController {
   }
 
   void startProgress() {
-    const totalDuration = Duration(seconds: 5);
+    const totalDuration = Duration(seconds: 3);
     const tickDuration = Duration(milliseconds: 50);
     double increment =
         tickDuration.inMilliseconds / totalDuration.inMilliseconds;
@@ -24,9 +25,52 @@ class SplashController extends GetxController {
         progressValue.value += increment;
       } else {
         _timer?.cancel();
-        Get.offAllNamed(AppRoute.loginScreen);
+        checkAuthAndNavigate();
       }
     });
+  }
+
+  /// Check if user is logged in and navigate accordingly
+  void checkAuthAndNavigate() {
+    final token = LocalStorage.token;
+    final isLogIn = LocalStorage.isLogIn;
+    
+    // Fix inconsistent state: if isLogIn is true but no token, clear login status
+    if (isLogIn && token.isEmpty) {
+      AppLogger.warning(
+        'Inconsistent auth state detected: isLogIn=true but no token. Clearing login status.',
+        tag: 'SPLASH_AUTH',
+      );
+      LocalStorage.isLogIn = false;
+    }
+    
+    if (token.isNotEmpty) {
+      // User is logged in, go to home
+      AppLogger.info(
+        'User is authenticated, navigating to Home',
+        tag: 'SPLASH_AUTH',
+      );
+      AppLogger.logNavigation(
+        from: 'SplashScreen',
+        to: 'HomeScreen',
+        arguments: {'reason': 'Token found'},
+        tag: 'NAVIGATION',
+      );
+      Get.offAllNamed(AppRoute.homeScreen);
+    } else {
+      // User is not logged in, go to login
+      AppLogger.info(
+        'User is not authenticated, navigating to Login',
+        tag: 'SPLASH_AUTH',
+      );
+      AppLogger.logNavigation(
+        from: 'SplashScreen',
+        to: 'LoginScreen',
+        arguments: {'reason': 'No token found'},
+        tag: 'NAVIGATION',
+      );
+      Get.offAllNamed(AppRoute.loginScreen);
+    }
   }
 
   @override

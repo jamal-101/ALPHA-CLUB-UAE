@@ -10,10 +10,10 @@ import 'package:alpha_club/features/event_flow/presentaion/screen/event_details_
 import 'package:alpha_club/features/event_flow/presentaion/screen/event_register_screen.dart';
 import 'package:alpha_club/features/event_flow/presentaion/screen/event_screen.dart';
 import 'package:alpha_club/features/home_flow/presentation/screen/home_screen.dart';
-import 'package:alpha_club/features/home_flow/presentation/widget/latest_stories_details_screen.dart';
+//import 'package:alpha_club/features/home_flow/presentation/widget/latest_stories_details_screen.dart';
 import 'package:alpha_club/features/offer_flow/presentation/screen/offer_details_screen.dart';
 import 'package:alpha_club/features/offer_flow/presentation/screen/offer_screen.dart';
-import 'package:alpha_club/features/home_flow/presentation/screen/our_sponsor_screen.dart';
+//import 'package:alpha_club/features/home_flow/presentation/screen/our_sponsor_screen.dart';
 import 'package:alpha_club/features/profile_flow/presentation/screen/information/screen/information_details_screen.dart';
 import 'package:alpha_club/features/profile_flow/presentation/screen/information/screen/information_screen.dart';
 import 'package:alpha_club/features/profile_flow/presentation/screen/member_ship/member_ship_screen/member_ship_screen.dart';
@@ -23,7 +23,7 @@ import 'package:alpha_club/features/profile_flow/presentation/screen/profile_scr
 import 'package:alpha_club/features/profile_flow/presentation/screen/profile_screen/screen/personal_information.dart';
 import 'package:alpha_club/features/splash_view/screen/splash_screen.dart';
 import 'package:get/get.dart';
-import '../../features/event_flow/presentaion/screen/event_our_sponsor_screen.dart';
+//import '../../features/event_flow/presentaion/screen/event_our_sponsor_screen.dart';
 import '../../features/favorite/presentation/screen/favorite_screen.dart';
 
 class AppRoute {

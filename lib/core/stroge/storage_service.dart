@@ -14,29 +14,55 @@ class LocalStorage {
 
   // Create Local Storage Instance
   static SharedPreferences? preferences;
+  static bool _isInitialized = false;
 
-  /// Get SharedPreferences Instance
-  static Future<SharedPreferences> _getStorage() async {
+  /// Initialize SharedPreferences
+  static Future<void> init() async {
+    if (_isInitialized) return;
+    
     try {
-      preferences ??= await SharedPreferences.getInstance();
-      return preferences!;
+      await Future.delayed(const Duration(milliseconds: 200));
+      preferences = await SharedPreferences.getInstance();
+      _isInitialized = true;
+      AppLogger.info('SharedPreferences initialized successfully', tag: 'STORAGE');
     } catch (e, stackTrace) {
       AppLogger.error(
-        'Failed to get SharedPreferences instance',
+        'Failed to initialize SharedPreferences, using in-memory storage',
         tag: 'STORAGE',
         error: e,
         stackTrace: stackTrace,
       );
-      rethrow;
+      _isInitialized = false;
     }
+  }
+
+  /// Get SharedPreferences Instance
+  static Future<SharedPreferences?> _getStorage() async {
+    if (!_isInitialized) {
+      await init();
+    }
+    return preferences;
   }
 
   /// Get All Data From SharedPreferences
   static Future<void> getAllPrefData() async {
     try {
       final localStorage = await _getStorage();
+      if (localStorage == null) {
+        AppLogger.warning('SharedPreferences not available, using defaults', tag: 'STORAGE');
+        return;
+      }
+      
       token = localStorage.getString(LocalStorageKeys.token) ?? "";
-      AppLogger.debug('Loaded token from storage', tag: 'STORAGE');
+      isLogIn = localStorage.getBool(LocalStorageKeys.isLogIn) ?? false;
+      userId = localStorage.getString(LocalStorageKeys.userId) ?? "";
+      myName = localStorage.getString(LocalStorageKeys.myName) ?? "";
+      myEmail = localStorage.getString(LocalStorageKeys.myEmail) ?? "";
+      
+      AppLogger.debug(
+        'Loaded data from storage - isLogIn: $isLogIn, hasToken: ${token.isNotEmpty}',
+        tag: 'STORAGE',
+      );
     } catch (e, stackTrace) {
       AppLogger.error(
         'Failed to get all preference data',
@@ -51,10 +77,14 @@ class LocalStorage {
   static Future<void> removeAllPrefData() async {
     try {
       final localStorage = await _getStorage();
+      if (localStorage == null) {
+        AppLogger.warning('SharedPreferences not available, clearing in-memory data only', tag: 'STORAGE');
+        _resetLocalStorageData();
+        return;
+      }
       await localStorage.clear();
       _resetLocalStorageData();
-      await getAllPrefData();
-      AppLogger.info('All preference data cleared', tag: 'STORAGE');
+      AppLogger.info('All preference data cleared - User logged out', tag: 'STORAGE');
     } catch (e, stackTrace) {
       AppLogger.error(
         'Failed to remove all preference data',
@@ -68,8 +98,14 @@ class LocalStorage {
   // Reset LocalStorage Data
   static void _resetLocalStorageData() {
     try {
-      final localStorage = preferences!;
-      localStorage.setString(LocalStorageKeys.token, "");
+      token = "";
+      refreshToken = "";
+      isLogIn = false;
+      userId = "";
+      myImage = "";
+      myName = "";
+      myEmail = "";
+      myRoll = "";
     } catch (e, stackTrace) {
       AppLogger.error(
         'Failed to reset local storage data',
@@ -84,6 +120,10 @@ class LocalStorage {
   static Future<void> setString(String key, String value) async {
     try {
       final localStorage = await _getStorage();
+      if (localStorage == null) {
+        AppLogger.warning('SharedPreferences not available, cannot save $key', tag: 'STORAGE');
+        return;
+      }
       await localStorage.setString(key, value);
       AppLogger.debug('Saved $key to storage', tag: 'STORAGE');
     } catch (e, stackTrace) {
@@ -99,6 +139,10 @@ class LocalStorage {
   static Future<void> setBool(String key, bool value) async {
     try {
       final localStorage = await _getStorage();
+      if (localStorage == null) {
+        AppLogger.warning('SharedPreferences not available, cannot save $key', tag: 'STORAGE');
+        return;
+      }
       await localStorage.setBool(key, value);
       AppLogger.debug('Saved $key to storage', tag: 'STORAGE');
     } catch (e, stackTrace) {
@@ -114,6 +158,10 @@ class LocalStorage {
   static Future<void> setInt(String key, int value) async {
     try {
       final localStorage = await _getStorage();
+      if (localStorage == null) {
+        AppLogger.warning('SharedPreferences not available, cannot save $key', tag: 'STORAGE');
+        return;
+      }
       await localStorage.setInt(key, value);
       AppLogger.debug('Saved $key to storage', tag: 'STORAGE');
     } catch (e, stackTrace) {

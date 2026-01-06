@@ -8,6 +8,10 @@ class ApiEndPoint {
   static const club = '/club';
 
   // ==================================== Atik =====================================
-
-    static const login = '/auth/login';
+  static const login = '/auth/login';
+  static const category = '/category';
+  static const offer = '/exclusive-offer';
+  static const toggleFavourite = '/exclusive-offer/favourite'; // /{offerId}
+  static const favouriteOffers = '/exclusive-offer/all/favourite';
+  static const offerDetails = '/exclusive-offer'; // /{offerId}
 }

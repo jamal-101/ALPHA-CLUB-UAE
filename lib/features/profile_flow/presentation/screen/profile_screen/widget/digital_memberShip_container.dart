@@ -29,9 +29,9 @@ class DigitalMembershipContainer extends StatelessWidget {
         ),
       ),
       child: Padding(
-        padding: const EdgeInsets.only(left: 20),
+        padding: EdgeInsets.only(left: 20.w, right: 12.w),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Container(
               height: 46.h,
@@ -50,51 +50,57 @@ class DigitalMembershipContainer extends StatelessWidget {
               ),
             ),
             SizedBox(width: 12.w),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ShaderMask(
-                  blendMode: BlendMode.srcIn,
-                  shaderCallback: (bounds) =>
-                      const LinearGradient(
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                        colors: [
-                          AppColors.linearGradient1,
-                          AppColors.linearGradient2,
-                        ],
-                      ).createShader(
-                        Rect.fromLTWH(0, 0, bounds.width, bounds.height),
-                      ),
-                  child: CommonText(
-                    text: AppString.digitalMemberShipCard,
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w500,
+            Flexible(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ShaderMask(
+                    blendMode: BlendMode.srcIn,
+                    shaderCallback: (bounds) =>
+                        const LinearGradient(
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                          colors: [
+                            AppColors.linearGradient1,
+                            AppColors.linearGradient2,
+                          ],
+                        ).createShader(
+                          Rect.fromLTWH(0, 0, bounds.width, bounds.height),
+                        ),
+                    child: CommonText(
+                      text: AppString.digitalMemberShipCard,
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w500,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
-                ),
-                ShaderMask(
-                  blendMode: BlendMode.srcIn,
-                  shaderCallback: (bounds) =>
-                      const LinearGradient(
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                        colors: [
-                          AppColors.linearGradient1,
-                          AppColors.linearGradient2,
-                        ],
-                      ).createShader(
-                        Rect.fromLTWH(0, 0, bounds.width, bounds.height),
-                      ),
-                  child: CommonText(
-                    text: AppString.tapToView,
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.w400,
+                  ShaderMask(
+                    blendMode: BlendMode.srcIn,
+                    shaderCallback: (bounds) =>
+                        const LinearGradient(
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                          colors: [
+                            AppColors.linearGradient1,
+                            AppColors.linearGradient2,
+                          ],
+                        ).createShader(
+                          Rect.fromLTWH(0, 0, bounds.width, bounds.height),
+                        ),
+                    child: CommonText(
+                      text: AppString.tapToView,
+                      fontSize: 11.sp,
+                      fontWeight: FontWeight.w400,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-            SizedBox(width: 70.w),
+            SizedBox(width: 8.w),
             GestureDetector(
               onTap: () {
                 showModalBottomSheet(
@@ -107,7 +113,7 @@ class DigitalMembershipContainer extends StatelessWidget {
               child: Icon(
                 Icons.arrow_forward_ios_outlined,
                 color: Colors.white,
-                size: 20,
+                size: 16.sp,
               ),
             ),
           ],
