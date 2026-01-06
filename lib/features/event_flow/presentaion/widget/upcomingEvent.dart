@@ -63,10 +63,10 @@ class UpComingEvent extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 4.h),
+                SizedBox(height: 2.h),
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsets.fromLTRB(4.w, 4.h, 4.w, 6.h),
+                    padding: EdgeInsets.fromLTRB(4.w, 2.h, 4.w, 4.h),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -81,20 +81,20 @@ class UpComingEvent extends StatelessWidget {
                           textAlign: TextAlign.start,
                           text: item["title"]!,
                         ),
-                        SizedBox(height: 6.h),
+                        SizedBox(height: 4.h),
                         CommonText(
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             fontFamily: 'SFPro',
-                                fontWeight: FontWeight.w400,
-                                fontSize: 12.sp,
-                                color: AppColors.blueBase,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 12.sp,
+                            color: AppColors.blueBase,
                           ),
                           textAlign: TextAlign.start,
                           text: item["desc"]!,
                         ),
-                        SizedBox(height: 10.h),
+                        SizedBox(height: 6.h),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [

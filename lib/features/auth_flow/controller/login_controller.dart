@@ -41,12 +41,53 @@ class LoginController extends GetxController {
     isLoading.value = false;
 
     if (response.isSuccess) {
-      // Save token to local storage
-      final token = response.data['token'] ?? '';
+      AppLogger.debug(
+        'Login response data structure: ${response.data}',
+        tag: 'LOGIN_DEBUG',
+      );
+      
+      // Token is nested inside data object
+      final dataObject = response.data['data'] ?? {};
+      final token = dataObject['token'] ?? '';
+      
+      if (token.isEmpty) {
+        AppLogger.warning(
+          'Token is empty in response. Response structure: ${response.data}',
+          tag: 'LOGIN_WARNING',
+        );
+      }
+      
       await LocalStorage.setString(LocalStorageKeys.token, token);
+      await LocalStorage.setBool(LocalStorageKeys.isLogIn, true);
+      
+      // Update static variables
+      LocalStorage.token = token;
+      LocalStorage.isLogIn = true;
       
       AppLogger.info(
-        'Login successful',
+        'Token saved to storage - Length: ${token.length}, Preview: ${token.length > 10 ? '${token.substring(0, 10)}...' : token}',
+        tag: 'LOGIN_TOKEN',
+      );
+      
+      // Save user data if available
+      if (dataObject['user'] != null) {
+        final user = dataObject['user'];
+        if (user['id'] != null) {
+          await LocalStorage.setString(LocalStorageKeys.userId, user['id'].toString());
+          LocalStorage.userId = user['id'].toString();
+        }
+        if (user['name'] != null) {
+          await LocalStorage.setString(LocalStorageKeys.myName, user['name']);
+          LocalStorage.myName = user['name'];
+        }
+        if (user['email'] != null) {
+          await LocalStorage.setString(LocalStorageKeys.myEmail, user['email']);
+          LocalStorage.myEmail = user['email'];
+        }
+      }
+      
+      AppLogger.info(
+        'Login successful - Token saved',
         tag: 'LOGIN_SUCCESS',
       );
       AppLogger.logNavigation(
