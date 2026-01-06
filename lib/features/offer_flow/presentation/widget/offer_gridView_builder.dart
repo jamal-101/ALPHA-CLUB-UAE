@@ -68,7 +68,7 @@ class OfferGridviewBuilder extends StatelessWidget {
           final offer = offerController.offers[index];
           return GestureDetector(
             onTap: () {
-              Get.toNamed(AppRoute.offerDetailsScreen);
+              Get.toNamed(AppRoute.offerDetailsScreen, arguments: offer.id);
             },
             child: Container(
               decoration: BoxDecoration(
