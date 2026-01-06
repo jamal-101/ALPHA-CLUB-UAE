@@ -5,16 +5,17 @@ import 'package:alpha_club/core/route/app_route.dart';
 import 'package:alpha_club/core/utils/app_color/app_color.dart';
 import 'package:alpha_club/core/utils/app_image/app_image.dart';
 import 'package:alpha_club/core/utils/app_string/app_string.dart';
+import 'package:alpha_club/features/auth_flow/controller/login_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:get/get.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(LoginController());
     return Scaffold(
       body: Container(
         height: double.infinity,
@@ -97,9 +98,10 @@ class LoginScreen extends StatelessWidget {
                   ),
                   child: Padding(
                     padding: const EdgeInsets.only(left: 20,right: 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
                         SizedBox(height: 85.h),
                         CommonText(
                           textAlign: TextAlign.start,
@@ -114,8 +116,10 @@ class LoginScreen extends StatelessWidget {
                         SizedBox(height: 12.h),
                         CommonTextField(
                           prefixIcon: Image.asset(AssetPath.mobileIcon),
-                          // isPassword: true,
                           hintText: AppString.enterYourContact,
+                          onChanged: (value) {
+                            controller.phoneNumber.value = value;
+                          },
                         ),
                         SizedBox(height: 24.h),
                         CommonText(
@@ -131,6 +135,9 @@ class LoginScreen extends StatelessWidget {
                         CommonTextField(
                           isPassword: true,
                           hintText: '********',
+                          onChanged: (value) {
+                            controller.password.value = value;
+                          },
                         ),
                         SizedBox(height: 24.h),
                         Row(
@@ -154,9 +161,14 @@ class LoginScreen extends StatelessWidget {
                           ],
                         ),
                         SizedBox(height: 24.h),
-                        CommonButton(onTap: (){
-                          Get.toNamed(AppRoute.singInOtp);
-                        }, text: AppString.sinIn),
+                        Obx(() => CommonButton(
+                          onTap: controller.isLoading.value 
+                            ? () {} 
+                            : () => controller.login(),
+                          text: controller.isLoading.value 
+                            ? 'Loading...' 
+                            : AppString.sinIn,
+                        )),
                         SizedBox(height: 40.h),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -198,7 +210,8 @@ class LoginScreen extends StatelessWidget {
                             ),
                           ],
                         ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),

@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import '../../stroge/storage_service.dart';
 import '../../utils/app_string/app_string.dart';
 import 'api_enpoint.dart';
 import 'api_response.dart';
+import '../logger/app_logger.dart';
 
 
 
@@ -115,13 +115,42 @@ class ApiService {
         Map<String, String>? header,
       }) async {
     try {
+      final startTime = DateTime.now();
+      
+      // Log request
+      AppLogger.logRequest(
+        endpoint: url,
+        method: method,
+        headers: header,
+        body: body,
+        tag: 'API_REQUEST',
+      );
+
       final response = await _dio.request(
         url,
         data: body,
         options: Options(method: method, headers: header),
       );
+
+      final duration = DateTime.now().difference(startTime).inMilliseconds;
+      
+      // Log response
+      AppLogger.logResponse(
+        endpoint: url,
+        statusCode: response.statusCode ?? 0,
+        responseData: response.data,
+        duration: duration,
+        tag: 'API_RESPONSE',
+      );
+
       return _handleResponse(response);
-    } catch (e) {
+    } catch (e, stackTrace) {
+      AppLogger.error(
+        'API Request Failed',
+        tag: 'API_ERROR',
+        error: e,
+        stackTrace: stackTrace,
+      );
       return _handleError(e);
     }
   }
@@ -142,24 +171,54 @@ class ApiService {
   }
 
   static ApiResponseModel _handleDioException(DioException error) {
+    // Log API error
+    AppLogger.logApiError(
+      endpoint: error.requestOptions.uri.toString(),
+      method: error.requestOptions.method,
+      error: error.message,
+      statusCode: error.response?.statusCode,
+      responseData: error.response?.data,
+      tag: 'DIO_EXCEPTION',
+    );
+
     switch (error.type) {
       case DioExceptionType.connectionTimeout:
       case DioExceptionType.receiveTimeout:
       case DioExceptionType.sendTimeout:
+        AppLogger.warning(
+          'Request Timeout',
+          tag: 'TIMEOUT',
+          error: error,
+        );
         return ApiResponseModel(408, {"message": AppString.requestTimeOut});
 
       case DioExceptionType.badResponse:
+        AppLogger.error(
+          'Bad Response: ${error.response?.statusCode}',
+          tag: 'BAD_RESPONSE',
+          error: error,
+        );
         return ApiResponseModel(
           error.response?.statusCode,
           error.response?.data,
         );
 
       case DioExceptionType.connectionError:
+        AppLogger.error(
+          'Connection Error',
+          tag: 'CONNECTION_ERROR',
+          error: error,
+        );
         return ApiResponseModel(503, {
           "message": AppString.noInternetConnection,
         });
 
       default:
+        AppLogger.error(
+          'Unknown Error',
+          tag: 'UNKNOWN_ERROR',
+          error: error,
+        );
         return ApiResponseModel(400, {});
     }
   }
@@ -202,18 +261,34 @@ class ApiService {
 Interceptor apiLog() {
   return InterceptorsWrapper(
     onRequest: (options, handler) {
-      debugPrint("REQUEST: ${options.method} ${options.uri}");
-      debugPrint("Headers: ${options.headers}");
-      debugPrint("Body: ${options.data}");
+      AppLogger.logRequest(
+        endpoint: options.uri.toString(),
+        method: options.method,
+        headers: options.headers.cast<String, dynamic>(),
+        body: options.data,
+        tag: 'DIO_INTERCEPTOR',
+      );
       handler.next(options);
     },
     onResponse: (response, handler) {
-      debugPrint("RESPONSE: ${response.statusCode}");
-      debugPrint("Data: ${response.data}");
+      AppLogger.logResponse(
+        endpoint: response.requestOptions.uri.toString(),
+        statusCode: response.statusCode ?? 0,
+        responseData: response.data,
+        duration: 0,
+        tag: 'DIO_INTERCEPTOR',
+      );
       handler.next(response);
     },
     onError: (error, handler) {
-      debugPrint("ERROR: ${error.message}");
+      AppLogger.logApiError(
+        endpoint: error.requestOptions.uri.toString(),
+        method: error.requestOptions.method,
+        error: error.message,
+        statusCode: error.response?.statusCode,
+        responseData: error.response?.data,
+        tag: 'DIO_INTERCEPTOR_ERROR',
+      );
       handler.next(error);
     },
   );
