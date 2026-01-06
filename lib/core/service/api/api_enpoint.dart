@@ -6,6 +6,9 @@ class ApiEndPoint {
   static const sponsor = '/sponsor';
   static const event = '/event';
   static const club = '/club';
+  static const aboutUs = '/settings/about';
+  static const privacyPolicy = '/settings/privacy-policy';
+  static const termsAndCondition = '/settings/terms-of-services';
 
   // ==================================== Atik =====================================
   static const login = '/auth/login';

@@ -13,7 +13,7 @@ class EventDetailsScreen extends StatelessWidget {
   final String eventId;
   EventDetailsScreen({super.key, required this.eventId});
 
-  final EventController eventController = Get.find<EventController>();
+  final EventController eventController = Get.put(EventController());
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,6 @@ class EventDetailsScreen extends StatelessWidget {
         }
 
         final event = eventController.singleEventDetails;
-        if (event.isEmpty) return const Center(child: Text("No Event Details Found"));
 
         return SingleChildScrollView(
           child: Padding(
@@ -44,11 +43,6 @@ class EventDetailsScreen extends StatelessWidget {
                         height: 219.h,
                         width: double.infinity,
                         fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) => Container(
-                          height: 219.h,
-                          color: Colors.grey[200],
-                          child: const Icon(Icons.broken_image),
-                        ),
                       ),
                     ),
                     Positioned(
@@ -90,7 +84,7 @@ class EventDetailsScreen extends StatelessWidget {
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w500,
                   color: AppColors.blue1,
-                  text: event['name'] ?? event['title'] ?? "",
+                  text: event['name'] ??  "",
                 ),
                 SizedBox(height: 8.h),
                 CommonText(
@@ -100,7 +94,7 @@ class EventDetailsScreen extends StatelessWidget {
                     fontSize: 14.sp,
                     fontFamily: 'SFPro',
                   ),
-                  text: "Event Group / Organizer",
+                  text: event['title'] ?? "",
                 ),
                 SizedBox(height: 12.h),
                 Row(
@@ -111,11 +105,10 @@ class EventDetailsScreen extends StatelessWidget {
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w400,
                       color: AppColors.blue1,
-                      text: event['location'] ?? "No Location Provided",
+                      text: event['location'] ?? " ",
                     ),
                   ],
                 ),
-
                 SizedBox(height: 16.h),
                 const Divider(height: 1, thickness: 0.9, color: AppColors.tabSelectedBorderColor),
                 SizedBox(height: 16.h),
@@ -130,7 +123,7 @@ class EventDetailsScreen extends StatelessWidget {
                 SizedBox(height: 12.h),
 
                 HtmlWidget(
-                  event['description'] ?? "No description available.",
+                  event['description'] ?? " ",
                   textStyle: TextStyle(
                     fontSize: 14.sp,
                     color: AppColors.blue1,
