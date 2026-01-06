@@ -16,15 +16,37 @@ class NewsListView extends StatelessWidget {
   NewsListView({super.key});
 
   final HomeController homeController = Get.put(HomeController());
+  final ScrollController _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
+
+
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+        if (homeController.hasMoreStories && !homeController.isMoreStoriesLoading.value) {
+          homeController.fetchLatestStories(isLoadMore: true);
+        }
+      }
+    });
+
     return Obx(() {
       return ListView.builder(
+        controller: _scrollController,
         itemCount: homeController.stories.length,
         padding: EdgeInsets.zero,
         itemBuilder: (context, index) {
           final item = homeController.stories[index];
+
+          if (index == homeController.stories.length) {
+            return homeController.isMoreStoriesLoading.value
+                ? const Padding(
+              padding: EdgeInsets.symmetric(vertical: 20),
+              child: Center(child: CircularProgressIndicator()),
+            )
+                : const SizedBox();
+          }
+
           return Container(
             margin: EdgeInsets.only(left: 20, bottom: 10.h, right: 20),
             padding: EdgeInsets.all(8.w),

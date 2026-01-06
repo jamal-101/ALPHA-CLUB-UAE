@@ -58,11 +58,11 @@
 // }
 
 import 'package:alpha_club/features/home_flow/controller/home_controller.dart';
+import 'package:alpha_club/features/home_flow/presentation/screen/our_sponsor_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../../../../core/service/api/api_enpoint.dart';
-import '../../../../core/route/app_route.dart';
 import '../../../profile_flow/presentation/screen/profile_screen/widget/custom_brand_card.dart';
 
 class SponsorWidgetScreen extends StatelessWidget {
@@ -89,11 +89,12 @@ class SponsorWidgetScreen extends StatelessWidget {
             final item = homeController.sponsors[index];
             return GestureDetector(
               onTap: () {
-                Get.toNamed(AppRoute.ourSponsorScreen);
+                homeController.fetchSponsorDetails(item['_id']);
+                Get.to(OurSponsorScreen());
               },
               child: CustomBrandCard(
                 imagePath: "${ApiEndPoint.imageBaseUrl}${item['logo'].startsWith('/') ? '' : '/'}${item['logo']}",
-                title: item['title'] ?? "No Title",
+                title: item['title'] ?? "",
               )
             );
           },

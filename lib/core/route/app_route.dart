@@ -39,7 +39,7 @@ class AppRoute {
   static String personalInformation = '/personalInformation';
   static String editeProfileScreen = '/editeProfileScreen';
   static String homeScreen = '/homeScreen';
-  static String ourSponsorScreen = '/ourSponsorScreen';
+  // static String ourSponsorScreen = '/ourSponsorScreen';
   static String offerScreen = '/offerScreen';
   static String offerDetailsScreen = '/offerDetailsScreen';
   static String eventScreen = '/eventScreen';
@@ -67,7 +67,7 @@ class AppRoute {
     GetPage(name: personalInformation, page: ()=> PersonalInformation()),
     GetPage(name: editeProfileScreen, page: ()=> EditeProfileScreen()),
     GetPage(name: homeScreen, page: ()=> HomeScreen()),
-    GetPage(name: ourSponsorScreen, page: ()=> OurSponsorScreen()),
+    // GetPage(name: ourSponsorScreen, page: ()=> OurSponsorScreen()),
     GetPage(name: offerScreen, page: ()=> OfferScreen()),
     GetPage(name: offerDetailsScreen, page: ()=> OfferDetailsScreen()),
     GetPage(name: eventScreen, page: ()=> EventScreen()),

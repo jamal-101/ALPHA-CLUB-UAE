@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import '../../../core/service/api/api_enpoint.dart';
@@ -26,6 +27,14 @@ class HomeController extends GetxController {
   var isLoading = false.obs;
   var singleStoryDetails = {}.obs;
   var sponsors = [].obs;
+  var singleSponsorDetails = {}.obs;
+  var isSponsorLoading = false.obs;
+  var isMoreLoading = false.obs;
+  int currentPage = 1;
+  bool hasMoreData = true;
+  var isMoreStoriesLoading = false.obs;
+  int currentStoryPage = 1;
+  bool hasMoreStories = true;
 
   @override
   void onInit() {
@@ -33,17 +42,43 @@ class HomeController extends GetxController {
     fetchLatestStories();
     fetchSponsors();
   }
-  Future<void> fetchLatestStories() async {
-    isLoading.value = true;
+
+
+
+
+  Future<void> fetchLatestStories({bool isLoadMore = false}) async {
+    if (isLoadMore) {
+      isMoreStoriesLoading.value = true;
+    } else {
+      currentStoryPage = 1;
+      isLoading.value = true;
+      hasMoreStories = true;
+    }
+
     ApiResponseModel response = await ApiService.get(
-      "${ApiEndPoint.stories}?page=1&limit=10",
+      "${ApiEndPoint.stories}?page=$currentStoryPage&limit=10",
     );
+
     response.handleResponse(
       onSuccess: (responseData) {
-        stories.assignAll(responseData['data'] ?? []);
+        List newStories = responseData['data'] ?? [];
+
+        if (isLoadMore) {
+          stories.addAll(newStories);
+        } else {
+          stories.assignAll(newStories);
+        }
+        if (newStories.length < 10) {
+          hasMoreStories = false;
+        } else {
+          currentStoryPage++;
+          hasMoreStories = true;
+        }
       },
     );
+
     isLoading.value = false;
+    isMoreStoriesLoading.value = false;
   }
 
 
@@ -66,22 +101,58 @@ class HomeController extends GetxController {
 
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> sponsor method <<<<<<<<<<<<<<<//
 
-  Future<void> fetchSponsors() async {
-    isLoading.value = true;
-
-    ApiResponseModel response = await ApiService.get(
-      "${ApiEndPoint.sponsor}?page=1&limit=10",
-    );
-
-    if (response.isSuccess) {
-      print("Sponsor Data Loaded: ${response.data['data']}");
-      sponsors.assignAll(response.data['data'] ?? []);
+  Future<void> fetchSponsors({bool isLoadMore = false}) async {
+    if (isLoadMore) {
+      isMoreLoading.value = true;
     } else {
-      print("Sponsor Error: ${response.message}");
+      currentPage = 1;
+      isSponsorLoading.value = true;
     }
 
-    isLoading.value = false;
+    ApiResponseModel response = await ApiService.get(
+      "${ApiEndPoint.sponsor}?page=$currentPage&limit=10",
+    );
+
+    response.handleResponse(
+      onSuccess: (responseData) {
+        List newItems = responseData['data'] ?? [];
+
+        if (isLoadMore) {
+          sponsors.addAll(newItems);
+        } else {
+          sponsors.assignAll(newItems);
+        }
+        if (newItems.length < 10) {
+          hasMoreData = false;
+        } else {
+          currentPage++;
+          hasMoreData = true;
+        }
+      },
+    );
+
+    isSponsorLoading.value = false;
+    isMoreLoading.value = false;
   }
 
 
+
+  //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Sponsor Details <<<<<<<<<<<<<<<<<<<<<//
+
+  Future<void> fetchSponsorDetails(String id) async {
+    isLoading.value = true;
+    singleSponsorDetails.clear();
+
+    ApiResponseModel response = await ApiService.get(
+      "${ApiEndPoint.sponsor}/$id",
+    );
+
+    response.handleResponse(
+      onSuccess: (responseData) {
+        singleSponsorDetails.value = responseData['data'] ?? {};
+      },
+    );
+
+    isLoading.value = false;
+  }
 }
