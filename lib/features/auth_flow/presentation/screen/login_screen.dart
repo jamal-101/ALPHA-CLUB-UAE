@@ -97,9 +97,10 @@ class LoginScreen extends StatelessWidget {
                   ),
                   child: Padding(
                     padding: const EdgeInsets.only(left: 20,right: 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
                         SizedBox(height: 85.h),
                         CommonText(
                           textAlign: TextAlign.start,
@@ -155,7 +156,7 @@ class LoginScreen extends StatelessWidget {
                         ),
                         SizedBox(height: 24.h),
                         CommonButton(onTap: (){
-                          Get.toNamed(AppRoute.singInOtp);
+                          Get.toNamed(AppRoute.homeScreen);
                         }, text: AppString.sinIn),
                         SizedBox(height: 40.h),
                         Row(
@@ -198,7 +199,8 @@ class LoginScreen extends StatelessWidget {
                             ),
                           ],
                         ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
