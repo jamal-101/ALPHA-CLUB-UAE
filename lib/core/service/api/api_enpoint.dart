@@ -14,4 +14,5 @@ class ApiEndPoint {
   static const toggleFavourite = '/exclusive-offer/favourite'; // /{offerId}
   static const favouriteOffers = '/exclusive-offer/all/favourite';
   static const offerDetails = '/exclusive-offer'; // /{offerId}
+  static const myProfile = '/user/my-profile';
 }
