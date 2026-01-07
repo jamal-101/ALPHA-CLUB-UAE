@@ -15,6 +15,9 @@ class ProfileController extends GetxController {
     fetchAboutUs();
     privacyPolicy();
     termsAndCondition();
+    fetchMembershipPlans();
+    fetchFeatureComparison();
+    fetchAlphaMemberShipPlans();
   }
 
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> aboutUs <<<<<<<<<<<<<<<<<<<<<<<<<<<//
@@ -57,5 +60,85 @@ class ProfileController extends GetxController {
     );
     isLoading.value = false;
   }
+
+
+  //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MemberShip PLan <<<<<<<<<<<<<<<<<<<<<<<<<<//
+
+  var membershipPlans = [].obs;
+
+  Future<void> fetchMembershipPlans() async {
+    isLoading.value = true;
+    ApiResponseModel response = await ApiService.get(ApiEndPoint.memberShipPlan);
+
+    response.handleResponse(
+      onSuccess: (responseData) {
+        membershipPlans.value = responseData['data'] ?? [];
+      },
+    );
+    isLoading.value = false;
+  }
+
+  //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> More Features <<<<<<<<<<<<<<<<<<<<<<<<<<<<<//
+
+  var expandedStates = <String, bool>{}.obs;
+
+  void toggleExpansion(String planId) {
+    if (expandedStates.containsKey(planId)) {
+      expandedStates[planId] = !expandedStates[planId]!;
+    } else {
+      expandedStates[planId] = true;
+    }
+  }
+
+  //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Comparison List <<<<<<<<<<<<<<<<<<<<<<<<//
+
+  var comparisonList = [].obs;
+
+  Future<void> fetchFeatureComparison() async {
+    isLoading.value = true;
+    ApiResponseModel response = await ApiService.get(ApiEndPoint.featureComparison);
+
+    response.handleResponse(
+      onSuccess: (responseData) {
+        comparisonList.value = responseData['data'] ?? [];
+      },
+    );
+    isLoading.value = false;
+  }
+
+  //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> alpha <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<//
+
+
+  var alphaPlanList = <String, dynamic>{}.obs;
+
+  Future<void> fetchAlphaMemberShipPlans() async {
+    isLoading.value = true;
+    ApiResponseModel response = await ApiService.get(ApiEndPoint.alphaPlan);
+
+    response.handleResponse(
+      onSuccess: (responseData) {
+        alphaPlanList.value = responseData['data'] ?? [];
+      },
+    );
+    isLoading.value = false;
+  }
+
+  //>>>>>>>>>>>>>>>>>>>>>>>>>>>>> alphaFamily <<<<<<<<<<<<<<<<<<<<<<<//
+
+  var alphaFamilyLanList = <String, dynamic>{}.obs;
+
+  Future<void> fetchAlphaFamily() async {
+    isLoading.value = true;
+    ApiResponseModel response = await ApiService.get(ApiEndPoint.alphaFamily);
+    response.handleResponse(
+      onSuccess: (responseData) {
+        alphaFamilyLanList.value = responseData['data'] ?? [];
+      },
+    );
+    isLoading.value = false;
+  }
+
+
+
 
 }
