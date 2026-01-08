@@ -5,9 +5,6 @@ import '../../../core/service/api/api_service.dart';
 
 class ProfileController extends GetxController {
   var isLoading = false.obs;
-  var aboutDescription = "".obs;
-  var privacyPolicyDescription = "".obs;
-  var termsDescription = "".obs;
 
   @override
   void onInit() {
@@ -22,6 +19,8 @@ class ProfileController extends GetxController {
   }
 
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> aboutUs <<<<<<<<<<<<<<<<<<<<<<<<<<<//
+  var aboutDescription = "".obs;
+
 
   Future<void> fetchAboutUs() async {
     isLoading.value = true;
@@ -36,6 +35,8 @@ class ProfileController extends GetxController {
 
 
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> privacyPolicy <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<//
+  var privacyPolicyDescription = "".obs;
+
 
   Future<void> privacyPolicy() async {
     isLoading.value = true;
@@ -50,6 +51,9 @@ class ProfileController extends GetxController {
 
 
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> terms and condition <<<<<<<<<<<<<<<<<<<//
+
+  var termsDescription = "".obs;
+
 
   Future<void> termsAndCondition() async {
     isLoading.value = true;
@@ -138,8 +142,6 @@ class ProfileController extends GetxController {
     );
     isLoading.value = false;
   }
-
-
 
 
 }
