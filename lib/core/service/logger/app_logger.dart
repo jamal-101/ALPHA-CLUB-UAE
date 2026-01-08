@@ -15,7 +15,6 @@ class AppLogger {
   static const String _brightWhite = '\x1B[97;1m';
   static const String _cyan = '\x1B[96m';
   static const String _green = '\x1B[92m';
-  static const String _yellow = '\x1B[93m';
   static const String _red = '\x1B[91m';
   static const String _magenta = '\x1B[95m';
 

@@ -3,11 +3,11 @@ import 'package:alpha_club/features/auth_flow/presentation/screen/member_form_sc
 import 'package:alpha_club/features/auth_flow/presentation/screen/new_password_screen.dart';
 import 'package:alpha_club/features/auth_flow/presentation/screen/sing_in_otp.dart';
 import 'package:alpha_club/features/auth_flow/presentation/screen/sing_in_verify.dart';
-import 'package:alpha_club/features/clubs/presentation/screen/club_details_screen.dart';
+//import 'package:alpha_club/features/clubs/presentation/screen/club_details_screen.dart';
 import 'package:alpha_club/features/clubs/presentation/screen/club_screen.dart';
 import 'package:alpha_club/features/clubs/presentation/screen/club_sponsor_screen.dart';
 import 'package:alpha_club/features/event_flow/presentaion/screen/event_details_screen.dart';
-import 'package:alpha_club/features/event_flow/presentaion/screen/event_register_screen.dart';
+//import 'package:alpha_club/features/event_flow/presentaion/screen/event_register_screen.dart';
 import 'package:alpha_club/features/event_flow/presentaion/screen/event_screen.dart';
 import 'package:alpha_club/features/home_flow/presentation/screen/home_screen.dart';
 //import 'package:alpha_club/features/home_flow/presentation/widget/latest_stories_details_screen.dart';

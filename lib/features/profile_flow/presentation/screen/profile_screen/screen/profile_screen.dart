@@ -13,10 +13,9 @@ import '../../../../../../core/route/app_route.dart';
 import '../widget/activite_family_member.dart';
 
 class ProfileScreen extends StatelessWidget {
-    const ProfileScreen({super.key});
+  const ProfileScreen({super.key});
 
-
-     static final RxBool isFamilyListVisible = false.obs;
+  static final RxBool isFamilyListVisible = false.obs;
 
   @override
   Widget build(BuildContext context) {
@@ -24,60 +23,69 @@ class ProfileScreen extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 50.h),
-                GestureDetector(
-                  onTap: (){
-                    Get.toNamed(AppRoute.personalInformation);
-                  },
-                  child: ProfileDataContainer(
-                    imagePath: AssetPath.userProfile, userName: AppString.userName,
-                    membershipType: AppString.alphaMember, userId: AppString.userId,
-                  ),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 50.h),
+                    GestureDetector(
+                      onTap: () {
+                        Get.toNamed(AppRoute.personalInformation);
+                      },
+                      child: ProfileDataContainer(
+                        imagePath: AssetPath.userProfile,
+                        userName: AppString.userName,
+                        membershipType: AppString.alphaMember,
+                        userId: AppString.userId,
+                      ),
+                    ),
+                    SizedBox(height: 16.h),
+                    DigitalMembershipContainer(),
+                    SizedBox(height: 16.h),
+                    Obx(
+                      () => isFamilyListVisible.value == false
+                          ? CommonText(
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16,
+                                fontFamily: 'SFPro',
+                              ),
+                              color: AppColors.blue1,
+                              text: AppString.memberShip,
+                            )
+                          : CommonText(
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16,
+                                fontFamily: 'SFPro',
+                              ),
+                              color: AppColors.blue1,
+                              text: AppString.familyMembers,
+                            ),
+                    ),
+                    SizedBox(height: 16.h),
+                    Obx(() => isFamilyListVisible.value == false
+                        ? memberShipContainer()
+                        : FamilyListWidget()),
+                    SizedBox(height: 16.h),
+                    CommonText(
+                      style: TextStyle(
+                        fontFamily: 'SFPro',
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      color: AppColors.blue1,
+                      text: AppString.setting,
+                    ),
+                    SizedBox(height: 16.h),
+                    CustomListView(),
+                    SizedBox(height: 20.h),
+                  ],
                 ),
-                SizedBox(height: 16.h),
-                DigitalMembershipContainer(),
-                SizedBox(height: 16.h),
-                Obx(() => isFamilyListVisible.value == false
-                    ? CommonText(
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 16,
-                    fontFamily: 'SFPro',
-                  ),
-                  color: AppColors.blue1,
-                  text: AppString.memberShip,
-                ) : CommonText(
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 16,
-                    fontFamily: 'SFPro',
-                  ),
-                  color: AppColors.blue1,
-                  text: AppString.familyMembers,
-                ),
-                ),
-                SizedBox(height: 16.h),
-                Obx(()=> isFamilyListVisible.value == false ?
-                    memberShipContainer() : FamilyListWidget()
-                ),
-                SizedBox(height: 16.h),
-                CommonText(
-                  style: TextStyle(
-                    fontFamily: 'SFPro',
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                  ),
-                    color: AppColors.blue1,
-                    text: AppString.setting
-                ),
-                SizedBox(height: 16.h),
-                CustomListView()
-              ],
+              ),
             ),
           ),
           CommonBottomNabVar(selectedIndex: 4),

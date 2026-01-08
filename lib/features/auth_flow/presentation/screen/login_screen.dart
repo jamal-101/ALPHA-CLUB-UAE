@@ -9,6 +9,8 @@ import 'package:alpha_club/features/auth_flow/controller/login_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:intl_phone_field/country_picker_dialog.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -114,11 +116,132 @@ class LoginScreen extends StatelessWidget {
                           text: AppString.contactNumber,
                         ),
                         SizedBox(height: 12.h),
-                        CommonTextField(
-                          prefixIcon: Image.asset(AssetPath.mobileIcon),
-                          hintText: AppString.enterYourContact,
-                          onChanged: (value) {
-                            controller.phoneNumber.value = value;
+                        IntlPhoneField(
+                          decoration: InputDecoration(
+                            hintText: AppString.enterYourContact,
+                            hintStyle: TextStyle(
+                              color: AppColors.blue1.withValues(alpha: 0.5),
+                              fontSize: 14.sp,
+                              fontFamily: 'SFPro',
+                            ),
+                            filled: true,
+                            fillColor: Colors.white,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12.r),
+                              borderSide: BorderSide(
+                                color: AppColors.blue1.withValues(alpha: 0.2),
+                              ),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12.r),
+                              borderSide: BorderSide(
+                                color: AppColors.blue1.withValues(alpha: 0.2),
+                              ),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12.r),
+                              borderSide: BorderSide(
+                                color: AppColors.blue1,
+                                width: 1.5,
+                              ),
+                            ),
+                            contentPadding: EdgeInsets.symmetric(
+                              horizontal: 16.w,
+                              vertical: 16.h,
+                            ),
+                          ),
+                          initialCountryCode: 'BD',
+                          dropdownTextStyle: TextStyle(
+                            fontSize: 13.sp,
+                            fontFamily: 'SFPro',
+                            color: AppColors.blue1,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            fontFamily: 'SFPro',
+                            color: AppColors.blue1,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          flagsButtonPadding: EdgeInsets.only(left: 12.w),
+                          dropdownIcon: Icon(
+                            Icons.arrow_drop_down,
+                            color: AppColors.blue1,
+                            size: 22.sp,
+                          ),
+                          dropdownIconPosition: IconPosition.trailing,
+                          showCountryFlag: true,
+                          showDropdownIcon: true,
+                          pickerDialogStyle: PickerDialogStyle(
+                            backgroundColor: Colors.white,
+                            searchFieldInputDecoration: InputDecoration(
+                              labelText: 'Search Country',
+                              labelStyle: TextStyle(
+                                color: AppColors.blue1,
+                                fontFamily: 'SFPro',
+                                fontSize: 12.sp,
+                              ),
+                              hintText: 'Type country name',
+                              hintStyle: TextStyle(
+                                color: AppColors.blue1.withValues(alpha: 0.5),
+                                fontFamily: 'SFPro',
+                                fontSize: 12.sp,
+                              ),
+                              prefixIcon: Icon(
+                                Icons.search,
+                                color: AppColors.blue1,
+                                size: 20.sp,
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8.r),
+                                borderSide: BorderSide(
+                                  color: AppColors.blue1.withValues(alpha: 0.3),
+                                ),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8.r),
+                                borderSide: BorderSide(
+                                  color: AppColors.blue1.withValues(alpha: 0.3),
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8.r),
+                                borderSide: BorderSide(
+                                  color: AppColors.blue1,
+                                  width: 1.5,
+                                ),
+                              ),
+                              filled: true,
+                              fillColor: Colors.grey[50],
+                              contentPadding: EdgeInsets.symmetric(
+                                horizontal: 10.w,
+                                vertical: 10.h,
+                              ),
+                            ),
+                            countryCodeStyle: TextStyle(
+                              fontSize: 12.sp,
+                              fontFamily: 'SFPro',
+                              color: AppColors.blue1,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            countryNameStyle: TextStyle(
+                              fontSize: 13.sp,
+                              fontFamily: 'SFPro',
+                              color: AppColors.blue1,
+                              fontWeight: FontWeight.w400,
+                            ),
+                            listTileDivider: Divider(
+                              color: AppColors.blue1.withValues(alpha: 0.1),
+                              height: 0.5,
+                            ),
+                            listTilePadding: EdgeInsets.symmetric(
+                              horizontal: 12.w,
+                              vertical: 8.h,
+                            ),
+                            padding: EdgeInsets.all(12.w),
+                          ),
+                          onChanged: (phone) {
+                            controller.phoneNumber.value = phone.completeNumber;
                           },
                         ),
                         SizedBox(height: 24.h),
