@@ -3,15 +3,17 @@ import 'package:alpha_club/core/global/commont_text.dart';
 import 'package:alpha_club/core/route/app_route.dart';
 import 'package:alpha_club/core/utils/app_color/app_color.dart';
 import 'package:alpha_club/core/utils/app_string/app_string.dart';
+import 'package:alpha_club/features/profile_flow/controller/profile_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:get/get.dart';
 import '../widget/all_features_listview.dart';
 import '../widget/alpha_member_ship_widget.dart';
 
 class AlphaScreen extends StatelessWidget {
-  const AlphaScreen({super.key});
+     AlphaScreen({super.key});
+
+  final ProfileController profileController = Get.put(ProfileController());
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,7 @@ class AlphaScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 22.h),
+            SizedBox(height: 20.h),
             AlphaMemberShipWidget(),
             SizedBox(height: 16.h),
             CommonText(

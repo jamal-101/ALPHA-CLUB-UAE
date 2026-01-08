@@ -6,6 +6,13 @@ class ApiEndPoint {
   static const sponsor = '/sponsor';
   static const event = '/event';
   static const club = '/club';
+  static const aboutUs = '/settings/about';
+  static const privacyPolicy = '/settings/privacy-policy';
+  static const termsAndCondition = '/settings/terms-of-services';
+  static const memberShipPlan = '/membership-plan';
+  static const featureComparison = '/membership-plan/feature-comparison';
+  static const alphaPlan = '/membership-plan/alpha';
+  static const alphaFamily = '/membership-plan/alpha_family';
 
   // ==================================== Atik =====================================
   static const login = '/auth/login';

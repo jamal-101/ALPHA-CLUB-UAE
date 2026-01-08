@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../family/screen/alfha_family_screen.dart';
-import 'comparison_screen.dart';
+import '../comparison/screen/comparison_screen.dart';
 
 class CustomTabScreen extends StatelessWidget {
   const CustomTabScreen({super.key});

@@ -1,5 +1,4 @@
-// ignore_for_file: file_names
-
+import 'package:alpha_club/features/event_flow/presentaion/screen/event_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -7,7 +6,6 @@ import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import '../../../../core/global/commont_text.dart';
-import '../../../../core/route/app_route.dart';
 import '../../../../core/service/api/api_enpoint.dart';
 import '../../../../core/utils/app_color/app_color.dart';
 import '../../../../core/utils/app_image/app_image.dart';
@@ -25,9 +23,6 @@ class UpComingEvent extends StatelessWidget {
         return const Center(child: CircularProgressIndicator());
       }
 
-      if (eventController.eventList.isEmpty) {
-        return const Center(child: Text("No Events Found"));
-      }
 
       return GridView.builder(
         shrinkWrap: true,
@@ -41,9 +36,10 @@ class UpComingEvent extends StatelessWidget {
         ),
         itemBuilder: (context, index) {
           final item = eventController.eventList[index];
+         final String eventId = item['_id'] ?? "";
 
           return GestureDetector(
-            onTap: () => Get.toNamed(AppRoute.eventDetailsScreen, arguments: item['_id']),
+            onTap: () => Get.to(EventDetailsScreen(eventId: eventId)),
             child: Container(
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -135,7 +131,6 @@ class UpComingEvent extends StatelessWidget {
           );
         },
       );
-    }
-    );
+    });
   }
 }

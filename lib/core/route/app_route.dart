@@ -71,7 +71,7 @@ class AppRoute {
     GetPage(name: offerScreen, page: ()=> OfferScreen()),
     GetPage(name: offerDetailsScreen, page: ()=> OfferDetailsScreen()),
     GetPage(name: eventScreen, page: ()=> EventScreen()),
-    GetPage(name: eventDetailsScreen, page: ()=> EventDetailsScreen()),
+    // GetPage(name: eventDetailsScreen, page: ()=> EventDetailsScreen()),
     // GetPage(name: eventOurSponsorScreen, page: ()=> EventOurSponsorScreen()),
     GetPage(name: clubScreen, page: ()=> ClubScreen()),
     // GetPage(name: clubDetailsScreen, page: ()=> ClubDetailsScreen()),

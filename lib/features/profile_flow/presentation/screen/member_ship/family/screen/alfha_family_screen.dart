@@ -27,38 +27,38 @@ class FamilyScreen extends StatelessWidget {
           children: [
             SizedBox(height: 22.h),
             AlphaFamilyWidget(),
-            SizedBox(height: 16.h),
-            CommonText(
-              style: TextStyle(
-                fontFamily: 'SFPro',
-                fontWeight: FontWeight.w500,
-                fontSize: 16,
-                color: AppColors.blue1,
-              ),
-              text: AppString.familyCoverage,
-            ),
-            SizedBox(height: 16.h),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    FamilyCoverageContainer(
-                        title: AppString.mainMember,
-                        subTitle: AppString.primaryAccount,
-                        image: AssetPath.memberShipImage
-                    ),
-                    FamilyCoverageContainer(
-                        title: AppString.mainMember,
-                        subTitle: AppString.primaryAccount,
-                        image: AssetPath.familyProfile
-                    ),
-                  ],
-                ),
-            SizedBox(height: 12.h),
-            FamilyCoverageContainer(
-                title: AppString.mainMember,
-                subTitle: AppString.primaryAccount,
-                image: AssetPath.childrenImage
-            ),
+            // SizedBox(height: 16.h),
+            // CommonText(
+            //   style: TextStyle(
+            //     fontFamily: 'SFPro',
+            //     fontWeight: FontWeight.w500,
+            //     fontSize: 16,
+            //     color: AppColors.blue1,
+            //   ),
+            //   text: AppString.familyCoverage,
+            // ),
+            // SizedBox(height: 16.h),
+            //     Row(
+            //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //       children: [
+            //         FamilyCoverageContainer(
+            //             title: AppString.mainMember,
+            //             subTitle: AppString.primaryAccount,
+            //             image: AssetPath.memberShipImage
+            //         ),
+            //         FamilyCoverageContainer(
+            //             title: AppString.mainMember,
+            //             subTitle: AppString.primaryAccount,
+            //             image: AssetPath.familyProfile
+            //         ),
+            //       ],
+            //     ),
+            // SizedBox(height: 12.h),
+            // FamilyCoverageContainer(
+            //     title: AppString.mainMember,
+            //     subTitle: AppString.primaryAccount,
+            //     image: AssetPath.childrenImage
+            // ),
             SizedBox(height: 16.h),
             CommonText(
               style: TextStyle(

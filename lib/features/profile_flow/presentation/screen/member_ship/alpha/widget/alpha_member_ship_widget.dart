@@ -1,98 +1,88 @@
-import 'package:alpha_club/core/global/commont_text.dart';
-import 'package:alpha_club/core/utils/app_image/app_image.dart';
-import 'package:alpha_club/core/utils/app_string/app_string.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import '../../../../../../../core/global/commont_text.dart';
+import '../../../../../../../core/service/api/api_enpoint.dart';
 import '../../../../../../../core/utils/app_color/app_color.dart';
-
+import '../../../../../controller/profile_controller.dart';
 
 class AlphaMemberShipWidget extends StatelessWidget {
   const AlphaMemberShipWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: AppColors.appBackgroundColor,
-        borderRadius: BorderRadius.circular(8.r),
-        border: Border.all(width: 1.w, color: AppColors.otpBorderColor),
-      ),
-      child: Padding(
-        padding: EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 16),
-                  child: Container(
+    final ProfileController profileController = Get.put(ProfileController());
+
+    return Obx(() {
+      // if (profileController.alphaPlan.isEmpty) return Center(child: CircularProgressIndicator());
+
+
+      final data = profileController.alphaPlanList;
+      return Container(
+        width: double.infinity,
+        margin: EdgeInsets.only(bottom: 16.h),
+        decoration: BoxDecoration(
+          color: AppColors.appBackgroundColor,
+          borderRadius: BorderRadius.circular(8.r),
+          border: Border.all(width: 1.w, color: AppColors.otpBorderColor),
+        ),
+        child: Padding(
+          padding: EdgeInsets.all(12.w),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(8.w),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: AppColors.blue1.withValues(alpha: 0.2),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Image.asset(
-                        AssetPath.memberShipImage,
-                        height: 25.h,
-                        width: 25,
-                        fit: BoxFit.contain,
-                      ),
+                    child: Image.network(
+                      "${ApiEndPoint.imageBaseUrl}${data['logo'] ?? ""}",
+                      height: 25.h,
+                      width: 25.w,
+                      fit: BoxFit.contain,
                     ),
                   ),
-                ),
-                SizedBox(width: 8.w),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CommonText(
-                      style: TextStyle(
-                        fontFamily: 'SFPro',
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      color: AppColors.blue1,
-                      text: AppString.regularMemberShip,
+                  SizedBox(width: 8.w),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CommonText(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.blue1,
+                          text: data['title'] ?? "No Title",
+                        ),
+                        CommonText(
+                          fontSize: 13.sp,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.blueBase,
+                          text: data['description'] ?? "No Description",
+                        ),
+                      ],
                     ),
-                    CommonText(
-                      style: TextStyle(
-                        fontFamily: 'SFPro',
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      color: AppColors.blueBase,
-                      text: AppString.allEssential,
-                    ),
-                    CommonText(
-                      style: TextStyle(
-                        fontFamily: 'SFPro',
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      color: AppColors.blueBase,
-                      text: AppString.professionals,
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            SizedBox(height: 12.h),
-            CommonText(
-              textAlign: TextAlign.start,
-              style: TextStyle(
-                fontFamily: 'SFPro',
-                fontSize: 14,
+                  ),
+                ],
+              ),
+              SizedBox(height: 12.h),
+              CommonText(
+                textAlign: TextAlign.start,
+                fontSize: 13.sp,
                 fontWeight: FontWeight.w400,
                 color: AppColors.blueBase,
+                text: data['subDescription'] ?? "No Sub-description",
               ),
-              text: AppString.withThe,
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 }

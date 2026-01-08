@@ -1,60 +1,144 @@
-import 'package:get/get.dart';
-import 'package:alpha_club/core/service/api/api_service.dart';
 import 'package:alpha_club/core/service/api/api_enpoint.dart';
-import 'package:alpha_club/core/service/logger/app_logger.dart';
-import 'package:alpha_club/features/profile_flow/model/user_profile_model.dart';
+import 'package:get/get.dart';
+import '../../../core/service/api/api_response.dart';
+import '../../../core/service/api/api_service.dart';
 
 class ProfileController extends GetxController {
-  Rx<UserProfileModel?> userProfile = Rx<UserProfileModel?>(null);
-  RxBool isLoading = false.obs;
-  RxBool isFamilyListVisible = false.obs;
+  var isLoading = false.obs;
+  var aboutDescription = "".obs;
+  var privacyPolicyDescription = "".obs;
+  var termsDescription = "".obs;
 
   @override
   void onInit() {
     super.onInit();
-    fetchUserProfile();
+    _initializeData();
   }
 
-  /// Fetch user profile from API
-  Future<void> fetchUserProfile() async {
+  Future<void> _initializeData() async {
+    isLoading.value = true;
     try {
-      isLoading.value = true;
-
-      AppLogger.info('Fetching user profile', tag: 'PROFILE_CONTROLLER');
-
-      final response = await ApiService.get(ApiEndPoint.myProfile);
-
-      if (response.isSuccess) {
-        final profileResponse = UserProfileResponse.fromJson(
-          Map<String, dynamic>.from(response.data),
-        );
-        userProfile.value = profileResponse.data;
-
-        AppLogger.info(
-          'User profile loaded: ${userProfile.value?.name}',
-          tag: 'PROFILE_CONTROLLER',
-        );
-      } else {
-        AppLogger.error(
-          'Failed to load user profile: ${response.message}',
-          tag: 'PROFILE_CONTROLLER',
-        );
-        Get.snackbar('Error', 'Failed to load profile');
-      }
-    } catch (e, stackTrace) {
-      AppLogger.error(
-        'Error fetching user profile',
-        tag: 'PROFILE_CONTROLLER',
-        error: e,
-        stackTrace: stackTrace,
-      );
+      await Future.wait([
+        fetchAboutUs(),
+        privacyPolicy(),
+        termsAndCondition(),
+        fetchMembershipPlans(),
+        fetchFeatureComparison(),
+        fetchAlphaMemberShipPlans(),
+        fetchAlphaFamily(),
+      ]);
+    } catch (e) {
+      print('Error initializing profile data: $e');
     } finally {
       isLoading.value = false;
     }
   }
 
-  /// Toggle family list visibility
-  void toggleFamilyList() {
-    isFamilyListVisible.value = !isFamilyListVisible.value;
+  //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> aboutUs <<<<<<<<<<<<<<<<<<<<<<<<<<<//
+
+  Future<void> fetchAboutUs() async {
+    ApiResponseModel response = await ApiService.get(ApiEndPoint.aboutUs);
+    response.handleResponse(
+      onSuccess: (responseData) {
+        aboutDescription.value = responseData['data']['description'] ?? "";
+      },
+    );
   }
+
+
+  //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> privacyPolicy <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<//
+
+  Future<void> privacyPolicy() async {
+    ApiResponseModel response = await ApiService.get(ApiEndPoint.privacyPolicy);
+    response.handleResponse(
+      onSuccess: (responseData) {
+        privacyPolicyDescription.value = responseData['data']['description'] ?? "";
+      },
+    );
+  }
+
+
+  //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> terms and condition <<<<<<<<<<<<<<<<<<<//
+
+  Future<void> termsAndCondition() async {
+    ApiResponseModel response = await ApiService.get(ApiEndPoint.termsAndCondition);
+    response.handleResponse(
+      onSuccess: (responseData) {
+        termsDescription.value = responseData['data']['description'] ?? "";
+      },
+    );
+  }
+
+
+  //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MemberShip PLan <<<<<<<<<<<<<<<<<<<<<<<<<<//
+
+  var membershipPlans = [].obs;
+
+  Future<void> fetchMembershipPlans() async {
+    ApiResponseModel response = await ApiService.get(ApiEndPoint.memberShipPlan);
+
+    response.handleResponse(
+      onSuccess: (responseData) {
+        membershipPlans.value = responseData['data'] ?? [];
+      },
+    );
+  }
+
+  //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> More Features <<<<<<<<<<<<<<<<<<<<<<<<<<<<<//
+
+  var expandedStates = <String, bool>{}.obs;
+
+  void toggleExpansion(String planId) {
+    if (expandedStates.containsKey(planId)) {
+      expandedStates[planId] = !expandedStates[planId]!;
+    } else {
+      expandedStates[planId] = true;
+    }
+  }
+
+  //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Comparison List <<<<<<<<<<<<<<<<<<<<<<<<//
+
+  var comparisonList = [].obs;
+
+  Future<void> fetchFeatureComparison() async {
+    ApiResponseModel response = await ApiService.get(ApiEndPoint.featureComparison);
+
+    response.handleResponse(
+      onSuccess: (responseData) {
+        comparisonList.value = responseData['data'] ?? [];
+      },
+    );
+  }
+
+  //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> alpha <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<//
+
+
+  var alphaPlanList = <String, dynamic>{}.obs;
+
+  Future<void> fetchAlphaMemberShipPlans() async {
+    ApiResponseModel response = await ApiService.get(ApiEndPoint.alphaPlan);
+
+    response.handleResponse(
+      onSuccess: (responseData) {
+        alphaPlanList.value = responseData['data'] ?? [];
+      },
+    );
+  }
+
+  //>>>>>>>>>>>>>>>>>>>>>>>>>>>>> alphaFamily <<<<<<<<<<<<<<<<<<<<<<<//
+
+  var alphaFamilyLanList = <String, dynamic>{}.obs;
+
+  Future<void> fetchAlphaFamily() async {
+    ApiResponseModel response = await ApiService.get(ApiEndPoint.alphaFamily);
+    response.handleResponse(
+      onSuccess: (responseData) {
+        alphaFamilyLanList.value = responseData['data'] ?? [];
+      },
+    );
+  }
+
+
+
+
 }

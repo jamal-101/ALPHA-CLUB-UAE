@@ -1,267 +1,142 @@
-import 'package:alpha_club/core/global/commont_text.dart';
-import 'package:alpha_club/core/utils/app_color/app_color.dart';
-import 'package:alpha_club/core/utils/app_image/app_image.dart';
-import 'package:alpha_club/core/utils/app_string/app_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:get/get.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import '../../../../core/global/commont_text.dart';
+import '../../../../core/service/api/api_enpoint.dart';
+import '../../../../core/utils/app_color/app_color.dart';
+import '../../../../core/utils/app_image/app_image.dart';
+import '../../controller/event_controller.dart';
 
 
 class EventDetailsScreen extends StatelessWidget {
-  const EventDetailsScreen({super.key});
+  final String eventId;
+  EventDetailsScreen({super.key, required this.eventId});
+
+  final EventController eventController = Get.put(EventController());
 
   @override
   Widget build(BuildContext context) {
+    eventController.fetchEventDetails(eventId);
+
     return Scaffold(
-      body: SingleChildScrollView(
-        physics: const NeverScrollableScrollPhysics(),
-        child: Padding(
-          padding: const EdgeInsets.only(left: 20,right: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 50.h),
-              Stack(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(16.r),
-                    child: Image.asset(
-                      AssetPath.upComingEventImage,
-                      height: 219.h,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
+      body: Obx(() {
+        if (eventController.isEventDetailLoading.value) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        final event = eventController.singleEventDetails;
+
+        return SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 50.h),
+                Stack(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(16.r),
+                      child: Image.network(
+                        "${ApiEndPoint.imageBaseUrl}${event['image'] ?? ""}",
+                        height: 219.h,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
                     ),
-                  ),
-                  Positioned(
-                    top: 12.h,
-                    left: 12.w,
-                    child: GestureDetector(
-                      onTap: () => Navigator.pop(context),
+                    Positioned(
+                      top: 12.h,
+                      left: 12.w,
+                      child: GestureDetector(
+                        onTap: () => Get.back(),
+                        child: Container(
+                          padding: EdgeInsets.all(4.w),
+                          decoration: const BoxDecoration(
+                            color: AppColors.gold50,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(Icons.arrow_back_sharp, size: 22.sp, color: AppColors.blue1),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      top: 12.h,
+                      right: 12.w,
                       child: Container(
-                        padding: EdgeInsets.all(4.w),
+                        padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 4.h),
                         decoration: BoxDecoration(
-                          color: AppColors.gold50,
-                          shape: BoxShape.circle,
+                          color: AppColors.blueBase50,
+                          borderRadius: BorderRadius.circular(20.r),
                         ),
-                        child: Icon(
-                          Icons.arrow_back_sharp,
-                          size: 22.sp,
-                          color: AppColors.blue1,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    top: 12.h,
-                    right: 12.w,
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 18.w,vertical: 4),
-                      decoration: BoxDecoration(
-                        color: AppColors.blueBase50,
-                        borderRadius: BorderRadius.circular(20.r),
-                      ),
-                      child: CommonText(
-                        fontSize: 14,
+                        child: CommonText(
+                          fontSize: 14,
                           fontWeight: FontWeight.w500,
-                          color: AppColors.green1,
-                          text: "30%")
+                          color: Colors.green, // AppColors.green1
+                          text: "30%",
+                        ),
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20.h),
-              CommonText(
+                  ],
+                ),
+                SizedBox(height: 20.h),
+                CommonText(
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w500,
                   color: AppColors.blue1,
-                  text: AppString.autoMillennium1
-              ),
-              SizedBox(height: 8.h),
-              CommonText(
+                  text: event['name'] ??  "",
+                ),
+                SizedBox(height: 8.h),
+                CommonText(
                   style: TextStyle(
-                      color: AppColors.blue1,
-                      fontWeight: FontWeight.w400,
-                      fontSize: 14,
-                      fontFamily: 'SFPro'
-                  ),
-                  text: AppString.autoGroup),
-              SizedBox(height: 12.h),
-              Row(
-                children: [
-                  Image.asset(AssetPath.locationIcon,height: 20.h,width: 20.w),
-                  SizedBox(width: 5.w),
-                  CommonText(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
                     color: AppColors.blue1,
-                    text: AppString.sponsorLocation,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 14.sp,
+                    fontFamily: 'SFPro',
                   ),
-                ],
-              ),
-              SizedBox(height: 16.h),
-              Divider(
-                height: 1,
-                thickness: 0.9,
-                color: AppColors.tabSelectedBorderColor,
-              ),
-              SizedBox(height: 16.h),
-              CommonText(
+                  text: event['title'] ?? "",
+                ),
+                SizedBox(height: 12.h),
+                Row(
+                  children: [
+                    Image.asset(AssetPath.locationIcon, height: 20.h, width: 20.w),
+                    SizedBox(width: 5.w),
+                    CommonText(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.blue1,
+                      text: event['location'] ?? " ",
+                    ),
+                  ],
+                ),
+                SizedBox(height: 16.h),
+                const Divider(height: 1, thickness: 0.9, color: AppColors.tabSelectedBorderColor),
+                SizedBox(height: 16.h),
+
+                CommonText(
                   fontWeight: FontWeight.w500,
-                  fontSize: 16,
+                  fontSize: 16.sp,
                   color: AppColors.blue1,
-                  text: AppString.description),
-              SizedBox(height: 16.h),
-              CommonText(
-                  textAlign: TextAlign.start,
-                  fontWeight: FontWeight.w400,
-                  fontSize: 14,
-                  color: AppColors.blue1,
-                  text: AppString.landingAutoMotive),
-              SizedBox(height: 16.h),
-              // Row(
-              //   children: [
-              //     Image.asset(AssetPath.checkIcon,height: 12.h,width: 12.w,),
-              //     SizedBox(width: 6.w),
-              //     CommonText(
-              //         fontSize: 16,
-              //         fontWeight: FontWeight.w400,
-              //         color: AppColors.blue1,
-              //         text: AppString.choiceOf
-              //     )
-              //   ],
-              // ),
-              // SizedBox(height: 5.h),
-              // Row(
-              //   children: [
-              //     Image.asset(AssetPath.checkIcon,height: 12.h,width: 12.w,),
-              //     SizedBox(width: 6.w),
-              //     CommonText(
-              //         fontSize: 16,
-              //         fontWeight: FontWeight.w400,
-              //         color: AppColors.blue1,
-              //         text: AppString.validMon
-              //     )
-              //   ],
-              // ),
-              // SizedBox(height: 5.h),
-              // Row(
-              //   children: [
-              //     Image.asset(AssetPath.checkIcon,height: 12.h,width: 12.w,),
-              //     SizedBox(width: 6.w),
-              //     CommonText(
-              //         fontSize: 16,
-              //         fontWeight: FontWeight.w400,
-              //         color: AppColors.blue1,
-              //         text: AppString.reservationRec
-              //     )
-              //   ],
-              // ),
-              // SizedBox(height: 16.h),
-              // Container(
-              //   width: double.infinity,
-              //   decoration: BoxDecoration(
-              //       borderRadius: BorderRadius.circular(16.0.r),
-              //       border: Border.all(
-              //         width: 1.w,
-              //         color: AppColors.otpBorderColor,
-              //       ),
-              //       color: AppColors.appBackgroundColor
-              //   ),child: Padding(
-              //   padding: EdgeInsets.only(left: 8,right: 8),
-              //   child: Column(
-              //     crossAxisAlignment: CrossAxisAlignment.start,
-              //     children: [
-              //       SizedBox(height: 12.h),
-              //       CommonText(
-              //           fontSize: 16,
-              //           fontWeight: FontWeight.w500,
-              //           color: AppColors.blue1,
-              //           text: AppString.termsAndCondition),
-              //       SizedBox(height: 8.h),
-              //       Row(children: [
-              //         Padding(
-              //           padding: const EdgeInsets.only(top: 2,left: 9),
-              //           child: Container(
-              //             height: 5.w,
-              //             width: 5.w,
-              //             decoration: BoxDecoration(
-              //               color: AppColors.blueBase,
-              //               shape: BoxShape.circle,
-              //             ),
-              //           ),
-              //         ),
-              //         SizedBox(width: 9.w),
-              //         CommonText(
-              //             color: AppColors.blueBase,
-              //             fontWeight: FontWeight.w400,
-              //             fontSize: 16,
-              //             text: AppString.validFor)
-              //       ],),
-              //       SizedBox(height: 12.h),
-              //       // Row(
-              //       //   crossAxisAlignment: CrossAxisAlignment.start,
-              //       //   children: [
-              //       //     Padding(
-              //       //       padding: const EdgeInsets.only(top: 9,left: 9),
-              //       //       child: Container(
-              //       //         height: 5.w,
-              //       //         width: 5.w,
-              //       //         decoration: BoxDecoration(
-              //       //           color: AppColors.blueBase,
-              //       //           shape: BoxShape.circle,
-              //       //         ),
-              //       //       ),
-              //       //     ),
-              //       //     SizedBox(width: 9.w),
-              //       //     // Expanded(
-              //       //     //   child: CommonText(
-              //       //     //       textAlign: TextAlign.start,
-              //       //     //       maxLines: 2,
-              //       //     //       color: AppColors.blueBase,
-              //       //     //       fontWeight: FontWeight.w400,
-              //       //     //       fontSize: 16,
-              //       //     //       text: AppString.cannotBe),
-              //       //     // ),
-              //       //   ],),
-              //       // SizedBox(height: 12.h),
-              //       // Row(
-              //       //   crossAxisAlignment: CrossAxisAlignment.start,
-              //       //   children: [
-              //       //     Padding(
-              //       //       padding: const EdgeInsets.only(top: 10,left: 9),
-              //       //       child: Container(
-              //       //         height: 5.w,
-              //       //         width: 5.w,
-              //       //         decoration: BoxDecoration(
-              //       //           color: AppColors.blueBase,
-              //       //           shape: BoxShape.circle,
-              //       //         ),
-              //       //       ),
-              //       //     ),
-              //       //     SizedBox(width: 9.w),
-              //       //     Expanded(
-              //       //       child: CommonText(
-              //       //           textAlign: TextAlign.start,
-              //       //           maxLines: 2,
-              //       //           color: AppColors.blueBase,
-              //       //           fontWeight: FontWeight.w400,
-              //       //           fontSize: 16,
-              //       //           text: AppString.reservation),
-              //       //     )
-              //       //   ],),
-              //       // SizedBox(height: 10.h,),
-              //     ],
-              //   ),
-              // ),
-              // ),
-              // SizedBox(height: 24.h),
-              // CommonButton(onTap: (){
-              //   Get.toNamed(AppRoute.eventRegisterScreen);
-              // }, text: AppString.register)
-            ],
+                  text: "Description",
+                ),
+
+                SizedBox(height: 12.h),
+
+                HtmlWidget(
+                  event['description'] ?? " ",
+                  textStyle: TextStyle(
+                    fontSize: 14.sp,
+                    color: AppColors.blue1,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+
+                SizedBox(height: 20.h),
+              ],
+            ),
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 }

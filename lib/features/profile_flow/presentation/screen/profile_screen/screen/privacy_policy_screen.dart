@@ -1,96 +1,39 @@
-import 'package:alpha_club/core/global/common_app_bar.dart';
-import 'package:alpha_club/core/global/commont_text.dart';
-import 'package:alpha_club/core/utils/app_color/app_color.dart';
 import 'package:alpha_club/core/utils/app_string/app_string.dart';
+import 'package:alpha_club/features/profile_flow/controller/profile_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/src/extension_navigation.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:get/get.dart';
+import '../../../../../../core/global/common_app_bar.dart';
 
 class PrivacyPolicyScreen extends StatelessWidget {
-  const PrivacyPolicyScreen({super.key});
+     PrivacyPolicyScreen({super.key});
+
+  final ProfileController profileController = Get.put(ProfileController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.only(left: 20,right: 20),
-        child: Column(
-          children: [
-            SizedBox(height: 50.h),
-            CommonAppBar(title: AppString.privacyPolicy,onTap: (){
-              Get.back();
-            },),
-            SizedBox(height: 16.h),
-            RichText(
-              text: TextSpan(
-                text: AppString.at,
-                style: GoogleFonts.poppins(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 14,
-                  color: AppColors.blue1,
+      body: Obx(() {
+        return SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.only(left: 20, right: 20),
+            child: Column(
+              children: [
+                SizedBox(height: 50.h),
+                CommonAppBar(title: AppString.privacyPolicy, onTap: () {
+                  Get.back();
+                },),
+                SizedBox(height: 16.h),
+                HtmlWidget(
+                  profileController.privacyPolicyDescription.value,
+                  textStyle: TextStyle(fontSize: 14.sp, color: Colors.black),
                 ),
-                children: [
-                  TextSpan(
-                    text: '  '
-                  ),
-                  TextSpan(
-                    text: AppString.alphaClub,
-                    style: GoogleFonts.poppins(
-                      color: AppColors.goldColor1,
-                      fontWeight: FontWeight.w400,
-                      fontSize: 14.sp
-                    ),
-                  ),
-                  TextSpan(
-                      text: '  '
-                  ),
-                  TextSpan(
-                    text: AppString.yourPrivacyAndData,
-                    style: GoogleFonts.poppins(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 14,
-                      color: AppColors.blue1,
-                    ),
-                  ),
-                ],
-              ),
+              ],
             ),
-            SizedBox(height: 20.h),
-            CommonText(
-              maxLines: 10,
-              textAlign: TextAlign.start,
-              fontWeight: FontWeight.w400,
-                fontSize: 14,
-                color: AppColors.blue1,
-                text: AppString.weCollect),
-            SizedBox(height: 20.h),
-            CommonText(
-              maxLines: 10,
-              textAlign: TextAlign.start,
-              fontWeight: FontWeight.w400,
-                fontSize: 14,
-                color: AppColors.blue1,
-                text: AppString.allPersonal),
-            SizedBox(height: 20.h),
-            CommonText(
-              maxLines: 10,
-              textAlign: TextAlign.start,
-              fontWeight: FontWeight.w400,
-                fontSize: 14,
-                color: AppColors.blue1,
-                text: AppString.youHaveThe) ,
-            SizedBox(height: 20.h),
-            CommonText(
-              maxLines: 10,
-              textAlign: TextAlign.start,
-              fontWeight: FontWeight.w400,
-                fontSize: 14,
-                color: AppColors.blue1,
-                text: AppString.byUsing),
-          ],
-        ),
+          ),
+        );
+      }
       ),
     );
   }

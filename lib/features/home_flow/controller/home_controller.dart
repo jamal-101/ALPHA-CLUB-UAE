@@ -109,7 +109,7 @@ class HomeController extends GetxController {
     }
 
     ApiResponseModel response = await ApiService.get(
-      "${ApiEndPoint.sponsor}?page=$currentPage&limit=10",
+      "${ApiEndPoint.sponsor}?page=$currentPage&limit=3",
     );
 
     response.handleResponse(
@@ -121,7 +121,7 @@ class HomeController extends GetxController {
         } else {
           sponsors.assignAll(newItems);
         }
-        if (newItems.length < 10) {
+        if (newItems.length < 3) {
           hasMoreData = false;
         } else {
           currentPage++;
@@ -151,11 +151,6 @@ class HomeController extends GetxController {
         singleSponsorDetails.value = responseData['data'] ?? {};
       },
     );
-
     isLoading.value = false;
   }
-
-
-
-
 }
