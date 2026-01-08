@@ -5,68 +5,65 @@ import '../../../core/service/api/api_service.dart';
 
 class ProfileController extends GetxController {
   var isLoading = false.obs;
-  var aboutDescription = "".obs;
-  var privacyPolicyDescription = "".obs;
-  var termsDescription = "".obs;
 
   @override
   void onInit() {
     super.onInit();
-    _initializeData();
-  }
-
-  Future<void> _initializeData() async {
-    isLoading.value = true;
-    try {
-      await Future.wait([
-        fetchAboutUs(),
-        privacyPolicy(),
-        termsAndCondition(),
-        fetchMembershipPlans(),
-        fetchFeatureComparison(),
-        fetchAlphaMemberShipPlans(),
-        fetchAlphaFamily(),
-      ]);
-    } catch (e) {
-      print('Error initializing profile data: $e');
-    } finally {
-      isLoading.value = false;
-    }
+    fetchAboutUs();
+    privacyPolicy();
+    termsAndCondition();
+    fetchMembershipPlans();
+    fetchFeatureComparison();
+    fetchAlphaMemberShipPlans();
+    fetchAlphaFamily();
   }
 
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> aboutUs <<<<<<<<<<<<<<<<<<<<<<<<<<<//
+  var aboutDescription = "".obs;
+  
 
   Future<void> fetchAboutUs() async {
+    isLoading.value = true;
     ApiResponseModel response = await ApiService.get(ApiEndPoint.aboutUs);
     response.handleResponse(
       onSuccess: (responseData) {
         aboutDescription.value = responseData['data']['description'] ?? "";
       },
     );
+    isLoading.value = false;
   }
 
 
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> privacyPolicy <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<//
+  var privacyPolicyDescription = "".obs;
+  
 
   Future<void> privacyPolicy() async {
+    isLoading.value = true;
     ApiResponseModel response = await ApiService.get(ApiEndPoint.privacyPolicy);
     response.handleResponse(
       onSuccess: (responseData) {
         privacyPolicyDescription.value = responseData['data']['description'] ?? "";
       },
     );
+    isLoading.value = false;
   }
 
 
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> terms and condition <<<<<<<<<<<<<<<<<<<//
 
+  var termsDescription = "".obs;
+  
+
   Future<void> termsAndCondition() async {
+    isLoading.value = true;
     ApiResponseModel response = await ApiService.get(ApiEndPoint.termsAndCondition);
     response.handleResponse(
       onSuccess: (responseData) {
         termsDescription.value = responseData['data']['description'] ?? "";
       },
     );
+    isLoading.value = false;
   }
 
 
@@ -75,6 +72,7 @@ class ProfileController extends GetxController {
   var membershipPlans = [].obs;
 
   Future<void> fetchMembershipPlans() async {
+    isLoading.value = true;
     ApiResponseModel response = await ApiService.get(ApiEndPoint.memberShipPlan);
 
     response.handleResponse(
@@ -82,6 +80,7 @@ class ProfileController extends GetxController {
         membershipPlans.value = responseData['data'] ?? [];
       },
     );
+    isLoading.value = false;
   }
 
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> More Features <<<<<<<<<<<<<<<<<<<<<<<<<<<<<//
@@ -101,6 +100,7 @@ class ProfileController extends GetxController {
   var comparisonList = [].obs;
 
   Future<void> fetchFeatureComparison() async {
+    isLoading.value = true;
     ApiResponseModel response = await ApiService.get(ApiEndPoint.featureComparison);
 
     response.handleResponse(
@@ -108,6 +108,7 @@ class ProfileController extends GetxController {
         comparisonList.value = responseData['data'] ?? [];
       },
     );
+    isLoading.value = false;
   }
 
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> alpha <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<//
@@ -116,6 +117,7 @@ class ProfileController extends GetxController {
   var alphaPlanList = <String, dynamic>{}.obs;
 
   Future<void> fetchAlphaMemberShipPlans() async {
+    isLoading.value = true;
     ApiResponseModel response = await ApiService.get(ApiEndPoint.alphaPlan);
 
     response.handleResponse(
@@ -123,6 +125,7 @@ class ProfileController extends GetxController {
         alphaPlanList.value = responseData['data'] ?? [];
       },
     );
+    isLoading.value = false;
   }
 
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>> alphaFamily <<<<<<<<<<<<<<<<<<<<<<<//
@@ -130,12 +133,14 @@ class ProfileController extends GetxController {
   var alphaFamilyLanList = <String, dynamic>{}.obs;
 
   Future<void> fetchAlphaFamily() async {
+    isLoading.value = true;
     ApiResponseModel response = await ApiService.get(ApiEndPoint.alphaFamily);
     response.handleResponse(
       onSuccess: (responseData) {
         alphaFamilyLanList.value = responseData['data'] ?? [];
       },
     );
+    isLoading.value = false;
   }
 
 
