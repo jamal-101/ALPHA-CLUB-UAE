@@ -40,14 +40,13 @@ class AlphaMemberShipWidget extends StatelessWidget {
                     padding: EdgeInsets.all(8.w),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: AppColors.blue1.withOpacity(0.2),
+                      color: AppColors.blue1.withValues(alpha: 0.2),
                     ),
                     child: Image.network(
                       "${ApiEndPoint.imageBaseUrl}${data['logo'] ?? ""}",
                       height: 25.h,
                       width: 25.w,
                       fit: BoxFit.contain,
-                      errorBuilder: (context, error, stackTrace) => Icon(Icons.star),
                     ),
                   ),
                   SizedBox(width: 8.w),

@@ -18,6 +18,7 @@ class ProfileController extends GetxController {
     fetchMembershipPlans();
     fetchFeatureComparison();
     fetchAlphaMemberShipPlans();
+    fetchAlphaFamily();
   }
 
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> aboutUs <<<<<<<<<<<<<<<<<<<<<<<<<<<//
