@@ -13,6 +13,7 @@ class ApiEndPoint {
   static const featureComparison = '/membership-plan/feature-comparison';
   static const alphaPlan = '/membership-plan/alpha';
   static const alphaFamily = '/membership-plan/alpha_family';
+  static const membershipApplication = '/membership-application';
 
   // ==================================== Atik =====================================
   static const login = '/auth/login';

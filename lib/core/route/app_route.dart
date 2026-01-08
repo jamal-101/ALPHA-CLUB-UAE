@@ -14,8 +14,6 @@ import 'package:alpha_club/features/home_flow/presentation/screen/home_screen.da
 import 'package:alpha_club/features/offer_flow/presentation/screen/offer_details_screen.dart';
 import 'package:alpha_club/features/offer_flow/presentation/screen/offer_screen.dart';
 //import 'package:alpha_club/features/home_flow/presentation/screen/our_sponsor_screen.dart';
-import 'package:alpha_club/features/profile_flow/presentation/screen/information/screen/information_details_screen.dart';
-import 'package:alpha_club/features/profile_flow/presentation/screen/information/screen/information_screen.dart';
 import 'package:alpha_club/features/profile_flow/presentation/screen/member_ship/member_ship_screen/member_ship_screen.dart';
 import 'package:alpha_club/features/profile_flow/presentation/screen/profile_screen/screen/card_details_sponsor_screen.dart';
 import 'package:alpha_club/features/profile_flow/presentation/screen/profile_screen/screen/edite_profile_screen.dart';
@@ -25,6 +23,8 @@ import 'package:alpha_club/features/splash_view/screen/splash_screen.dart';
 import 'package:get/get.dart';
 //import '../../features/event_flow/presentaion/screen/event_our_sponsor_screen.dart';
 import '../../features/favorite/presentation/screen/favorite_screen.dart';
+import '../../features/profile_flow/presentation/screen/information/screen/alpha_family_information_screen.dart';
+import '../../features/profile_flow/presentation/screen/information/screen/alpha_information_screen.dart';
 
 class AppRoute {
   static String splashScreen = '/splashScreen';
@@ -62,8 +62,8 @@ class AppRoute {
     GetPage(name: newPasswordScreen, page: ()=>NewPasswordScreen()),
     GetPage(name: profileScreen, page: ()=>ProfileScreen()),
     GetPage(name: memberShipScreen, page: ()=>MemberShipScreen()),
-    GetPage(name: informationScreen, page: ()=>InformationScreen()),
-    GetPage(name: informationDetailsScreen, page: ()=>InformationDetailsScreen()),
+    GetPage(name: informationScreen, page: ()=>AlphaInformationScreen()),
+    GetPage(name: informationDetailsScreen, page: ()=>AlphaFamilyInformationScreen()),
     GetPage(name: personalInformation, page: ()=> PersonalInformation()),
     GetPage(name: editeProfileScreen, page: ()=> EditeProfileScreen()),
     GetPage(name: homeScreen, page: ()=> HomeScreen()),

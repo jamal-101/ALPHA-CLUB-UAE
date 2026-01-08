@@ -195,7 +195,7 @@ class NewsListView extends StatelessWidget {
                             .join('') + "...",
                       ),
                       TextSpan(
-                        text: "  ${AppString.seemore}",
+                        text: "  ${AppString.seeMore}",
                         style: TextStyle(
                           color: AppColors.yellow,
                           fontSize: 12.sp,

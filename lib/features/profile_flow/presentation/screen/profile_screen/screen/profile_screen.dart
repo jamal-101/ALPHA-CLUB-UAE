@@ -16,6 +16,7 @@ class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   static final RxBool isFamilyListVisible = false.obs;
+  static final RxBool isAlphaVisible = false.obs;
 
   @override
   Widget build(BuildContext context) {
@@ -44,32 +45,37 @@ class ProfileScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 16.h),
                     DigitalMembershipContainer(),
-                    SizedBox(height: 16.h),
-                    Obx(
-                      () => isFamilyListVisible.value == false
-                          ? CommonText(
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16,
-                                fontFamily: 'SFPro',
-                              ),
-                              color: AppColors.blue1,
-                              text: AppString.memberShip,
-                            )
-                          : CommonText(
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16,
-                                fontFamily: 'SFPro',
-                              ),
-                              color: AppColors.blue1,
-                              text: AppString.familyMembers,
-                            ),
+                    Obx(()=> isFamilyListVisible.value == false ?
+                    isAlphaVisible.value == false ?
+                        Padding(
+                          padding: EdgeInsets.only(top: 16),
+                          child: CommonText(
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                    fontFamily: 'SFPro',
+                                  ),
+                                  color: AppColors.blue1,
+                                  text: AppString.memberShip,
+                                ),
+                        ) : const SizedBox.shrink() : Padding(
+                          padding: EdgeInsets.only(top: 16,bottom: 16),
+                          child: CommonText(
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                    fontFamily: 'SFPro',
+                                  ),
+                                  color: AppColors.blue1,
+                                  text: AppString.familyMembers,
+                                ),
+                        ),
                     ),
-                    SizedBox(height: 16.h),
-                    Obx(() => isFamilyListVisible.value == false
-                        ? memberShipContainer()
-                        : FamilyListWidget()),
+                    Obx(()=> isFamilyListVisible.value == false ?
+                    isAlphaVisible.value == false ? Padding(
+                      padding: EdgeInsets.only(top: 16),
+                      child: memberShipContainer(),
+                    ) : const SizedBox.shrink() : FamilyListWidget()),
                     SizedBox(height: 16.h),
                     CommonText(
                       style: TextStyle(

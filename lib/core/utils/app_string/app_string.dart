@@ -176,5 +176,8 @@ class AppString {
   static const someThingWrong = "Some Thing Wrong";
   static const requestTimeOut = "RequestTimeOut";
   static const noInternetConnection = "No Internet Connection";
-  static const seemore = "See More";
+  static const seeMore = "See More";
+  static const familyMember = 'Family Members';
+  static const addFamilyMember = 'Add Family Member';
+  static const enterFullName = "Enter Full Name";
 }

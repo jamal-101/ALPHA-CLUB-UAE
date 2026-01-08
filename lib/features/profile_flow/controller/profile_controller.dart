@@ -1,7 +1,13 @@
 import 'package:alpha_club/core/service/api/api_enpoint.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import '../../../core/route/app_route.dart';
 import '../../../core/service/api/api_response.dart';
 import '../../../core/service/api/api_service.dart';
+import '../../../core/stroge/storage_service.dart';
+
+enum Gender { name, email, relation }
+
 
 class ProfileController extends GetxController {
   var isLoading = false.obs;
@@ -21,7 +27,6 @@ class ProfileController extends GetxController {
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> aboutUs <<<<<<<<<<<<<<<<<<<<<<<<<<<//
   var aboutDescription = "".obs;
 
-
   Future<void> fetchAboutUs() async {
     isLoading.value = true;
     ApiResponseModel response = await ApiService.get(ApiEndPoint.aboutUs);
@@ -33,31 +38,30 @@ class ProfileController extends GetxController {
     isLoading.value = false;
   }
 
-
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> privacyPolicy <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<//
   var privacyPolicyDescription = "".obs;
-
 
   Future<void> privacyPolicy() async {
     isLoading.value = true;
     ApiResponseModel response = await ApiService.get(ApiEndPoint.privacyPolicy);
     response.handleResponse(
       onSuccess: (responseData) {
-        privacyPolicyDescription.value = responseData['data']['description'] ?? "";
+        privacyPolicyDescription.value =
+            responseData['data']['description'] ?? "";
       },
     );
     isLoading.value = false;
   }
 
-
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> terms and condition <<<<<<<<<<<<<<<<<<<//
 
   var termsDescription = "".obs;
 
-
   Future<void> termsAndCondition() async {
     isLoading.value = true;
-    ApiResponseModel response = await ApiService.get(ApiEndPoint.termsAndCondition);
+    ApiResponseModel response = await ApiService.get(
+      ApiEndPoint.termsAndCondition,
+    );
     response.handleResponse(
       onSuccess: (responseData) {
         termsDescription.value = responseData['data']['description'] ?? "";
@@ -66,14 +70,15 @@ class ProfileController extends GetxController {
     isLoading.value = false;
   }
 
-
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MemberShip PLan <<<<<<<<<<<<<<<<<<<<<<<<<<//
 
   var membershipPlans = [].obs;
 
   Future<void> fetchMembershipPlans() async {
     isLoading.value = true;
-    ApiResponseModel response = await ApiService.get(ApiEndPoint.memberShipPlan);
+    ApiResponseModel response = await ApiService.get(
+      ApiEndPoint.memberShipPlan,
+    );
 
     response.handleResponse(
       onSuccess: (responseData) {
@@ -101,7 +106,9 @@ class ProfileController extends GetxController {
 
   Future<void> fetchFeatureComparison() async {
     isLoading.value = true;
-    ApiResponseModel response = await ApiService.get(ApiEndPoint.featureComparison);
+    ApiResponseModel response = await ApiService.get(
+      ApiEndPoint.featureComparison,
+    );
 
     response.handleResponse(
       onSuccess: (responseData) {
@@ -112,7 +119,6 @@ class ProfileController extends GetxController {
   }
 
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> alpha <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<//
-
 
   var alphaPlanList = <String, dynamic>{}.obs;
 
@@ -143,7 +149,91 @@ class ProfileController extends GetxController {
     isLoading.value = false;
   }
 
+  //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> alpha Information <<<<<<<<<<<<<<<<<<<<<<<//
+
+  final nameController = TextEditingController();
+  final emailController = TextEditingController();
+  final addressController = TextEditingController();
+  var phoneNumber = "".obs;
+
+  Future<void> createMembershipApplication() async {
+    isLoading.value = true;
+
+    String token = LocalStorage.token;
+
+    Map<String, dynamic> bodyData = {
+      "membershipType": "alpha_family",
+      "name": nameController.text.trim(),
+      "email": emailController.text.trim(),
+      "phone": phoneNumber.value,
+      "address": addressController.text.trim(),
+      "familyMembers": savedFamilyMembers.map((member) => {
+        "name": member["name"],
+        "email": member["email"]?.trim(),
+        "relation": member["relation"],
+      }).toList()
+    };
+
+    ApiResponseModel response = await ApiService.post(
+      ApiEndPoint.membershipApplication,
+      body: bodyData,
+      header: {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      },
+    );
+
+    response.handleResponse(
+      onSuccess: (responseData) {
+        Get.snackbar("Success", "Application submitted successfully");
+        savedFamilyMembers.clear();
+        Get.toNamed(AppRoute.profileScreen);
+      },
+    );
+    isLoading.value = false;
+  }
+
+  //>>>>>>>>>>>>>>>>>>>>>>>>>>>> dropDown <<<<<<<<<<<<<<<<<<<<<<//
 
 
+  var savedFamilyMembers = <Map<String, String>>[].obs;
+
+  RxString selectedGender = "Select".obs;
+
+
+  void updateSelectedGender(Gender genderItem) {
+    switch (genderItem) {
+      case Gender.name:
+        selectedGender.value = "spouse";
+        break;
+      case Gender.email:
+        selectedGender.value = "child";
+        break;
+      case Gender.relation:
+        selectedGender.value = "daughter";
+        break;
+    }
+  }
+
+  void removeMemberFromList(int index) {
+    savedFamilyMembers.removeAt(index);
+  }
+
+  final familyNameController = TextEditingController();
+  final familyEmailController = TextEditingController();
+  void addMemberToList() {
+    String relationToSend = selectedGender.value.toLowerCase();
+    if (relationToSend == "son" || relationToSend == "daughter") {
+      relationToSend = "child";
+    }
+
+    savedFamilyMembers.add({
+      "name": familyNameController.text.trim(),
+      "email": familyEmailController.text.trim(),
+      "relation": relationToSend,
+    });
+
+  }
 
 }
+
