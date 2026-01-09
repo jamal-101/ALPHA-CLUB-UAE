@@ -65,7 +65,7 @@ class DropDownStatus extends StatelessWidget {
               ),
               PopupMenuItem(value: Gender.relation,
                 child: CommonText(
-                  text: "daughter",
+                  text: "parent",
                   fontSize: 16.sp,
                   fontWeight: FontWeight.w400,
                   color: const Color(0xFF808080),

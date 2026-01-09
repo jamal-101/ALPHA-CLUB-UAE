@@ -4,6 +4,7 @@ import 'package:alpha_club/core/global/common_text_field.dart';
 import 'package:alpha_club/core/global/commont_text.dart';
 import 'package:alpha_club/core/route/app_route.dart';
 import 'package:alpha_club/core/utils/app_string/app_string.dart';
+import 'package:alpha_club/features/auth_flow/presentation/screen/login_screen.dart';
 import 'package:alpha_club/features/profile_flow/controller/profile_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -94,6 +95,23 @@ class AlphaInformationScreen extends StatelessWidget {
             ),
             SizedBox(height: 16.h),
             CommonText(
+                style: TextStyle(
+                  fontFamily: 'SFPro',
+                  fontWeight: FontWeight.w500,
+                  fontSize: 14,
+                  color: AppColors.blue1,
+                ),
+                text: AppString.email
+            ),
+            SizedBox(height: 8.h),
+            CommonTextField(
+              controller: profileController.emailController,
+              isPopins: true,
+              containerColor: AppColors.appBackgroundColor,
+              hintText: AppString.michealAnderson,
+            ),
+            SizedBox(height: 16.h),
+            CommonText(
               style: TextStyle(
                 fontFamily: 'SFPro',
                 fontWeight: FontWeight.w500,
@@ -110,7 +128,6 @@ class AlphaInformationScreen extends StatelessWidget {
                 profileController.phoneNumber.value = phone.completeNumber;
               },
             ),
-            SizedBox(height: 16.h),
             CommonText(
               style: TextStyle(
                 fontFamily: 'SFPro',
@@ -131,7 +148,8 @@ class AlphaInformationScreen extends StatelessWidget {
             CommonButton(onTap: (){
               profileController.createMembershipApplication();
               ProfileScreen.isAlphaVisible.value = true;
-              Get.toNamed(AppRoute.profileScreen);
+              LoginScreen.isAppLied.value = false;
+              ProfileScreen.isFamilyListVisible.value = false;
             }, text: AppString.cont)
           ],
         ),

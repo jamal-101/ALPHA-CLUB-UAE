@@ -5,10 +5,12 @@ import 'package:alpha_club/core/global/commont_text.dart';
 import 'package:alpha_club/core/global/custom_phone_field.dart';
 import 'package:alpha_club/core/route/app_route.dart';
 import 'package:alpha_club/core/utils/app_string/app_string.dart';
+import 'package:alpha_club/features/auth_flow/presentation/screen/login_screen.dart';
 import 'package:alpha_club/features/profile_flow/controller/profile_controller.dart';
 import 'package:alpha_club/features/profile_flow/presentation/screen/information/widget/add_family_continer.dart';
 import 'package:alpha_club/features/profile_flow/presentation/screen/information/widget/family_mamber_widget.dart';
 import 'package:alpha_club/features/profile_flow/presentation/screen/information/widget/sav_family_members.dart';
+import 'package:alpha_club/features/profile_flow/presentation/screen/profile_screen/screen/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -71,7 +73,6 @@ class AlphaFamilyInformationScreen extends StatelessWidget {
                   profileController.phoneNumber.value = phone.completeNumber;
                 },
               ),
-              SizedBox(height: 16.h),
               CommonText(
                   style: TextStyle(
                     fontFamily: 'SFPro',
@@ -205,8 +206,7 @@ class AlphaFamilyInformationScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                        )
-
+                        ),
                       ],
                     ),
                   ),
@@ -230,6 +230,8 @@ class AlphaFamilyInformationScreen extends StatelessWidget {
               SizedBox(height: 10.h),
               CommonButton(onTap: (){
                   profileController.createMembershipApplication();
+                ProfileScreen.isFamilyListVisible.value = true;
+                LoginScreen.isAppLied.value = false;
               }, text: "Submit"),
               SizedBox(height: 20.h),
             ],

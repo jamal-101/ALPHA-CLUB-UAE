@@ -14,10 +14,13 @@ import '../../../../core/global/custom_phone_field.dart';
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
+  static final RxBool isAppLied = false.obs;
+
   @override
   Widget build(BuildContext context) {
     final LoginController controller = Get.put(LoginController());
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
         height: double.infinity,
         width: double.infinity,
@@ -37,28 +40,33 @@ class LoginScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SizedBox(),
-                    GestureDetector(
-                      onTap: (){
-                        Get.toNamed(AppRoute.homeScreen);
-                      },
-                      child: Container(
-                        height: 27.h,
-                        width: 57.w,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(25.r),
-                          border: Border.all(
-                            width: 1.w,
-                            color: AppColors.skipColor,
-                          )
-                        ),child: Center(
-                          child: CommonText(
-                          fontWeight: FontWeight.w400,
-                            fontSize: 14,
-                            color: AppColors.skipColor,
-                            text: "Skip"),
+                  GestureDetector(
+                        onTap: () {
+                          isAppLied.value = true;
+                          Get.toNamed(AppRoute.homeScreen);
+                        },
+                        child: Container(
+                          height: 27.h,
+                          width: 57.w,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(25.r),
+                            border: Border.all(
+                              width: 1.w,
+                              color: AppColors.skipColor,
+                            ),
+                          ),
+                          child: Center(
+                            child: CommonText(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 14,
+                              color: AppColors.skipColor,
+                              text: "Skip",
+                            ),
+                          ),
                         ),
-                      ),
-                    )
+                      // );
+                    // }
+                    ),
                   ],
                 ),
               ),
@@ -98,119 +106,133 @@ class LoginScreen extends StatelessWidget {
                     color: AppColors.appBackgroundColor,
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 20,right: 20),
+                    padding: const EdgeInsets.only(left: 20, right: 20),
                     child: SingleChildScrollView(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                        SizedBox(height: 85.h),
-                        CommonText(
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w400,
-                            color: AppColors.blue1,
-                            fontFamily: 'SFPro'
+                          SizedBox(height: 85.h),
+                          CommonText(
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w400,
+                              color: AppColors.blue1,
+                              fontFamily: 'SFPro',
+                            ),
+                            text: AppString.contactNumber,
                           ),
-                          text: AppString.contactNumber,
-                        ),
-                        SizedBox(height: 12.h),
+                          SizedBox(height: 12.h),
                           CustomPhoneField(
                             hintText: "09 -1897243189",
                             onNumberChanged: (phone) {
-                              debugPrint("Full Number: ${phone.completeNumber}");
-                              controller.phoneNumber.value = phone.completeNumber;
+                              debugPrint(
+                                "Full Number: ${phone.completeNumber}",
+                              );
+                              controller.phoneNumber.value =
+                                  phone.completeNumber;
                             },
                           ),
-                        SizedBox(height: 24.h),
-                        CommonText(
-                          style: TextStyle(
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w400,
-                            color: AppColors.blue1,
-                            fontFamily: 'SFPro'
+                          SizedBox(height: 24.h),
+                          CommonText(
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w400,
+                              color: AppColors.blue1,
+                              fontFamily: 'SFPro',
+                            ),
+                            text: AppString.newPassword,
                           ),
-                          text: AppString.newPassword,
-                        ),
-                        SizedBox(height: 12.h),
-                        CommonTextField(
-                          isPassword: true,
-                          hintText: '********',
-                          onChanged: (value) {
-                            controller.password.value = value;
-                          },
-                        ),
-                        SizedBox(height: 24.h),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            SizedBox(),
-                            GestureDetector(
-                              onTap: (){
-                                Get.toNamed(AppRoute.newPasswordScreen);
-                              },
-                              child: CommonText(
-                                style: TextStyle(
+                          SizedBox(height: 12.h),
+                          CommonTextField(
+                            isPassword: true,
+                            hintText: '********',
+                            onChanged: (value) {
+                              controller.password.value = value;
+                            },
+                          ),
+                          SizedBox(height: 24.h),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              SizedBox(),
+                              GestureDetector(
+                                onTap: () {
+                                  Get.toNamed(AppRoute.newPasswordScreen);
+                                },
+                                child: CommonText(
+                                  style: TextStyle(
                                     fontSize: 14.sp,
                                     fontWeight: FontWeight.w600,
                                     color: AppColors.blue1,
-                                    fontFamily: 'SFPro'
+                                    fontFamily: 'SFPro',
+                                  ),
+                                  text: AppString.forgetPass,
                                 ),
-                                text: AppString.forgetPass,
                               ),
+                            ],
+                          ),
+                          SizedBox(height: 24.h),
+                          Obx(
+                            () => CommonButton(
+                              onTap: controller.isLoading.value
+                                  ? () {}
+                                  : () => controller.login(),
+                              text: controller.isLoading.value
+                                  ? 'Loading...'
+                                  : AppString.sinIn,
                             ),
-                          ],
-                        ),
-                        SizedBox(height: 24.h),
-                        Obx(() => CommonButton(
-                          onTap: controller.isLoading.value
-                            ? () {}
-                            : () => controller.login(),
-                          text: controller.isLoading.value
-                            ? 'Loading...'
-                            : AppString.sinIn,
-                        )),
-                        SizedBox(height: 40.h),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            CommonText(
+                          ),
+                          SizedBox(height: 40.h),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              CommonText(
                                 style: TextStyle(
                                   fontFamily: 'SFPro',
                                   fontWeight: FontWeight.w400,
                                   fontSize: 14.sp,
                                   color: AppColors.blue1,
                                 ),
-                                text: AppString.becomeAnd),
-                            SizedBox(width: 10.w),
-                            ShaderMask(
-                              shaderCallback: (bounds) => LinearGradient(
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                                colors: [
-                                  AppColors.linearGradient1,
-                                  AppColors.linearGradient2,
-                                ],
-                              ).createShader(Rect.fromLTWH(0, 0, bounds.width, bounds.height)),
-                              child: GestureDetector(
-                                onTap: (){
-                                  Get.toNamed(AppRoute.memberFormScreen);
-                                },
-                                child: Text(
-                                  AppString.applyHere,
-                                  style: TextStyle(
-                                    fontFamily: 'SFPro',
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w600,
-                                    color: Colors.white,
-                                    decoration: TextDecoration.underline,
-                                    decorationColor: Color(0xFFDFBB0B)
+                                text: AppString.becomeAnd,
+                              ),
+                              SizedBox(width: 10.w),
+                              ShaderMask(
+                                shaderCallback: (bounds) =>
+                                    LinearGradient(
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
+                                      colors: [
+                                        AppColors.linearGradient1,
+                                        AppColors.linearGradient2,
+                                      ],
+                                    ).createShader(
+                                      Rect.fromLTWH(
+                                        0,
+                                        0,
+                                        bounds.width,
+                                        bounds.height,
+                                      ),
+                                    ),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Get.toNamed(AppRoute.memberFormScreen);
+                                  },
+                                  child: Text(
+                                    AppString.applyHere,
+                                    style: TextStyle(
+                                      fontFamily: 'SFPro',
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white,
+                                      decoration: TextDecoration.underline,
+                                      decorationColor: Color(0xFFDFBB0B),
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
+                            ],
+                          ),
                         ],
                       ),
                     ),

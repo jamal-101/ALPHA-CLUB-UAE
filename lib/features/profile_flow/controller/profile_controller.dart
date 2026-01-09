@@ -5,6 +5,8 @@ import '../../../core/route/app_route.dart';
 import '../../../core/service/api/api_response.dart';
 import '../../../core/service/api/api_service.dart';
 import '../../../core/stroge/storage_service.dart';
+import '../../auth_flow/presentation/screen/login_screen.dart';
+import '../presentation/screen/profile_screen/screen/profile_screen.dart';
 
 enum Gender { name, email, relation }
 
@@ -210,7 +212,7 @@ class ProfileController extends GetxController {
         selectedGender.value = "child";
         break;
       case Gender.relation:
-        selectedGender.value = "daughter";
+        selectedGender.value = "parent";
         break;
     }
   }
@@ -223,8 +225,8 @@ class ProfileController extends GetxController {
   final familyEmailController = TextEditingController();
   void addMemberToList() {
     String relationToSend = selectedGender.value.toLowerCase();
-    if (relationToSend == "son" || relationToSend == "daughter") {
-      relationToSend = "child";
+    if (relationToSend == "spouse" || relationToSend == "child") {
+      relationToSend = "parent";
     }
 
     savedFamilyMembers.add({

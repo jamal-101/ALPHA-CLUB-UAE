@@ -2,9 +2,11 @@ import 'package:alpha_club/core/global/commont_text.dart';
 import 'package:alpha_club/core/utils/app_color/app_color.dart';
 import 'package:alpha_club/core/utils/app_image/app_image.dart';
 import 'package:alpha_club/core/utils/app_string/app_string.dart';
+import 'package:alpha_club/features/auth_flow/presentation/screen/login_screen.dart';
 import 'package:alpha_club/features/common_bottom_nav_bar/presentation/common_bottom_nab_var.dart';
 import 'package:alpha_club/features/profile_flow/presentation/screen/profile_screen/widget/custom_list_view.dart';
 import 'package:alpha_club/features/profile_flow/presentation/screen/profile_screen/widget/digital_memberShip_container.dart';
+import 'package:alpha_club/features/profile_flow/presentation/screen/profile_screen/widget/guest_user.dart';
 import 'package:alpha_club/features/profile_flow/presentation/screen/profile_screen/widget/profile_data_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -32,50 +34,62 @@ class ProfileScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(height: 50.h),
-                    GestureDetector(
-                      onTap: () {
-                        Get.toNamed(AppRoute.personalInformation);
-                      },
-                      child: ProfileDataContainer(
-                        imagePath: AssetPath.userProfile,
-                        userName: AppString.userName,
-                        membershipType: AppString.alphaMember,
-                        userId: AppString.userId,
-                      ),
-                    ),
+                    Obx(() {
+                    return  LoginScreen.isAppLied.value
+                          ? const GuestUser()
+                          : GestureDetector(
+                              onTap: () {
+                                Get.toNamed(AppRoute.personalInformation);
+                              },
+                              child: ProfileDataContainer(
+                                imagePath: AssetPath.userProfile,
+                                userName: AppString.userName,
+                                membershipType: AppString.alphaMember,
+                                userId: AppString.userId,
+                              ),
+                            );
+                    }),
                     SizedBox(height: 16.h),
                     DigitalMembershipContainer(),
-                    Obx(()=> isFamilyListVisible.value == false ?
-                    isAlphaVisible.value == false ?
-                        Padding(
-                          padding: EdgeInsets.only(top: 16),
-                          child: CommonText(
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16,
-                                    fontFamily: 'SFPro',
-                                  ),
-                                  color: AppColors.blue1,
-                                  text: AppString.memberShip,
+                    Obx(
+                      () => isFamilyListVisible.value == false
+                          ? isAlphaVisible.value == false
+                                ? Padding(
+                                    padding: EdgeInsets.only(top: 16),
+                                    child: CommonText(
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16,
+                                        fontFamily: 'SFPro',
+                                      ),
+                                      color: AppColors.blue1,
+                                      text: AppString.memberShip,
+                                    ),
+                                  )
+                                : const SizedBox.shrink()
+                          : Padding(
+                              padding: EdgeInsets.only(top: 16, bottom: 16),
+                              child: CommonText(
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16,
+                                  fontFamily: 'SFPro',
                                 ),
-                        ) : const SizedBox.shrink() : Padding(
-                          padding: EdgeInsets.only(top: 16,bottom: 16),
-                          child: CommonText(
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16,
-                                    fontFamily: 'SFPro',
-                                  ),
-                                  color: AppColors.blue1,
-                                  text: AppString.familyMembers,
-                                ),
-                        ),
+                                color: AppColors.blue1,
+                                text: AppString.familyMembers,
+                              ),
+                            ),
                     ),
-                    Obx(()=> isFamilyListVisible.value == false ?
-                    isAlphaVisible.value == false ? Padding(
-                      padding: EdgeInsets.only(top: 16),
-                      child: memberShipContainer(),
-                    ) : const SizedBox.shrink() : FamilyListWidget()),
+                    Obx(
+                      () => isFamilyListVisible.value == false
+                          ? isAlphaVisible.value == false
+                                ? Padding(
+                                    padding: EdgeInsets.only(top: 16),
+                                    child: memberShipContainer(),
+                                  )
+                                : const SizedBox.shrink()
+                          : FamilyListWidget(),
+                    ),
                     SizedBox(height: 16.h),
                     CommonText(
                       style: TextStyle(
@@ -101,12 +115,11 @@ class ProfileScreen extends StatelessWidget {
   }
 }
 
-
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MemberShipContainer <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<//
 
-Widget memberShipContainer (){
+Widget memberShipContainer() {
   return GestureDetector(
-    onTap: (){
+    onTap: () {
       Get.toNamed(AppRoute.memberShipScreen);
     },
     child: Container(
@@ -114,14 +127,11 @@ Widget memberShipContainer (){
       width: double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8.r),
-        border: Border.all(
-          width: 1.w,
-          color: AppColors.otpBorderColor,
-        ),
+        border: Border.all(width: 1.w, color: AppColors.otpBorderColor),
         color: Colors.white,
       ),
       child: Padding(
-        padding: EdgeInsets.only(left: 12,right: 12),
+        padding: EdgeInsets.only(left: 12, right: 12),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
