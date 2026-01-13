@@ -5,8 +5,8 @@ import '../../../core/route/app_route.dart';
 import '../../../core/service/api/api_response.dart';
 import '../../../core/service/api/api_service.dart';
 import '../../../core/stroge/storage_service.dart';
-import '../../auth_flow/presentation/screen/login_screen.dart';
-import '../presentation/screen/profile_screen/screen/profile_screen.dart';
+import '../../../core/stroge/stroge_key.dart';
+
 
 enum Gender { name, email, relation }
 
@@ -24,6 +24,7 @@ class ProfileController extends GetxController {
     fetchFeatureComparison();
     fetchAlphaMemberShipPlans();
     fetchAlphaFamily();
+    fetchFamilyProfile();
   }
 
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> aboutUs <<<<<<<<<<<<<<<<<<<<<<<<<<<//
@@ -234,7 +235,46 @@ class ProfileController extends GetxController {
       "email": familyEmailController.text.trim(),
       "relation": relationToSend,
     });
+  }
 
+
+  //>>>>>>>>>>>>>>>>>>>>>>>>>> add family member <<<<<<<<<<<<<<<<<//
+
+
+  var familyList = <Map<String, dynamic>>[].obs;
+
+  Future<void> fetchFamilyProfile() async {
+    try {
+      isLoading.value = true;
+
+      String token = LocalStorage.token;
+
+
+      print("--- DEBUGGING API CALL ---");
+      print("Token being sent: $token");
+
+      ApiResponseModel response = await ApiService.get(
+        ApiEndPoint.myProfile,
+        header: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+      );
+
+      response.handleResponse(
+        onSuccess: (responseData) {
+          if (responseData['data'] != null &&
+              responseData['data']['application_form'] != null) {
+            var members = responseData['data']['application_form']['familyMembers'] as List;
+            familyList.assignAll(members.map((e) => Map<String, dynamic>.from(e)).toList());
+          }
+        },
+      );
+    } catch (e) {
+      print("Exception in fetchFamilyProfile: $e");
+    } finally {
+      isLoading.value = false;
+    }
   }
 
 }
