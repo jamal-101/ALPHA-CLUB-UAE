@@ -69,7 +69,7 @@ class OfferDetailsController extends GetxController {
 
     try {
       final currentStatus = offerDetails.value!.isFavourite;
-      
+
       // Optimistically update UI
       offerDetails.value = offerDetails.value!.copyWith(
         isFavourite: !currentStatus,

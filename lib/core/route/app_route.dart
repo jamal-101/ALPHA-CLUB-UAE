@@ -29,6 +29,7 @@ import '../../features/profile_flow/presentation/screen/information/screen/alpha
 class AppRoute {
   static String splashScreen = '/splashScreen';
   static String loginScreen = '/loginScreen';
+  static String forgetPasswordScreen = '/forgetPasswordScreen';
   static String singInVerify = '/singInVerify';
   static String singInOtp = '/singInOtp';
   static String newPasswordScreen = '/newPasswordScreen';
@@ -57,6 +58,7 @@ class AppRoute {
   static List<GetPage> route = [
     GetPage(name: splashScreen, page: ()=>SplashScreen()),
     GetPage(name: loginScreen, page:()=> LoginScreen()),
+    // GetPage(name: forgetPasswordScreen, page:()=> ForgetPasswordScreen()),
     GetPage(name: singInVerify, page:()=> SingInVerify()),
     GetPage(name: singInOtp, page: ()=>SingInOtp()),
     GetPage(name: newPasswordScreen, page: ()=>NewPasswordScreen()),

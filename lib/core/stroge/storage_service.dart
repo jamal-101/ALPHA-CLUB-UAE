@@ -173,4 +173,8 @@ class LocalStorage {
       );
     }
   }
+
+  static String get getToken {
+    return preferences?.getString(LocalStorageKeys.token) ?? token;
+  }
 }

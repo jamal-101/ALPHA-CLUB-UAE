@@ -16,7 +16,7 @@ class CommonBottomNabVar extends StatelessWidget {
     final BottomNavController controller = Get.put(BottomNavController());
     return Obx(
       () => Container(
-        height: 80,
+        height: 100,
         decoration: const BoxDecoration(
           border: Border(
             top: BorderSide(color: AppColors.appBackgroundColor, width: 1),

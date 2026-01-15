@@ -14,6 +14,10 @@ class ApiEndPoint {
   static const alphaPlan = '/membership-plan/alpha';
   static const alphaFamily = '/membership-plan/alpha_family';
   static const membershipApplication = '/membership-application';
+  static const contactForm = '/contact-form';
+  static const getAllOffers = '/exclusive-offer/get-all';
+  static const changePass = '/auth/change-password';
+  static const faq = '/faq';
 
   // ==================================== Atik =====================================
   static const login = '/auth/login';

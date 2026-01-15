@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:alpha_club/core/service/api/api_service.dart';
 import 'package:alpha_club/core/service/api/api_enpoint.dart';
@@ -49,6 +51,12 @@ class LoginController extends GetxController {
       // Token is nested inside data object
       final dataObject = response.data['data'] ?? {};
       final token = dataObject['token'] ?? '';
+
+      //>>>>>>>>>>>>>>>>>>>> print token  <<<<<<<<<<<<<<<<<//
+
+      debugPrint("---------- TOKEN START ----------");
+      debugPrint(token); // Direct console-e pura token dekhabe
+      debugPrint("---------- TOKEN END ----------");
       
       if (token.isEmpty) {
         AppLogger.warning(
@@ -95,8 +103,7 @@ class LoginController extends GetxController {
         to: 'HomeScreen',
         tag: 'NAVIGATION',
       );
-      
-      // Navigate to home
+
       Get.offAllNamed(AppRoute.homeScreen);
     } else {
       AppLogger.error(
@@ -106,4 +113,6 @@ class LoginController extends GetxController {
       Get.snackbar('Error', response.message);
     }
   }
+
+
 }

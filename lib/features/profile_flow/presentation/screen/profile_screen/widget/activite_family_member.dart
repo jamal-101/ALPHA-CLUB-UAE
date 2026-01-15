@@ -97,14 +97,13 @@
 // }
 
 
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:get/get_utils/src/extensions/string_extensions.dart';
-
 import '../../../../../../core/global/commont_text.dart';
 import '../../../../../../core/utils/app_color/app_color.dart';
 import '../../../../controller/profile_controller.dart';
@@ -114,10 +113,7 @@ class FamilyListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // কন্ট্রোলার ইনিশিয়ালাইজ করার পর API কল করা
     final ProfileController controller = Get.put(ProfileController());
-
-    // ডাটা যদি আগে থেকে লোড করা না থাকে তবে ফেচ করবে
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (controller.familyList.isEmpty) {
         controller.fetchFamilyProfile();
@@ -125,12 +121,9 @@ class FamilyListWidget extends StatelessWidget {
     });
 
     return Obx(() {
-      // লোডিং অবস্থায় সার্কেল দেখানো
       if (controller.isLoading.value) {
         return const Center(child: CircularProgressIndicator());
       }
-
-      // যদি লিস্ট খালি থাকে
       if (controller.familyList.isEmpty) {
         return const Center(
           child: Padding(

@@ -179,7 +179,7 @@ class OfferGridviewBuilder extends StatelessWidget {
                   Flexible(
                     child: Padding(
                       padding:
-                          EdgeInsets.symmetric(horizontal: 4.w, vertical: 4.h),
+                      EdgeInsets.symmetric(horizontal: 4.w, vertical: 4.h),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,

@@ -40,33 +40,33 @@ class LoginScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SizedBox(),
-                  GestureDetector(
-                        onTap: () {
-                          isAppLied.value = true;
-                          Get.toNamed(AppRoute.homeScreen);
-                        },
-                        child: Container(
-                          height: 27.h,
-                          width: 57.w,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(25.r),
-                            border: Border.all(
-                              width: 1.w,
-                              color: AppColors.skipColor,
-                            ),
-                          ),
-                          child: Center(
-                            child: CommonText(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 14,
-                              color: AppColors.skipColor,
-                              text: "Skip",
-                            ),
-                          ),
-                        ),
-                      // );
-                    // }
-                    ),
+                  // GestureDetector(
+                  //       onTap: () {
+                  //         isAppLied.value = true;
+                  //         Get.toNamed(AppRoute.homeScreen);
+                  //       },
+                  //       child: Container(
+                  //         height: 27.h,
+                  //         width: 57.w,
+                  //         decoration: BoxDecoration(
+                  //           borderRadius: BorderRadius.circular(25.r),
+                  //           border: Border.all(
+                  //             width: 1.w,
+                  //             color: AppColors.skipColor,
+                  //           ),
+                  //         ),
+                  //         child: Center(
+                  //           child: CommonText(
+                  //             fontWeight: FontWeight.w400,
+                  //             fontSize: 14,
+                  //             color: AppColors.skipColor,
+                  //             text: "Skip",
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     // );
+                  //   // }
+                  //   ),
                   ],
                 ),
               ),
@@ -158,7 +158,7 @@ class LoginScreen extends StatelessWidget {
                               SizedBox(),
                               GestureDetector(
                                 onTap: () {
-                                  Get.toNamed(AppRoute.newPasswordScreen);
+                                  Get.toNamed(AppRoute.singInVerify);
                                 },
                                 child: CommonText(
                                   style: TextStyle(

@@ -28,7 +28,7 @@ class FavouriteController extends GetxController {
         final favouriteResponse = FavouriteOfferResponse.fromJson(
           Map<String, dynamic>.from(response.data),
         );
-        
+
         // Extract the nested exclusiveOffer from each item
         favouriteOffers.value = favouriteResponse.data
             .map((item) => item.exclusiveOffer)

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:intl_phone_field/country_picker_dialog.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,13 +11,15 @@ class CustomPhoneField extends StatelessWidget {
   final String? initialValue;
   final String hintText;
   final TextEditingController? textController;
+  final String? Function(String?)? validator;
 
   const CustomPhoneField({
     super.key,
     this.onNumberChanged,
     this.initialValue,
     required this.hintText,
-    this.textController
+    this.textController,
+    this.validator,
   });
 
   @override
@@ -24,6 +27,18 @@ class CustomPhoneField extends StatelessWidget {
     return IntlPhoneField(
       controller: textController,
       initialValue: initialValue,
+      keyboardType: TextInputType.number,
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+      ],
+      validator: (phone) {
+        if (validator != null) {
+          return validator!(phone?.completeNumber);
+        }
+        return null;
+      },
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      // disableLengthCheck: true,
       flagsButtonPadding: EdgeInsets.only(left: 10.w),
       decoration: InputDecoration(
         hintText: hintText,

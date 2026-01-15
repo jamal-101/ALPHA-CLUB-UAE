@@ -2,11 +2,9 @@ import 'package:alpha_club/core/global/commont_text.dart';
 import 'package:alpha_club/core/utils/app_color/app_color.dart';
 import 'package:alpha_club/core/utils/app_image/app_image.dart';
 import 'package:alpha_club/core/utils/app_string/app_string.dart';
-import 'package:alpha_club/features/auth_flow/presentation/screen/login_screen.dart';
 import 'package:alpha_club/features/common_bottom_nav_bar/presentation/common_bottom_nab_var.dart';
 import 'package:alpha_club/features/profile_flow/presentation/screen/profile_screen/widget/custom_list_view.dart';
 import 'package:alpha_club/features/profile_flow/presentation/screen/profile_screen/widget/digital_memberShip_container.dart';
-import 'package:alpha_club/features/profile_flow/presentation/screen/profile_screen/widget/guest_user.dart';
 import 'package:alpha_club/features/profile_flow/presentation/screen/profile_screen/widget/profile_data_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -34,10 +32,7 @@ class ProfileScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(height: 50.h),
-                    Obx(() {
-                    return  LoginScreen.isAppLied.value
-                          ? const GuestUser()
-                          : GestureDetector(
+                         GestureDetector(
                               onTap: () {
                                 Get.toNamed(AppRoute.personalInformation);
                               },
@@ -47,8 +42,7 @@ class ProfileScreen extends StatelessWidget {
                                 membershipType: AppString.alphaMember,
                                 userId: AppString.userId,
                               ),
-                            );
-                    }),
+                            ),
                     SizedBox(height: 16.h),
                     DigitalMembershipContainer(),
                     Obx(

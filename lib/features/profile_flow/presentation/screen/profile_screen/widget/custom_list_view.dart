@@ -56,11 +56,8 @@ class CustomListView extends StatelessWidget {
                 Divider(height: 0.5.h, color: AppColors.lineBorderColor),
             itemBuilder: (context, index) {
               final item = menuData[index];
-              return Obx(() {
-                bool isGuest = LoginScreen.isAppLied.value;
-                return GestureDetector(
+              return GestureDetector(
                   onTap: () {
-                    if (isGuest && index != 6) return;
                     switch (index) {
                       case 0:
                         Get.to(() => ContactInfoScreen());
@@ -125,9 +122,7 @@ class CustomListView extends StatelessWidget {
                         Icon(
                           Icons.arrow_forward_ios_outlined,
                           size: 14.sp,
-                          color: LoginScreen.isAppLied.value
-                              ? Color(0xFF4F6185).withValues(alpha: 0.4)
-                              : item["color"] != null
+                          color: item["color"] != null
                               ? AppColors.foundation1
                               : AppColors.blueBase,
                         ),
@@ -136,8 +131,6 @@ class CustomListView extends StatelessWidget {
                   ),
                 );
               }
-              );
-            },
           ),
       );
     }

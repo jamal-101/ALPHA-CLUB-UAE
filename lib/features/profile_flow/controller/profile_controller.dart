@@ -1,5 +1,6 @@
 import 'package:alpha_club/core/service/api/api_enpoint.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../core/route/app_route.dart';
 import '../../../core/service/api/api_response.dart';
@@ -25,6 +26,7 @@ class ProfileController extends GetxController {
     fetchAlphaMemberShipPlans();
     fetchAlphaFamily();
     fetchFamilyProfile();
+    fetchFaqs();
   }
 
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> aboutUs <<<<<<<<<<<<<<<<<<<<<<<<<<<//
@@ -242,17 +244,13 @@ class ProfileController extends GetxController {
 
 
   var familyList = <Map<String, dynamic>>[].obs;
+  var membershipData = <String, dynamic>{}.obs;
 
   Future<void> fetchFamilyProfile() async {
     try {
       isLoading.value = true;
-
-      String token = LocalStorage.token;
-
-
-      print("--- DEBUGGING API CALL ---");
-      print("Token being sent: $token");
-
+      // String token = LocalStorage.token;
+      String token = LocalStorage.preferences?.getString(LocalStorageKeys.token) ?? LocalStorage.token;
       ApiResponseModel response = await ApiService.get(
         ApiEndPoint.myProfile,
         header: {
@@ -263,19 +261,99 @@ class ProfileController extends GetxController {
 
       response.handleResponse(
         onSuccess: (responseData) {
-          if (responseData['data'] != null &&
-              responseData['data']['application_form'] != null) {
-            var members = responseData['data']['application_form']['familyMembers'] as List;
-            familyList.assignAll(members.map((e) => Map<String, dynamic>.from(e)).toList());
+          if (responseData['data'] != null && responseData['data']['application_form'] != null) {
+            var appForm = responseData['data']['application_form'];
+            membershipData.value = Map<String, dynamic>.from(appForm);
+
+            debugPrint("Membership ID: ${membershipData.value['membershipId']}");
           }
         },
       );
     } catch (e) {
-      print("Exception in fetchFamilyProfile: $e");
+      debugPrint("Error: $e");
     } finally {
       isLoading.value = false;
     }
   }
+
+
+
+  ///>>>>>>>>>>>>>>>>>>>>>>>>>>>> new Password controller  <<<<<<<<<<<<<<<<<<<<<<<//
+
+  final currentPasswordController = TextEditingController();
+  final newPasswordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
+
+
+  Future<void> changePassword() async {
+    if (newPasswordController.text != confirmPasswordController.text) {
+      Get.snackbar("Error", "Passwords do not match",
+          backgroundColor: Colors.red, colorText: Colors.white);
+      return;
+    }
+
+    isLoading.value = true;
+
+    Map<String, dynamic> changePasswordBody = {
+      "currentPassword": currentPasswordController.text.trim(),
+      "newPassword": newPasswordController.text.trim(),
+      "confirmPassword": confirmPasswordController.text.trim(),
+    };
+
+    String token = LocalStorage.token;
+
+    ApiResponseModel responseModel = await ApiService.post(
+      ApiEndPoint.changePass,
+      body: changePasswordBody,
+      header: {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      },
+    );
+
+    isLoading.value = false;
+    responseModel.handleResponse(
+      onSuccess: (data) {
+        Get.snackbar("Success", "Password changed successfully",
+            backgroundColor: Colors.green, colorText: Colors.white);
+
+        currentPasswordController.clear();
+        newPasswordController.clear();
+        confirmPasswordController.clear();
+        Get.back();
+      },
+    );
+  }
+
+  @override
+  void onClose() {
+    currentPasswordController.dispose();
+    newPasswordController.dispose();
+    confirmPasswordController.dispose();
+    super.onClose();
+  }
+
+  ///>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> FAQ <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<//
+
+
+  var faqListData = <dynamic>[].obs;
+
+  Future<void> fetchFaqs() async {
+    isLoading.value = true;
+    ApiResponseModel response = await ApiService.get(ApiEndPoint.faq); // Endpoint: /faq
+
+    response.handleResponse(
+      onSuccess: (responseData) {
+        faqListData.value = responseData['data'] ?? [];
+      },
+    );
+    isLoading.value = false;
+  }
+
+
+  ///>>>>>>>>>>>>>>>>>>>>>>>>> fetch Family profile <<<<<<<<<<<<<<<<<<//
+
+
 
 }
 

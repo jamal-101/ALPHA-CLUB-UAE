@@ -115,7 +115,7 @@ class OfferDetailsScreen extends StatelessWidget {
                       right: 12.w,
                       child: Container(
                         padding:
-                            EdgeInsets.symmetric(horizontal: 18.w, vertical: 4.h),
+                        EdgeInsets.symmetric(horizontal: 18.w, vertical: 4.h),
                         decoration: BoxDecoration(
                           color: AppColors.blueBase50,
                           borderRadius: BorderRadius.circular(20.r),

@@ -1,17 +1,20 @@
 import 'package:alpha_club/core/global/common_button.dart';
 import 'package:alpha_club/core/global/common_text_field.dart';
 import 'package:alpha_club/core/global/commont_text.dart';
-import 'package:alpha_club/core/route/app_route.dart';
 import 'package:alpha_club/core/utils/app_color/app_color.dart';
 import 'package:alpha_club/core/utils/app_image/app_image.dart';
 import 'package:alpha_club/core/utils/app_string/app_string.dart';
+import 'package:alpha_club/features/auth_flow/controller/login_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:get/get.dart';
+
 
 class SingInVerify extends StatelessWidget {
-  const SingInVerify({super.key});
+      SingInVerify({super.key});
+
+
+  final LoginController phoneController = Get.put(LoginController());
 
   @override
   Widget build(BuildContext context) {
@@ -78,11 +81,12 @@ class SingInVerify extends StatelessWidget {
                         ),
                         SizedBox(height: 12.h),
                         CommonTextField(
-                          hintText: AppString.enterEmailAddress,
+                          borderColor: AppColors.otpBorderColor,
+                          containerColor: AppColors.appBackgroundColor,
+                          hintText: AppString.enterEmail,
                         ),
                         SizedBox(height: 60.h),
                         CommonButton(onTap: (){
-                          Get.toNamed(AppRoute.singInOtp);
                         }, text: AppString.sendOtp),
                         SizedBox(height: 40.h),
                       ],

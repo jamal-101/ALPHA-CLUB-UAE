@@ -95,7 +95,7 @@ class OfferController extends GetxController {
   Future<void> fetchCategories() async {
     try {
       isLoadingCategories.value = true;
-      
+
       AppLogger.info('Fetching categories', tag: 'OFFER_CONTROLLER');
 
       final response = await ApiService.get(
@@ -104,10 +104,10 @@ class OfferController extends GetxController {
 
       if (response.isSuccess) {
         final categoryResponse = CategoryResponse.fromJson(
-          Map<String, dynamic>.from(response.data)
+            Map<String, dynamic>.from(response.data)
         );
         categories.value = categoryResponse.data;
-        
+
         AppLogger.info(
           'Categories loaded: ${categories.length}',
           tag: 'OFFER_CONTROLLER',
@@ -135,7 +135,7 @@ class OfferController extends GetxController {
   Future<void> fetchOffers({String? categoryFilter}) async {
     try {
       isLoadingOffers.value = true;
-      
+
       AppLogger.info('Fetching offers', tag: 'OFFER_CONTROLLER');
 
       String endpoint = ApiEndPoint.offer;
@@ -147,10 +147,10 @@ class OfferController extends GetxController {
 
       if (response.isSuccess) {
         final offerResponse = OfferResponse.fromJson(
-          Map<String, dynamic>.from(response.data)
+            Map<String, dynamic>.from(response.data)
         );
         offers.value = offerResponse.data;
-        
+
         AppLogger.info(
           'Offers loaded: ${offers.length}',
           tag: 'OFFER_CONTROLLER',
@@ -182,7 +182,7 @@ class OfferController extends GetxController {
       data: {'category': categoryName},
       tag: 'OFFER_FILTER',
     );
-    
+
     // Fetch offers with category filter
     fetchOffers(categoryFilter: categoryName);
   }
@@ -194,7 +194,7 @@ class OfferController extends GetxController {
       action: 'Category Filter Cleared',
       tag: 'OFFER_FILTER',
     );
-    
+
     // Fetch all offers
     fetchOffers();
   }

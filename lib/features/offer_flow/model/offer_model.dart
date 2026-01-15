@@ -106,8 +106,8 @@ class OfferResponse {
       success: json['success'] ?? false,
       message: json['message'] ?? '',
       data: (json['pagination'] as List<dynamic>?)
-              ?.map((item) => OfferModel.fromJson(item))
-              .toList() ??
+          ?.map((item) => OfferModel.fromJson(item))
+          .toList() ??
           [],
     );
   }
