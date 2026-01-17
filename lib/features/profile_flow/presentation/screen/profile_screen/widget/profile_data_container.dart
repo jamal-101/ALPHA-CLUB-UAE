@@ -86,9 +86,13 @@ class _ProfileDataContainerState extends State<ProfileDataContainer> {
   @override
   Widget build(BuildContext context) {
     final profile = userProfile;
-    final imagePath = profile?.getImageUrl(ApiEndPoint.imageBaseUrl).isNotEmpty == true
+    final String rawImagePath = profile?.getImageUrl(ApiEndPoint.imageBaseUrl).isNotEmpty == true
         ? profile!.getImageUrl(ApiEndPoint.imageBaseUrl)
         : widget.imagePath;
+    final String imagePath = rawImagePath.startsWith('http')
+        ? "$rawImagePath?v=${DateTime.now().millisecondsSinceEpoch}"
+        : rawImagePath;
+
     final isNetworkImage = imagePath.startsWith('http');
 
     return Container(
@@ -134,18 +138,6 @@ class _ProfileDataContainerState extends State<ProfileDataContainer> {
                                   fit: BoxFit.cover,
                                 );
                               },
-                              loadingBuilder: (context, child, loadingProgress) {
-                                if (loadingProgress == null) return child;
-                                return Container(
-                                  color: AppColors.otpBorderColor,
-                                  child: Center(
-                                    child: CircularProgressIndicator(
-                                      color: AppColors.goldColor,
-                                      strokeWidth: 2.w,
-                                    ),
-                                  ),
-                                );
-                              },
                             )
                           : Image.asset(imagePath, fit: BoxFit.cover),
                     ),
@@ -173,7 +165,7 @@ class _ProfileDataContainerState extends State<ProfileDataContainer> {
                               color: AppColors.goldColor, fontSize: 14.sp),
                         ),
                         CommonText(
-                          text: profile?.userId ?? widget.userId,
+                          text: profile?.id ?? widget.userId,
                           style:
                               TextStyle(color: Colors.blueGrey, fontSize: 14.sp),
                         ),
@@ -182,8 +174,10 @@ class _ProfileDataContainerState extends State<ProfileDataContainer> {
                   ),
                   if (widget.showEditButton)
                     GestureDetector(
-                      onTap: () {
-                        Get.toNamed(AppRoute.editeProfileScreen);
+                      onTap: () async{
+                        await Get.toNamed(AppRoute.editeProfileScreen);
+                        fetchUserProfile();
+
                       },
                       child: Container(
                         height: 36.h,

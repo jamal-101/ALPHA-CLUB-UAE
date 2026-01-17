@@ -32,17 +32,18 @@ class ProfileScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(height: 50.h),
-                         GestureDetector(
-                              onTap: () {
-                                Get.toNamed(AppRoute.personalInformation);
-                              },
-                              child: ProfileDataContainer(
+                         // GestureDetector(
+                         //      onTap: () {
+                         //        Get.toNamed(AppRoute.personalInformation);
+                         //      },
+                         //      child:
+                              ProfileDataContainer(
                                 imagePath: AssetPath.userProfile,
                                 userName: AppString.userName,
                                 membershipType: AppString.alphaMember,
                                 userId: AppString.userId,
                               ),
-                            ),
+                            // ),
                     SizedBox(height: 16.h),
                     DigitalMembershipContainer(),
                     Obx(

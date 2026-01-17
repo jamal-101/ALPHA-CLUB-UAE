@@ -1,10 +1,15 @@
+import 'dart:io';
+
 import 'package:alpha_club/core/service/api/api_enpoint.dart';
+import 'package:alpha_club/core/utils/app_color/app_color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../../core/route/app_route.dart';
 import '../../../core/service/api/api_response.dart';
 import '../../../core/service/api/api_service.dart';
+import '../../../core/service/logger/app_logger.dart';
 import '../../../core/stroge/storage_service.dart';
 import '../../../core/stroge/stroge_key.dart';
 
@@ -28,6 +33,23 @@ class ProfileController extends GetxController {
     fetchFamilyProfile();
     fetchFaqs();
   }
+
+  @override
+  void onClose() {
+    // currentPasswordController.dispose();
+    // newPasswordController.dispose();
+    // confirmPasswordController.dispose();
+    // nameController.dispose();
+    // emailController.dispose();
+    // addressController.dispose();
+    // familyNameController.dispose();
+    // familyEmailController.dispose();
+    currentPasswordController.dispose();
+    newPasswordController.dispose();
+    confirmPasswordController.dispose();
+    super.onClose();
+  }
+
 
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> aboutUs <<<<<<<<<<<<<<<<<<<<<<<<<<<//
   var aboutDescription = "".obs;
@@ -161,6 +183,18 @@ class ProfileController extends GetxController {
   final addressController = TextEditingController();
   var phoneNumber = "".obs;
 
+  bool validateFields() {
+    if (nameController.text.isEmpty ||
+        emailController.text.isEmpty ||
+        addressController.text.isEmpty ||
+        phoneNumber.value.isEmpty) {
+      Get.snackbar("Error", "Please fill all the main fields",
+          backgroundColor: Colors.deepOrangeAccent, colorText: Colors.white);
+      return false;
+    }
+    return true;
+  }
+
   Future<void> createMembershipApplication() async {
     isLoading.value = true;
 
@@ -191,7 +225,11 @@ class ProfileController extends GetxController {
     response.handleResponse(
       onSuccess: (responseData) {
         Get.snackbar("Success", "Application submitted successfully");
-        savedFamilyMembers.clear();
+        // savedFamilyMembers.clear();
+        // nameController.clear();
+        // emailController.clear();
+        // addressController.clear();
+        // phoneNumber.value = "";
         Get.toNamed(AppRoute.profileScreen);
       },
     );
@@ -246,11 +284,42 @@ class ProfileController extends GetxController {
   var familyList = <Map<String, dynamic>>[].obs;
   var membershipData = <String, dynamic>{}.obs;
 
+  // Future<void> fetchFamilyProfile() async {
+  //   try {
+  //     isLoading.value = true;
+  //     String token =
+  //         LocalStorage.preferences?.getString(LocalStorageKeys.token) ??
+  //             LocalStorage.token;
+  //     ApiResponseModel response = await ApiService.get(
+  //       ApiEndPoint.myProfile,
+  //       header: {
+  //         'Authorization': 'Bearer $token',
+  //         'Content-Type': 'application/json',
+  //       },
+  //     );
+  //
+  //     response.handleResponse(
+  //       onSuccess: (responseData) {
+  //         if (responseData['data'] != null && responseData['data']['application_form'] != null) {
+  //           var appForm = responseData['data']['application_form'];
+  //           membershipData.value = Map<String, dynamic>.from(appForm);
+  //           membershipData.value = Map<String, dynamic>.from(responseData['data']['application_form']);
+  //           profileNameController.text = responseData['data']['name'] ?? "";
+  //         }
+  //       },
+  //     );
+  //   } catch (e) {
+  //     debugPrint("Error: $e");
+  //   } finally {
+  //     isLoading.value = false;
+  //   }
+  // }
+
   Future<void> fetchFamilyProfile() async {
     try {
       isLoading.value = true;
-      // String token = LocalStorage.token;
-      String token = LocalStorage.preferences?.getString(LocalStorageKeys.token) ?? LocalStorage.token;
+      String token = LocalStorage.token;
+
       ApiResponseModel response = await ApiService.get(
         ApiEndPoint.myProfile,
         header: {
@@ -261,11 +330,16 @@ class ProfileController extends GetxController {
 
       response.handleResponse(
         onSuccess: (responseData) {
-          if (responseData['data'] != null && responseData['data']['application_form'] != null) {
-            var appForm = responseData['data']['application_form'];
-            membershipData.value = Map<String, dynamic>.from(appForm);
-
-            debugPrint("Membership ID: ${membershipData.value['membershipId']}");
+          if (responseData['data'] != null) {
+            final rawData = responseData['data'];
+            final appForm = rawData['application_form'] ?? {};
+            Map<String, dynamic> combined = {};
+            combined.addAll(Map<String, dynamic>.from(appForm));
+            combined['name'] = rawData['name'];
+            combined['profileImage'] = rawData['profileImage'];
+            combined['status'] = rawData['status'];
+            membershipData.value = combined;
+            profileNameController.text = rawData['name'] ?? "";
           }
         },
       );
@@ -275,7 +349,6 @@ class ProfileController extends GetxController {
       isLoading.value = false;
     }
   }
-
 
 
   ///>>>>>>>>>>>>>>>>>>>>>>>>>>>> new Password controller  <<<<<<<<<<<<<<<<<<<<<<<//
@@ -315,23 +388,17 @@ class ProfileController extends GetxController {
     responseModel.handleResponse(
       onSuccess: (data) {
         Get.snackbar("Success", "Password changed successfully",
-            backgroundColor: Colors.green, colorText: Colors.white);
+            backgroundColor: AppColors.appBackgroundColor, colorText: Colors.white);
 
         currentPasswordController.clear();
         newPasswordController.clear();
         confirmPasswordController.clear();
-        Get.back();
+        Get.toNamed(AppRoute.loginScreen);
       },
     );
   }
 
-  @override
-  void onClose() {
-    currentPasswordController.dispose();
-    newPasswordController.dispose();
-    confirmPasswordController.dispose();
-    super.onClose();
-  }
+
 
   ///>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> FAQ <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<//
 
@@ -351,9 +418,100 @@ class ProfileController extends GetxController {
   }
 
 
-  ///>>>>>>>>>>>>>>>>>>>>>>>>> fetch Family profile <<<<<<<<<<<<<<<<<<//
+  ///>>>>>>>>>>>>>>>>>>>>>>>>> fetch update Profile <<<<<<<<<<<<<<<<<<//
 
 
+  // var selectedImage = Rxn<File>();
+  //
+  //
+  //
+  // Future<void> pickImage() async {
+  //   final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+  //   if (pickedFile != null) {
+  //     selectedImage.value = File(pickedFile.path);
+  //   }
+  // }
+  // Future<void> updateProfile() async {
+  //   if (nameController.text.isEmpty && selectedImage.value == null) {
+  //     Get.snackbar("Error", "Please change something to update");
+  //     return;
+  //   }
+  //
+  //   try {
+  //     isLoading.value = true;
+  //     Map<String, String> body = {
+  //       "name": nameController.text.trim(),
+  //     };
+  //
+  //     final response = await ApiService.multipart(
+  //       ApiEndPoint.updateProfile,
+  //       method: "PATCH",
+  //       body: body,
+  //       imagePath: selectedImage.value?.path,
+  //       imageName: "profileImage",
+  //     );
+  //     if (response.statusCode == 200) {
+  //       Get.back();
+  //       Get.snackbar("Success", "Profile updated successfully");
+  //     } else {
+  //       Get.snackbar("Failed", response.data['message'] ?? "Update failed");
+  //     }
+  //   } catch (e) {
+  //     AppLogger.error("Update Profile Error", error: e);
+  //   } finally {
+  //     isLoading.value = false;
+  //   }
+  // }
+
+
+  ///>>>>>>>>>>>>>>>>>>>>>>>>> fetch update Profile <<<<<<<<<<<<<<<<<<//
+
+
+  final profileNameController = TextEditingController();
+  var selectedImage = Rxn<File>();
+
+  Future<void> pickImage() async {
+    final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      selectedImage.value = File(pickedFile.path);
+    }
+  }
+
+  Future<void> updateProfile() async {
+    if (profileNameController.text.isEmpty && selectedImage.value == null) {
+      Get.snackbar("Error", "Please change something to update",
+          backgroundColor: Colors.redAccent, colorText: Colors.white);
+      return;
+    }
+
+    try {
+      isLoading.value = true;
+      Map<String, String> bodyData = {
+        "name": profileNameController.text.trim(),
+      };
+      final response = await ApiService.multipart(
+        ApiEndPoint.updateProfile,
+        method: "PATCH",
+        body: bodyData,
+        imagePath: selectedImage.value?.path,
+        imageName: "profileImage",
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        Get.back();
+        Get.snackbar("Success", "Profile updated successfully",
+            backgroundColor: Colors.green, colorText: Colors.white);
+        fetchFamilyProfile();
+      } else {
+        Get.snackbar("Failed", response.data['message'] ?? "Update failed",
+            backgroundColor: Colors.redAccent, colorText: Colors.white);
+      }
+    } catch (e) {
+      AppLogger.error("Update Profile Error", error: e);
+    } finally {
+      isLoading.value = false;
+    }
+  }
 
 }
 

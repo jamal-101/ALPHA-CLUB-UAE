@@ -5,7 +5,6 @@ import 'package:alpha_club/core/global/commont_text.dart';
 import 'package:alpha_club/core/global/custom_phone_field.dart';
 import 'package:alpha_club/core/route/app_route.dart';
 import 'package:alpha_club/core/utils/app_string/app_string.dart';
-import 'package:alpha_club/features/auth_flow/presentation/screen/login_screen.dart';
 import 'package:alpha_club/features/profile_flow/controller/profile_controller.dart';
 import 'package:alpha_club/features/profile_flow/presentation/screen/information/widget/add_family_continer.dart';
 import 'package:alpha_club/features/profile_flow/presentation/screen/information/widget/family_mamber_widget.dart';
@@ -228,11 +227,21 @@ class AlphaFamilyInformationScreen extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 10.h),
-              CommonButton(onTap: (){
-                  profileController.createMembershipApplication();
-                ProfileScreen.isFamilyListVisible.value = true;
-                LoginScreen.isAppLied.value = false;
-              }, text: "Submit"),
+              // CommonButton(onTap: (){
+              //     profileController.createMembershipApplication();
+              //   ProfileScreen.isFamilyListVisible.value = true;
+              //   // LoginScreen.isAppLied.value = false;
+              // }, text: "Submit"),
+              CommonButton(
+                  onTap: () {
+                    if (profileController.validateFields()) {
+                      profileController.createMembershipApplication();
+                      ProfileScreen.isFamilyListVisible.value = true;
+
+                    }
+                  },
+                  text: "Submit"
+              ),
               SizedBox(height: 20.h),
             ],
           ),

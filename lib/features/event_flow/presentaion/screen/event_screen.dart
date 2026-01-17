@@ -14,7 +14,7 @@ class EventScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: const CommonBottomNabVar(selectedIndex: 3),
+      bottomNavigationBar: CommonBottomNabVar(selectedIndex: 3),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(

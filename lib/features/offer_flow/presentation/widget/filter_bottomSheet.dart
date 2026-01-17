@@ -92,13 +92,24 @@ class FilterSheet extends StatelessWidget {
 
             return Padding(
               padding: EdgeInsets.only(left: 20),
-              child: Wrap(
+              child:
+              // Wrap(
+              //   spacing: 23.w,
+              //   runSpacing: 15.h,
+              //   children: controller.categories
+              //       .map((cat) => _buildFilterChip(cat.displayName, isCategory: true))
+              //       .toList(),
+              // ),
+              Wrap(
                 spacing: 23.w,
                 runSpacing: 15.h,
                 children: controller.categories
-                    .map((cat) => _buildFilterChip(cat.displayName, isCategory: true))
+                    .map((cat) => _buildFilterChip(
+                    cat.name,
+                    id: cat.id,
+                    isCategory: true))
                     .toList(),
-              ),
+              )
             );
           }),
           SizedBox(height: 12.h),
@@ -135,16 +146,16 @@ class FilterSheet extends StatelessWidget {
     );
   }
 
-  Widget _buildFilterChip(String label, {required bool isCategory}) {
+  Widget _buildFilterChip(String label, {String? id, required bool isCategory}) {
     return Obx(() {
       bool isSelected = isCategory
-          ? (controller.selectedCategory.value == label)
+          ? (controller.selectedCategory.value == id)
           : (selectedDistance.value == label);
 
       return GestureDetector(
         onTap: () {
           if (isCategory) {
-            controller.selectCategory(label);
+            controller.selectCategory(id ?? "");
           } else {
             selectedDistance.value = label;
           }
@@ -152,9 +163,7 @@ class FilterSheet extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
           decoration: BoxDecoration(
-            color: isSelected
-                ? AppColors.blue1.withValues(alpha: 0.15)
-                : Colors.white,
+            color: isSelected ? AppColors.blue1.withValues(alpha: 0.15) : Colors.white,
             borderRadius: BorderRadius.circular(10.r),
             border: Border.all(
               color: isSelected ? Colors.transparent : AppColors.otpBorderColor,
@@ -171,3 +180,4 @@ class FilterSheet extends StatelessWidget {
     });
   }
 }
+

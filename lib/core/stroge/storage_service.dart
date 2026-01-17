@@ -177,4 +177,16 @@ class LocalStorage {
   static String get getToken {
     return preferences?.getString(LocalStorageKeys.token) ?? token;
   }
+  static Future<void> setStringList(String key, List<String> value) async {
+    try {
+      final localStorage = await _getStorage();
+      await localStorage?.setStringList(key, value);
+    } catch (e) {
+      AppLogger.error('Failed to set string list: $key', error: e);
+    }
+  }
+  static List<String> getStringList(String key) {
+    return preferences?.getStringList(key) ?? [];
+  }
+
 }

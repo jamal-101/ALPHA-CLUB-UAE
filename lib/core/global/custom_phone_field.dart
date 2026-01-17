@@ -63,7 +63,7 @@ class CustomPhoneField extends StatelessWidget {
           borderSide: BorderSide(color: AppColors.blue1, width: 1.5),
         ),
       ),
-      initialCountryCode: 'BD',
+      initialCountryCode: 'GB',
       disableLengthCheck: false,
       dropdownIconPosition: IconPosition.trailing,
       dropdownTextStyle: TextStyle(

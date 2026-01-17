@@ -73,45 +73,29 @@ class NewsListView extends StatelessWidget {
                     Positioned(
                       top: 12.h,
                       right: 10.w,
-                      child: GestureDetector(
-                        onTap: () {
-                          homeController.toggleLike(index);
-                        },
-                        child: Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 10.w,
-                            vertical: 5.h,
-                          ),
-                          decoration: BoxDecoration(
-                            color: AppColors.appBackgroundColor,
-                            borderRadius: BorderRadius.circular(20.r),
-                          ),
-                          child: Obx(() {
-                            bool currentIsLiked = homeController.isLiked(index);
-                            int currentCount = currentIsLiked
-                                ? homeController.baseLikeCount + 1
-                                : homeController.baseLikeCount;
-                            return Row(
+                      child: Obx(() {
+                        final String storyId = item['_id'] ?? "";
+                        bool currentIsLiked = homeController.storyIsLiked[storyId] ?? (item['isLiked'] ?? false);
+                        int currentCount = homeController.storyLikesCount[storyId] ?? (item['likeCount'] ?? 0);
+                        return GestureDetector(
+                          onTap: () {
+                            homeController.toggleLikeStory(storyId);
+                          },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+                            decoration: BoxDecoration(
+                              color: AppColors.appBackgroundColor,
+                              borderRadius: BorderRadius.circular(20.r),
+                            ),
+                            child: Row(
                               children: [
-                                currentIsLiked
-                                    ? Icon(
-                                        Icons.thumb_up,
-                                        size: 18.sp,
-                                        color: Colors.blueAccent,
-                                      )
-                                    : Image.asset(
-                                        AssetPath.likeIcon,
-                                        height: 16,
-                                        width: 16,
-                                      ),
-
+                                currentIsLiked == true
+                                    ? Icon(Icons.thumb_up, size: 18.sp, color: Colors.blueAccent)
+                                    : Image.asset(AssetPath.likeIcon, height: 16, width: 16),
                                 SizedBox(width: 4.w),
                                 ShaderMask(
                                   shaderCallback: (bounds) => LinearGradient(
-                                    colors: [
-                                      AppColors.blueLiner1,
-                                      AppColors.blueLiner2,
-                                    ],
+                                    colors: [AppColors.blueLiner1, AppColors.blueLiner2],
                                   ).createShader(bounds),
                                   child: CommonText(
                                     text: "$currentCount",
@@ -121,12 +105,11 @@ class NewsListView extends StatelessWidget {
                                   ),
                                 ),
                               ],
-                            );
-                          }),
-                        ),
-                      ),
+                            ),
+                          ),
+                        );
+                      }),
                     ),
-                    // ),
                   ],
                 ),
                 SizedBox(height: 12.h),

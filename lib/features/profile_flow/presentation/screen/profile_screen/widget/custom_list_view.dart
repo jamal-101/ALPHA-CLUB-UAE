@@ -19,7 +19,7 @@ class CustomListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<Map<String, dynamic>> menuData = [
-      {"title": "Contact Us", "icon": Image.asset(AssetPath.contactImage)},
+      // {"title": "Contact Us", "icon": Image.asset(AssetPath.contactImage)},
       {
         "title": "Change Password",
         "icon": Image.asset(AssetPath.passwordImage),
@@ -60,24 +60,21 @@ class CustomListView extends StatelessWidget {
                   onTap: () {
                     switch (index) {
                       case 0:
-                        Get.to(() => ContactInfoScreen());
-                        break;
-                      case 1:
                         Get.to(() => ChangePasswordScreen());
                         break;
-                      case 2:
+                      case 1:
                         Get.to(() => FaqScreen());
                         break;
-                      case 3:
+                      case 2:
                         Get.to(() => AboutUsScreen());
                         break;
-                      case 4:
+                      case 3:
                         Get.to(() => PrivacyPolicyScreen());
                         break;
-                      case 5:
+                      case 4:
                         Get.to(() => TermsAndConditionScreen());
                         break;
-                      case 6:
+                      case 5:
                         Get.dialog(
                           const Dialog(
                             backgroundColor: Colors.transparent,

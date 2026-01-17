@@ -18,7 +18,7 @@ class OfferScreen extends StatelessWidget {
     final offerController = Get.put(OfferController());
 
     return Scaffold(
-      bottomNavigationBar: const CommonBottomNabVar(selectedIndex: 1),
+      bottomNavigationBar: CommonBottomNabVar(selectedIndex: 1),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),

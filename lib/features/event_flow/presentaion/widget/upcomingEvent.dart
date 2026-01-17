@@ -81,6 +81,7 @@ class UpComingEvent extends StatelessWidget {
                           ),
                           SizedBox(height: 6.h),
                           CommonText(
+                            textAlign: TextAlign.start,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(

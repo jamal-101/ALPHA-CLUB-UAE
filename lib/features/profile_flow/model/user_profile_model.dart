@@ -20,21 +20,40 @@ class UserProfileModel {
   });
 
   factory UserProfileModel.fromJson(Map<String, dynamic> json) {
+
+    final applicationForm = json['application_form'] ?? {};
+
     return UserProfileModel(
-      id: json['_id'] ?? '',
+      // id: json['memberShipId'] ?? '',
+      // name: json['name'] ?? '',
+      // email: json['email'] ?? '',
+      // phone: json['phone'] ?? '',
+      // image: json['profileImage'],
+      // address: json['address'],
+      // membershipType: applicationForm['membershipType'] ?? 'Alpha Member',
+      // userId: json['_id'] ?? '',
+
+
+      id: applicationForm['memberShipId'] ?? '',
       name: json['name'] ?? '',
       email: json['email'] ?? '',
       phone: json['phone'] ?? '',
-      image: json['image'],
-      address: json['address'],
-      membershipType: json['membershipType'] ?? 'Alpha Member',
-      userId: json['userId'] ?? json['_id'] ?? '',
+      image: json['profileImage'],
+      address: applicationForm['address'] ?? json['address'],
+      membershipType: applicationForm['membershipType'] ?? 'Alpha Member',
+      userId: json['_id'] ?? '',
     );
+  }
+
+  String getImageUrl(String baseUrl) {
+    if (image == null || image!.isEmpty) return '';
+    if (image!.startsWith('http')) return image!;
+    return '$baseUrl/$image';
   }
 
   Map<String, dynamic> toJson() {
     return {
-      '_id': id,
+      'memberShipId': id,
       'name': name,
       'email': email,
       'phone': phone,
@@ -45,16 +64,7 @@ class UserProfileModel {
     };
   }
 
-  // Get full image URL
-  String getImageUrl(String baseUrl) {
-    if (image == null || image!.isEmpty) return '';
-    if (image!.startsWith('http')) {
-      return image!;
-    }
-    return '$baseUrl$image';
-  }
 }
-
 class UserProfileResponse {
   final bool success;
   final String message;

@@ -138,78 +138,81 @@ class DigitalMembershipContainer extends StatelessWidget {
 }
 
 Widget modelBottomSheet(BuildContext context) {
-  return Container(
-    height: 550.h,
-    width: double.infinity,
-    decoration: BoxDecoration(
-      color: Colors.white,
-    ),
-    child: Padding(
-      padding: EdgeInsets.only(left: 16, right: 16, top: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                height: 40.h,
-                width: 40.w,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  gradient: RadialGradient(
-                    center: Alignment.center,
-                    radius: 0.8,
-                    colors: [
-                      AppColors.radialGradiant1,
-                      AppColors.radialGradiant2,
-                    ],
+  return SingleChildScrollView(
+    scrollDirection: Axis.vertical,
+    child: Container(
+      // height: 550.h,
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: Colors.white,
+      ),
+      child: Padding(
+        padding: EdgeInsets.only(left: 16, right: 16, top: 10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  height: 40.h,
+                  width: 40.w,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    gradient: RadialGradient(
+                      center: Alignment.center,
+                      radius: 0.8,
+                      colors: [
+                        AppColors.radialGradiant1,
+                        AppColors.radialGradiant2,
+                      ],
+                    ),
+                  ),
+                  child: Center(
+                    child: Image.asset(
+                      AssetPath.splashImage,
+                      height: 120.h,
+                      fit: BoxFit.contain,
+                    ),
                   ),
                 ),
-                child: Center(
-                  child: Image.asset(
-                    AssetPath.splashImage,
-                    height: 120.h,
-                    fit: BoxFit.contain,
+                IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: Icon(
+                    Icons.close,
+                    color: const Color(0xFF1A2A4D),
+                    size: 20.sp,
                   ),
                 ),
-              ),
-              IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: Icon(
-                  Icons.close,
-                  color: const Color(0xFF1A2A4D),
-                  size: 20.sp,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 16.h),
-          ProfileDataContainer(
-            showEditButton: false,
-            showBorder: false,
-            usePadding: false,
-            imagePath: AssetPath.userProfile,
-            userName: AppString.userName,
-            membershipType: AppString.alphaMember,
-            userId: AppString.userId,
-          ),
-          MemberShipInfoContainer(),
-          SizedBox(height: 15.h),
-          CommonText(
-            style: TextStyle(
-              fontFamily: 'SFPro',
-              fontSize: 16.sp,
-              fontWeight: FontWeight.w500,
+              ],
             ),
-            text: AppString.memberShipBenefits,
-          ),
-          SizedBox(height: 20.h),
-          CustomCheckList(),
-          SizedBox(height: 20.h),
-        ],
+            SizedBox(height: 16.h),
+            ProfileDataContainer(
+              showEditButton: false,
+              showBorder: false,
+              usePadding: true,
+              imagePath: AssetPath.userProfile,
+              userName: AppString.userName,
+              membershipType: AppString.alphaMember,
+              userId: AppString.userId,
+            ),
+            MemberShipInfoContainer(),
+            SizedBox(height: 15.h),
+            CommonText(
+              style: TextStyle(
+                fontFamily: 'SFPro',
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w500,
+              ),
+              text: AppString.memberShipBenefits,
+            ),
+            SizedBox(height: 20.h),
+            CustomCheckList(),
+            SizedBox(height: 20.h),
+          ],
+        ),
       ),
     ),
   );

@@ -114,25 +114,7 @@ class FamilyListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ProfileController controller = Get.put(ProfileController());
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (controller.familyList.isEmpty) {
-        controller.fetchFamilyProfile();
-      }
-    });
-
     return Obx(() {
-      if (controller.isLoading.value) {
-        return const Center(child: CircularProgressIndicator());
-      }
-      if (controller.familyList.isEmpty) {
-        return const Center(
-          child: Padding(
-            padding: EdgeInsets.all(20.0),
-            child: Text("No family members found"),
-          ),
-        );
-      }
-
       return Container(
         padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4),
         decoration: BoxDecoration(
@@ -140,13 +122,61 @@ class FamilyListWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(12.r),
           border: Border.all(color: const Color(0xFFE2E8F0), width: 1.w),
         ),
+        // child: ListView.builder(
+        //   padding: EdgeInsets.zero,
+        //   itemCount: controller.familyList.length,
+        //   shrinkWrap: true,
+        //   physics: const NeverScrollableScrollPhysics(),
+        //   itemBuilder: (context, index) {
+        //     final member = controller.familyList[index];
+        //     return Column(
+        //       children: [
+        //         Padding(
+        //           padding: EdgeInsets.symmetric(vertical: 8.h),
+        //           child: Row(
+        //             children: [
+        //               CircleAvatar(
+        //                 radius: 18.w,
+        //                 backgroundColor: AppColors.blue1.withOpacity(0.1),
+        //                 child: Icon(Icons.person, color: AppColors.blue1, size: 20.w),
+        //               ),
+        //               SizedBox(width: 12.w),
+        //               Expanded(
+        //                 child: Column(
+        //                   crossAxisAlignment: CrossAxisAlignment.start,
+        //                   children: [
+        //                     CommonText(
+        //                       fontSize: 16,
+        //                       color: AppColors.blue1,
+        //                       fontWeight: FontWeight.w400,
+        //                       text: member["name"] ?? "Unknown",
+        //                     ),
+        //                     CommonText(
+        //                       fontWeight: FontWeight.w400,
+        //                       fontSize: 12.sp,
+        //                       color: AppColors.blueBase,
+        //                       text: member["relation"]?.toString().capitalizeFirst ?? "",
+        //                     ),
+        //                   ],
+        //                 ),
+        //               ),
+        //             ],
+        //           ),
+        //         ),
+        //         if (index != controller.familyList.length - 1)
+        //           const Divider(color: Color(0xFFE2E8F0), height: 1),
+        //       ],
+        //     );
+        //   },
+        // ),
         child: ListView.builder(
           padding: EdgeInsets.zero,
-          itemCount: controller.familyList.length,
+          itemCount: controller.savedFamilyMembers.length,
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
-            final member = controller.familyList[index];
+            final member = controller.savedFamilyMembers[index];
+
             return Column(
               children: [
                 Padding(
@@ -155,7 +185,7 @@ class FamilyListWidget extends StatelessWidget {
                     children: [
                       CircleAvatar(
                         radius: 18.w,
-                        backgroundColor: AppColors.blue1.withOpacity(0.1),
+                        backgroundColor: AppColors.blue1.withValues(alpha: 0.1),
                         child: Icon(Icons.person, color: AppColors.blue1, size: 20.w),
                       ),
                       SizedBox(width: 12.w),
@@ -181,8 +211,6 @@ class FamilyListWidget extends StatelessWidget {
                     ],
                   ),
                 ),
-                if (index != controller.familyList.length - 1)
-                  const Divider(color: Color(0xFFE2E8F0), height: 1),
               ],
             );
           },

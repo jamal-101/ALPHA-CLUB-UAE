@@ -1,3 +1,4 @@
+
 import 'package:alpha_club/features/offer_flow/model/offer_model.dart';
 
 class FavouriteOfferItem {
@@ -48,3 +49,5 @@ class FavouriteOfferResponse {
     );
   }
 }
+
+

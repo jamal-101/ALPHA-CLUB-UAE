@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:dio/dio.dart';
 import '../../stroge/storage_service.dart';
 import '../../utils/app_string/app_string.dart';
@@ -41,6 +42,74 @@ class ApiService {
         Map<String, String>? header,
       }) => _request(url, "DELETE", body: body, header: header);
 
+  // static Future<ApiResponseModel> multipart(
+  //     String url, {
+  //       Map<String, String> header = const {},
+  //       Map<String, String> body = const {},
+  //       String method = "POST",
+  //       String imageName = 'image',
+  //       String? imagePath,
+  //     }) async {
+  //   // Initialize FormData with the body fields
+  //   FormData formData = FormData.fromMap(body);
+  //
+  //   // Check if an image path is provided
+  //   if (imagePath != null) {
+  //     final file = File(imagePath);
+  //     if (await file.exists()) {
+  //       // final compressedFile = await compressImage(file);
+  //       String fileName = file.path.split('/').last;
+  //       String? mimeType = lookupMimeType(file.path);
+  //
+  //       // Add the file to FormData
+  //       formData.files.add(
+  //         MapEntry(
+  //           imageName, // Key as per the API documentation
+  //           await MultipartFile.fromFile(
+  //             file.path,
+  //             filename: fileName,
+  //             contentType:
+  //             mimeType != null ? MediaType.parse(mimeType) : null,
+  //           ),
+  //         ),
+  //       );
+  //     }
+  //   }
+  //
+  //
+  //   FormData formData = FormData();
+  //   if (imagePath != null && imagePath.isNotEmpty) {
+  //     File file = File(imagePath);
+  //     String extension = file.path.split('.').last.toLowerCase();
+  //     String? mimeType = lookupMimeType(imagePath);
+  //
+  //     formData.files.add(
+  //       MapEntry(
+  //         imageName,
+  //         await MultipartFile.fromFile(
+  //           imagePath,
+  //           filename: "$imageName.$extension",
+  //           contentType:
+  //               mimeType != null
+  //                   ? DioMediaType.parse(mimeType)
+  //                   : DioMediaType.parse("image/jpeg"),
+  //         ),
+  //       ),
+  //     );
+  //   }
+  //
+  //
+  //   body.forEach((key, value) {
+  //     formData.fields.add(MapEntry(key, value));
+  //   });
+  //
+  //   header['Content-Type'] = "multipart/form-data";
+  //
+  //   return _request(url, method, body: formData, header: header);
+  // }
+
+
+
   static Future<ApiResponseModel> multipart(
       String url, {
         Map<String, String> header = const {},
@@ -49,62 +118,33 @@ class ApiService {
         String imageName = 'image',
         String? imagePath,
       }) async {
-    // Initialize FormData with the body fields
+
+    // ১. বডি ডাটা দিয়ে FormData শুরু করুন
     FormData formData = FormData.fromMap(body);
 
-    // Check if an image path is provided
-    // if (imagePath != null) {
-    //   final file = File(imagePath);
-    //   if (await file.exists()) {
-    //     // final compressedFile = await compressImage(file);
-    //     String fileName = file.path.split('/').last;
-    //     String? mimeType = lookupMimeType(file.path);
-    //
-    //     // Add the file to FormData
-    //     formData.files.add(
-    //       MapEntry(
-    //         imageName, // Key as per the API documentation
-    //         await MultipartFile.fromFile(
-    //           file.path,
-    //           filename: fileName,
-    //           contentType:
-    //           mimeType != null ? MediaType.parse(mimeType) : null,
-    //         ),
-    //       ),
-    //     );
-    //   }
-    // }
+    // ২. যদি ইমেজ পাথ থাকে তবে সেটি যোগ করুন
+    if (imagePath != null && imagePath.isNotEmpty) {
+      final file = File(imagePath);
+      if (await file.exists()) {
+        String fileName = file.path.split('/').last;
 
+        formData.files.add(
+          MapEntry(
+            imageName,
+            await MultipartFile.fromFile(
+              file.path,
+              filename: fileName,
+            ),
+          ),
+        );
+      }
+    }
 
-    // FormData formData = FormData();
-    // if (imagePath != null && imagePath.isNotEmpty) {
-    //   File file = File(imagePath);
-    //   String extension = file.path.split('.').last.toLowerCase();
-    //   String? mimeType = lookupMimeType(imagePath);
+    // ৩. হেডার সেট করুন
+    Map<String, String> finalHeader = Map.from(header);
+    finalHeader['Content-Type'] = "multipart/form-data";
 
-    //   formData.files.add(
-    //     MapEntry(
-    //       imageName,
-    //       await MultipartFile.fromFile(
-    //         imagePath,
-    //         filename: "$imageName.$extension",
-    //         contentType:
-    //             mimeType != null
-    //                 ? DioMediaType.parse(mimeType)
-    //                 : DioMediaType.parse("image/jpeg"),
-    //       ),
-    //     ),
-    //   );
-    // }
-
-
-    // body.forEach((key, value) {
-    //   formData.fields.add(MapEntry(key, value));
-    // });
-
-    // header['Content-Type'] = "multipart/form-data";
-
-    return _request(url, method, body: formData, header: header);
+    return _request(url, method, body: formData, header: finalHeader);
   }
 
   /// ========== [ API REQUEST HANDLER ] ========== ///

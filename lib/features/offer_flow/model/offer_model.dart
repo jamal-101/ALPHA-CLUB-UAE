@@ -101,14 +101,26 @@ class OfferResponse {
     required this.data,
   });
 
+  // factory OfferResponse.fromJson(Map<String, dynamic> json) {
+  //   return OfferResponse(
+  //     success: json['success'] ?? false,
+  //     message: json['message'] ?? '',
+  //     data: (json['pagination'] as List<dynamic>?)
+  //         ?.map((item) => OfferModel.fromJson(item))
+  //         .toList() ??
+  //         [],
+  //   );
+  // }
+
   factory OfferResponse.fromJson(Map<String, dynamic> json) {
     return OfferResponse(
       success: json['success'] ?? false,
       message: json['message'] ?? '',
-      data: (json['pagination'] as List<dynamic>?)
+      data: (json['data'] as List<dynamic>?)
           ?.map((item) => OfferModel.fromJson(item))
           .toList() ??
           [],
     );
   }
 }
+

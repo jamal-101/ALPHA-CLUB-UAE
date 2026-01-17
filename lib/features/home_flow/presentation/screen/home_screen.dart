@@ -11,7 +11,7 @@ class HomeScreen extends StatelessWidget {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-        bottomNavigationBar: const CommonBottomNabVar(selectedIndex: 0),
+        bottomNavigationBar:  CommonBottomNabVar(selectedIndex: 0),
         body: SafeArea(
           child: Column(
             children: [

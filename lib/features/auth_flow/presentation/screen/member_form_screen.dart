@@ -32,7 +32,7 @@ class MemberFormScreen extends StatelessWidget {
               children: [
                 SizedBox(height: 10.h),
                 CommonAppBar(
-                  title: AppString.memberForm,
+                  title: "Membership Enquiry",
                   onTap: () {
                     Get.toNamed(AppRoute.loginScreen);
                   },
@@ -134,7 +134,7 @@ class MemberFormScreen extends StatelessWidget {
                       authController.createContactForm();
                     }
                   },
-                  text: authController.isLoading.value ? "Loading..." : AppString.saveChange,
+                  text: authController.isLoading.value ? "Loading..." : "Submit",
                 )),
               ],
             ),

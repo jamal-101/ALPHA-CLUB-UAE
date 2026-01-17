@@ -15,6 +15,10 @@ class FavouriteController extends GetxController {
     fetchFavouriteOffers();
   }
 
+  void refreshData() {
+    fetchFavouriteOffers();
+  }
+
   /// Fetch favourite offers from API
   Future<void> fetchFavouriteOffers() async {
     try {
@@ -30,9 +34,17 @@ class FavouriteController extends GetxController {
         );
 
         // Extract the nested exclusiveOffer from each item
-        favouriteOffers.value = favouriteResponse.data
+        // favouriteOffers.value = favouriteResponse.data
+        //     .map((item) => item.exclusiveOffer)
+        //     .toList();
+
+        final List<OfferModel> extractedOffers = favouriteResponse.data
             .map((item) => item.exclusiveOffer)
             .toList();
+
+        favouriteOffers.assignAll(extractedOffers);
+
+
 
         AppLogger.info(
           'Favourite offers loaded: ${favouriteOffers.length}',
@@ -58,45 +70,66 @@ class FavouriteController extends GetxController {
   }
 
   /// Remove from favourites
+  // Future<void> removeFavourite(String offerId) async {
+  //   try {
+  //     // Optimistically remove from UI
+  //     favouriteOffers.removeWhere((offer) => offer.id == offerId);
+  //
+  //     AppLogger.logUserAction(
+  //       action: 'Remove Favourite',
+  //       data: {'offerId': offerId},
+  //       tag: 'FAVOURITE',
+  //     );
+  //
+  //     favouriteOffers.removeWhere((offer) => offer.id == offerId);
+  //     favouriteOffers.refresh();
+  //
+  //     // Call API
+  //     final response = await ApiService.post(
+  //       '${ApiEndPoint.toggleFavourite}/$offerId',
+  //     );
+  //
+  //     if (response.isSuccess) {
+  //       AppLogger.info(
+  //         'Favourite removed successfully',
+  //         tag: 'FAVOURITE',
+  //       );
+  //     } else {
+  //       // Refresh on failure
+  //       await fetchFavouriteOffers();
+  //       AppLogger.error(
+  //         'Failed to remove favourite: ${response.message}',
+  //         tag: 'FAVOURITE',
+  //       );
+  //       Get.snackbar('Error', 'Failed to remove favourite');
+  //     }
+  //   } catch (e, stackTrace) {
+  //     AppLogger.error(
+  //       'Error removing favourite',
+  //       tag: 'FAVOURITE',
+  //       error: e,
+  //       stackTrace: stackTrace,
+  //     );
+  //     // Refresh on error
+  //     await fetchFavouriteOffers();
+  //   }
+  // }
+
+
   Future<void> removeFavourite(String offerId) async {
     try {
-      // Optimistically remove from UI
       favouriteOffers.removeWhere((offer) => offer.id == offerId);
-
-      AppLogger.logUserAction(
-        action: 'Remove Favourite',
-        data: {'offerId': offerId},
-        tag: 'FAVOURITE',
-      );
-
-      // Call API
-      final response = await ApiService.post(
-        '${ApiEndPoint.toggleFavourite}/$offerId',
-      );
+      favouriteOffers.refresh();
+      final response = await ApiService.post('${ApiEndPoint.toggleFavourite}/$offerId');
 
       if (response.isSuccess) {
-        AppLogger.info(
-          'Favourite removed successfully',
-          tag: 'FAVOURITE',
-        );
+        AppLogger.info('Removed from favourite: $offerId');
       } else {
-        // Refresh on failure
-        await fetchFavouriteOffers();
-        AppLogger.error(
-          'Failed to remove favourite: ${response.message}',
-          tag: 'FAVOURITE',
-        );
-        Get.snackbar('Error', 'Failed to remove favourite');
+        fetchFavouriteOffers();
+        Get.snackbar('Error', 'Could not sync with server');
       }
-    } catch (e, stackTrace) {
-      AppLogger.error(
-        'Error removing favourite',
-        tag: 'FAVOURITE',
-        error: e,
-        stackTrace: stackTrace,
-      );
-      // Refresh on error
-      await fetchFavouriteOffers();
+    } catch (e) {
+      fetchFavouriteOffers();
     }
   }
 }

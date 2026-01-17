@@ -152,26 +152,26 @@ class LoginScreen extends StatelessWidget {
                             },
                           ),
                           SizedBox(height: 24.h),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              SizedBox(),
-                              GestureDetector(
-                                onTap: () {
-                                  Get.toNamed(AppRoute.singInVerify);
-                                },
-                                child: CommonText(
-                                  style: TextStyle(
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w600,
-                                    color: AppColors.blue1,
-                                    fontFamily: 'SFPro',
-                                  ),
-                                  text: AppString.forgetPass,
-                                ),
-                              ),
-                            ],
-                          ),
+                          // Row(
+                          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //   children: [
+                          //     SizedBox(),
+                          //     GestureDetector(
+                          //       onTap: () {
+                          //         Get.toNamed(AppRoute.singInVerify);
+                          //       },
+                          //       child: CommonText(
+                          //         style: TextStyle(
+                          //           fontSize: 14.sp,
+                          //           fontWeight: FontWeight.w600,
+                          //           color: AppColors.blue1,
+                          //           fontFamily: 'SFPro',
+                          //         ),
+                          //         text: AppString.forgetPass,
+                          //       ),
+                          //     ),
+                          //   ],
+                          // ),
                           SizedBox(height: 24.h),
                           Obx(
                             () => CommonButton(
