@@ -25,6 +25,7 @@ import 'package:get/get.dart';
 import '../../features/favorite/presentation/screen/favorite_screen.dart';
 import '../../features/profile_flow/presentation/screen/information/screen/alpha_family_information_screen.dart';
 import '../../features/profile_flow/presentation/screen/information/screen/alpha_information_screen.dart';
+import '../../features/profile_flow/presentation/screen/profile_screen/screen/change_password_screen.dart';
 
 class AppRoute {
   static String splashScreen = '/splashScreen';
@@ -54,6 +55,7 @@ class AppRoute {
   static String memberFormScreen = '/memberFormScreen';
   // static String latestStoriesDetailsScreen = '/latestStoriesDetailsScreen';
   // static String eventRegisterScreen = '/eventRegisterScreen';
+  static String changePasswordScreen = '/changePasswordScreen';
 
   static List<GetPage> route = [
     GetPage(name: splashScreen, page: ()=>SplashScreen()),
@@ -83,5 +85,6 @@ class AppRoute {
     GetPage(name: memberFormScreen, page: ()=> MemberFormScreen()),
     // GetPage(name: latestStoriesDetailsScreen, page: ()=> LatestStoriesDetailsScreen()),
     // GetPage(name: eventRegisterScreen, page: ()=> EventRegisterScreen()),
+    GetPage(name: changePasswordScreen, page: ()=> ChangePasswordScreen()),
   ];
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../core/route/app_route.dart';
 import '../../../core/service/api/api_service.dart';
+import '../../profile_flow/controller/profile_controller.dart';
 
 enum MemberType { alpha, alphaFamily }
 
@@ -24,22 +25,17 @@ class AuthController extends GetxController {
     super.onClose();
   }
 
-  void updateSelectedType(MemberType type) {
-    if (type == MemberType.alpha) {
-      selectedMemberType.value = "alpha";
-    } else {
-      selectedMemberType.value = "alpha_family";
-    }
-  }
+  final ProfileController profileController = Get.find<ProfileController>();
+
   Future<void> createContactForm() async {
     isLoading.value = true;
-
     Map<String, dynamic> bodyData = {
       "name": nameController.text.trim(),
       "contact": phoneNumber.value,
       "email": emailController.text.trim(),
       "message": messageController.text.trim().isEmpty ? "" : messageController.text.trim(),
-      "membershipType": selectedMemberType.value == "Select" ? "" : selectedMemberType.value.toLowerCase(),
+      // "membershipType": selectedMemberType.value == "Select" ? "" : selectedMemberType.value.toLowerCase(),
+      "membershipType": profileController.selectedMemberTypeCode.value,
     };
 
     final response = await ApiService.post(
@@ -50,15 +46,13 @@ class AuthController extends GetxController {
     response.handleResponse(
       onSuccess: (responseData) {
         Get.snackbar("Success", "Contact form created successfully",
-            backgroundColor: Colors.white, colorText: Colors.white);
+            backgroundColor: Colors.white, colorText: Colors.black);
         nameController.clear();
         emailController.clear();
         messageController.clear();
-
         Get.offAllNamed(AppRoute.loginScreen);
       },
     );
-
     isLoading.value = false;
   }
 }

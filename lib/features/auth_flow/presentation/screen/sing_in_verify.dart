@@ -8,6 +8,8 @@ import 'package:alpha_club/features/auth_flow/controller/login_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import '../../../../core/helper/from_validation.dart';
+import '../../../../core/route/app_route.dart';
 
 
 class SingInVerify extends StatelessWidget {
@@ -15,10 +17,12 @@ class SingInVerify extends StatelessWidget {
 
 
   final LoginController phoneController = Get.put(LoginController());
+      final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: Container(
         height: double.infinity,
         width: double.infinity,
@@ -65,31 +69,49 @@ class SingInVerify extends StatelessWidget {
                   ),
                   child: Padding(
                     padding: const EdgeInsets.only(left: 20,right: 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: 159.h),
-                        CommonText(
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w400,
-                              color: AppColors.blue1,
-                              fontFamily: 'SFPro'
-                          ),
-                          text: AppString.email,
+                    child: Form(
+                      key: _formKey,
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(height: 159.h),
+                            CommonText(
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w400,
+                                  color: AppColors.blue1,
+                                  fontFamily: 'SFPro'
+                              ),
+                              text: AppString.email,
+                            ),
+                            SizedBox(height: 12.h),
+                            CommonTextField(
+                              validator: FormValidation.validateEmail,
+                              controller: phoneController.forgotEmailController,
+                              borderColor: AppColors.otpBorderColor,
+                              containerColor: AppColors.appBackgroundColor,
+                              hintText: AppString.enterEmail,
+                            ),
+                            SizedBox(height: 60.h),
+                            Obx(() => CommonButton(
+                              // isLoading: phoneController.isLoading.value,
+                              onTap: () {
+                                Get.toNamed(AppRoute.singInOtp);
+                                if (!phoneController.isLoading.value) {
+                                  phoneController.sendForgotPasswordOtp();
+                                }
+                              },
+                              text: phoneController.isLoading.value ? "Sending..." : AppString.sendOtp,
+                            )),
+                            // CommonButton(onTap: (){
+                            //   Get.toNamed(AppRoute.singInOtp);
+                            // }, text: AppString.sendOtp),
+                            SizedBox(height: 40.h),
+                          ],
                         ),
-                        SizedBox(height: 12.h),
-                        CommonTextField(
-                          borderColor: AppColors.otpBorderColor,
-                          containerColor: AppColors.appBackgroundColor,
-                          hintText: AppString.enterEmail,
-                        ),
-                        SizedBox(height: 60.h),
-                        CommonButton(onTap: (){
-                        }, text: AppString.sendOtp),
-                        SizedBox(height: 40.h),
-                      ],
+                      ),
                     ),
                   ),
                 ),

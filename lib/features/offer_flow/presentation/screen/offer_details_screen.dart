@@ -5,6 +5,7 @@ import 'package:alpha_club/core/utils/app_string/app_string.dart';
 import 'package:alpha_club/features/offer_flow/controller/offer_details_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
 
 
@@ -61,9 +62,9 @@ class OfferDetailsScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(16.r),
                       child: Image.network(
                         offer.getImageUrl(ApiEndPoint.imageBaseUrl),
-                        height: 219.h,
+                        height: 220.h,
                         width: double.infinity,
-                        fit: BoxFit.cover,
+                        fit: BoxFit.fill,
                         errorBuilder: (context, error, stackTrace) {
                           return Container(
                             height: 219.h,
@@ -76,19 +77,19 @@ class OfferDetailsScreen extends StatelessWidget {
                             ),
                           );
                         },
-                        loadingBuilder: (context, child, loadingProgress) {
-                          if (loadingProgress == null) return child;
-                          return Container(
-                            height: 219.h,
-                            width: double.infinity,
-                            color: AppColors.otpBorderColor,
-                            child: Center(
-                              child: CircularProgressIndicator(
-                                color: AppColors.blue1,
-                              ),
-                            ),
-                          );
-                        },
+                        // loadingBuilder: (context, child, loadingProgress) {
+                        //   if (loadingProgress == null) return child;
+                        //   return Container(
+                        //     height: 219.h,
+                        //     width: double.infinity,
+                        //     color: AppColors.otpBorderColor,
+                        //     child: Center(
+                        //       child: CircularProgressIndicator(
+                        //         color: AppColors.blue1,
+                        //       ),
+                        //     ),
+                        //   );
+                        // },
                       ),
                     ),
                     Positioned(
@@ -121,7 +122,7 @@ class OfferDetailsScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(20.r),
                         ),
                         child: Text(
-                          "30%",
+                          "${offer.discount?.value}% Off",
                           style: TextStyle(
                             color: const Color(0xFF2E7D32),
                             fontWeight: FontWeight.bold,
@@ -130,35 +131,35 @@ class OfferDetailsScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Positioned(
-                      bottom: 12.h,
-                      right: 12.w,
-                      child: GestureDetector(
-                        onTap: () => controller.toggleFavourite(),
-                        child: Container(
-                          height: 32.w,
-                          width: 32.w,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.white,
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withValues(alpha: 0.2),
-                                blurRadius: 4,
-                                offset: const Offset(0, 2),
-                              ),
-                            ],
-                          ),
-                          child: Icon(
-                            offer.isFavourite
-                                ? Icons.favorite_rounded
-                                : Icons.favorite_outline_rounded,
-                            color: AppColors.redColor,
-                            size: 20.sp,
-                          ),
-                        ),
-                      ),
-                    ),
+                    // Positioned(
+                    //   bottom: 12.h,
+                    //   right: 12.w,
+                    //   child: GestureDetector(
+                    //     onTap: () => controller.toggleFavourite(),
+                    //     child: Container(
+                    //       height: 32.w,
+                    //       width: 32.w,
+                    //       decoration: BoxDecoration(
+                    //         shape: BoxShape.circle,
+                    //         color: Colors.white,
+                    //         boxShadow: [
+                    //           BoxShadow(
+                    //             color: Colors.black.withValues(alpha: 0.2),
+                    //             blurRadius: 4,
+                    //             offset: const Offset(0, 2),
+                    //           ),
+                    //         ],
+                    //       ),
+                    //       child: Icon(
+                    //         offer.isFavourite
+                    //             ? Icons.favorite_rounded
+                    //             : Icons.favorite_outline_rounded,
+                    //         color: AppColors.redColor,
+                    //         size: 20.sp,
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
                 SizedBox(height: 20.h),
@@ -183,7 +184,7 @@ class OfferDetailsScreen extends StatelessWidget {
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w400,
                   color: AppColors.blue1,
-                  text: offer.category.displayName,
+                  text: offer.category.name,
                 ),
                 SizedBox(height: 16.h),
                 Divider(
@@ -199,13 +200,15 @@ class OfferDetailsScreen extends StatelessWidget {
                   text: AppString.description,
                 ),
                 SizedBox(height: 8.h),
-                CommonText(
-                  textAlign: TextAlign.start,
-                  fontWeight: FontWeight.w400,
-                  fontSize: 14.sp,
-                  color: AppColors.blue1,
-                  text: offer.title,
-                  maxLines: 10,
+                HtmlWidget(
+                  offer.description,
+                  textStyle: TextStyle(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w400,
+                    color: AppColors.blue1,
+                    fontFamily: 'SFPro',
+                  ),
+                  renderMode: RenderMode.column,
                 ),
                 SizedBox(height: 24.h),
               ],

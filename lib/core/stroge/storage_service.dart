@@ -189,4 +189,14 @@ class LocalStorage {
     return preferences?.getStringList(key) ?? [];
   }
 
+  // LocalStorage ক্লাসের ভেতর এই মেথডগুলো যোগ করুন
+
+  static bool getBool(String key) {
+    return preferences?.getBool(key) ?? false;
+  }
+
+  static String getString(String key) {
+    return preferences?.getString(key) ?? "";
+  }
+
 }

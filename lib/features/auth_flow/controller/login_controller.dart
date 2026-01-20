@@ -1,5 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:alpha_club/core/service/api/api_service.dart';
 import 'package:alpha_club/core/service/api/api_enpoint.dart';
@@ -7,6 +7,8 @@ import 'package:alpha_club/core/route/app_route.dart';
 import 'package:alpha_club/core/stroge/storage_service.dart';
 import 'package:alpha_club/core/stroge/stroge_key.dart';
 import 'package:alpha_club/core/service/logger/app_logger.dart';
+import '../../../core/helper/from_validation.dart';
+import '../presentation/widget/logOutModel_widget.dart';
 
 class LoginController extends GetxController {
   var isLoading = false.obs;
@@ -71,7 +73,7 @@ class LoginController extends GetxController {
       // Update static variables
       LocalStorage.token = token;
       LocalStorage.isLogIn = true;
-      
+
       AppLogger.info(
         'Token saved to storage - Length: ${token.length}, Preview: ${token.length > 10 ? '${token.substring(0, 10)}...' : token}',
         tag: 'LOGIN_TOKEN',
@@ -104,7 +106,21 @@ class LoginController extends GetxController {
         tag: 'NAVIGATION',
       );
 
-      Get.offAllNamed(AppRoute.homeScreen);
+      // Get.offAllNamed(AppRoute.homeScreen);
+
+      // LoginController-এর login() ফাংশনের ভেতরে পরিবর্তন:
+
+      if (response.isSuccess) {
+        final dataObject = response.data['data']["user"]?? {};
+
+        // স্টোরেজে সেভ করুন
+        bool hasPasswordSave = dataObject['hasPasswordSave'] ?? true;
+        await LocalStorage.setBool('hasPasswordSave', hasPasswordSave);
+
+        // সরাসরি হোম স্ক্রিনে পাঠিয়ে দিন
+        Get.offAllNamed(AppRoute.homeScreen);
+      }
+
     } else {
       AppLogger.error(
         'Login failed: ${response.message}',
@@ -114,5 +130,75 @@ class LoginController extends GetxController {
     }
   }
 
+///>>>>>>>>>>>>>>>>>>>>> forgotEmail <<<<<<<<<<<<<<<<<<<<<<<//
+
+  final forgotEmailController = TextEditingController();
+
+  Future<void> sendForgotPasswordOtp() async {
+    if (forgotEmailController.text.isEmpty || !GetUtils.isEmail(forgotEmailController.text)) {
+      Get.snackbar("Error", "Please enter a valid email address",
+          backgroundColor: Colors.red, colorText: Colors.white);
+      return;
+    }
+
+    isLoading.value = true;
+
+    Map<String, dynamic> body = {
+      "email": forgotEmailController.text.trim(),
+    };
+
+    final response = await ApiService.post(
+      ApiEndPoint.forgetPassword,
+      body: body,
+    );
+
+    response.handleResponse(
+      onSuccess: (data) {
+        Get.snackbar("Success", "OTP sent to your email",
+            backgroundColor: Colors.green, colorText: Colors.white);
+        Get.toNamed(AppRoute.singInOtp, arguments: forgotEmailController.text.trim());
+      },
+    );
+
+    isLoading.value = false;
+  }
+
+
+  ///>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> otpController <<<<<<<<<<<<<<<<<<<<<<<<//
+
+  final otpController = TextEditingController();
+
+  var otpError = ''.obs;
+
+  Future<void> verifyOtp() async {
+    String? validationError = FormValidation.validatePin(otpController.text);
+
+    if (validationError != null) {
+      otpError.value = validationError;
+      return;
+    }
+    otpError.value = '';
+    isLoading.value = true;
+
+    Map<String, dynamic> body = {
+      "email": forgotEmailController.text.trim(),
+      "oneTimeCode": otpController.text.trim(),
+    };
+
+    final response = await ApiService.post(
+      ApiEndPoint.verifyResetOtp,
+      body: body,
+    );
+
+    if (response.isSuccess) {
+      Get.snackbar("Success", "OTP Verified Successfully",
+          backgroundColor: Colors.white, colorText: Colors.green);
+      Get.toNamed(AppRoute.newPasswordScreen);
+    } else {
+      otpError.value = response.message ?? "Invalid OTP";
+    }
+
+    isLoading.value = false;
+  }
 
 }

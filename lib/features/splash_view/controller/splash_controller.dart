@@ -58,7 +58,6 @@ class SplashController extends GetxController {
       );
       Get.offAllNamed(AppRoute.homeScreen);
     } else {
-      // User is not logged in, go to login
       AppLogger.info(
         'User is not authenticated, navigating to Login',
         tag: 'SPLASH_AUTH',

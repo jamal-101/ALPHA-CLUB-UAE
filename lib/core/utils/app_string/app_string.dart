@@ -180,4 +180,5 @@ class AppString {
   static const familyMember = 'Family Members';
   static const addFamilyMember = 'Add Family Member';
   static const enterFullName = "Enter Full Name";
+  static const forYour = "For your security, would you like to update your password now? Regular updates help keep your account safe.";
 }

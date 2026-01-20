@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import '../../../core/service/api/api_enpoint.dart';
@@ -11,10 +12,44 @@ class EventController extends GetxController {
   int currentPage = 1;
   bool hasMoreData = true;
 
+  final TextEditingController eventSearchController = TextEditingController();
+
   @override
   void onInit() {
     super.onInit();
     fetchEvents();
+  }
+
+
+  Future<void> searchEvents(String query) async {
+    if (query.isEmpty) {
+      fetchEvents();
+      return;
+    }
+
+    isLoading.value = true;
+    ApiResponseModel response = await ApiService.get(
+      "${ApiEndPoint.event}?searchTerm=$query",
+    );
+
+    response.handleResponse(
+      onSuccess: (responseData) {
+        List searchResults = responseData['data'] ?? [];
+        eventList.assignAll(searchResults);
+      },
+    );
+    isLoading.value = false;
+  }
+
+  void filterLocalEvents(String query) {
+    if (query.isEmpty) {
+      fetchEvents();
+    } else {
+      var filtered = eventList.where((event) {
+        return event['name'].toString().toLowerCase().contains(query.toLowerCase());
+      }).toList();
+      eventList.assignAll(filtered);
+    }
   }
 
   Future<void> fetchEvents({bool isLoadMore = false}) async {

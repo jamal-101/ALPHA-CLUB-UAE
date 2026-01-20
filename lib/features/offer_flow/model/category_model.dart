@@ -29,7 +29,6 @@ class CategoryModel {
     };
   }
 
-  // Format name for display (capitalize first letter, replace underscore with space)
   String get displayName {
     return name
         .split('_')

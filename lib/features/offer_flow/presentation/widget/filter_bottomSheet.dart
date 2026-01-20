@@ -9,7 +9,7 @@ import '../../../../core/utils/app_string/app_string.dart';
 
 class FilterSheet extends StatelessWidget {
   FilterSheet({super.key});
-  
+
   final OfferController controller = Get.find<OfferController>();
   final RxString selectedDistance = "0 - 1 km".obs;
 
@@ -137,7 +137,7 @@ class FilterSheet extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(left: 20,right: 20),
             child: CommonButton(text: AppString.applyFilter, onTap: () {
-              Get.back();
+              controller.applyCategoryFilter();
             },),
           ),
           SizedBox(height: 50.h),
@@ -146,38 +146,52 @@ class FilterSheet extends StatelessWidget {
     );
   }
 
-  Widget _buildFilterChip(String label, {String? id, required bool isCategory}) {
-    return Obx(() {
-      bool isSelected = isCategory
-          ? (controller.selectedCategory.value == id)
-          : (selectedDistance.value == label);
 
-      return GestureDetector(
-        onTap: () {
-          if (isCategory) {
-            controller.selectCategory(id ?? "");
-          } else {
-            selectedDistance.value = label;
-          }
-        },
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
-          decoration: BoxDecoration(
-            color: isSelected ? AppColors.blue1.withValues(alpha: 0.15) : Colors.white,
-            borderRadius: BorderRadius.circular(10.r),
-            border: Border.all(
-              color: isSelected ? Colors.transparent : AppColors.otpBorderColor,
-            ),
-          ),
-          child: CommonText(
-            fontSize: 12.sp,
-            color: AppColors.blue1,
-            fontWeight: FontWeight.w400,
-            text: label,
-          ),
-        ),
-      );
-    });
+  // Widget _buildFilterChip(String label, {String? id, required bool isCategory}) {
+  //   if (isCategory) {
+  //     return Obx(() {
+  //       bool isSelected = controller.tempSelectedCategoryId.value == id;
+  //
+  //       return GestureDetector(
+  //         onTap: () => controller.selectCategory(id ?? ""),
+  //         child: _chipContainer(label, isSelected),
+  //       );
+  //     });
+  //   }
+  //   return _chipContainer(label, false);
+  // }
+  Widget _buildFilterChip(String label, {String? id, required bool isCategory}) {
+    if (isCategory) {
+      return Obx(() {
+        bool isSelected = controller.tempSelectedCategoryId.value == id;
+
+        return GestureDetector(
+          onTap: () {
+            controller.tempSelectedCategoryId.value = id ?? "";
+          },
+          child: _chipContainer(label, isSelected),
+        );
+      });
+    }
+    return _chipContainer(label, false);
   }
-}
+  Widget _chipContainer(String label, bool isSelected) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+      decoration: BoxDecoration(
+        color: isSelected ? AppColors.blue1.withValues(alpha: 0.15) : Colors.transparent,
+        borderRadius: BorderRadius.circular(10.r),
+        border: Border.all(
+          color: isSelected ? Colors.transparent : AppColors.otpBorderColor,
+        ),
+      ),
+      child: CommonText(
+        fontSize: 12.sp,
+        color: AppColors.blue1,
+        fontWeight: FontWeight.w400,
+        text: label,
+      ),
+    );
+  }
+  }
 

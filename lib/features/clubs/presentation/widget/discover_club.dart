@@ -217,7 +217,7 @@ class DiscoverClub extends StatelessWidget {
                             color: AppColors.blueBase,
                           ),
                           textAlign: TextAlign.start,
-                          text: "${item["numberOfMembers"] ?? 0} Memberships",
+                          text: "${item["limitOfMember"] ?? 0} Memberships",
                         ),
                       ],
                     ),

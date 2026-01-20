@@ -43,7 +43,7 @@ class ChangePasswordScreen extends StatelessWidget {
                     fontFamily: 'SFPro',
                     color: AppColors.blue1,
                   ),
-                    text: AppString.changePassword),
+                    text: AppString.currentPassword),
                 SizedBox(height: 12.h),
                 CommonTextField(
                   controller: controller.currentPasswordController,
@@ -90,7 +90,7 @@ class ChangePasswordScreen extends StatelessWidget {
                 Obx(() => CommonButton(
                   onTap: (){
                     if (_formKey.currentState!.validate()) {
-                      controller.changePassword();
+                      controller.changePassword(context);
                     }
                   },
                   text: controller.isLoading.value ? "Loading..." : AppString.save,

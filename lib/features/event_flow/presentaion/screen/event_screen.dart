@@ -2,14 +2,19 @@ import 'package:alpha_club/core/global/commont_text.dart';
 import 'package:alpha_club/core/global/custom_search_bar.dart';
 import 'package:alpha_club/core/utils/app_color/app_color.dart';
 import 'package:alpha_club/core/utils/app_string/app_string.dart';
+import 'package:alpha_club/features/event_flow/controller/event_controller.dart';
 import 'package:alpha_club/features/event_flow/presentaion/widget/upcomingEvent.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
 import '../../../common_bottom_nav_bar/presentation/common_bottom_nab_var.dart';
 
 
 class EventScreen extends StatelessWidget {
-  const EventScreen({super.key});
+      EventScreen({super.key});
+
+  final EventController eventController = Get.put(EventController());
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +40,12 @@ class EventScreen extends StatelessWidget {
                     color: AppColors.blueBase,
                     text: AppString.upcomingEvent),
                 SizedBox(height: 16.h),
-                CustomSearchField(),
+                CustomSearchField(
+                  controller: eventController.eventSearchController,
+                  onChanged: (value) {
+                    eventController.searchEvents(value);
+                  },
+                ),
                 SizedBox(height: 16.h),
                 UpComingEvent(),
               ],

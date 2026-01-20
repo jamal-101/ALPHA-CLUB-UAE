@@ -2,14 +2,19 @@ import 'package:alpha_club/core/global/commont_text.dart';
 import 'package:alpha_club/core/global/custom_search_bar.dart';
 import 'package:alpha_club/core/utils/app_color/app_color.dart';
 import 'package:alpha_club/core/utils/app_string/app_string.dart';
+import 'package:alpha_club/features/clubs/controller/club_controller.dart';
 import 'package:alpha_club/features/clubs/presentation/widget/discover_club.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
 import '../../../common_bottom_nav_bar/presentation/common_bottom_nab_var.dart';
 
 
 class ClubScreen extends StatelessWidget {
-  const ClubScreen({super.key});
+      ClubScreen({super.key});
+
+  final ClubController clubController = Get.put(ClubController());
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +39,12 @@ class ClubScreen extends StatelessWidget {
                     color: AppColors.blueBase,
                     text: AppString.findYOur),
                 SizedBox(height: 16.h),
-                CustomSearchField(),
+                CustomSearchField(
+                  controller: clubController.clubSearchController,
+                  onChanged: (value) {
+                    clubController.searchClubs(value);
+                  },
+                ),
                 SizedBox(height: 16.h),
                 DiscoverClub(),
               ],

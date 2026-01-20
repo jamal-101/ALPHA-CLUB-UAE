@@ -85,38 +85,6 @@ class FavoriteGridviewBuilder extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(8.r),
                         child:
-                        // Image.network(
-                        //   offer.getImageUrl(ApiEndPoint.imageBaseUrl),
-                        //   height: 120.h,
-                        //   width: double.infinity,
-                        //   fit: BoxFit.cover,
-                        //   errorBuilder: (context, error, stackTrace) {
-                        //     return Container(
-                        //       height: 120.h,
-                        //       width: double.infinity,
-                        //       color: AppColors.otpBorderColor,
-                        //       child: Icon(
-                        //         Icons.image_not_supported_outlined,
-                        //         size: 40.sp,
-                        //         color: AppColors.blue1.withValues(alpha: 0.3),
-                        //       ),
-                        //     );
-                        //   },
-                        //   loadingBuilder: (context, child, loadingProgress) {
-                        //     if (loadingProgress == null) return child;
-                        //     return Container(
-                        //       height: 120.h,
-                        //       width: double.infinity,
-                        //       color: AppColors.otpBorderColor,
-                        //       child: Center(
-                        //         child: CircularProgressIndicator(
-                        //           color: AppColors.blue1,
-                        //           strokeWidth: 2.w,
-                        //         ),
-                        //       ),
-                        //     );
-                        //   },
-                        // ),
                         Image.network(
                           "${ApiEndPoint.imageBaseUrl}${offer.image}",
                           height: 120.h,
@@ -126,25 +94,26 @@ class FavoriteGridviewBuilder extends StatelessWidget {
                       ),
                     ),
 
-                    // Positioned(
-                    //   top: 9.h,
-                    //   right: 9.w,
-                    //   child: offer.discount?.enable == true
-                    //       ? Container(
-                    //     padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
-                    //     decoration: BoxDecoration(
-                    //       color: AppColors.blueBase50,
-                    //       borderRadius: BorderRadius.circular(20.r),
-                    //     ),
-                    //     child: CommonText(
-                    //       text: "${offer.discount?.value}% Off",
-                    //       fontWeight: FontWeight.w500,
-                    //       fontSize: 12.sp,
-                    //       color: AppColors.green1,
-                    //     ),
-                    //   )
-                    //       : const SizedBox.shrink(),
-                    // ),
+                    Positioned(
+                      top: 9.h,
+                      right: 9.w,
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 10.w,
+                          vertical: 6.h,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.blueBase50,
+                          borderRadius: BorderRadius.circular(20.r),
+                        ),
+                        child: CommonText(
+                          text: "${offer.discount?.value ?? 0}% Off",
+                          fontWeight: FontWeight.w500,
+                          fontSize: 10.sp,
+                          color: AppColors.green1,
+                        ),
+                      ),
+                    ),
                     Positioned(
                       top: 9.h,
                       left: 9.w,

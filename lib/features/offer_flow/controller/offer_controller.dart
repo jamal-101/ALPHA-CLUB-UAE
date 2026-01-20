@@ -15,6 +15,17 @@ class OfferController extends GetxController {
   RxBool isLoadingOffers = false.obs;
   RxString selectedCategory = ''.obs;
 
+  var tempSelectedCategoryId = "".obs;
+
+  void updateTempCategory(String id) {
+    tempSelectedCategoryId.value = id;
+  }
+
+  void applyCategoryFilter() {
+    selectedCategory.value = tempSelectedCategoryId.value;
+    fetchOffers();
+  }
+
   @override
   void onInit() {
     super.onInit();
@@ -38,7 +49,10 @@ class OfferController extends GetxController {
   Future<void> toggleFavourite(String offerId) async {
     int index = offers.indexWhere((element) => element.id == offerId);
     if (index != -1) {
-      offers[index] = offers[index].copyWith(isFavourite: !offers[index].isFavourite);
+      offers[index] = offers[index].copyWith(
+        isFavourite: !offers[index].isFavourite,
+        // discount: offers[index].discount,
+      );
       offers.refresh();
     }
 
@@ -104,26 +118,37 @@ class OfferController extends GetxController {
   Future<void> fetchOffers({String? categoryId}) async {
     try {
       isLoadingOffers.value = true;
-
+      String effectiveCategory = categoryId ?? selectedCategory.value;
       String endpoint = "${ApiEndPoint.offer}?page=1&limit=20";
-
-      if (categoryId != null && categoryId.isNotEmpty) {
-        endpoint += '&category=$categoryId';
+      if (effectiveCategory.isNotEmpty) {
+        endpoint += '&category=$effectiveCategory';
       }
 
       final response = await ApiService.get(endpoint);
 
       if (response.isSuccess) {
-        // response.data['data']
-        final offerResponse = OfferResponse.fromJson(
-            Map<String, dynamic>.from(response.data)
-        );
-        offers.assignAll(offerResponse.data);
+        final List<dynamic> rawDataList = response.data['data'];
+
+        final List<OfferModel> processedOffers = rawDataList.map((e) {
+          Map<String, dynamic> item = Map<String, dynamic>.from(e);
+          var imageField = item['image'];
+          if (imageField is List && imageField.isNotEmpty) {
+            item['image'] = imageField[0].toString();
+          } else if (imageField is String) {
+            item['image'] = imageField;
+          } else {
+            item['image'] = "";
+          }
+
+          return OfferModel.fromJson(item);
+        }).toList();
+        offers.assignAll(processedOffers);
+
       } else {
         Get.snackbar('Error', 'Failed to load offers');
       }
-    } catch (e) {
-      AppLogger.error('Error fetching offers', error: e);
+    } catch (e, stackTrace) {
+      AppLogger.error('Error fetching offers', error: e, stackTrace: stackTrace);
     } finally {
       isLoadingOffers.value = false;
     }

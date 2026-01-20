@@ -88,18 +88,18 @@ class OfferGridviewBuilder extends StatelessWidget {
                             height: 115.h,
                             width: double.infinity,
                             fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) {
-                              return Container(
-                                height: 115.h,
-                                width: double.infinity,
-                                color: AppColors.otpBorderColor,
-                                child: Icon(
-                                  Icons.image_not_supported_outlined,
-                                  size: 40.sp,
-                                  color: AppColors.blue1.withValues(alpha: 0.3),
-                                ),
-                              );
-                            },
+                            // errorBuilder: (context, error, stackTrace) {
+                            //   return Container(
+                            //     height: 115.h,
+                            //     width: double.infinity,
+                            //     color: AppColors.otpBorderColor,
+                            //     child: Icon(
+                            //       Icons.image_not_supported_outlined,
+                            //       size: 40.sp,
+                            //       color: AppColors.blue1.withValues(alpha: 0.3),
+                            //     ),
+                            //   );
+                            // },
                             loadingBuilder: (context, child, loadingProgress) {
                               if (loadingProgress == null) return child;
                               return Container(
@@ -130,13 +130,32 @@ class OfferGridviewBuilder extends StatelessWidget {
                             borderRadius: BorderRadius.circular(20.r),
                           ),
                           child: CommonText(
-                            text: "30% Off",
+                            text: "${offer.discount?.value ?? 0}% Off",
                             fontWeight: FontWeight.w500,
                             fontSize: 10.sp,
                             color: AppColors.green1,
                           ),
                         ),
                       ),
+                      // Positioned(
+                      //   top: 9.h,
+                      //   right: 9.w,
+                      //   child: offer.discount?.enable == true
+                      //       ? Container(
+                      //     padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
+                      //     decoration: BoxDecoration(
+                      //       color: AppColors.blueBase50,
+                      //       borderRadius: BorderRadius.circular(20.r),
+                      //     ),
+                      //     child: CommonText(
+                      //       text: "${offer.discount?.value}% Off",
+                      //       fontWeight: FontWeight.w500,
+                      //       fontSize: 12.sp,
+                      //       color: AppColors.green1,
+                      //     ),
+                      //   )
+                      //       : const SizedBox.shrink(),
+                      // ),
                       Positioned(
                         top: 9.h,
                         left: 9.w,

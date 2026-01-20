@@ -6,9 +6,14 @@ import '../utils/app_image/app_image.dart';
 import '../utils/app_string/app_string.dart';
 
 class CustomSearchField extends StatelessWidget {
-  CustomSearchField({super.key});
+  final Function(String)? onChanged;
+  final TextEditingController? controller;
+  const CustomSearchField({super.key,
+    this.onChanged,
+    this.controller,
+  });
 
-  final TextEditingController searchController = TextEditingController();
+
 
 
   @override
@@ -24,7 +29,8 @@ class CustomSearchField extends StatelessWidget {
         ),
       ),
       child: TextFormField(
-        controller: searchController,
+        controller: controller,
+        onChanged: onChanged,
         textAlignVertical: TextAlignVertical.center,
         style: GoogleFonts.poppins(
           color: AppColors.gold60,
@@ -34,7 +40,6 @@ class CustomSearchField extends StatelessWidget {
         decoration: InputDecoration(
           isDense: true,
           contentPadding: EdgeInsets.symmetric(vertical: 14.h),
-
           prefixIcon: Padding(
             padding: EdgeInsets.only(left: 12.w, right: 0.w),
             child: Image.asset(

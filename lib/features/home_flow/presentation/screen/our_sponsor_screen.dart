@@ -52,9 +52,9 @@ class OurSponsorScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(16.r),
                   child: Image.network(
                     "${ApiEndPoint.imageBaseUrl}${sponsor['image'] ?? ""}",
-                    height: 219.h,
+                    // height: 219.h,
                     width: double.infinity,
-                    fit: BoxFit.cover,
+                    fit: BoxFit.fitWidth,
                   ),
                 ),
                 SizedBox(height: 20.h),

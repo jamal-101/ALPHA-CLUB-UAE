@@ -5,6 +5,8 @@ class OfferModel {
   final String image;
   final OfferCategory category;
   final bool isFavourite;
+  final Discount? discount;
+  final String description;
 
   OfferModel({
     required this.id,
@@ -13,6 +15,8 @@ class OfferModel {
     required this.image,
     required this.category,
     required this.isFavourite,
+    required this.description,
+    this.discount,
   });
 
   factory OfferModel.fromJson(Map<String, dynamic> json) {
@@ -20,10 +24,22 @@ class OfferModel {
       id: json['_id'] ?? '',
       name: json['name'] ?? '',
       title: json['title'] ?? '',
-      image: json['image'] ?? '',
+      image: json['image'] is List && (json['image'] as List).isNotEmpty
+          ? (json['image'] as List).first.toString()
+          : (json['image']?.toString() ?? ''),
+      discount: json['discount'] != null
+          ? Discount.fromJson(json['discount'])
+          : Discount(enable: false, value: 0),
+      description: json['description'] ?? '',
       category: OfferCategory.fromJson(json['category'] ?? {}),
       isFavourite: json['isFavourite'] ?? false,
     );
+  }
+
+  String getImageUrl(String baseUrl) {
+    if (image.isEmpty) return "";
+    if (image.startsWith('http')) return image;
+    return '$baseUrl$image';
   }
 
   Map<String, dynamic> toJson() {
@@ -31,32 +47,34 @@ class OfferModel {
       '_id': id,
       'name': name,
       'title': title,
+      'description': description,
       'image': image,
       'category': category.toJson(),
       'isFavourite': isFavourite,
+      'discount': discount?.toJson(),
     };
   }
 
-  // Get full image URL
-  String getImageUrl(String baseUrl) {
-    if (image.startsWith('http')) {
-      return image;
-    }
-    return '$baseUrl$image';
-  }
-
-  // Create a copy with updated favourite status
-  OfferModel copyWith({bool? isFavourite}) {
+  OfferModel copyWith({
+    bool? isFavourite,
+    Discount? discount,
+    String? name,
+    String? title,
+    OfferCategory? category,
+  }) {
     return OfferModel(
       id: id,
-      name: name,
-      title: title,
+      name: name ?? this.name,
+      title: title ?? this.title,
       image: image,
-      category: category,
+      description: description,
+      category: category ?? this.category,
       isFavourite: isFavourite ?? this.isFavourite,
+      discount: discount ?? this.discount,
     );
   }
 }
+
 
 class OfferCategory {
   final String id;
@@ -69,9 +87,16 @@ class OfferCategory {
 
   factory OfferCategory.fromJson(Map<String, dynamic> json) {
     return OfferCategory(
-      id: json['_id'] ?? '',
-      name: json['name'] ?? '',
+      id: json['_id']?.toString() ?? '',
+      name: json['name']?.toString() ?? '',
     );
+  }
+  String get displayName {
+    if (name.isEmpty) return "";
+    return name
+        .split('_')
+        .map((word) => word.isEmpty ? '' : word[0].toUpperCase() + word.substring(1))
+        .join(' ');
   }
 
   Map<String, dynamic> toJson() {
@@ -80,47 +105,25 @@ class OfferCategory {
       'name': name,
     };
   }
-
-  // Format name for display
-  String get displayName {
-    return name
-        .split('_')
-        .map((word) => word.isEmpty ? '' : word[0].toUpperCase() + word.substring(1))
-        .join(' ');
-  }
 }
 
-class OfferResponse {
-  final bool success;
-  final String message;
-  final List<OfferModel> data;
+class Discount {
+  final bool enable;
+  final int value;
 
-  OfferResponse({
-    required this.success,
-    required this.message,
-    required this.data,
-  });
+  Discount({required this.enable, required this.value});
 
-  // factory OfferResponse.fromJson(Map<String, dynamic> json) {
-  //   return OfferResponse(
-  //     success: json['success'] ?? false,
-  //     message: json['message'] ?? '',
-  //     data: (json['pagination'] as List<dynamic>?)
-  //         ?.map((item) => OfferModel.fromJson(item))
-  //         .toList() ??
-  //         [],
-  //   );
-  // }
-
-  factory OfferResponse.fromJson(Map<String, dynamic> json) {
-    return OfferResponse(
-      success: json['success'] ?? false,
-      message: json['message'] ?? '',
-      data: (json['data'] as List<dynamic>?)
-          ?.map((item) => OfferModel.fromJson(item))
-          .toList() ??
-          [],
+  factory Discount.fromJson(Map<String, dynamic> json) {
+    return Discount(
+      enable: json['enable'] ?? false,
+      value: (json['value'] ?? 0).toInt(),
     );
   }
-}
 
+  Map<String, dynamic> toJson() {
+    return {
+      'enable': enable,
+      'value': value,
+    };
+  }
+}

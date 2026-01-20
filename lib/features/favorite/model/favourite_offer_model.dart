@@ -8,6 +8,7 @@ class FavouriteOfferItem {
   final String createdAt;
   final String updatedAt;
 
+
   FavouriteOfferItem({
     required this.id,
     required this.user,

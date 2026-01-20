@@ -4,6 +4,8 @@ import 'package:alpha_club/core/service/api/api_enpoint.dart';
 import 'package:alpha_club/core/service/logger/app_logger.dart';
 import 'package:alpha_club/features/offer_flow/model/offer_model.dart';
 import 'package:alpha_club/features/favorite/model/favourite_offer_model.dart';
+import '../../../core/stroge/storage_service.dart';
+import '../../offer_flow/controller/offer_controller.dart';
 
 class FavouriteController extends GetxController {
   RxList<OfferModel> favouriteOffers = <OfferModel>[].obs;
@@ -19,25 +21,24 @@ class FavouriteController extends GetxController {
     fetchFavouriteOffers();
   }
 
-  /// Fetch favourite offers from API
   Future<void> fetchFavouriteOffers() async {
     try {
+      String token = LocalStorage.token;
       isLoading.value = true;
 
       AppLogger.info('Fetching favourite offers', tag: 'FAVOURITE_CONTROLLER');
 
-      final response = await ApiService.get(ApiEndPoint.favouriteOffers);
+      final response = await ApiService.get(ApiEndPoint.favouriteOffers,
+        header: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+      );
 
       if (response.isSuccess) {
         final favouriteResponse = FavouriteOfferResponse.fromJson(
           Map<String, dynamic>.from(response.data),
         );
-
-        // Extract the nested exclusiveOffer from each item
-        // favouriteOffers.value = favouriteResponse.data
-        //     .map((item) => item.exclusiveOffer)
-        //     .toList();
-
         final List<OfferModel> extractedOffers = favouriteResponse.data
             .map((item) => item.exclusiveOffer)
             .toList();
@@ -69,66 +70,33 @@ class FavouriteController extends GetxController {
     }
   }
 
-  /// Remove from favourites
-  // Future<void> removeFavourite(String offerId) async {
-  //   try {
-  //     // Optimistically remove from UI
-  //     favouriteOffers.removeWhere((offer) => offer.id == offerId);
-  //
-  //     AppLogger.logUserAction(
-  //       action: 'Remove Favourite',
-  //       data: {'offerId': offerId},
-  //       tag: 'FAVOURITE',
-  //     );
-  //
-  //     favouriteOffers.removeWhere((offer) => offer.id == offerId);
-  //     favouriteOffers.refresh();
-  //
-  //     // Call API
-  //     final response = await ApiService.post(
-  //       '${ApiEndPoint.toggleFavourite}/$offerId',
-  //     );
-  //
-  //     if (response.isSuccess) {
-  //       AppLogger.info(
-  //         'Favourite removed successfully',
-  //         tag: 'FAVOURITE',
-  //       );
-  //     } else {
-  //       // Refresh on failure
-  //       await fetchFavouriteOffers();
-  //       AppLogger.error(
-  //         'Failed to remove favourite: ${response.message}',
-  //         tag: 'FAVOURITE',
-  //       );
-  //       Get.snackbar('Error', 'Failed to remove favourite');
-  //     }
-  //   } catch (e, stackTrace) {
-  //     AppLogger.error(
-  //       'Error removing favourite',
-  //       tag: 'FAVOURITE',
-  //       error: e,
-  //       stackTrace: stackTrace,
-  //     );
-  //     // Refresh on error
-  //     await fetchFavouriteOffers();
-  //   }
-  // }
-
-
   Future<void> removeFavourite(String offerId) async {
     try {
       favouriteOffers.removeWhere((offer) => offer.id == offerId);
       favouriteOffers.refresh();
-      final response = await ApiService.post('${ApiEndPoint.toggleFavourite}/$offerId');
+      if (Get.isRegistered<OfferController>()) {
+        final offerController = Get.find<OfferController>();
+        int index = offerController.offers.indexWhere((element) => element.id == offerId);
+        if (index != -1) {
+          offerController.offers[index] = offerController.offers[index].copyWith(
+            isFavourite: false,
+          );
+          offerController.offers.refresh();
+        }
+      }
 
-      if (response.isSuccess) {
-        AppLogger.info('Removed from favourite: $offerId');
-      } else {
+      final response = await ApiService.post(
+        '${ApiEndPoint.toggleFavourite}/$offerId',
+        header: {
+          'Authorization': 'Bearer ${LocalStorage.token}',
+        },
+      );
+
+      if (!response.isSuccess) {
         fetchFavouriteOffers();
-        Get.snackbar('Error', 'Could not sync with server');
       }
     } catch (e) {
+      AppLogger.error('Error removing favourite: $e');
       fetchFavouriteOffers();
     }
   }

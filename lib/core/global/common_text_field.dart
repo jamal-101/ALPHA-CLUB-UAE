@@ -140,73 +140,76 @@ class CommonTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     RxBool isVisible = false.obs;
 
-    return TextFormField(
-        controller: controller,
-        onChanged: onChanged,
-        validator: validator,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-        obscureText: isPassword ? isVisible.value : false,
-        style: TextStyle(
-          fontFamily: 'SFPro',
-          fontSize: 14.sp,
-          fontWeight: FontWeight.w400,
-          color: AppColors.blueBase,
-        ),
-        decoration: InputDecoration(
-          filled: true,
-          fillColor: containerColor,
-          hintText: hintText,
-          hintStyle: isPopins ? GoogleFonts.poppins(
-              fontWeight: FontWeight.w400,
-              fontSize: 14.sp,
-              color: AppColors.blueBase,
-            ) : TextStyle(
-              fontFamily: 'SFPro',
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w400,
-              color: AppColors.blueBase
+    return Obx(()=>
+       TextFormField(
+          controller: controller,
+          onChanged: onChanged,
+          validator: validator,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+          // obscureText: isPassword ? isVisible.value : false,
+         obscureText: isVisible.value,
+          style: TextStyle(
+            fontFamily: 'SFPro',
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w400,
+            color: AppColors.blueBase,
+          ),
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: containerColor,
+            hintText: hintText,
+            hintStyle: isPopins ? GoogleFonts.poppins(
+                fontWeight: FontWeight.w400,
+                fontSize: 14.sp,
+                color: AppColors.blueBase,
+              ) : TextStyle(
+                fontFamily: 'SFPro',
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w400,
+                color: AppColors.blueBase
+              ),
+            prefixIconConstraints: BoxConstraints(
+                minWidth: 25.w,
+                maxHeight: 50.h,
+              ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8.r),
+              borderSide: BorderSide(color: borderColor, width: 1.w),
             ),
-          prefixIconConstraints: BoxConstraints(
-              minWidth: 25.w,
-              maxHeight: 50.h,
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8.r),
+              borderSide: BorderSide(color: borderColor, width: 1.w),
             ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8.r),
-            borderSide: BorderSide(color: borderColor, width: 1.w),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8.r),
-            borderSide: BorderSide(color: borderColor, width: 1.w),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8.r),
-            borderSide: BorderSide(color: AppColors.blueBase, width: 1.w),
-          ),
-          errorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8.r),
-            borderSide: const BorderSide(color: Colors.red, width: 1),
-          ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8.r),
+              borderSide: BorderSide(color: AppColors.blueBase, width: 1.w),
+            ),
+            errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8.r),
+              borderSide: const BorderSide(color: Colors.red, width: 1),
+            ),
 
-          prefixIcon: prefixIcon != null
-              ? Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 12.w),
-                  child: prefixIcon,
-                )
-              : null,
-          suffixIcon: isPassword
-              ? Obx(()=>
-                InkWell(
-                    onTap: () => isVisible.value = !isVisible.value,
-                    child: Icon(
-                      isVisible.value
-                          ? Icons.visibility_off_outlined
-                          : Icons.visibility_outlined,
-                      color: const Color(0xFF808080),
+            prefixIcon: prefixIcon != null
+                ? Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 12.w),
+                    child: prefixIcon,
+                  )
+                : null,
+            suffixIcon: isPassword
+                ? Obx(()=>
+                  InkWell(
+                      onTap: () => isVisible.value = !isVisible.value,
+                      child: Icon(
+                        isVisible.value
+                            ? Icons.visibility_off_outlined
+                            : Icons.visibility_outlined,
+                        color: const Color(0xFF808080),
+                      ),
                     ),
-                  ),
-              )
-              : null,
-        ),
+                )
+                : null,
+          ),
+      ),
     );
   }
 }

@@ -2,7 +2,8 @@ class AssetPath {
 
   //>>>>>>>>>>>>>>>>>>>> Images <<<<<<<<<<<<<<<<<<<<<<<<<<<//
 
-  static const String splashImage = 'assets/images/splash_image.png';
+  // static const String splashImage = 'assets/images/splash_image.png';
+  static const String splashImage = 'assets/images/splashLogo.png';
   static const String splashBackground = 'assets/images/Splash_background.jpg';
   static const String userProfile = 'assets/images/user_profile.jpg';
   static const String creditCard = 'assets/images/credit_card.png';
@@ -29,6 +30,7 @@ class AssetPath {
   static const String gridImage1 = 'assets/images/gridImage1.jpg';
   static const String upComingEventImage = 'assets/images/upComming_image.png';
   static const String gymImage = 'assets/images/gym_image.png';
+  // static const String splashLogo = 'assets/images/splashLogo.png';
 
 
 
