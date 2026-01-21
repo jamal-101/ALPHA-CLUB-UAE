@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:alpha_club/core/service/api/api_service.dart';
 import 'package:alpha_club/core/service/api/api_enpoint.dart';
@@ -8,7 +7,7 @@ import 'package:alpha_club/core/stroge/storage_service.dart';
 import 'package:alpha_club/core/stroge/stroge_key.dart';
 import 'package:alpha_club/core/service/logger/app_logger.dart';
 import '../../../core/helper/from_validation.dart';
-import '../presentation/widget/logOutModel_widget.dart';
+import 'dart:async';
 
 class LoginController extends GetxController {
   var isLoading = false.obs;
@@ -199,6 +198,63 @@ class LoginController extends GetxController {
     }
 
     isLoading.value = false;
+  }
+
+
+  ///>>>>>>>>>>>>>>>>>>>>>> resend otp <<<<<<<<<<<<<<<<<<<<<///
+
+  var secondsRemaining = 180.obs;
+  var enableResend = false.obs;
+  Timer? timer;
+
+  @override
+  void onInit() {
+    super.onInit();
+    startTimer();
+  }
+
+  // void startTimer() {
+  //   secondsRemaining.value = 180;
+  //   enableResend.value = false;
+  //
+  //   timer?.cancel();
+  //   timer = Timer.periodic(Duration(seconds: 1), (t) {
+  //     if (secondsRemaining.value > 0) {
+  //       secondsRemaining.value--;
+  //     } else {
+  //       enableResend.value = true;
+  //       t.cancel();
+  //     }
+  //   });
+  // }
+
+  void startTimer() {
+    secondsRemaining.value = 180;
+    enableResend.value = false;
+
+    timer?.cancel();
+    timer = Timer.periodic(const Duration(seconds: 1), (t) {
+      if (secondsRemaining.value > 0) {
+        secondsRemaining.value--;
+      } else {
+        enableResend.value = true;
+        t.cancel();
+      }
+    });
+  }
+
+  void resendOtp() {
+    if (enableResend.value) {
+      // print("OTP Resent!");
+
+      startTimer();
+    }
+  }
+
+  @override
+  void onClose() {
+    timer?.cancel();
+    super.onClose();
   }
 
 }

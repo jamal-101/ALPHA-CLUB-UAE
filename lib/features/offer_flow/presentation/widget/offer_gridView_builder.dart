@@ -64,6 +64,11 @@ class OfferGridviewBuilder extends StatelessWidget {
         ),
         itemBuilder: (context, index) {
           final offer = offerController.offers[index];
+
+          final String imageUrl = offer.images.isNotEmpty
+              ? "${ApiEndPoint.imageBaseUrl}${offer.images.first}"
+              : "";
+
           return GestureDetector(
             onTap: () {
               Get.toNamed(AppRoute.offerDetailsScreen, arguments: offer.id);
@@ -84,22 +89,23 @@ class OfferGridviewBuilder extends StatelessWidget {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(8.r),
                           child: Image.network(
-                            offer.getImageUrl(ApiEndPoint.imageBaseUrl),
+                            // offer.getImageUrl(ApiEndPoint.imageBaseUrl),
+                            imageUrl,
                             height: 115.h,
                             width: double.infinity,
                             fit: BoxFit.cover,
-                            // errorBuilder: (context, error, stackTrace) {
-                            //   return Container(
-                            //     height: 115.h,
-                            //     width: double.infinity,
-                            //     color: AppColors.otpBorderColor,
-                            //     child: Icon(
-                            //       Icons.image_not_supported_outlined,
-                            //       size: 40.sp,
-                            //       color: AppColors.blue1.withValues(alpha: 0.3),
-                            //     ),
-                            //   );
-                            // },
+                            errorBuilder: (context, error, stackTrace) {
+                              return Container(
+                                height: 115.h,
+                                width: double.infinity,
+                                color: AppColors.otpBorderColor,
+                                child: Icon(
+                                  Icons.image_not_supported_outlined,
+                                  size: 40.sp,
+                                  color: AppColors.blue1.withValues(alpha: 0.3),
+                                ),
+                              );
+                            },
                             loadingBuilder: (context, child, loadingProgress) {
                               if (loadingProgress == null) return child;
                               return Container(

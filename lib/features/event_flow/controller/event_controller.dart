@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import '../../../core/service/api/api_enpoint.dart';
@@ -92,16 +93,35 @@ class EventController extends GetxController {
   var singleEventDetails = {}.obs;
   var isEventDetailLoading = false.obs;
 
+  // Future<void> fetchEventDetails(String id) async {
+  //   isEventDetailLoading.value = true;
+  //   singleEventDetails.clear();
+  //   ApiResponseModel response = await ApiService.get(
+  //     "${ApiEndPoint.event}/$id",
+  //   );
+  //
+  //   response.handleResponse(
+  //     onSuccess: (responseData) {
+  //       singleEventDetails.value = responseData['data'] ?? {};
+  //     },
+  //   );
+  //
+  //   isEventDetailLoading.value = false;
+  // }
+
   Future<void> fetchEventDetails(String id) async {
     isEventDetailLoading.value = true;
+    isButtonDisabled.value = false;
+    isEventDetailLoading.value = true;
     singleEventDetails.clear();
-    ApiResponseModel response = await ApiService.get(
-      "${ApiEndPoint.event}/$id",
-    );
+    ApiResponseModel response = await ApiService.get("${ApiEndPoint.event}/$id");
 
     response.handleResponse(
       onSuccess: (responseData) {
         singleEventDetails.value = responseData['data'] ?? {};
+        if (singleEventDetails.containsKey('joinStatus')) {
+          joinStatus.value = singleEventDetails['joinStatus'];
+        }
       },
     );
 
@@ -109,4 +129,80 @@ class EventController extends GetxController {
   }
 
 
-}
+
+  var joinStatus = "ongoing".obs;
+
+
+  // Future<void> handleButtonClick(String eventId) async {
+  //   if (joinStatus.value == "ongoing") {
+  //     await joinEventRequest(eventId);
+  //   } else if (joinStatus.value == "pending") {
+  //     await cancelEventRequest(eventId);
+  //   }
+  // }
+  Future<void> handleButtonClick(String eventId) async {
+    if (joinStatus.value == "ongoing") {
+      await joinEventRequest(eventId);
+    } else if (joinStatus.value == "pending" || joinStatus.value == "cancelled") {
+      await cancelEventRequest(eventId);
+    }
+  }
+
+
+
+  var isActionLoading = false.obs;
+
+  Future<void> joinEventRequest(String eventId) async {
+    isActionLoading.value = true;
+
+    ApiResponseModel response = await ApiService.post(
+      ApiEndPoint.eventRegistration,
+      body: {"event": eventId},
+    );
+
+    response.handleResponse(
+        onSuccess: (responseData) {
+          joinStatus.value = "pending";
+          // fetchEventDetails(eventId);
+        },
+    );
+
+    isActionLoading.value = false;
+  }
+
+  // Future<void> cancelEventRequest(String eventId) async {
+  //   isActionLoading.value = true;
+  //
+  //   ApiResponseModel response = await ApiService.post(
+  //     ApiEndPoint.cancelEventRegistration,
+  //     body: {"event": eventId},
+  //   );
+  //
+  //   response.handleResponse(
+  //       onSuccess: (responseData) {
+  //         joinStatus.value = "ongoing";
+  //         fetchEventDetails(eventId);
+  //       },
+  //   );
+  //
+  //   isActionLoading.value = false;
+  // }
+
+
+  var isButtonDisabled = false.obs;
+
+  Future<void> cancelEventRequest(String eventId) async {
+    isButtonDisabled.value = false;
+    ApiResponseModel response = await ApiService.post(
+      ApiEndPoint.cancelEventRegistration,
+      body: {"event": eventId},
+    );
+    if (response.isSuccess) {
+      joinStatus.value = "ongoing";
+      isButtonDisabled.value = false;
+    }
+    else {
+      isButtonDisabled.value = true;
+    }
+  }
+  }

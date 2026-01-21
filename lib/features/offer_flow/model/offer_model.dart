@@ -2,7 +2,8 @@ class OfferModel {
   final String id;
   final String name;
   final String title;
-  final String image;
+  // final String image;
+  final List<String> images;
   final OfferCategory category;
   final bool isFavourite;
   final Discount? discount;
@@ -12,7 +13,7 @@ class OfferModel {
     required this.id,
     required this.name,
     required this.title,
-    required this.image,
+    required this.images,
     required this.category,
     required this.isFavourite,
     required this.description,
@@ -20,13 +21,22 @@ class OfferModel {
   });
 
   factory OfferModel.fromJson(Map<String, dynamic> json) {
+
+    List<String> imageList = [];
+    if (json['image'] is List) {
+      imageList = List<String>.from(json['image'].map((x) => x.toString()));
+    } else if (json['image'] != null && json['image'].toString().isNotEmpty) {
+      imageList = [json['image'].toString()];
+    }
+
     return OfferModel(
       id: json['_id'] ?? '',
       name: json['name'] ?? '',
       title: json['title'] ?? '',
-      image: json['image'] is List && (json['image'] as List).isNotEmpty
-          ? (json['image'] as List).first.toString()
-          : (json['image']?.toString() ?? ''),
+      // image: json['image'] is List && (json['image'] as List).isNotEmpty
+      //     ? (json['image'] as List).first.toString()
+      //     : (json['image']?.toString() ?? ''),
+      images: imageList,
       discount: json['discount'] != null
           ? Discount.fromJson(json['discount'])
           : Discount(enable: false, value: 0),
@@ -36,11 +46,20 @@ class OfferModel {
     );
   }
 
-  String getImageUrl(String baseUrl) {
-    if (image.isEmpty) return "";
-    if (image.startsWith('http')) return image;
-    return '$baseUrl$image';
+  // String getImageUrl(String baseUrl) {
+  //   if (image.isEmpty) return "";
+  //   if (image.startsWith('http')) return image;
+  //   return '$baseUrl$image';
+  // }
+
+  List<String> getAllImageUrls(String baseUrl) {
+    return images.map((img) {
+      if (img.isEmpty) return "";
+      if (img.startsWith('http')) return img;
+      return '$baseUrl$img';
+    }).toList();
   }
+
 
   Map<String, dynamic> toJson() {
     return {
@@ -48,7 +67,8 @@ class OfferModel {
       'name': name,
       'title': title,
       'description': description,
-      'image': image,
+      // 'image': image,
+      'image': images,
       'category': category.toJson(),
       'isFavourite': isFavourite,
       'discount': discount?.toJson(),
@@ -61,12 +81,14 @@ class OfferModel {
     String? name,
     String? title,
     OfferCategory? category,
+    List<String>? images,
   }) {
     return OfferModel(
       id: id,
       name: name ?? this.name,
       title: title ?? this.title,
-      image: image,
+      // image: image,
+      images: images ?? this.images,
       description: description,
       category: category ?? this.category,
       isFavourite: isFavourite ?? this.isFavourite,

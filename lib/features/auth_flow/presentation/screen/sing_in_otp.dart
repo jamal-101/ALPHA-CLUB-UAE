@@ -180,15 +180,11 @@
 
 
 
-import 'package:alpha_club/core/route/app_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_pinput/flutter_pinput.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/src/extension_instance.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import '../../../../core/global/common_button.dart';
 import '../../../../core/global/commont_text.dart';
 import '../../../../core/utils/app_color/app_color.dart';
@@ -249,7 +245,8 @@ class SingInOtp extends StatelessWidget {
                   color: AppColors.appBackgroundColor,
                 ),
                 child: SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
+                  // physics: const BouncingScrollPhysics(),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Column(
@@ -313,14 +310,37 @@ class SingInOtp extends StatelessWidget {
                                 ),
                                 text: AppString.resendCodeIn),
                             SizedBox(width: 6.w),
-                            CommonText(
+                            // CommonText(
+                            //     style: TextStyle(
+                            //       fontFamily: 'SFPro',
+                            //       fontSize: 18.sp,
+                            //       fontWeight: FontWeight.w400,
+                            //       color: AppColors.yellow,
+                            //     ),
+                            //     text: AppString.second),
+
+                            // Obx(() => CommonText(
+                            //     style: TextStyle(
+                            //       fontFamily: 'SFPro',
+                            //       fontSize: 18.sp,
+                            //       fontWeight: FontWeight.w400,
+                            //       color: AppColors.yellow,
+                            //     ),
+                            //     text: "00:${loginController.secondsRemaining.value.toString().padLeft(2, '0')}")),
+                            Obx(() {
+                              int minutes = loginController.secondsRemaining.value ~/ 60;
+                              int seconds = loginController.secondsRemaining.value % 60;
+
+                              return CommonText(
                                 style: TextStyle(
                                   fontFamily: 'SFPro',
                                   fontSize: 18.sp,
                                   fontWeight: FontWeight.w400,
                                   color: AppColors.yellow,
                                 ),
-                                text: AppString.second),
+                                text: "$minutes:${seconds.toString().padLeft(2, '0')}",
+                              );
+                            }),
                           ],
                         ),
                         SizedBox(height: 40.h),
@@ -333,15 +353,15 @@ class SingInOtp extends StatelessWidget {
                         //       : AppString.verifyCode,
                         // )),
 
-                        // Obx(() => CommonButton(
-                        //   onTap: () => loginController.verifyOtp(),
-                        //   text: loginController.isLoading.value
-                        //       ? "Verifying..."
-                        //       : AppString.verifyCode,
-                        // )),
-                        CommonButton(onTap: (){
-                          Get.toNamed(AppRoute.changePasswordScreen);
-                        }, text: "Send Code"),
+                        Obx(() => CommonButton(
+                          onTap: () => loginController.verifyOtp(),
+                          text: loginController.isLoading.value
+                              ? "Verifying..."
+                              : AppString.verifyCode,
+                        )),
+                        // CommonButton(onTap: (){
+                        //   Get.toNamed(AppRoute.changePasswordScreen);
+                        // }, text: "Send Code"),
                         // ==================================================
 
                         SizedBox(height: 24.h),
@@ -357,16 +377,31 @@ class SingInOtp extends StatelessWidget {
                                 ),
                                 text: AppString.donTReceive),
                             SizedBox(width: 15.w),
+                            // GestureDetector(
+                            //   onTap: () {
+                            //     // Resend OTP logic
+                            //   },
+                            //   child: CommonText(
+                            //     text: AppString.resendCode,
+                            //     fontWeight: FontWeight.w500,
+                            //     fontSize: 14.sp,
+                            //     color: AppColors.yellow,
+                            //   ),
+                            // ),
                             GestureDetector(
                               onTap: () {
-                                // Resend OTP logic
+                                if (loginController.enableResend.value) {
+                                  loginController.resendOtp();
+                                }
                               },
-                              child: CommonText(
+                              child: Obx(() => CommonText(
                                 text: AppString.resendCode,
                                 fontWeight: FontWeight.w500,
                                 fontSize: 14.sp,
-                                color: AppColors.yellow,
-                              ),
+                                color: loginController.enableResend.value
+                                    ? AppColors.yellow
+                                    : Colors.grey,
+                              )),
                             ),
                           ],
                         )

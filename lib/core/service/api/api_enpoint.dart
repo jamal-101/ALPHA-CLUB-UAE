@@ -26,6 +26,8 @@ class ApiEndPoint {
   static const String forgetPassword = '/auth/forget-password';
   static const String verifyResetOtp = '/auth/verify-reset-otp';
   static const String resetPassword = '/auth/reset-password';
+  static const String eventRegistration = '/event-registration';
+  static const String cancelEventRegistration = '/event-registration/cancel';
   // ==================================== Atik =====================================
   static const login = '/auth/login';
   static const category = '/category';

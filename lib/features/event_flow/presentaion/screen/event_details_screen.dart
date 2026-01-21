@@ -1,3 +1,4 @@
+import 'package:alpha_club/features/event_flow/presentaion/widget/event_status_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -60,31 +61,37 @@ class EventDetailsScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Positioned(
-                      top: 12.h,
-                      right: 12.w,
-                      child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 4.h),
-                        decoration: BoxDecoration(
-                          color: AppColors.blueBase50,
-                          borderRadius: BorderRadius.circular(20.r),
-                        ),
-                        child: CommonText(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.green, // AppColors.green1
-                          text: "30%",
-                        ),
-                      ),
-                    ),
+                    // Positioned(
+                    //   top: 12.h,
+                    //   right: 12.w,
+                    //   child: Container(
+                    //     padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 4.h),
+                    //     decoration: BoxDecoration(
+                    //       color: AppColors.blueBase50,
+                    //       borderRadius: BorderRadius.circular(20.r),
+                    //     ),
+                    //     child: CommonText(
+                    //       fontSize: 14,
+                    //       fontWeight: FontWeight.w500,
+                    //       color: Colors.green, // AppColors.green1
+                    //       text: "30%",
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
                 SizedBox(height: 20.h),
-                CommonText(
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.blue1,
-                  text: event['name'] ??  "",
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CommonText(
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.blue1,
+                      text: event['name'] ??  "",
+                    ),
+                    EventStatusButton(eventId: eventId,),
+                  ]
                 ),
                 SizedBox(height: 8.h),
                 CommonText(
@@ -140,3 +147,5 @@ class EventDetailsScreen extends StatelessWidget {
     );
   }
 }
+
+

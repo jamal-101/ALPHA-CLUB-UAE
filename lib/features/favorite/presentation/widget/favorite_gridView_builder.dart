@@ -82,14 +82,35 @@ class FavoriteGridviewBuilder extends StatelessWidget {
                   children: [
                     Padding(
                       padding: EdgeInsets.only(top: 4.h, left: 4.w, right: 4.w),
+                      // child: ClipRRect(
+                      //   borderRadius: BorderRadius.circular(8.r),
+                      //   child:
+                      //   Image.network(
+                      //     "${ApiEndPoint.imageBaseUrl}${offer.image}",
+                      //     height: 120.h,
+                      //     width: double.infinity,
+                      //     fit: BoxFit.cover,
+                      //   ),
+                      // ),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(8.r),
-                        child:
-                        Image.network(
-                          "${ApiEndPoint.imageBaseUrl}${offer.image}",
+                        child: offer.images.isNotEmpty // চেক করা হচ্ছে ইমেজ লিস্ট খালি কিনা
+                            ? Image.network(
+                          "${ApiEndPoint.imageBaseUrl}${offer.images.first}", // প্রথম ইমেজটি দেখাবে
                           height: 120.h,
                           width: double.infinity,
                           fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) => Container(
+                            height: 120.h,
+                            color: AppColors.otpBorderColor,
+                            child: Icon(Icons.image_not_supported_outlined, color: AppColors.blue1),
+                          ),
+                        )
+                            : Container( // ইমেজ না থাকলে একটি প্লেসহোল্ডার দেখাবে
+                          height: 120.h,
+                          width: double.infinity,
+                          color: AppColors.otpBorderColor,
+                          child: Icon(Icons.image_outlined, color: AppColors.blue1),
                         ),
                       ),
                     ),

@@ -24,6 +24,7 @@ class NewPasswordScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: Container(
         height: double.infinity,
         width: double.infinity,
@@ -33,7 +34,8 @@ class NewPasswordScreen extends StatelessWidget {
             fit: BoxFit.cover,
           ),
         ),
-        child: Center(
+        child: SingleChildScrollView(
+          // physics: const NeverScrollableScrollPhysics(),
           child: Column(
             children: [
               SizedBox(height: 70.h),
@@ -64,103 +66,102 @@ class NewPasswordScreen extends StatelessWidget {
                 fontSize: 14.sp,
               ),
               SizedBox(height: 40.h),
-              Expanded(
-                child: Container(
-                  height: double.infinity,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(45.r),
-                      topRight: Radius.circular(45.r),
-                    ),
-                    color: AppColors.appBackgroundColor,
+              Container(
+                height: MediaQuery.of(context).size.height * 0.7,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(45.r),
+                    topRight: Radius.circular(45.r),
                   ),
-                  child: SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 20,right: 20),
-                      child: Form(
-                        key: _formKey,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(height: 50.h),
-                            CommonText(
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.blue1,
-                                  fontFamily: 'SFPro'
-                              ),
-                              text: AppString.newPassword,
+                  color: AppColors.appBackgroundColor,
+                ),
+                child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 20,right: 20),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: 50.h),
+                          CommonText(
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w400,
+                                color: AppColors.blue1,
+                                fontFamily: 'SFPro'
                             ),
-                            SizedBox(height: 12.h),
-                            // CommonTextField(
-                            //   // validator: FormValidation.validatePassword,
-                            //   controller: newPassController.passwordController,
-                            //   onChanged: (value) => newPassController.validatePassword(value),
-                            //   isPassword: true,
-                            //   hintText: '********',
-                            // ),
-                            CommonTextField(
-                              validator: (value) => FormValidation.validatePassword(value),
-                              controller: newPassController.passwordController,
-                              onChanged: (value) => newPassController.validatePassword(value),
-                              isPassword: true,
-                              hintText: '********',
+                            text: AppString.newPassword,
+                          ),
+                          SizedBox(height: 12.h),
+                          // CommonTextField(
+                          //   // validator: FormValidation.validatePassword,
+                          //   controller: newPassController.passwordController,
+                          //   onChanged: (value) => newPassController.validatePassword(value),
+                          //   isPassword: true,
+                          //   hintText: '********',
+                          // ),
+                          CommonTextField(
+                            validator: (value) => FormValidation.validatePassword(value),
+                            controller: newPassController.passwordController,
+                            onChanged: (value) => newPassController.validatePassword(value),
+                            isPassword: true,
+                            hintText: '********',
+                          ),
+                          SizedBox(height: 20.h),
+                          CommonText(
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w400,
+                                color: AppColors.blue1,
+                                fontFamily: 'SFPro'
                             ),
-                            SizedBox(height: 20.h),
-                            CommonText(
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.blue1,
-                                  fontFamily: 'SFPro'
-                              ),
-                              text: AppString.confirmNewPass,
+                            text: AppString.confirmNewPass,
+                          ),
+                          SizedBox(height: 12.h),
+                          // CommonTextField(
+                          //   // validator: FormValidation.confirmPasswordValidator(value, changePassController),
+                          //   controller: newPassController.confirmPasswordController,
+                          //   isPassword: true,
+                          //   hintText: '********',
+                          //   onChanged: (value) => newPassController.checkPasswordMatch(),
+                          // ),
+                          CommonTextField(
+                            validator: (value) => FormValidation.confirmPasswordValidator(
+                                value,
+                                newPassController.passwordController
                             ),
-                            SizedBox(height: 12.h),
-                            // CommonTextField(
-                            //   // validator: FormValidation.confirmPasswordValidator(value, changePassController),
-                            //   controller: newPassController.confirmPasswordController,
-                            //   isPassword: true,
-                            //   hintText: '********',
-                            //   onChanged: (value) => newPassController.checkPasswordMatch(),
-                            // ),
-                            CommonTextField(
-                              validator: (value) => FormValidation.confirmPasswordValidator(
-                                  value,
-                                  newPassController.passwordController
-                              ),
-                              controller: newPassController.confirmPasswordController,
-                              isPassword: true,
-                              hintText: '********',
-                              onChanged: (value) => newPassController.checkPasswordMatch(),
-                            ),
-                            const SizedBox(height: 20),
-                            Column(
-                              children: [
-                                validationRow("At least 8 characters", newPassController.isLengthValid),
-                                validationRow("Numbers (0-9)", newPassController.hasNumbers),
-                                validationRow("Upper & Lower case letters", newPassController.hasLetters),
-                                validationRow("Special characters", newPassController.hasSpecialChars),
-                              ],
-                            ),
-                            SizedBox(height: 58.h),
-                            Obx(() => CommonButton(
-                              onTap: () {
-                                if (_formKey.currentState!.validate()) {
-                                  if (!newPassController.isLoading.value) {
-                                    newPassController.resetPassword();
-                                  }
+                            controller: newPassController.confirmPasswordController,
+                            isPassword: true,
+                            hintText: '********',
+                            onChanged: (value) => newPassController.checkPasswordMatch(),
+                          ),
+                          const SizedBox(height: 20),
+                          Column(
+                            children: [
+                              validationRow("At least 8 characters", newPassController.isLengthValid),
+                              validationRow("Numbers (0-9)", newPassController.hasNumbers),
+                              validationRow("Upper & Lower case letters", newPassController.hasLetters),
+                              validationRow("Special characters", newPassController.hasSpecialChars),
+                            ],
+                          ),
+                          SizedBox(height: 58.h),
+                          Obx(() => CommonButton(
+                            onTap: () {
+                              if (_formKey.currentState!.validate()) {
+                                if (!newPassController.isLoading.value) {
+                                  newPassController.resetPassword();
                                 }
-                              },
-                              text: newPassController.isLoading.value ? "Updating..." : AppString.cont,
-                            )),
-                            SizedBox(height: 40.h),
-                          ],
-                        ),
+                              }
+                            },
+                            text: newPassController.isLoading.value ? "Updating..." : AppString.cont,)
+                          ),
+                          // SizedBox(height: 40.h),
+                        ],
                       ),
                     ),
                   ),
@@ -169,7 +170,7 @@ class NewPasswordScreen extends StatelessWidget {
             ],
           ),
         ),
-      ),
+        ),
     );
   }
 }
