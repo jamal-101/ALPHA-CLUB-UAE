@@ -29,6 +29,11 @@ class HomeController extends GetxController {
     fetchSponsors();
   }
 
+
+  void refreshStories() {
+    fetchLatestStories(isLoadMore: false);
+  }
+
   Future<void> fetchLatestStories({bool isLoadMore = false}) async {
     if (isLoadMore) {
       isMoreStoriesLoading.value = true;
@@ -39,7 +44,7 @@ class HomeController extends GetxController {
     }
 
     ApiResponseModel response = await ApiService.get(
-      "${ApiEndPoint.stories}?page=$currentStoryPage&limit=10",
+      "${ApiEndPoint.stories}?page=$currentStoryPage&limit=90",
     );
 
     response.handleResponse(
@@ -59,7 +64,7 @@ class HomeController extends GetxController {
         } else {
           stories.assignAll(newStories);
         }
-        if (newStories.length < 10) {
+        if (newStories.length < 90) {
           hasMoreStories = false;
         } else {
           currentStoryPage++;
@@ -101,7 +106,7 @@ class HomeController extends GetxController {
 
 
     ApiResponseModel response = await ApiService.get(
-      "${ApiEndPoint.sponsor}?page=$currentPage&limit=3",
+      "${ApiEndPoint.sponsor}?page=$currentPage&limit=90",
     );
 
     response.handleResponse(
@@ -113,7 +118,7 @@ class HomeController extends GetxController {
         } else {
           sponsors.assignAll(newItems);
         }
-        if (newItems.length < 3) {
+        if (newItems.length < 90) {
           hasMoreData = false;
         } else {
           currentPage++;

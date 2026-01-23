@@ -109,40 +109,31 @@ class AllStanderList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Get.find ব্যবহার করা হয়েছে যাতে ডুপ্লিকেট কন্ট্রোলার তৈরি না হয়
     final ProfileController profileController = Get.find<ProfileController>();
 
     return Obx(() {
-      // ১. লোডিং স্টেট হ্যান্ডেল করা
-      if (profileController.isLoading.value && profileController.combinedPlans.isEmpty) {
-        return const Center(child: CircularProgressIndicator());
+
+
+      final List familyFeatures = [];
+      for (var plan in profileController.familyMembershipPlans) {
+        if (plan['features'] != null) {
+          familyFeatures.addAll(plan['features']);
+        }
       }
 
-      // ২. ড্রপডাউনে সিলেক্ট করা প্ল্যান অনুযায়ী ডাটা খুঁজে বের করা
-      final selectedPlan = profileController.combinedPlans.firstWhere(
-            (plan) => plan['membershipType'] == profileController.selectedMemberTypeCode.value,
-        orElse: () => null,
-      );
-
-      // ৩. ফিচার লিস্ট বের করা
-      final List features = selectedPlan != null ? (selectedPlan['features'] ?? []) : [];
-
-      // যদি কোনো ফিচার না থাকে তবে লিস্টটি দেখাবে না
-      if (features.isEmpty) {
-        return const SizedBox.shrink();
-      }
+      if (familyFeatures.isEmpty) return const SizedBox.shrink();
 
       return ListView.builder(
         padding: EdgeInsets.zero,
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        itemCount: features.length,
+        itemCount: familyFeatures.length,
         itemBuilder: (context, index) {
-          final item = features[index];
+          final item = familyFeatures[index];
 
           return Container(
             margin: EdgeInsets.only(bottom: 12.h),
-            padding: EdgeInsets.all(12.w), // একটু বাড়িয়ে ১২ করা হয়েছে ক্লিন লুকের জন্য
+            padding: EdgeInsets.all(12.w),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(12.r),
@@ -151,12 +142,11 @@ class AllStanderList extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // গোল্ডেন সার্কেল আইকন (Network Image)
                 Container(
                   height: 48.h,
                   width: 48.w,
                   decoration: BoxDecoration(
-                    color: AppColors.goldColor1.withOpacity(0.1),
+                    color: AppColors.goldColor1.withValues(alpha: 0.1),
                     shape: BoxShape.circle,
                   ),
                   padding: EdgeInsets.all(10.w),
@@ -168,7 +158,6 @@ class AllStanderList extends StatelessWidget {
                   ),
                 ),
                 SizedBox(width: 12.w),
-                // টাইটেল এবং ডেসক্রিপশন
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -197,7 +186,6 @@ class AllStanderList extends StatelessWidget {
                   ),
                 ),
                 SizedBox(width: 8.w),
-                // গ্রিন চেক আইকন
                 Image.asset(
                   AssetPath.checkIcon,
                   color: AppColors.green1,

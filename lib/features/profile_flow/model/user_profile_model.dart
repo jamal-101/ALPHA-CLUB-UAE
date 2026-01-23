@@ -23,16 +23,8 @@ class UserProfileModel {
 
     final applicationForm = json['application_form'] ?? {};
 
-    return UserProfileModel(
-      // id: json['memberShipId'] ?? '',
-      // name: json['name'] ?? '',
-      // email: json['email'] ?? '',
-      // phone: json['phone'] ?? '',
-      // image: json['profileImage'],
-      // address: json['address'],
-      // membershipType: applicationForm['membershipType'] ?? 'Alpha Member',
-      // userId: json['_id'] ?? '',
 
+    return UserProfileModel(
 
       id: applicationForm['memberShipId'] ?? '',
       name: json['name'] ?? '',
@@ -40,7 +32,7 @@ class UserProfileModel {
       phone: json['phone'] ?? '',
       image: json['profileImage'],
       address: applicationForm['address'] ?? json['address'],
-      membershipType: applicationForm['membershipType'] ?? 'Alpha Member',
+      membershipType: json['title'] ?? applicationForm['membershipType'] ?? 'Alpha Member',
       userId: json['_id'] ?? '',
     );
   }
@@ -59,7 +51,7 @@ class UserProfileModel {
       'phone': phone,
       'image': image,
       'address': address,
-      'membershipType': membershipType,
+      'title': membershipType,
       'userId': userId,
     };
   }

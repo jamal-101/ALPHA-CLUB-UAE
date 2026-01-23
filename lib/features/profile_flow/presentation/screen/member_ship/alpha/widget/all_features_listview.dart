@@ -104,20 +104,18 @@
 
 
 import 'package:alpha_club/features/profile_flow/controller/profile_controller.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
-
 import '../../../../../../../core/global/commont_text.dart';
 import '../../../../../../../core/service/api/api_enpoint.dart';
 import '../../../../../../../core/utils/app_color/app_color.dart';
 import '../../../../../../../core/utils/app_image/app_image.dart';
 
 class AllFeaturesListview extends StatelessWidget {
-     AllFeaturesListview({super.key});
+     const AllFeaturesListview({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -126,31 +124,22 @@ class AllFeaturesListview extends StatelessWidget {
 
     return Obx(() {
 
-      if (profileController.isLoading.value) {
-        return const Center(child: CircularProgressIndicator());
-      }
-      final selectedPlan = profileController.combinedPlans.firstWhere(
-            (plan) => plan['membershipType'] == profileController.selectedMemberTypeCode.value,
-        orElse: () => null,
-      );
-      if (selectedPlan == null || selectedPlan['features'] == null) {
-        return Center(
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 20.h),
-            child: const CommonText(text: "Select a plan to see features"),
-          ),
-        );
+      final List alphaFeatures = [];
+      for (var plan in profileController.regularMembershipPlans) {
+        if (plan['features'] != null) {
+          alphaFeatures.addAll(plan['features']);
+        }
       }
 
-      final List features = selectedPlan['features'];
+      if (alphaFeatures.isEmpty) return const SizedBox.shrink();
 
       return ListView.builder(
         padding: EdgeInsets.zero,
         shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: features.length,
+        physics: NeverScrollableScrollPhysics(),
+        itemCount: alphaFeatures.length,
         itemBuilder: (context, index) {
-          final item = features[index];
+          final item = alphaFeatures[index];
 
           return Container(
             margin: EdgeInsets.only(bottom: 12.h),

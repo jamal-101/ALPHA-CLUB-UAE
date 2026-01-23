@@ -100,4 +100,6 @@ class FavouriteController extends GetxController {
       fetchFavouriteOffers();
     }
   }
+
+
 }

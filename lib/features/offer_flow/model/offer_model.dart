@@ -8,6 +8,7 @@ class OfferModel {
   final bool isFavourite;
   final Discount? discount;
   final String description;
+  final String address;
 
   OfferModel({
     required this.id,
@@ -17,6 +18,7 @@ class OfferModel {
     required this.category,
     required this.isFavourite,
     required this.description,
+    required this.address,
     this.discount,
   });
 
@@ -33,6 +35,7 @@ class OfferModel {
       id: json['_id'] ?? '',
       name: json['name'] ?? '',
       title: json['title'] ?? '',
+      address: json['address']?.toString() ?? 'No address found',
       // image: json['image'] is List && (json['image'] as List).isNotEmpty
       //     ? (json['image'] as List).first.toString()
       //     : (json['image']?.toString() ?? ''),
@@ -61,12 +64,14 @@ class OfferModel {
   }
 
 
+
   Map<String, dynamic> toJson() {
     return {
       '_id': id,
       'name': name,
       'title': title,
       'description': description,
+      'address': address,
       // 'image': image,
       'image': images,
       'category': category.toJson(),
@@ -82,17 +87,20 @@ class OfferModel {
     String? title,
     OfferCategory? category,
     List<String>? images,
+    String? address,
   }) {
     return OfferModel(
       id: id,
       name: name ?? this.name,
       title: title ?? this.title,
+      // address: address ?? this.address,
       // image: image,
       images: images ?? this.images,
       description: description,
       category: category ?? this.category,
       isFavourite: isFavourite ?? this.isFavourite,
       discount: discount ?? this.discount,
+      address: address ?? this.address,
     );
   }
 }
@@ -149,3 +157,6 @@ class Discount {
     };
   }
 }
+
+
+

@@ -18,27 +18,35 @@ class AboutUsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Obx(() {
-        return SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.only(left: 20, right: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SizedBox(height: 50.h),
-                CommonAppBar(title: AppString.aboutUs, onTap: () {
-                  Get.back();
-                },),
-                SizedBox(height: 20.h),
-                HtmlWidget(
-                  profileController.aboutDescription.value,
-                  textStyle: TextStyle(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.blueBase
+        return RefreshIndicator(
+          color: Color(0xFF233A66),
+          backgroundColor: AppColors.appBackgroundColor,
+          onRefresh: () async {
+            await profileController.fetchAboutUs();
+          },
+          child: SingleChildScrollView(
+            physics : AlwaysScrollableScrollPhysics(),
+            child: Padding(
+              padding: EdgeInsets.only(left: 20, right: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  SizedBox(height: 50.h),
+                  CommonAppBar(title: AppString.aboutUs, onTap: () {
+                    Get.back();
+                  },),
+                  SizedBox(height: 20.h),
+                  HtmlWidget(
+                    profileController.aboutDescription.value,
+                    textStyle: TextStyle(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w400,
+                        color: AppColors.blueBase
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         );

@@ -18,46 +18,59 @@ class ComparisonScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Container(
-        color: Colors.white,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 24.h),
-            Obx(() {
-              if (profileController.isLoading.value) {
-                return const Center(child: CircularProgressIndicator());
-              }
-              return ListView.builder(
-                padding: EdgeInsets.zero,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: profileController.membershipPlans.length,
-                itemBuilder: (context, index) {
-                  final plan = profileController.membershipPlans[index];
-                  return RegularMemberShipWidget(planData: plan);
-                },
-              );
-            }),
-            SizedBox(height: 16.h),
-            //  // FamilyMembership(),
-            // SizedBox(height: 16.h),
-            CommonText(
-              style: TextStyle(
-                fontFamily: 'SFPro',
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                color: AppColors.blue1,
+    return RefreshIndicator(
+      color: Color(0xFF233A66),
+      backgroundColor: AppColors.appBackgroundColor,
+        onRefresh: () async {
+          await Future.wait([
+            profileController.fetchAllPlans(),
+            profileController.fetchFeatureComparison(),
+          ]);
+      },
+      child: SingleChildScrollView(
+        // scrollDirection: Axis.vertical,
+        child: Container(
+          color: Colors.white,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 24.h),
+              Obx(() {
+                // if (profileController.isLoading.value) {
+                //   return const Center(child: CircularProgressIndicator());
+                // }
+                return ListView.builder(
+                  padding: EdgeInsets.zero,
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  // itemCount: profileController.membershipPlans.length,
+                  itemCount: profileController.combinedPlans.length,
+                  itemBuilder: (context, index) {
+                    // final plan = profileController.membershipPlans[index];
+                    final plan = profileController.combinedPlans[index];
+                    return RegularMemberShipWidget(planData: plan);
+                  },
+                );
+              }),
+              SizedBox(height: 16.h),
+              //  // FamilyMembership(),
+              // SizedBox(height: 16.h),
+              CommonText(
+                style: TextStyle(
+                  fontFamily: 'SFPro',
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.blue1,
+                ),
+                text: AppString.featureComparison,
               ),
-              text: AppString.featureComparison,
-            ),
-            SizedBox(height: 16.h),
-            ComparisonButton(),
-            SizedBox(height: 12.h),
-            ComparisonList(),
-            SizedBox(height: 50.h),
-          ],
+              SizedBox(height: 16.h),
+              ComparisonButton(),
+              SizedBox(height: 12.h),
+              ComparisonList(),
+              SizedBox(height: 50.h),
+            ],
+          ),
         ),
       ),
     );

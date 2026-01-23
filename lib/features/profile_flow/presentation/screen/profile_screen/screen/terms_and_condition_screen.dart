@@ -16,28 +16,36 @@ class TermsAndConditionScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Obx(() {
-        return SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            child: Column(
-              children: [
-                SizedBox(height: 50.h),
-                CommonAppBar(
-                  title: AppString.termsAndCondition,
-                  onTap: () {
-                    Get.back();
-                  },
-                ),
-                SizedBox(height: 24.h),
-                HtmlWidget(
-                  profileController.termsDescription.value,
-                  textStyle: TextStyle(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w400,
-                    color: AppColors.blueBase,
+        return RefreshIndicator(
+          color: Color(0xFF233A66),
+          backgroundColor: AppColors.appBackgroundColor,
+          onRefresh: () async {
+            await profileController.termsAndCondition();
+          },
+          child: SingleChildScrollView(
+            physics: AlwaysScrollableScrollPhysics(),
+            child: Padding(
+              padding: EdgeInsets.only(left: 16, right: 16),
+              child: Column(
+                children: [
+                  SizedBox(height: 50.h),
+                  CommonAppBar(
+                    title: AppString.termsAndCondition,
+                    onTap: () {
+                      Get.back();
+                    },
                   ),
-                ),
-              ],
+                  SizedBox(height: 24.h),
+                  HtmlWidget(
+                    profileController.termsDescription.value,
+                    textStyle: TextStyle(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.blueBase,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         );

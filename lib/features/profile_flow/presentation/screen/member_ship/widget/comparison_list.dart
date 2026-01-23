@@ -15,14 +15,14 @@ class ComparisonList extends StatelessWidget {
     final ProfileController controller = Get.put(ProfileController());
 
     return Obx(() {
-      if (controller.isLoading.value) {
-        return const Center(child: CircularProgressIndicator());
-      }
+      // if (controller.isLoading.value) {
+      //   return const Center(child: CircularProgressIndicator());
+      // }
 
       return ListView.builder(
         padding: EdgeInsets.zero,
         shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
+        physics: NeverScrollableScrollPhysics(),
         itemCount: controller.comparisonList.length,
         itemBuilder: (context, index) {
           final item = controller.comparisonList[index];

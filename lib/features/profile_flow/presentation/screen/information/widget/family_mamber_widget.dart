@@ -28,7 +28,7 @@ class FamilyMemberWidget extends StatelessWidget {
         CommonTextField(
           isPopins: false,
           containerColor: AppColors.appBackgroundColor,
-          controller: profileController.familyEmailController, // ইমেইল সেভ হবে এখানে
+          controller: profileController.familyEmailController,
           hintText: AppString.enterEmail,
         ),
         SizedBox(height: 12.h),

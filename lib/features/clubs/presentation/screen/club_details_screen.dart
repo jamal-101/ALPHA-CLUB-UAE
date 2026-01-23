@@ -29,9 +29,9 @@ class ClubDetailsScreen extends StatelessWidget {
 
     return Scaffold(
       body: Obx(() {
-        if (clubController.isClubDetailLoading.value) {
-          return const Center(child: CircularProgressIndicator());
-        }
+        // if (clubController.isClubDetailLoading.value) {
+        //   return const Center(child: CircularProgressIndicator());
+        // }
 
         final club = clubController.singleClubDetails;
 
@@ -51,6 +51,19 @@ class ClubDetailsScreen extends StatelessWidget {
                         height: 219.h,
                         width: double.infinity,
                         fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Container(
+                            height: 219.h,
+                            width: double.infinity,
+                            color: AppColors.otpBorderColor,
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                              ),
+                            ),
+                          );
+                        },
+                        // errorBuilder: (context, error, stackTrace) => const Icon(Icons.broken_image),
                       ),
                     ),
                     Positioned(
@@ -89,7 +102,7 @@ class ClubDetailsScreen extends StatelessWidget {
                         fontSize: 14,
                         fontFamily: 'SFPro'
                     ),
-                  text: "${club['numberOfMembers'] ?? 0}  Memberships",
+                  text: "${club['limitOfMember'] ?? 0}  Memberships",
                 ),
                 SizedBox(height: 12.h),
                 Row(

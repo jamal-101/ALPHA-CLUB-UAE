@@ -15,12 +15,12 @@ class OfferDetailsController extends GetxController {
     // Get offer ID from arguments
     offerId = Get.arguments as String? ?? '';
     if (offerId.isNotEmpty) {
-      fetchOfferDetails();
+      fetchOfferDetails(offerId);
     }
   }
 
   /// Fetch offer details from API
-  Future<void> fetchOfferDetails() async {
+  Future<void> fetchOfferDetails(String offerId) async {
     try {
       isLoading.value = true;
 

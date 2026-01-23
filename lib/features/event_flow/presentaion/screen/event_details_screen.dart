@@ -22,9 +22,9 @@ class EventDetailsScreen extends StatelessWidget {
 
     return Scaffold(
       body: Obx(() {
-        if (eventController.isEventDetailLoading.value) {
-          return const Center(child: CircularProgressIndicator());
-        }
+        // if (eventController.isEventDetailLoading.value) {
+        //   return const Center(child: CircularProgressIndicator());
+        // }
 
         final event = eventController.singleEventDetails;
 
@@ -44,6 +44,18 @@ class EventDetailsScreen extends StatelessWidget {
                         height: 219.h,
                         width: double.infinity,
                         fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Container(
+                            height: 219.h,
+                            width: double.infinity,
+                            color: AppColors.otpBorderColor,
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                              ),
+                            ),
+                          );
+                        },
                       ),
                     ),
                     Positioned(

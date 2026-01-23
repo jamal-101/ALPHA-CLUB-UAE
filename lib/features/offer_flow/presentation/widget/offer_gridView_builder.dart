@@ -15,16 +15,16 @@ class OfferGridviewBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      if (offerController.isLoadingOffers.value) {
-        return Center(
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 40.h),
-            child: CircularProgressIndicator(
-              color: AppColors.blue1,
-            ),
-          ),
-        );
-      }
+      // if (offerController.isLoadingOffers.value) {
+      //   return Center(
+      //     child: Padding(
+      //       padding: EdgeInsets.symmetric(vertical: 40.h),
+      //       child: CircularProgressIndicator(
+      //         color: AppColors.blue1,
+      //       ),
+      //     ),
+      //   );
+      // }
 
       if (offerController.offers.isEmpty) {
         return Center(
@@ -52,192 +52,200 @@ class OfferGridviewBuilder extends StatelessWidget {
       }
 
       // Show offers grid
-      return GridView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: offerController.offers.length,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 12.w,
-          mainAxisSpacing: 12.h,
-          childAspectRatio: 0.95,
-        ),
-        itemBuilder: (context, index) {
-          final offer = offerController.offers[index];
+      return RefreshIndicator(
+        color: Color(0xFF233A66),
+        backgroundColor: AppColors.appBackgroundColor,
+        onRefresh: () async {
+          await offerController.fetchOffers();
+        },
+        child: GridView.builder(
+          shrinkWrap: true,
+          physics: const AlwaysScrollableScrollPhysics(),
+          // physics: const NeverScrollableScrollPhysics(),
+          itemCount: offerController.offers.length,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 12.w,
+            mainAxisSpacing: 12.h,
+            childAspectRatio: 0.95,
+          ),
+          itemBuilder: (context, index) {
+            final offer = offerController.offers[index];
 
-          final String imageUrl = offer.images.isNotEmpty
-              ? "${ApiEndPoint.imageBaseUrl}${offer.images.first}"
-              : "";
+            final String imageUrl = offer.images.isNotEmpty
+                ? "${ApiEndPoint.imageBaseUrl}${offer.images.first}"
+                : "";
 
-          return GestureDetector(
-            onTap: () {
-              Get.toNamed(AppRoute.offerDetailsScreen, arguments: offer.id);
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12.r),
-                border: Border.all(color: AppColors.otpBorderColor),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Stack(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.all(4.w),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8.r),
-                          child: Image.network(
-                            // offer.getImageUrl(ApiEndPoint.imageBaseUrl),
-                            imageUrl,
-                            height: 115.h,
-                            width: double.infinity,
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) {
-                              return Container(
-                                height: 115.h,
-                                width: double.infinity,
-                                color: AppColors.otpBorderColor,
+            return GestureDetector(
+              onTap: () {
+                Get.toNamed(AppRoute.offerDetailsScreen, arguments: offer.id);
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12.r),
+                  border: Border.all(color: AppColors.otpBorderColor),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Stack(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.all(4.w),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8.r),
+                            child: Image.network(
+                              // offer.getImageUrl(ApiEndPoint.imageBaseUrl),
+                              imageUrl,
+                              height: 115.h,
+                              width: double.infinity,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) {
+                                return Container(
+                                  height: 115.h,
+                                  width: double.infinity,
+                                  color: AppColors.otpBorderColor,
+                                  child: Icon(
+                                    Icons.image_not_supported_outlined,
+                                    size: 40.sp,
+                                    color: AppColors.blue1.withValues(alpha: 0.3),
+                                  ),
+                                );
+                              },
+                              // loadingBuilder: (context, child, loadingProgress) {
+                              //   if (loadingProgress == null) return child;
+                              //   return Container(
+                              //     height: 115.h,
+                              //     width: double.infinity,
+                              //     color: AppColors.otpBorderColor,
+                              //     child: Center(
+                              //       child: CircularProgressIndicator(
+                              //         color: AppColors.blue1,
+                              //         strokeWidth: 2.w,
+                              //       ),
+                              //     ),
+                              //   );
+                              // },
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          top: 9.h,
+                          right: 9.w,
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 10.w,
+                              vertical: 6.h,
+                            ),
+                            decoration: BoxDecoration(
+                              color: AppColors.blueBase50,
+                              borderRadius: BorderRadius.circular(20.r),
+                            ),
+                            child: CommonText(
+                              text: "${offer.discount?.value ?? 0}% Off",
+                              fontWeight: FontWeight.w500,
+                              fontSize: 10.sp,
+                              color: AppColors.green1,
+                            ),
+                          ),
+                        ),
+                        // Positioned(
+                        //   top: 9.h,
+                        //   right: 9.w,
+                        //   child: offer.discount?.enable == true
+                        //       ? Container(
+                        //     padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
+                        //     decoration: BoxDecoration(
+                        //       color: AppColors.blueBase50,
+                        //       borderRadius: BorderRadius.circular(20.r),
+                        //     ),
+                        //     child: CommonText(
+                        //       text: "${offer.discount?.value}% Off",
+                        //       fontWeight: FontWeight.w500,
+                        //       fontSize: 12.sp,
+                        //       color: AppColors.green1,
+                        //     ),
+                        //   )
+                        //       : const SizedBox.shrink(),
+                        // ),
+                        Positioned(
+                          top: 9.h,
+                          left: 9.w,
+                          child: GestureDetector(
+                            onTap: () {
+                              offerController.toggleFavourite(offer.id);
+                            },
+                            child:
+                            Obx((){
+                              // final currentOffer = offerController.offers
+                              //     .firstWhere((o) => o.id == offer.id,);
+                              final isFav = offerController.offers
+                                  .firstWhere((o) => o.id == offer.id, orElse: () => offer)
+                                  .isFavourite;
+                             return Container(
+                                height: 24.w,
+                                width: 24.w,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.white,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withValues(alpha: 0.1),
+                                      blurRadius: 4,
+                                      offset: const Offset(0, 2),
+                                    ),
+                                  ],
+                                ),
                                 child: Icon(
-                                  Icons.image_not_supported_outlined,
-                                  size: 40.sp,
-                                  color: AppColors.blue1.withValues(alpha: 0.3),
+                                  isFav ? Icons.favorite_rounded : Icons.favorite_outline_rounded,
+                                  color: AppColors.redColor,
+                                  size: 16.sp,
                                 ),
                               );
-                            },
-                            loadingBuilder: (context, child, loadingProgress) {
-                              if (loadingProgress == null) return child;
-                              return Container(
-                                height: 115.h,
-                                width: double.infinity,
-                                color: AppColors.otpBorderColor,
-                                child: Center(
-                                  child: CircularProgressIndicator(
-                                    color: AppColors.blue1,
-                                    strokeWidth: 2.w,
-                                  ),
-                                ),
-                              );
-                            },
+                            }
+                            ),
                           ),
                         ),
-                      ),
-                      Positioned(
-                        top: 9.h,
-                        right: 9.w,
-                        child: Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 10.w,
-                            vertical: 6.h,
-                          ),
-                          decoration: BoxDecoration(
-                            color: AppColors.blueBase50,
-                            borderRadius: BorderRadius.circular(20.r),
-                          ),
-                          child: CommonText(
-                            text: "${offer.discount?.value ?? 0}% Off",
-                            fontWeight: FontWeight.w500,
-                            fontSize: 10.sp,
-                            color: AppColors.green1,
-                          ),
+                      ],
+                    ),
+                    Flexible(
+                      child: Padding(
+                        padding:
+                        EdgeInsets.symmetric(horizontal: 4.w, vertical: 4.h),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            CommonText(
+                              textAlign: TextAlign.start,
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.blue1,
+                              text: offer.name,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            SizedBox(height: 2.h),
+                            CommonText(
+                              textAlign: TextAlign.start,
+                              fontSize: 11.sp,
+                              fontWeight: FontWeight.w400,
+                              color: AppColors.blue1,
+                              text: offer.title,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
                         ),
-                      ),
-                      // Positioned(
-                      //   top: 9.h,
-                      //   right: 9.w,
-                      //   child: offer.discount?.enable == true
-                      //       ? Container(
-                      //     padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
-                      //     decoration: BoxDecoration(
-                      //       color: AppColors.blueBase50,
-                      //       borderRadius: BorderRadius.circular(20.r),
-                      //     ),
-                      //     child: CommonText(
-                      //       text: "${offer.discount?.value}% Off",
-                      //       fontWeight: FontWeight.w500,
-                      //       fontSize: 12.sp,
-                      //       color: AppColors.green1,
-                      //     ),
-                      //   )
-                      //       : const SizedBox.shrink(),
-                      // ),
-                      Positioned(
-                        top: 9.h,
-                        left: 9.w,
-                        child: GestureDetector(
-                          onTap: () {
-                            offerController.toggleFavourite(offer.id);
-                          },
-                          child:
-                          Obx((){
-                            // final currentOffer = offerController.offers
-                            //     .firstWhere((o) => o.id == offer.id,);
-                            final isFav = offerController.offers
-                                .firstWhere((o) => o.id == offer.id, orElse: () => offer)
-                                .isFavourite;
-                           return Container(
-                              height: 24.w,
-                              width: 24.w,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.white,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withValues(alpha: 0.1),
-                                    blurRadius: 4,
-                                    offset: const Offset(0, 2),
-                                  ),
-                                ],
-                              ),
-                              child: Icon(
-                                isFav ? Icons.favorite_rounded : Icons.favorite_outline_rounded,
-                                color: AppColors.redColor,
-                                size: 16.sp,
-                              ),
-                            );
-                          }
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Flexible(
-                    child: Padding(
-                      padding:
-                      EdgeInsets.symmetric(horizontal: 4.w, vertical: 4.h),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          CommonText(
-                            textAlign: TextAlign.start,
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.blue1,
-                            text: offer.name,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          SizedBox(height: 2.h),
-                          CommonText(
-                            textAlign: TextAlign.start,
-                            fontSize: 11.sp,
-                            fontWeight: FontWeight.w400,
-                            color: AppColors.blue1,
-                            text: offer.title,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       );
     });
   }

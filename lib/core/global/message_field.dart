@@ -27,7 +27,7 @@ class MessageField extends StatelessWidget {
         controller: textController,
         style: TextStyle(
             fontFamily: 'SFPro',
-            fontSize: 14.sp,
+            fontSize: 18.sp,
             fontWeight: FontWeight.w400,
             color: AppColors.blueBase
         ),
@@ -37,7 +37,7 @@ class MessageField extends StatelessWidget {
           hintText: AppString.writeYourMessage,
           hintStyle: GoogleFonts.poppins(
             fontWeight: FontWeight.w400,
-            fontSize: 14.sp,
+            fontSize: 18.sp,
             color: AppColors.blueBase,
           ),
           filled: true,

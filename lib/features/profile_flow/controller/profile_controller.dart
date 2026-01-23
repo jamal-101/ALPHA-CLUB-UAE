@@ -24,7 +24,7 @@ class ProfileController extends GetxController {
     fetchAboutUs();
     privacyPolicy();
     termsAndCondition();
-    fetchMembershipPlans();
+    // fetchMembershipPlans();
     // fetchFeatureComparison();
     // fetchAlphaMemberShipPlans();
     // fetchAlphaFamily();
@@ -109,21 +109,21 @@ class ProfileController extends GetxController {
 
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> MemberShip PLan <<<<<<<<<<<<<<<<<<<<<<<<<<//
 
-  var membershipPlans = [].obs;
-
-  Future<void> fetchMembershipPlans() async {
-    isLoading.value = true;
-    ApiResponseModel response = await ApiService.get(
-      ApiEndPoint.memberShipPlan,
-    );
-
-    response.handleResponse(
-      onSuccess: (responseData) {
-        membershipPlans.value = responseData['data'] ?? [];
-      },
-    );
-    isLoading.value = false;
-  }
+  // var membershipPlans = [].obs;
+  //
+  // Future<void> fetchMembershipPlans() async {
+  //   isLoading.value = true;
+  //   ApiResponseModel response = await ApiService.get(
+  //     ApiEndPoint.memberShipPlan,
+  //   );
+  //
+  //   response.handleResponse(
+  //     onSuccess: (responseData) {
+  //       membershipPlans.value = responseData['data'] ?? [];
+  //     },
+  //   );
+  //   isLoading.value = false;
+  // }
 
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> More Features <<<<<<<<<<<<<<<<<<<<<<<<<<<<<//
 
@@ -167,13 +167,49 @@ class ProfileController extends GetxController {
   var selectedMemberType = "Select".obs;
   var selectedMemberTypeCode = "".obs;
 
+  var regularMembershipPlans = [].obs;
+  var familyMembershipPlans = [].obs;
+
+  // Future<void> fetchAllPlans() async {
+  //   isLoading.value = true;
+  //   combinedPlans.clear();
+  //   ApiResponseModel res = await ApiService.get(ApiEndPoint.membershipPlan);
+  //   res.handleResponse(onSuccess: (data) {
+  //     if (data['data'] != null) {
+  //       combinedPlans.addAll(data['data']);
+  //
+  //       if (combinedPlans.isNotEmpty) {
+  //         updateSelectedPlan(combinedPlans[0]);
+  //       }
+  //     }
+  //   });
+  //   isLoading.value = false;
+  // }
+
   Future<void> fetchAllPlans() async {
     isLoading.value = true;
     combinedPlans.clear();
+    regularMembershipPlans.clear();
+    familyMembershipPlans.clear();
+
     ApiResponseModel res = await ApiService.get(ApiEndPoint.membershipPlan);
+
     res.handleResponse(onSuccess: (data) {
       if (data['data'] != null) {
-        combinedPlans.addAll(data['data']);
+        List allData = data['data'];
+        combinedPlans.addAll(allData);
+
+        // Filtering logic
+        for (var plan in allData) {
+          if (plan['membershipType'] == "alpha") {
+            regularMembershipPlans.add(plan);
+          } else if (plan['membershipType'] == "alpha_family") {
+            familyMembershipPlans.add(plan);
+          }
+        }
+
+        regularMembershipPlans.refresh();
+        familyMembershipPlans.refresh();
 
         if (combinedPlans.isNotEmpty) {
           updateSelectedPlan(combinedPlans[0]);
@@ -183,11 +219,11 @@ class ProfileController extends GetxController {
     isLoading.value = false;
   }
 
+
   void updateSelectedPlan(dynamic plan) {
     if (plan == null) return;
-      String rawTitle = plan['membershipType'] ?? "Unknown";
-      selectedMemberType.value = rawTitle.replaceAll('_', ' ').capitalizeFirst ?? "Unknown";
-      selectedMemberTypeCode.value = plan['membershipType'] ?? "";
+    selectedMemberType.value = plan['title'] ?? "";
+    selectedMemberTypeCode.value = plan['membershipType'] ?? "";
   }
 
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> alpha Information <<<<<<<<<<<<<<<<<<<<<<<//
@@ -215,7 +251,7 @@ class ProfileController extends GetxController {
     String token = LocalStorage.token;
 
     Map<String, dynamic> bodyData = {
-      "membershipType": "alpha_family",
+      "title": "alpha_family",
       "name": nameController.text.trim(),
       "email": emailController.text.trim(),
       "phone": phoneNumber.value,

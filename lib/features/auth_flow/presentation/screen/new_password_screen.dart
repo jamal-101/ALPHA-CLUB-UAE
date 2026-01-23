@@ -56,14 +56,14 @@ class NewPasswordScreen extends StatelessWidget {
                 text: AppString.yourNewPass,
                 color: AppColors.whiteFoundation1,
                 fontWeight: FontWeight.w400,
-                fontSize: 14.sp,
+                fontSize: 18.sp,
               ),
               CommonText(
                 textAlign: TextAlign.center,
                 text: AppString.previous,
                 color: AppColors.whiteFoundation1,
                 fontWeight: FontWeight.w400,
-                fontSize: 14.sp,
+                fontSize: 18.sp,
               ),
               SizedBox(height: 40.h),
               Container(

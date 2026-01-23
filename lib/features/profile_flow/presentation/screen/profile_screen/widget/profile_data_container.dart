@@ -161,6 +161,7 @@ class _ProfileDataContainerState extends State<ProfileDataContainer> {
                         ),
                         CommonText(
                           text: profile?.membershipType ?? widget.membershipType,
+                          // text: widget.membershipType,
                           style: TextStyle(
                               color: AppColors.goldColor, fontSize: 14.sp),
                         ),

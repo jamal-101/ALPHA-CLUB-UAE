@@ -70,7 +70,7 @@ class ClubController extends GetxController {
     }
 
     ApiResponseModel response = await ApiService.get(
-      "${ApiEndPoint.club}?page=$currentPage&limit=10",
+      "${ApiEndPoint.club}?page=$currentPage&limit=70",
     );
 
     response.handleResponse(
@@ -82,7 +82,7 @@ class ClubController extends GetxController {
           clubList.assignAll(newItems);
         }
 
-        if (newItems.length < 10) {
+        if (newItems.length < 70) {
           hasMoreData = false;
         } else {
           currentPage++;

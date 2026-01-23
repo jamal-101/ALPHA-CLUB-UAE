@@ -231,7 +231,7 @@ class SingInOtp extends StatelessWidget {
                 text: AppString.enterThemFourDigit,
                 color: AppColors.whiteFoundation1,
                 fontWeight: FontWeight.w400,
-                fontSize: 14.sp,
+                fontSize: 18.sp,
               ),
               SizedBox(height: 55.h),
               Container(
@@ -327,7 +327,23 @@ class SingInOtp extends StatelessWidget {
                             //       color: AppColors.yellow,
                             //     ),
                             //     text: "00:${loginController.secondsRemaining.value.toString().padLeft(2, '0')}")),
+                            // Obx(() {
+                            //   int minutes = loginController.secondsRemaining.value ~/ 60;
+                            //   int seconds = loginController.secondsRemaining.value % 60;
+                            //
+                            //   return CommonText(
+                            //     style: TextStyle(
+                            //       fontFamily: 'SFPro',
+                            //       fontSize: 18.sp,
+                            //       fontWeight: FontWeight.w400,
+                            //       color: AppColors.yellow,
+                            //     ),
+                            //     text: "$minutes:${seconds.toString().padLeft(2, '0')}",
+                            //   );
+                            // }),
+
                             Obx(() {
+                              // মোট সেকেন্ড থেকে মিনিট এবং অবশিষ্ট সেকেন্ড বের করা
                               int minutes = loginController.secondsRemaining.value ~/ 60;
                               int seconds = loginController.secondsRemaining.value % 60;
 
@@ -338,7 +354,8 @@ class SingInOtp extends StatelessWidget {
                                   fontWeight: FontWeight.w400,
                                   color: AppColors.yellow,
                                 ),
-                                text: "$minutes:${seconds.toString().padLeft(2, '0')}",
+                                // minutes এবং seconds উভয়কেই padLeft(2, '0') করা হয়েছে
+                                text: "${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}",
                               );
                             }),
                           ],
@@ -371,7 +388,7 @@ class SingInOtp extends StatelessWidget {
                             CommonText(
                                 style: TextStyle(
                                   fontFamily: 'SFPro',
-                                  fontSize: 14.sp,
+                                  fontSize: 18.sp,
                                   fontWeight: FontWeight.w400,
                                   color: AppColors.blue1,
                                 ),
@@ -396,8 +413,8 @@ class SingInOtp extends StatelessWidget {
                               },
                               child: Obx(() => CommonText(
                                 text: AppString.resendCode,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 18.sp,
                                 color: loginController.enableResend.value
                                     ? AppColors.yellow
                                     : Colors.grey,

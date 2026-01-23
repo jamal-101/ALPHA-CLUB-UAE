@@ -205,6 +205,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
+import '../../../../core/utils/app_image/app_image.dart';
 
 class OfferDetailsScreen extends StatelessWidget {
   OfferDetailsScreen({super.key});
@@ -218,13 +219,6 @@ class OfferDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Obx(() {
-        if (controller.isLoading.value) {
-          return Center(
-            child: CircularProgressIndicator(
-              color: AppColors.blue1,
-            ),
-          );
-        }
 
         final offer = controller.offerDetails.value;
         if (offer == null) {
@@ -232,17 +226,8 @@ class OfferDetailsScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(
-                  Icons.error_outline,
-                  size: 64.sp,
-                  color: AppColors.otpBorderColor,
-                ),
-                SizedBox(height: 16.h),
-                CommonText(
-                  text: "Offer not found",
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.blue1,
+                CircularProgressIndicator(
+                  strokeWidth: 2,
                 ),
               ],
             ),
@@ -256,8 +241,6 @@ class OfferDetailsScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 50.h),
-
-                // স্লাইডার এবং স্ট্যাক অংশ
                 Stack(
                   children: [
                     Column(
@@ -266,12 +249,11 @@ class OfferDetailsScreen extends StatelessWidget {
                           options: CarouselOptions(
                             height: 220.h,
                             viewportFraction: 1.0,
-                            autoPlay: offer.images.length > 1, // একাধিক ইমেজ থাকলে অটো প্লে হবে
+                            autoPlay: offer.images.length > 1,
                             onPageChanged: (index, reason) {
                               _currentImageIndex.value = index;
                             },
                           ),
-                          // মডেলে বানানো getAllImageUrls মেথড ব্যবহার করে ইমেজ সোর্স আনা
                           items: offer.getAllImageUrls(ApiEndPoint.imageBaseUrl).map((imageUrl) {
                             return ClipRRect(
                               borderRadius: BorderRadius.circular(16.r),
@@ -280,24 +262,11 @@ class OfferDetailsScreen extends StatelessWidget {
                                 height: 220.h,
                                 width: double.infinity,
                                 fit: BoxFit.fill,
-                                errorBuilder: (context, error, stackTrace) {
-                                  return Container(
-                                    height: 219.h,
-                                    width: double.infinity,
-                                    color: AppColors.otpBorderColor,
-                                    child: Icon(
-                                      Icons.image_not_supported_outlined,
-                                      size: 64.sp,
-                                      color: AppColors.blue1.withValues(alpha: 0.3),
-                                    ),
-                                  );
-                                },
                               ),
                             );
                           }).toList(),
                         ),
 
-                        // স্লাইডার ইন্ডিকেটর (ডটস)
                         if (offer.images.length > 1)
                           Padding(
                             padding: EdgeInsets.only(top: 8.h),
@@ -321,7 +290,7 @@ class OfferDetailsScreen extends StatelessWidget {
                       ],
                     ),
 
-                    // ব্যাক বাটন
+
                     Positioned(
                       top: 12.h,
                       left: 12.w,
@@ -342,7 +311,6 @@ class OfferDetailsScreen extends StatelessWidget {
                       ),
                     ),
 
-                    // ডিসকাউন্ট ট্যাগ
                     if (offer.discount?.enable == true)
                       Positioned(
                         top: 12.h,
@@ -384,11 +352,17 @@ class OfferDetailsScreen extends StatelessWidget {
                   text: offer.title,
                 ),
                 SizedBox(height: 12.h),
-                CommonText(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w400,
-                  color: AppColors.blue1,
-                  text: offer.category.displayName,
+                Row(
+                  children: [
+                    Image.asset(AssetPath.locationIcon, height: 20.h, width: 20.w),
+                    SizedBox(width: 5.w),
+                    CommonText(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.blue1,
+                      text: offer.address,
+                    ),
+                  ],
                 ),
                 SizedBox(height: 16.h),
                 Divider(

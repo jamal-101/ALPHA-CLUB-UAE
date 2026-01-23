@@ -19,118 +19,125 @@ class UpComingEvent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      if (eventController.isLoading.value) {
-        return const Center(child: CircularProgressIndicator());
-      }
+      // if (eventController.isLoading.value) {
+      //   return const Center(child: CircularProgressIndicator());
+      // }
 
 
-      return GridView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: eventController.eventList.length,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 12.w,
-          mainAxisSpacing: 12.h,
-          childAspectRatio: 0.70,
-        ),
-        itemBuilder: (context, index) {
-          final item = eventController.eventList[index];
-         final String eventId = item['_id'] ?? "";
+      return RefreshIndicator(
+        color: Color(0xFF233A66),
+        backgroundColor: AppColors.appBackgroundColor,
+        onRefresh: () async {
+          await eventController.fetchEvents();
+        },
+        child: GridView.builder(
+          physics: const AlwaysScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: eventController.eventList.length,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 12.w,
+            mainAxisSpacing: 12.h,
+            childAspectRatio: 0.70,
+          ),
+          itemBuilder: (context, index) {
+            final item = eventController.eventList[index];
+           final String eventId = item['_id'] ?? "";
 
-          return GestureDetector(
-            onTap: () => Get.to(EventDetailsScreen(eventId: eventId)),
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(16.r),
-                border: Border.all(color: Colors.grey.shade200),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.all(4.w),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8.r),
-                      child: Image.network(
-                        "${ApiEndPoint.imageBaseUrl}${item["image"] ?? ""}",
-                        height: 144.h,
-                        width: double.infinity,
-                        fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) => const Icon(Icons.broken_image),
+            return GestureDetector(
+              onTap: () => Get.to(EventDetailsScreen(eventId: eventId)),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(16.r),
+                  border: Border.all(color: Colors.grey.shade200),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(4.w),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8.r),
+                        child: Image.network(
+                          "${ApiEndPoint.imageBaseUrl}${item["image"] ?? ""}",
+                          height: 144.h,
+                          width: double.infinity,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) => const Icon(Icons.broken_image),
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(height: 4.h),
-                  Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.fromLTRB(4.w, 4.h, 4.w, 6.h),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          CommonText(
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w500,
-                              color: AppColors.blue1,
-                              fontFamily: 'SFPro',
+                    SizedBox(height: 4.h),
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(4.w, 4.h, 4.w, 6.h),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CommonText(
+                              style: TextStyle(
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.blue1,
+                                fontFamily: 'SFPro',
+                              ),
+                              maxLines: 1,
+                              text: item["title"] ?? "",
                             ),
-                            maxLines: 1,
-                            text: item["title"] ?? "",
-                          ),
-                          SizedBox(height: 6.h),
-                          CommonText(
-                            textAlign: TextAlign.start,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontFamily: 'SFPro',
-                              fontWeight: FontWeight.w400,
-                              fontSize: 12.sp,
-                              color: AppColors.blueBase,
+                            SizedBox(height: 6.h),
+                            CommonText(
+                              textAlign: TextAlign.start,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontFamily: 'SFPro',
+                                fontWeight: FontWeight.w400,
+                                fontSize: 12.sp,
+                                color: AppColors.blueBase,
+                              ),
+                              text: (item["description"] ?? "").replaceAll(RegExp(r'<[^>]*>|&nbsp;'), ""),
                             ),
-                            text: (item["description"] ?? "").replaceAll(RegExp(r'<[^>]*>|&nbsp;'), ""),
-                          ),
-                          const Spacer(),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Flexible(
-                                child: Row(
-                                  children: [
-                                    Image.asset(AssetPath.calenderIcon, height: 16.h, width: 16.w, color: AppColors.goldColor1),
-                                    SizedBox(width: 4.w),
-                                    Flexible(
-                                      child: CommonText(
-                                        fontSize: 10.sp,
-                                        text: item["eventDate"] != null ? item["eventDate"].toString().split('T')[0] : "",
+                            const Spacer(),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Flexible(
+                                  child: Row(
+                                    children: [
+                                      Image.asset(AssetPath.calenderIcon, height: 16.h, width: 16.w, color: AppColors.goldColor1),
+                                      SizedBox(width: 4.w),
+                                      Flexible(
+                                        child: CommonText(
+                                          fontSize: 10.sp,
+                                          text: item["eventDate"] != null ? item["eventDate"].toString().split('T')[0] : "",
+                                        ),
                                       ),
+                                    ],
+                                  ),
+                                ),
+                                Row(
+                                  children: [
+                                    Icon(Icons.access_time, size: 16.sp, color: AppColors.goldColor1),
+                                    SizedBox(width: 2.w),
+                                    CommonText(
+                                      fontSize: 10.sp,
+                                      text: item["eventTime"] ?? "",
                                     ),
                                   ],
                                 ),
-                              ),
-                              Row(
-                                children: [
-                                  Icon(Icons.access_time, size: 16.sp, color: AppColors.goldColor1),
-                                  SizedBox(width: 2.w),
-                                  CommonText(
-                                    fontSize: 10.sp,
-                                    text: item["eventTime"] ?? "",
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ],
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       );
     });
   }

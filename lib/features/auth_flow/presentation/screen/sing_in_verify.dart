@@ -77,11 +77,11 @@ class SingInVerify extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(height: 159.h),
+                          SizedBox(height: 100.h),
                           CommonText(
                             textAlign: TextAlign.start,
                             style: TextStyle(
-                                fontSize: 14.sp,
+                                fontSize: 18.sp,
                                 fontWeight: FontWeight.w400,
                                 color: AppColors.blue1,
                                 fontFamily: 'SFPro'

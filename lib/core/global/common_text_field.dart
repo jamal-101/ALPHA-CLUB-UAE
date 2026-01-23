@@ -150,7 +150,7 @@ class CommonTextField extends StatelessWidget {
          obscureText: isVisible.value,
           style: TextStyle(
             fontFamily: 'SFPro',
-            fontSize: 14.sp,
+            fontSize: 18.sp,
             fontWeight: FontWeight.w400,
             color: AppColors.blueBase,
           ),
@@ -160,11 +160,11 @@ class CommonTextField extends StatelessWidget {
             hintText: hintText,
             hintStyle: isPopins ? GoogleFonts.poppins(
                 fontWeight: FontWeight.w400,
-                fontSize: 14.sp,
+                fontSize: 18.sp,
                 color: AppColors.blueBase,
               ) : TextStyle(
                 fontFamily: 'SFPro',
-                fontSize: 14.sp,
+                fontSize: 18.sp,
                 fontWeight: FontWeight.w400,
                 color: AppColors.blueBase
               ),

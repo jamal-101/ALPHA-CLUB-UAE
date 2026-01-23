@@ -7,6 +7,7 @@ import 'package:alpha_club/features/profile_flow/presentation/screen/profile_scr
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import '../../../../controller/profile_controller.dart';
 import 'custom_check_list.dart';
 import 'member_ship_info_container.dart';
 
@@ -114,7 +115,9 @@ class DigitalMembershipContainer extends StatelessWidget {
               SizedBox(width: 8.w),
               GestureDetector(
                 onTap: () {
-                  LoginScreen.isAppLied.value ? null :
+                  final ProfileController profileController = Get.put(ProfileController());
+                  profileController.fetchAllPlans();
+                  profileController.fetchFamilyProfile();
                   showModalBottomSheet(
                     context: context,
                     isScrollControlled: true,
@@ -141,7 +144,6 @@ Widget modelBottomSheet(BuildContext context) {
   return SingleChildScrollView(
     scrollDirection: Axis.vertical,
     child: Container(
-      // height: 550.h,
       width: double.infinity,
       decoration: BoxDecoration(
         color: Colors.white,
@@ -183,7 +185,7 @@ Widget modelBottomSheet(BuildContext context) {
                   icon: Icon(
                     Icons.close,
                     color: const Color(0xFF1A2A4D),
-                    size: 20.sp,
+                    size: 40.sp,
                   ),
                 ),
               ],
@@ -192,7 +194,7 @@ Widget modelBottomSheet(BuildContext context) {
             ProfileDataContainer(
               showEditButton: false,
               showBorder: false,
-              usePadding: true,
+              usePadding: false,
               imagePath: AssetPath.userProfile,
               userName: AppString.userName,
               membershipType: AppString.alphaMember,

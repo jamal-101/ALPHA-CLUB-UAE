@@ -73,13 +73,104 @@
 //   }
 // }
 
-import 'package:alpha_club/core/global/commont_text.dart';
-import 'package:alpha_club/core/utils/app_color/app_color.dart';
-import 'package:alpha_club/core/utils/app_image/app_image.dart';
-import 'package:alpha_club/features/profile_flow/controller/profile_controller.dart';
+// import 'package:alpha_club/core/global/commont_text.dart';
+// import 'package:alpha_club/core/utils/app_color/app_color.dart';
+// import 'package:alpha_club/core/utils/app_image/app_image.dart';
+// import 'package:alpha_club/features/profile_flow/controller/profile_controller.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutter_screenutil/flutter_screenutil.dart';
+// import 'package:get/get.dart';
+//
+// class CustomCheckList extends StatelessWidget {
+//   CustomCheckList({super.key});
+//
+//   final ProfileController profileController = Get.find<ProfileController>();
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Obx(() {
+//       // ১. লোডিং স্টেট চেক
+//       if (profileController.isLoading.value && profileController.combinedPlans.isEmpty) {
+//         return const Center(child: CircularProgressIndicator());
+//       }
+//
+//       // ২. বর্তমান সিলেক্টেড প্ল্যান অনুযায়ী ডাটা ফিল্টার করা
+//       final selectedPlan = profileController.combinedPlans.firstWhere(
+//             (plan) => plan['membershipType'] == profileController.selectedMemberTypeCode.value,
+//         orElse: () => null,
+//       );
+//
+//       // ৩. ফিচার লিস্ট বের করা
+//       final List items = selectedPlan != null ? (selectedPlan['features'] ?? []) : [];
+//
+//       if (items.isEmpty) {
+//         return const SizedBox.shrink(); // কোনো ফিচার না থাকলে খালি দেখাবে
+//       }
+//
+//       return Column(
+//         crossAxisAlignment: CrossAxisAlignment.start,
+//         children: items.map((item) {
+//           return Padding(
+//             padding: EdgeInsets.only(bottom: 10.h),
+//             child: _buildCustomItem(item['title']?.toString() ?? ""),
+//           );
+//         }).toList(),
+//       );
+//     });
+//   }
+//
+//   Widget _buildCustomItem(String text) {
+//     return Row(
+//       crossAxisAlignment: CrossAxisAlignment.start,
+//       children: [
+//         // চেক আইকন
+//         Padding(
+//           padding: EdgeInsets.only(top: 6.h),
+//           child: Image.asset(
+//             AssetPath.checkIcon,
+//             color: AppColors.blue1,
+//             height: 12.h,
+//             width: 12.w,
+//           ),
+//         ),
+//         SizedBox(width: 10.w),
+//         // গ্র্যাডিয়েন্ট টেক্সট
+//         Expanded(
+//           child: ShaderMask(
+//             blendMode: BlendMode.srcIn,
+//             shaderCallback: (Rect bounds) {
+//               return const LinearGradient(
+//                 colors: [AppColors.linearGradient1, AppColors.linearGradient2],
+//                 begin: Alignment.topLeft,
+//                 end: Alignment.bottomRight,
+//               ).createShader(bounds);
+//             },
+//             child: CommonText(
+//               // টেক্সট বড় হলে যেন ডিজাইন না ভাঙে তাই maxLines বা ellipsis ব্যবহার করতে পারেন
+//               maxLines: 2,
+//               textAlign: TextAlign.start,
+//               fontWeight: FontWeight.w400,
+//               fontSize: 16.sp,
+//               color: Colors.white, // ShaderMask এর কারণে এটি মাস্ক হয়ে যাবে
+//               text: text,
+//             ),
+//           ),
+//         ),
+//       ],
+//     );
+//   }
+// }
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import '../../../../../../core/global/commont_text.dart';
+import '../../../../../../core/utils/app_color/app_color.dart';
+import '../../../../../../core/utils/app_image/app_image.dart';
+import '../../../../controller/profile_controller.dart';
 
 class CustomCheckList extends StatelessWidget {
   CustomCheckList({super.key});
@@ -89,27 +180,31 @@ class CustomCheckList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      // ১. লোডিং স্টেট চেক
-      if (profileController.isLoading.value && profileController.combinedPlans.isEmpty) {
-        return const Center(child: CircularProgressIndicator());
+      // if (profileController.isLoading.value) {
+      //   return const Center(child: CircularProgressIndicator());
+      // }
+
+
+      final List allFeatures = [];
+      final Set<String> uniqueTitles = {};
+
+      for (var plan in profileController.combinedPlans) {
+        if (plan['features'] != null) {
+          for (var feature in plan['features']) {
+            String title = feature['title']?.toString() ?? "";
+            if (!uniqueTitles.contains(title)) {
+              allFeatures.add(feature);
+              uniqueTitles.add(title);
+            }
+          }
+        }
       }
 
-      // ২. বর্তমান সিলেক্টেড প্ল্যান অনুযায়ী ডাটা ফিল্টার করা
-      final selectedPlan = profileController.combinedPlans.firstWhere(
-            (plan) => plan['membershipType'] == profileController.selectedMemberTypeCode.value,
-        orElse: () => null,
-      );
-
-      // ৩. ফিচার লিস্ট বের করা
-      final List items = selectedPlan != null ? (selectedPlan['features'] ?? []) : [];
-
-      if (items.isEmpty) {
-        return const SizedBox.shrink(); // কোনো ফিচার না থাকলে খালি দেখাবে
-      }
+      if (allFeatures.isEmpty) return const SizedBox.shrink();
 
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: items.map((item) {
+        children: allFeatures.map((item) {
           return Padding(
             padding: EdgeInsets.only(bottom: 10.h),
             child: _buildCustomItem(item['title']?.toString() ?? ""),
@@ -119,11 +214,11 @@ class CustomCheckList extends StatelessWidget {
     });
   }
 
+
   Widget _buildCustomItem(String text) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // চেক আইকন
         Padding(
           padding: EdgeInsets.only(top: 6.h),
           child: Image.asset(
@@ -134,28 +229,25 @@ class CustomCheckList extends StatelessWidget {
           ),
         ),
         SizedBox(width: 10.w),
-        // গ্র্যাডিয়েন্ট টেক্সট
         Expanded(
-          child: ShaderMask(
-            blendMode: BlendMode.srcIn,
-            shaderCallback: (Rect bounds) {
-              return const LinearGradient(
-                colors: [AppColors.linearGradient1, AppColors.linearGradient2],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ).createShader(bounds);
-            },
+          // child: ShaderMask(
+          //   blendMode: BlendMode.srcIn,
+          //   shaderCallback: (Rect bounds) {
+          //     return const LinearGradient(
+          //       colors: , AppColors.linearGradient2],
+          //       begin: Alignment.topLeft,
+          //       end: Alignment.bottomRight,
+          //     ).createShader(bounds);
+          //   },
             child: CommonText(
-              // টেক্সট বড় হলে যেন ডিজাইন না ভাঙে তাই maxLines বা ellipsis ব্যবহার করতে পারেন
-              maxLines: 2,
               textAlign: TextAlign.start,
               fontWeight: FontWeight.w400,
               fontSize: 16.sp,
-              color: Colors.white, // ShaderMask এর কারণে এটি মাস্ক হয়ে যাবে
+              color: Color(0xFF233A66),
               text: text,
             ),
           ),
-        ),
+        // ),
       ],
     );
   }

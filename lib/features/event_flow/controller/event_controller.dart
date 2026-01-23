@@ -63,7 +63,7 @@ class EventController extends GetxController {
     }
 
     ApiResponseModel response = await ApiService.get(
-      "${ApiEndPoint.event}?page=$currentPage&limit=3",
+      "${ApiEndPoint.event}?page=$currentPage&limit=70",
     );
 
     response.handleResponse(
@@ -75,7 +75,7 @@ class EventController extends GetxController {
         } else {
           eventList.assignAll(newItems);
         }
-        if (newItems.length < 3) {
+        if (newItems.length < 70) {
           hasMoreData = false;
         } else {
           currentPage++;

@@ -111,12 +111,8 @@ class LoginController extends GetxController {
 
       if (response.isSuccess) {
         final dataObject = response.data['data']["user"]?? {};
-
-        // স্টোরেজে সেভ করুন
         bool hasPasswordSave = dataObject['hasPasswordSave'] ?? true;
         await LocalStorage.setBool('hasPasswordSave', hasPasswordSave);
-
-        // সরাসরি হোম স্ক্রিনে পাঠিয়ে দিন
         Get.offAllNamed(AppRoute.homeScreen);
       }
 
@@ -125,7 +121,7 @@ class LoginController extends GetxController {
         'Login failed: ${response.message}',
         tag: 'LOGIN_ERROR',
       );
-      Get.snackbar('Error', response.message);
+      Get.snackbar('Incorrect', response.message,colorText: Colors.red,backgroundColor: Colors.white);
     }
   }
 
@@ -213,20 +209,7 @@ class LoginController extends GetxController {
     startTimer();
   }
 
-  // void startTimer() {
-  //   secondsRemaining.value = 180;
-  //   enableResend.value = false;
-  //
-  //   timer?.cancel();
-  //   timer = Timer.periodic(Duration(seconds: 1), (t) {
-  //     if (secondsRemaining.value > 0) {
-  //       secondsRemaining.value--;
-  //     } else {
-  //       enableResend.value = true;
-  //       t.cancel();
-  //     }
-  //   });
-  // }
+
 
   void startTimer() {
     secondsRemaining.value = 180;
@@ -243,10 +226,17 @@ class LoginController extends GetxController {
     });
   }
 
-  void resendOtp() {
-    if (enableResend.value) {
-      // print("OTP Resent!");
+  // void resendOtp() {
+  //   if (enableResend.value) {
+  //     // print("OTP Resent!");
+  //
+  //     startTimer();
+  //   }
+  // }
 
+  Future<void> resendOtp() async {
+    if (enableResend.value) {
+      await sendForgotPasswordOtp();
       startTimer();
     }
   }

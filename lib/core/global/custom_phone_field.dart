@@ -12,6 +12,7 @@ class CustomPhoneField extends StatelessWidget {
   final String hintText;
   final TextEditingController? textController;
   final String? Function(String?)? validator;
+  final Color? fillColor;
 
   const CustomPhoneField({
     super.key,
@@ -20,6 +21,7 @@ class CustomPhoneField extends StatelessWidget {
     required this.hintText,
     this.textController,
     this.validator,
+    this.fillColor = AppColors.whiteFoundation,
   });
 
   @override
@@ -48,18 +50,20 @@ class CustomPhoneField extends StatelessWidget {
           fontFamily: 'SFPro',
         ),
         filled: true,
-        fillColor: Colors.white,
-        contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+        fillColor: fillColor,
+        contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 18.h),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12.r),
-          borderSide: BorderSide(color: AppColors.blue1.withValues(alpha: 0.2)),
+          borderRadius: BorderRadius.circular(8.r),
+          // borderSide: BorderSide(color: AppColors.blue1.withValues(alpha: 0.2)),
+          borderSide: BorderSide(color: Color(0xFFF1F1F1)),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12.r),
-          borderSide: BorderSide(color: AppColors.blue1.withValues(alpha: 0.2)),
+          borderRadius: BorderRadius.circular(8.r),
+          // borderSide: BorderSide(color: AppColors.blue1.withValues(alpha: 0.2)),
+          borderSide: BorderSide(color: Color(0xFFF1F1F1)),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12.r),
+          borderRadius: BorderRadius.circular(8.r),
           borderSide: BorderSide(color: AppColors.blue1, width: 1.5),
         ),
       ),

@@ -248,7 +248,7 @@ class OfferController extends GetxController {
       isLoadingOffers.value = true;
 
 
-      String endpoint = "${ApiEndPoint.offer}?page=1&limit=20";
+      String endpoint = "${ApiEndPoint.offer}?page=1&limit=70";
 
 
       if (selectedCategory.value.isNotEmpty) {
@@ -296,7 +296,7 @@ class OfferController extends GetxController {
   Future<void> fetchCategories() async {
     try {
       isLoadingCategories.value = true;
-      final response = await ApiService.get('${ApiEndPoint.category}?page=1&limit=50');
+      final response = await ApiService.get('${ApiEndPoint.category}?page=1&limit=70');
 
       if (response.isSuccess) {
         final categoryResponse = CategoryResponse.fromJson(Map<String, dynamic>.from(response.data));

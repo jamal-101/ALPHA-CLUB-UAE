@@ -221,7 +221,7 @@ class DropDownType extends StatelessWidget {
                 }
 
                 return profileController.combinedPlans.map((plan) {
-                  String formattedName = (plan['membershipType'] ?? "")
+                  String formattedName = (plan['title'] ?? "")
                       .toString()
                       .replaceAll('_', ' ')
                       .split(' ')
@@ -231,7 +231,7 @@ class DropDownType extends StatelessWidget {
                     value: plan,
                     child: CommonText(
                       text: formattedName,
-                      fontSize: 16.sp,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.w400,
                       color: const Color(0xFF808080),
                     ),

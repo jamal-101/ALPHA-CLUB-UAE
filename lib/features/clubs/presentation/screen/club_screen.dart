@@ -27,6 +27,7 @@ class ClubScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                SizedBox(height: 20.h),
                 CommonText(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,

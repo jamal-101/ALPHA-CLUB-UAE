@@ -11,13 +11,16 @@ class FavoriteScreen extends StatelessWidget {
     return Scaffold(
       bottomNavigationBar: CommonBottomNabVar(selectedIndex: 3),
       body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.only(left: 20,right: 20),
-          child: Column(
-            children: [
-              SizedBox(height: 40.h),
-              FavoriteGridviewBuilder()
-            ],
+        child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: Padding(
+            padding: EdgeInsets.only(left: 20,right: 20),
+            child: Column(
+              children: [
+                SizedBox(height: 40.h),
+                FavoriteGridviewBuilder()
+              ],
+            ),
           ),
         ),
       ),
