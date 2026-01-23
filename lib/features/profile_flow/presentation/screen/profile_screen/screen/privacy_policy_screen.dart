@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
 import '../../../../../../core/global/common_app_bar.dart';
+import '../../../../../../core/utils/app_color/app_color.dart';
 
 class PrivacyPolicyScreen extends StatelessWidget {
      PrivacyPolicyScreen({super.key});
@@ -15,21 +16,29 @@ class PrivacyPolicyScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Obx(() {
-        return SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20),
-            child: Column(
-              children: [
-                SizedBox(height: 50.h),
-                CommonAppBar(title: AppString.privacyPolicy, onTap: () {
-                  Get.back();
-                },),
-                SizedBox(height: 16.h),
-                HtmlWidget(
-                  profileController.privacyPolicyDescription.value,
-                  textStyle: TextStyle(fontSize: 14.sp, color: Colors.black),
-                ),
-              ],
+        return RefreshIndicator(
+          color: Color(0xFF233A66),
+          backgroundColor: AppColors.appBackgroundColor,
+          onRefresh: () async {
+            await profileController.privacyPolicy();
+          },
+          child: SingleChildScrollView(
+            physics: AlwaysScrollableScrollPhysics(),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20),
+              child: Column(
+                children: [
+                  SizedBox(height: 50.h),
+                  CommonAppBar(title: AppString.privacyPolicy, onTap: () {
+                    Get.back();
+                  },),
+                  SizedBox(height: 16.h),
+                  HtmlWidget(
+                    profileController.privacyPolicyDescription.value,
+                    textStyle: TextStyle(fontSize: 14.sp, color: Colors.black),
+                  ),
+                ],
+              ),
             ),
           ),
         );

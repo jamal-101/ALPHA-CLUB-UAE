@@ -32,70 +32,75 @@ class FaqScreen extends StatelessWidget {
             SizedBox(height: 20.h),
             Expanded(
               child: Obx(() {
-                if (profileController.isLoading.value) {
-                  return const Center(child: CircularProgressIndicator());
-                }
 
-                return ListView.builder(
-                  itemCount: profileController.faqListData.length,
-                  padding: EdgeInsets.zero,
-                  itemBuilder: (context, index) {
-                    final item = profileController.faqListData[index];
 
-                    return Obx(() {
-                      bool isOpen = activeIndex.value == index;
-                      return GestureDetector(
-                        onTap: () => activeIndex.value = isOpen ? -1 : index,
-                        child: AnimatedContainer(
-                          duration: const Duration(milliseconds: 300),
-                          margin: EdgeInsets.only(bottom: 12.h),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(8.0.r),
-                            border: Border.all(color: AppColors.otpBorderColor, width: 1.w),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.all(16.w),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Expanded(
-                                        child: CommonText(
-                                          textAlign: TextAlign.start,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
-                                          color: AppColors.blue1,
-                                          text: item['title'] ?? "",
-                                        )
-                                    ),
-                                    SizedBox(width: 10.w),
-                                    Image.asset(
-                                      isOpen ? AssetPath.minus : AssetPath.addSquare,
-                                      height: 20.h, width: 20.w,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              if (isOpen)
+                return RefreshIndicator(
+                  color: Color(0xFF233A66),
+                  backgroundColor: AppColors.appBackgroundColor,
+                  onRefresh: () async {
+                    await profileController.fetchFaqs();
+                  },
+                  child: ListView.builder(
+                    itemCount: profileController.faqListData.length,
+                    padding: EdgeInsets.zero,
+                    physics: AlwaysScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      final item = profileController.faqListData[index];
+                      return Obx(() {
+                        bool isOpen = activeIndex.value == index;
+                        return GestureDetector(
+                          onTap: () => activeIndex.value = isOpen ? -1 : index,
+                          child: AnimatedContainer(
+                            duration: const Duration(milliseconds: 300),
+                            margin: EdgeInsets.only(bottom: 12.h),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(8.0.r),
+                              border: Border.all(color: AppColors.otpBorderColor, width: 1.w),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
                                 Padding(
-                                  padding: EdgeInsets.only(left: 16.w, right: 16.w, bottom: 16.h),
-                                  child: CommonText(
-                                    textAlign: TextAlign.start,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
-                                    color: AppColors.blueBase,
-                                    text: item['description'] ?? "",
+                                  padding: EdgeInsets.all(16.w),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(
+                                          child: CommonText(
+                                            textAlign: TextAlign.start,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w400,
+                                            color: AppColors.blue1,
+                                            text: item['title'] ?? "",
+                                          )
+                                      ),
+                                      SizedBox(width: 10.w),
+                                      Image.asset(
+                                        isOpen ? AssetPath.minus : AssetPath.addSquare,
+                                        height: 20.h, width: 20.w,
+                                      ),
+                                    ],
                                   ),
                                 ),
-                            ],
+                                if (isOpen)
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 16.w, right: 16.w, bottom: 16.h),
+                                    child: CommonText(
+                                      textAlign: TextAlign.start,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                      color: AppColors.blueBase,
+                                      text: item['description'] ?? "",
+                                    ),
+                                  ),
+                              ],
+                            ),
                           ),
-                        ),
-                      );
-                    });
-                  },
+                        );
+                      });
+                    },
+                  ),
                 );
               }),
             ),
