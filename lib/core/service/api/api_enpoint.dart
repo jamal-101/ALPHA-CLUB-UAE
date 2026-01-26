@@ -1,9 +1,10 @@
 
 class ApiEndPoint {
-  // static const baseUrl =  'http://10.10.7.11:7000/api/v1';
-  static const baseUrl = 'http://92.205.234.176:7000/api/v1';
+  static const baseUrl =  'http://10.10.7.11:7000/api/v1';
+  // static const baseUrl = 'http://92.205.234.176:7000/api/v1';
   static const stories = '/stories';
-  static const imageBaseUrl = 'http://92.205.234.176:7000';
+  // static const imageBaseUrl = 'http://92.205.234.176:7000';
+  static const imageBaseUrl = 'http://10.10.7.11:7000';
   static const sponsor = '/sponsor';
   static const event = '/event';
   static const club = '/club';
@@ -28,6 +29,8 @@ class ApiEndPoint {
   static const String resetPassword = '/auth/reset-password';
   static const String eventRegistration = '/event-registration';
   static const String cancelEventRegistration = '/event-registration/cancel';
+  static const String notificationCount = '/notification/count';
+  static const String clearNotification = '/notification/clear';
   // ==================================== Atik =====================================
   static const login = '/auth/login';
   static const category = '/category';

@@ -4,6 +4,7 @@ import 'package:alpha_club/core/utils/app_image/app_image.dart';
 import 'package:alpha_club/core/utils/app_string/app_string.dart';
 import 'package:alpha_club/features/home_flow/controller/home_controller.dart';
 import 'package:alpha_club/features/home_flow/presentation/widget/latest_stories_details_screen.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -32,11 +33,6 @@ class NewsListView extends StatelessWidget {
 
     return Obx(() {
 
-      // if (homeController.isLoading.value && homeController.stories.isEmpty) {
-      //   return const Center(child: CircularProgressIndicator());
-      // }
-
-
       return RefreshIndicator(
         color: Color(0xFF233A66),
         backgroundColor: AppColors.appBackgroundColor,
@@ -44,21 +40,6 @@ class NewsListView extends StatelessWidget {
           await homeController.fetchLatestStories(isLoadMore: false);
         },
         child: ListView.builder(
-          // controller: _scrollController,
-          // itemCount: homeController.stories.length,
-          // padding: EdgeInsets.zero,
-          // itemBuilder: (context, index) {
-          //   final item = homeController.stories[index];
-          //
-          //   if (index == homeController.stories.length) {
-          //     return homeController.isMoreStoriesLoading.value
-          //         ? const Padding(
-          //       padding: EdgeInsets.symmetric(vertical: 20),
-          //       child: Center(child: CircularProgressIndicator()),
-          //     )
-          //         : const SizedBox();
-          //   }
-
           controller: _scrollController,
           itemCount: homeController.stories.length + 1,
           padding: EdgeInsets.zero,
@@ -75,6 +56,8 @@ class NewsListView extends StatelessWidget {
             }
 
             final item = homeController.stories[index];
+            // final List images = homeController.singleStoryDetails['image'] ?? [];
+            final List storyImages = item['image'] is List ? item['image'] : [item['image']];
 
             return Container(
               margin: EdgeInsets.only(left: 20, bottom: 10.h, right: 20),
@@ -92,12 +75,14 @@ class NewsListView extends StatelessWidget {
                     children: [
                       ClipRRect(
                         borderRadius: BorderRadius.circular(12.r),
-                        child: Image.network(
-                          "${ApiEndPoint.imageBaseUrl}${item['image']}",
-                          height: 200.h,
-                          width: double.infinity,
-                          fit: BoxFit.cover,
-                        ),
+                        child:
+                        // Image.network(
+                        //   "${ApiEndPoint.imageBaseUrl}${item['image']}",
+                        //   height: 200.h,
+                        //   width: double.infinity,
+                        //   fit: BoxFit.cover,
+                        // ),
+                        _storyImageSlider(storyImages, index),
                       ),
                       Positioned(
                         top: 12.h,
@@ -254,4 +239,66 @@ String getFormattedDate(String? createdAt) {
   if (createdAt == null || createdAt.isEmpty) return "";
   DateTime dateTime = DateTime.parse(createdAt).toLocal();
   return DateFormat('hh:mm a').format(dateTime);
+}
+
+
+///>>>>>>>>>>>>>>>>>>>>>>>> StoryImageSlider <<<<<<<<<<<<<<<<<<<<<///
+
+Widget _storyImageSlider(List images, int storyIndex) {
+  final HomeController homeController = Get.put(HomeController());
+  // if (images.isEmpty || images[0] == null) {
+  //   return Container(
+  //     height: 200.h,
+  //     width: double.infinity,
+  //     color: Colors.grey[200],
+  //     child: const Icon(Icons.image_not_supported),
+  //   );
+  // }
+
+  return Column(
+    children: [
+      CarouselSlider(
+        options: CarouselOptions(
+          height: 200.h,
+          viewportFraction: 1.0,
+          autoPlay: images.length > 1,
+          enlargeCenterPage: false,
+          onPageChanged: (slideIndex, reason) {
+            homeController.sliderIndices[storyIndex] = slideIndex;
+          },
+        ),
+        items: images.map((imageUrl) {
+          return Image.network(
+            "${ApiEndPoint.imageBaseUrl}$imageUrl",
+            width: double.infinity,
+            fit: BoxFit.cover,
+            errorBuilder: (context, error, stackTrace) => const Icon(Icons.broken_image),
+          );
+        }).toList(),
+      ),
+      if (images.length > 1)
+        Padding(
+          padding: EdgeInsets.only(top: 8.h),
+          child: Obx(() {
+            int currentSlide = homeController.sliderIndices[storyIndex] ?? 0;
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: images.asMap().entries.map((entry) {
+                return Container(
+                  width: 6.0,
+                  height: 6.0,
+                  margin: const EdgeInsets.symmetric(horizontal: 3.0),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: currentSlide == entry.key
+                        ? AppColors.green1
+                        : Colors.grey.withValues(alpha: 0.3),
+                  ),
+                );
+              }).toList(),
+            );
+          }),
+        ),
+    ],
+  );
 }

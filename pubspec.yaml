@@ -49,6 +49,7 @@ dependencies:
   intl_phone_field: ^3.2.0
   image_picker: ^1.0.7
   carousel_slider: ^5.1.1
+  onesignal_flutter: ^5.3.5
 
 
 

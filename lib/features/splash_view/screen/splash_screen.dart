@@ -42,7 +42,7 @@ class SplashScreen extends StatelessWidget {
                         color: AppColors.whiteFoundation,
                         fontFamily: 'SFPro',
                       ),
-                      text: "Delivering Excellence Back to Those who Drive It",
+                      text: "Delivering Excellence Back to Those Who Drive It",
                     ),
                   ),
                 ]

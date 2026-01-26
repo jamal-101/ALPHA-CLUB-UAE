@@ -71,4 +71,5 @@ class AssetPath {
   static const String loveIcon = 'assets/icons/favourite.png';
   static const String searchIcons = 'assets/icons/searchIcon.png';
   static const String calenderIcon = 'assets/icons/calander_image.png';
+  static const String notificationIcon = 'assets/icons/notification.png';
 }

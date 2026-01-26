@@ -10,6 +10,7 @@ import 'package:alpha_club/features/event_flow/presentaion/screen/event_details_
 //import 'package:alpha_club/features/event_flow/presentaion/screen/event_register_screen.dart';
 import 'package:alpha_club/features/event_flow/presentaion/screen/event_screen.dart';
 import 'package:alpha_club/features/home_flow/presentation/screen/home_screen.dart';
+import 'package:alpha_club/features/notification_flow/presentation/notification_screen.dart';
 //import 'package:alpha_club/features/home_flow/presentation/widget/latest_stories_details_screen.dart';
 import 'package:alpha_club/features/offer_flow/presentation/screen/offer_details_screen.dart';
 import 'package:alpha_club/features/offer_flow/presentation/screen/offer_screen.dart';
@@ -56,6 +57,7 @@ class AppRoute {
   // static String latestStoriesDetailsScreen = '/latestStoriesDetailsScreen';
   // static String eventRegisterScreen = '/eventRegisterScreen';
   static String changePasswordScreen = '/changePasswordScreen';
+  static String notificationScreen = '/notificationScreen';
 
   static List<GetPage> route = [
     GetPage(name: splashScreen, page: ()=>SplashScreen()),
@@ -86,5 +88,6 @@ class AppRoute {
     // GetPage(name: latestStoriesDetailsScreen, page: ()=> LatestStoriesDetailsScreen()),
     // GetPage(name: eventRegisterScreen, page: ()=> EventRegisterScreen()),
     GetPage(name: changePasswordScreen, page: ()=> ChangePasswordScreen()),
+    GetPage(name: notificationScreen, page: ()=> NotificationScreen()),
   ];
 }

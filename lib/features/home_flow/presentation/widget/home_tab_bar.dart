@@ -49,7 +49,6 @@ class HomeTabBar extends StatelessWidget {
                 fontSize: 10.sp,
                 fontWeight: FontWeight.w500,
               ),
-      
               tabs: [
                 _buildTabItem(0, AssetPath.tabIcon1, "Latest Stories"),
                 _buildTabItem(1, AssetPath.tabIcon2, "Sponsors"),

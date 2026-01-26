@@ -72,6 +72,7 @@ class SplashController extends GetxController {
     }
   }
 
+
   @override
   void onClose() {
     _timer?.cancel();

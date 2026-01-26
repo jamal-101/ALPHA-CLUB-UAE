@@ -21,6 +21,7 @@ class HomeController extends GetxController {
   var isMoreStoriesLoading = false.obs;
   int currentStoryPage = 1;
   bool hasMoreStories = true;
+  var sliderIndices = <int, int>{}.obs;
 
   @override
   void onInit() {
