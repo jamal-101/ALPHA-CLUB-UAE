@@ -20,15 +20,18 @@ class EventDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     eventController.fetchEventDetails(eventId);
 
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      eventController.fetchEventDetails(eventId);
+    });
+
     return Scaffold(
       body: Obx(() {
-        // if (eventController.isEventDetailLoading.value) {
-        //   return const Center(child: CircularProgressIndicator());
-        // }
+
 
         final event = eventController.singleEventDetails;
 
         return SingleChildScrollView(
+          physics : AlwaysScrollableScrollPhysics(),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.w),
             child: Column(
@@ -129,7 +132,7 @@ class EventDetailsScreen extends StatelessWidget {
                   ],
                 ),
                 SizedBox(height: 16.h),
-                const Divider(height: 1, thickness: 0.9, color: AppColors.tabSelectedBorderColor),
+                Divider(height: 1, thickness: 0.3, color: Color(0xFFF3F4F6)),
                 SizedBox(height: 16.h),
 
                 CommonText(

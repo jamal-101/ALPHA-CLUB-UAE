@@ -1,5 +1,7 @@
+import 'package:alpha_club/core/global/commont_text.dart';
 import 'package:alpha_club/core/utils/app_image/app_image.dart';
 import 'package:alpha_club/features/notification_flow/controller/notification_controller.dart';
+import 'package:alpha_club/features/profile_flow/controller/profile_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -16,7 +18,7 @@ class HomeScreen extends StatelessWidget {
 
 
   final NotificationController notificationController = Get.put(NotificationController());
-
+  final ProfileController profileController = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
     SchedulerBinding.instance.addPostFrameCallback((_) {
@@ -30,57 +32,69 @@ class HomeScreen extends StatelessWidget {
         body: SafeArea(
           child: Column(
             children: [
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
+               Padding(
                   padding: EdgeInsets.only(right: 16.w, left: 16.h, top: 10.h),
                   child: GestureDetector(
                     onTap: () {
                       notificationController.clearNotificationCount();
                       Get.toNamed(AppRoute.notificationScreen);
                     },
-                    child: Obx(() =>
-                        Stack(
-                          clipBehavior: Clip.none,
-                          children: [
-                            Image.asset(
-                              AssetPath.notificationIcon,
-                              height: 28.h,
-                              width: 28.w,
-                              color: AppColors.yellow,
-                            ),
-                            if (notificationController.unreadCount.value > 0)
-                              Positioned(
-                                right: -2,
-                                top: -2,
-                                child: Container(
-                                  padding: EdgeInsets.all(4.r),
-                                  decoration: const BoxDecoration(
-                                    color: Colors.red,
-                                    shape: BoxShape.circle,
-                                  ),
-                                  constraints: BoxConstraints(
-                                    minWidth: 16.w,
-                                    minHeight: 16.h,
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      '${notificationController.unreadCount
-                                          .value}',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 10.sp,
-                                        fontWeight: FontWeight.bold,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Obx(() =>
+                            Stack(
+                              clipBehavior: Clip.none,
+                              children: [
+                                Image.asset(
+                                  AssetPath.notificationIcon,
+                                  height: 28.h,
+                                  width: 28.w,
+                                  color: AppColors.yellow,
+                                ),
+                                if (notificationController.unreadCount.value > 0)
+                                  Positioned(
+                                    right: -2,
+                                    top: -2,
+                                    child: Container(
+                                      padding: EdgeInsets.all(4.r),
+                                      decoration: const BoxDecoration(
+                                        color: Colors.red,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      constraints: BoxConstraints(
+                                        minWidth: 16.w,
+                                        minHeight: 16.h,
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          '${notificationController.unreadCount
+                                              .value}',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 10.sp,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              ),
-                          ],
-                        )),
+                              ],
+                            )),
+                        Obx(() {
+                          final String userName = profileController.userProfile.value?.name ?? "Guest User";
+                          return CommonText(
+                            maxLines: 1,
+                            text: "Hi ${userName}, Welcome to Alpha. ",
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w400,
+                            color: const Color(0xFF233A66),
+                          );
+                        }),
+                      ],
+                    ),
                   ),
                 ),
-              ),
               Expanded(
                 child: HomeTabBar(),
               ),

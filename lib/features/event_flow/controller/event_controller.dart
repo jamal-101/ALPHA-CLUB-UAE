@@ -1,10 +1,12 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import '../../../core/service/api/api_enpoint.dart';
 import '../../../core/service/api/api_response.dart';
 import '../../../core/service/api/api_service.dart';
+import '../presentaion/model/guest_model.dart';
 
 class EventController extends GetxController {
   var eventList = [].obs;
@@ -93,25 +95,8 @@ class EventController extends GetxController {
   var singleEventDetails = {}.obs;
   var isEventDetailLoading = false.obs;
 
-  // Future<void> fetchEventDetails(String id) async {
-  //   isEventDetailLoading.value = true;
-  //   singleEventDetails.clear();
-  //   ApiResponseModel response = await ApiService.get(
-  //     "${ApiEndPoint.event}/$id",
-  //   );
-  //
-  //   response.handleResponse(
-  //     onSuccess: (responseData) {
-  //       singleEventDetails.value = responseData['data'] ?? {};
-  //     },
-  //   );
-  //
-  //   isEventDetailLoading.value = false;
-  // }
-
   Future<void> fetchEventDetails(String id) async {
     isEventDetailLoading.value = true;
-    isButtonDisabled.value = false;
     isEventDetailLoading.value = true;
     singleEventDetails.clear();
     ApiResponseModel response = await ApiService.get("${ApiEndPoint.event}/$id");
@@ -132,19 +117,9 @@ class EventController extends GetxController {
 
   var joinStatus = "ongoing".obs;
 
-
-  // Future<void> handleButtonClick(String eventId) async {
-  //   if (joinStatus.value == "ongoing") {
-  //     await joinEventRequest(eventId);
-  //   } else if (joinStatus.value == "pending") {
-  //     await cancelEventRequest(eventId);
-  //   }
-  // }
-  Future<void> handleButtonClick(String eventId) async {
+  Future<void> handleButtonClick(String eventId, List guests) async {
     if (joinStatus.value == "ongoing") {
-      await joinEventRequest(eventId);
-    } else if (joinStatus.value == "pending" || joinStatus.value == "cancelled") {
-      await cancelEventRequest(eventId);
+      await joinEventRequest(eventId, guests);
     }
   }
 
@@ -152,57 +127,60 @@ class EventController extends GetxController {
 
   var isActionLoading = false.obs;
 
-  Future<void> joinEventRequest(String eventId) async {
+
+  Future<void> joinEventRequest(String eventId, List guests) async {
     isActionLoading.value = true;
+    Map<String, dynamic> body = {
+      "event": eventId,
+      "guests": guests,
+    };
 
     ApiResponseModel response = await ApiService.post(
       ApiEndPoint.eventRegistration,
-      body: {"event": eventId},
+      body: body,
     );
 
     response.handleResponse(
-        onSuccess: (responseData) {
-          joinStatus.value = "pending";
-          // fetchEventDetails(eventId);
-        },
+      onSuccess: (responseData) {
+        joinStatus.value = "pending";
+        Get.snackbar("Success", responseData['message'] ?? "Registration successful",colorText: Colors.green,backgroundColor: Colors.white);
+      },
     );
 
     isActionLoading.value = false;
   }
 
-  // Future<void> cancelEventRequest(String eventId) async {
-  //   isActionLoading.value = true;
-  //
-  //   ApiResponseModel response = await ApiService.post(
-  //     ApiEndPoint.cancelEventRegistration,
-  //     body: {"event": eventId},
-  //   );
-  //
-  //   response.handleResponse(
-  //       onSuccess: (responseData) {
-  //         joinStatus.value = "ongoing";
-  //         fetchEventDetails(eventId);
-  //       },
-  //   );
-  //
-  //   isActionLoading.value = false;
-  // }
 
 
-  var isButtonDisabled = false.obs;
+  var guestList = <GuestModel>[].obs;
 
-  Future<void> cancelEventRequest(String eventId) async {
-    isButtonDisabled.value = false;
-    ApiResponseModel response = await ApiService.post(
-      ApiEndPoint.cancelEventRegistration,
-      body: {"event": eventId},
-    );
-    if (response.isSuccess) {
-      joinStatus.value = "ongoing";
-      isButtonDisabled.value = false;
-    }
-    else {
-      isButtonDisabled.value = true;
+  void addGuest() {
+    guestList.add(GuestModel());
+  }
+
+  void removeGuest(int index) {
+    if (guestList.length > 1) {
+      guestList.removeAt(index);
     }
   }
+
+
+  Future<void> submitRegistration(String eventId) async {
+
+    List guestsData = guestList.map((g) => {
+      "name": g.nameController.text,
+      "email": g.emailController.text,
+      "phone": g.phoneController.text,
+    }).toList();
+
+
+    await joinEventRequest(eventId, guestsData);
+
+    if (joinStatus.value == "pending") {
+      guestList.assignAll([GuestModel()]);
+      Get.back();
+    }
+  }
+
+
   }

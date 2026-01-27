@@ -81,7 +81,7 @@ class AppRoute {
     // GetPage(name: eventOurSponsorScreen, page: ()=> EventOurSponsorScreen()),
     GetPage(name: clubScreen, page: ()=> ClubScreen()),
     // GetPage(name: clubDetailsScreen, page: ()=> ClubDetailsScreen()),
-    GetPage(name: clubSponsorScreen, page: ()=> ClubSponsorScreen()),
+    // GetPage(name: clubSponsorScreen, page: ()=> ClubSponsorScreen()),
     GetPage(name: favoriteScreen, page: ()=> FavoriteScreen()),
     GetPage(name: cardDetailsSponsorScreen, page: ()=> CardDetailsSponsorScreen()),
     GetPage(name: memberFormScreen, page: ()=> MemberFormScreen()),

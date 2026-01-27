@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import '../../../../core/service/api/api_response.dart';
 import '../../../../core/service/api/api_service.dart';
 import '../../../../core/service/api/api_enpoint.dart';
+import '../../../core/stroge/storage_service.dart';
 
 class NotificationController extends GetxController {
   var unreadCount = 0.obs;
@@ -10,8 +11,16 @@ class NotificationController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    getNotifications();
-    clearNotificationCount();
+    // getNotifications();
+    // clearNotificationCount();
+    String token = LocalStorage.token;
+    if (token.isNotEmpty && token != "null") {
+      // fetchFeatureComparison();
+      // fetchFamilyProfile();
+      // fetchFaqs();
+      getNotifications();
+      clearNotificationCount();
+    }
   }
   Future<void> getNotificationCount() async {
     isLoading.value = true;

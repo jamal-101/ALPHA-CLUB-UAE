@@ -23,9 +23,11 @@ class HomeTabBar extends StatelessWidget {
             margin: EdgeInsets.symmetric(vertical: 16.h),
             height: 40.h,
             child: TabBar(
+              isScrollable: false,
               onTap: (index) {
                 currentIndex.value = index;
               },
+              splashFactory: NoSplash.splashFactory,
               labelPadding: EdgeInsets.zero,
               dividerColor: Colors.transparent,
               indicatorSize: TabBarIndicatorSize.tab,
@@ -57,6 +59,7 @@ class HomeTabBar extends StatelessWidget {
           ),
           Expanded(
             child: TabBarView(
+              physics: const NeverScrollableScrollPhysics(),
               children: [
                 NewsListView(),
                 SponsorWidgetScreen(),

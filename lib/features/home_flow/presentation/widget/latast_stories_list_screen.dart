@@ -4,6 +4,8 @@ import 'package:alpha_club/core/utils/app_image/app_image.dart';
 import 'package:alpha_club/core/utils/app_string/app_string.dart';
 import 'package:alpha_club/features/home_flow/controller/home_controller.dart';
 import 'package:alpha_club/features/home_flow/presentation/widget/latest_stories_details_screen.dart';
+import 'package:alpha_club/features/notification_flow/controller/notification_controller.dart';
+import 'package:alpha_club/features/profile_flow/controller/profile_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +20,8 @@ class NewsListView extends StatelessWidget {
 
   final HomeController homeController = Get.put(HomeController());
   final ScrollController _scrollController = ScrollController();
+  final NotificationController notificationController = Get.put(NotificationController());
+  final ProfileController profileController = Get.put(ProfileController());
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +42,8 @@ class NewsListView extends StatelessWidget {
         backgroundColor: AppColors.appBackgroundColor,
         onRefresh: () async {
           await homeController.fetchLatestStories(isLoadMore: false);
+          await notificationController.getNotificationCount();
+          await profileController.fetchFamilyProfile();
         },
         child: ListView.builder(
           controller: _scrollController,
@@ -127,44 +133,44 @@ class NewsListView extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: 12.h),
-                  Row(
-                    children: [
-                      Container(
-                        height: 25.h,
-                        width: 25.w,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          gradient: LinearGradient(
-                            colors: [AppColors.blueLiner1, AppColors.blueLiner2],
-                          ),
-                        ),
-                        child: Center(
-                          child: CommonText(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.borderColor,
-                            text: item['club'] != null ? item['club']['name'][0] : "A",
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 10.w),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            item['club'] != null ? item['club']['name'] : "Alpha Club",
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              fontFamily: 'SFPro',
-                              color: AppColors.blue1,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 12.h),
+                  // Row(
+                  //   children: [
+                  //     Container(
+                  //       height: 25.h,
+                  //       width: 25.w,
+                  //       decoration: BoxDecoration(
+                  //         shape: BoxShape.circle,
+                  //         gradient: LinearGradient(
+                  //           colors: [AppColors.blueLiner1, AppColors.blueLiner2],
+                  //         ),
+                  //       ),
+                  //       child: Center(
+                  //         child: CommonText(
+                  //           fontSize: 12,
+                  //           fontWeight: FontWeight.w500,
+                  //           color: AppColors.borderColor,
+                  //           text: item['club'] != null ? item['club']['name'][0] : "A",
+                  //         ),
+                  //       ),
+                  //     ),
+                  //     SizedBox(width: 10.w),
+                  //     Column(
+                  //       crossAxisAlignment: CrossAxisAlignment.start,
+                  //       children: [
+                  //         Text(
+                  //           item['club'] != null ? item['club']['name'] : "Alpha Club",
+                  //           style: TextStyle(
+                  //             fontSize: 14.sp,
+                  //             fontFamily: 'SFPro',
+                  //             color: AppColors.blue1,
+                  //             fontWeight: FontWeight.w400,
+                  //           ),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ],
+                  // ),
+                  // SizedBox(height: 12.h),
                   CommonText(
                     textAlign: TextAlign.start,
                     style: TextStyle(

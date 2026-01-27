@@ -40,45 +40,45 @@ class ProfileScreen extends StatelessWidget {
                               ),
                     SizedBox(height: 16.h),
                     DigitalMembershipContainer(),
-                    Obx(
-                      () => isFamilyListVisible.value == false
-                          ? isAlphaVisible.value == false
-                                ? Padding(
-                                    padding: EdgeInsets.only(top: 16),
-                                    child: CommonText(
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16,
-                                        fontFamily: 'SFPro',
-                                      ),
-                                      color: AppColors.blue1,
-                                      text: AppString.memberShip,
-                                    ),
-                                  )
-                                : const SizedBox.shrink()
-                          : Padding(
-                              padding: EdgeInsets.only(top: 16, bottom: 16),
-                              child: CommonText(
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16,
-                                  fontFamily: 'SFPro',
-                                ),
-                                color: AppColors.blue1,
-                                text: AppString.familyMembers,
-                              ),
-                            ),
-                    ),
-                    Obx(
-                      () => isFamilyListVisible.value == false
-                          ? isAlphaVisible.value == false
-                                ? Padding(
-                                    padding: EdgeInsets.only(top: 16),
-                                    child: memberShipContainer(),
-                                  )
-                                : const SizedBox.shrink()
-                          : FamilyListWidget(),
-                    ),
+                    // Obx(
+                    //   () => isFamilyListVisible.value == false
+                    //       ? isAlphaVisible.value == false
+                    //             ? Padding(
+                    //                 padding: EdgeInsets.only(top: 16),
+                    //                 child: CommonText(
+                    //                   style: const TextStyle(
+                    //                     fontWeight: FontWeight.w500,
+                    //                     fontSize: 16,
+                    //                     fontFamily: 'SFPro',
+                    //                   ),
+                    //                   color: AppColors.blue1,
+                    //                   text: AppString.memberShip,
+                    //                 ),
+                    //               )
+                    //             : const SizedBox.shrink()
+                    //       : Padding(
+                    //           padding: EdgeInsets.only(top: 16, bottom: 16),
+                    //           child: CommonText(
+                    //             style: const TextStyle(
+                    //               fontWeight: FontWeight.w500,
+                    //               fontSize: 16,
+                    //               fontFamily: 'SFPro',
+                    //             ),
+                    //             color: AppColors.blue1,
+                    //             text: AppString.familyMembers,
+                    //           ),
+                    //         ),
+                    // ),
+                    // Obx(
+                    //   () => isFamilyListVisible.value == false
+                    //       ? isAlphaVisible.value == false
+                    //             ? Padding(
+                    //                 padding: EdgeInsets.only(top: 16),
+                    //                 child: memberShipContainer(),
+                    //               )
+                    //             : const SizedBox.shrink()
+                    //       : FamilyListWidget(),
+                    // ),
                     SizedBox(height: 16.h),
                     CommonText(
                       style: TextStyle(

@@ -1,3 +1,4 @@
+import 'package:alpha_club/core/utils/app_color/app_color.dart';
 import 'package:alpha_club/core/utils/app_image/app_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -68,7 +69,7 @@ class NotificationScreen extends StatelessWidget {
           color: const Color(0xFFE0F2FE),
         borderRadius: BorderRadius.circular(4.r),
         border: Border.all(
-          color: isSeen ? Colors.transparent : Colors.yellow.withValues(alpha: 0.3),
+          color: AppColors.borderColor,
           width: 1,
         ),
       ),
@@ -115,9 +116,9 @@ class NotificationScreen extends StatelessWidget {
                               title,
                               maxLines: 1,
                               style: TextStyle(
-                                color: isSeen ? Color(0xFF242424) : Colors.white70,
+                                color: Color(0xFF242424),
                                 fontSize: 15.sp,
-                                fontWeight: isSeen ? FontWeight.w500 : FontWeight.bold,
+                                fontWeight: FontWeight.w400,
                                 letterSpacing: 0.5,
                               ),
                             ),

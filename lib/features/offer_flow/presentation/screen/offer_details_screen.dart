@@ -235,6 +235,7 @@ class OfferDetailsScreen extends StatelessWidget {
         }
 
         return SingleChildScrollView(
+          physics : AlwaysScrollableScrollPhysics(),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.w),
             child: Column(

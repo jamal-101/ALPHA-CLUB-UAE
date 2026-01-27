@@ -51,6 +51,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../../../../core/service/api/api_enpoint.dart';
 import '../../../../core/utils/app_color/app_color.dart';
+import '../../../notification_flow/controller/notification_controller.dart';
+import '../../../profile_flow/controller/profile_controller.dart';
 import '../../../profile_flow/presentation/screen/profile_screen/widget/custom_brand_card.dart';
 import '../../controller/home_controller.dart';
 
@@ -60,18 +62,22 @@ class SponsorWidgetScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final HomeController homeController = Get.find<HomeController>();
+    final NotificationController notificationController = Get.put(NotificationController());
+    final ProfileController profileController = Get.put(ProfileController());
 
     return Scaffold(
       body : Obx(() {
-        if (homeController.isSponsorLoading.value && homeController.sponsors.isEmpty) {
-          return const Center(child: CircularProgressIndicator());
-        }
+        // if (homeController.isSponsorLoading.value && homeController.sponsors.isEmpty) {
+        //   return const Center(child: CircularProgressIndicator());
+        // }
 
         return RefreshIndicator(
           color: Color(0xFF233A66),
           backgroundColor: AppColors.appBackgroundColor,
           onRefresh: () async {
             await homeController.fetchSponsors(isLoadMore: false);
+            await notificationController.getNotificationCount();
+            await profileController.fetchFamilyProfile();
           },
           child: SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),

@@ -31,6 +31,7 @@ class ApiEndPoint {
   static const String cancelEventRegistration = '/event-registration/cancel';
   static const String notificationCount = '/notification/count';
   static const String clearNotification = '/notification/clear';
+  static const String contactUs = '/contact-us';
   // ==================================== Atik =====================================
   static const login = '/auth/login';
   static const category = '/category';

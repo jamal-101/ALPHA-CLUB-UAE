@@ -37,6 +37,7 @@ class OurSponsorScreen extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.only(left: 20, right: 20),
           child: SingleChildScrollView(
+            physics : AlwaysScrollableScrollPhysics(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

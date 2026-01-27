@@ -9,6 +9,7 @@ import '../../../core/service/api/api_response.dart';
 import '../../../core/service/api/api_service.dart';
 import '../../../core/service/logger/app_logger.dart';
 import '../../../core/stroge/storage_service.dart';
+import '../model/user_profile_model.dart';
 
 
 
@@ -17,6 +18,7 @@ enum Gender { name, email, relation }
 
 class ProfileController extends GetxController {
   var isLoading = false.obs;
+  var userProfile = Rxn<UserProfileModel>();
 
   @override
   void onInit() {
@@ -201,9 +203,9 @@ class ProfileController extends GetxController {
 
         // Filtering logic
         for (var plan in allData) {
-          if (plan['membershipType'] == "alpha") {
+          if (plan['membershipType'] == "Alpha") {
             regularMembershipPlans.add(plan);
-          } else if (plan['membershipType'] == "alpha_family") {
+          } else if (plan['membershipType'] == "Alpha_family") {
             familyMembershipPlans.add(plan);
           }
         }
@@ -350,6 +352,7 @@ class ProfileController extends GetxController {
       response.handleResponse(
         onSuccess: (responseData) {
           if (responseData['data'] != null) {
+            userProfile.value = UserProfileModel.fromJson(responseData['data']);
             final rawData = responseData['data'];
             final appForm = rawData['application_form'] ?? {};
             Map<String, dynamic> combined = {};
@@ -492,6 +495,29 @@ class ProfileController extends GetxController {
       isLoading.value = false;
     }
   }
+
+  ///>>>>>>>>>>>>>>>>>>>>>> Contact Us <<<<<<<<<<<<<<<<<///
+
+  // ProfileController এর ভেতরে
+  var contactList = [].obs;
+
+  Future<void> fetchContactInfo() async {
+    try {
+      isLoading.value = true;
+      ApiResponseModel response = await ApiService.get("${ApiEndPoint.contactUs}?page=1&limit=10");
+
+      response.handleResponse(
+        onSuccess: (responseData) {
+          contactList.value = responseData['data'] ?? [];
+        },
+      );
+    } catch (e) {
+      debugPrint("Error fetching contact info: $e");
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
 
 }
 

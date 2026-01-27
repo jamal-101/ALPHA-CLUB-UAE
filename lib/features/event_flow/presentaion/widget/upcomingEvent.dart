@@ -31,7 +31,7 @@ class UpComingEvent extends StatelessWidget {
           await eventController.fetchEvents();
         },
         child: GridView.builder(
-          physics: const AlwaysScrollableScrollPhysics(),
+          physics: AlwaysScrollableScrollPhysics(),
           shrinkWrap: true,
           itemCount: eventController.eventList.length,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
