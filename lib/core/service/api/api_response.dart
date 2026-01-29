@@ -1,3 +1,4 @@
+import 'package:alpha_club/core/route/app_route.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 
@@ -17,6 +18,10 @@ class ApiResponseModel {
   String get message {
     if (_statusCode == 502) {
       return AppString.startServer;
+    }else if(_statusCode == 401){
+
+      Get.toNamed(AppRoute.loginScreen);
+
     }
     return _data?['message']?.toString() ?? AppString.someThingWrong;
   }

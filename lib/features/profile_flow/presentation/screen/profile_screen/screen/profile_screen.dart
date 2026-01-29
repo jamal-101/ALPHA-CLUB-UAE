@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../../../../../../core/route/app_route.dart';
-import '../widget/activite_family_member.dart';
+
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});

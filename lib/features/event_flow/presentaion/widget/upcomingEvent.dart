@@ -19,11 +19,6 @@ class UpComingEvent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      // if (eventController.isLoading.value) {
-      //   return const Center(child: CircularProgressIndicator());
-      // }
-
-
       return RefreshIndicator(
         color: Color(0xFF233A66),
         backgroundColor: AppColors.appBackgroundColor,

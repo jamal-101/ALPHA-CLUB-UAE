@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "780327936098",
+    "project_id": "biyer-thikana",
+    "storage_bucket": "biyer-thikana.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:780327936098:android:d8ff82d129b34b524e713b",
+        "android_client_info": {
+          "package_name": "com.example.alpha_club"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcWp2dEAXiVBVvBdM_mj1KN0pCA_NI5uM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

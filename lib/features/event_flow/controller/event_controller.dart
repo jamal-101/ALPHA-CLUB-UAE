@@ -143,7 +143,7 @@ class EventController extends GetxController {
     response.handleResponse(
       onSuccess: (responseData) {
         joinStatus.value = "pending";
-        Get.snackbar("Success", responseData['message'] ?? "Registration successful",colorText: Colors.green,backgroundColor: Colors.white);
+        // Get.snackbar("Success", responseData['message'] ?? "Registration successful",colorText: Colors.green,backgroundColor: Colors.white);
       },
     );
 
@@ -159,10 +159,11 @@ class EventController extends GetxController {
   }
 
   void removeGuest(int index) {
-    if (guestList.length > 1) {
-      guestList.removeAt(index);
-    }
+    guestList.removeAt(index);
+    // if (guestList.isEmpty) {
+    // }
   }
+
 
 
   Future<void> submitRegistration(String eventId) async {
@@ -177,10 +178,13 @@ class EventController extends GetxController {
     await joinEventRequest(eventId, guestsData);
 
     if (joinStatus.value == "pending") {
-      guestList.assignAll([GuestModel()]);
-      Get.back();
+      guestList.clear();
+      // guestList.assignAll([GuestModel()]);
+      // Get.back();
+      guestList.add(GuestModel());
+      if (Get.isDialogOpen ?? false) {
+        Get.back();
+      }
     }
   }
-
-
   }

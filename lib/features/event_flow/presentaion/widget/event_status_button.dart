@@ -1,3 +1,4 @@
+import 'package:alpha_club/features/event_flow/presentaion/widget/guest_from_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -71,7 +72,7 @@ class EventStatusButton extends StatelessWidget {
               Dialog(
                 backgroundColor: Colors.transparent,
                 insetPadding: EdgeInsets.symmetric(horizontal: 20.w),
-                child: AddGuestDialog(eventId: eventId,),
+                child: GuestFormDialog(eventId: eventId),
               ),
               barrierDismissible: true,
             );

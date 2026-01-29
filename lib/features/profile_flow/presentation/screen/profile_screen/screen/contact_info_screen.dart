@@ -65,6 +65,10 @@ class ContactInfoScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      profileController.fetchContactInfo();
+    });
+
 
     return Scaffold(
       body: Padding(

@@ -55,7 +55,7 @@ class OurSponsorScreen extends StatelessWidget {
                     "${ApiEndPoint.imageBaseUrl}${sponsor['image'] ?? ""}",
                     // height: 219.h,
                     width: double.infinity,
-                    fit: BoxFit.fitWidth,
+                    fit: BoxFit.cover,
                   ),
                 ),
                 SizedBox(height: 20.h),

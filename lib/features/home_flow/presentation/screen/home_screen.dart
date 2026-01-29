@@ -23,6 +23,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       _checkPasswordStatus();
+      notificationController.getNotificationCount();
     });
 
     return DefaultTabController(
@@ -85,8 +86,8 @@ class HomeScreen extends StatelessWidget {
                           final String userName = profileController.userProfile.value?.name ?? "Guest User";
                           return CommonText(
                             maxLines: 1,
-                            text: "Hi ${userName}, Welcome to Alpha. ",
-                            fontSize: 12.sp,
+                            text: "Hi $userName, Welcome to Alpha. ",
+                            fontSize: 14.sp,
                             fontWeight: FontWeight.w400,
                             color: const Color(0xFF233A66),
                           );

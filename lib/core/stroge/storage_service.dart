@@ -199,4 +199,17 @@ class LocalStorage {
     return preferences?.getString(key) ?? "";
   }
 
+  static Future<void> clear() async {
+    try {
+      final localStorage = await _getStorage();
+      if (localStorage != null) {
+        await localStorage.clear(); // preferences.clear() এর বদলে এটি ব্যবহার করুন
+      }
+      _resetLocalStorageData(); // স্ট্যাটিক ভেরিয়েবল রিসেট করবে
+      AppLogger.info('Local storage cleared successfully', tag: 'STORAGE');
+    } catch (e) {
+      AppLogger.error('Failed to clear storage', tag: 'STORAGE', error: e);
+    }
+  }
+
 }

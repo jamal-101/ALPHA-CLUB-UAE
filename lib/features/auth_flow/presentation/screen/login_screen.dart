@@ -106,7 +106,7 @@ class LoginScreen extends StatelessWidget {
                             debugPrint(
                               "Full Number: ${phone.completeNumber}",
                             );
-                            controller.phoneNumber.value =
+                            controller.phoneController.text =
                                 phone.completeNumber;
                           },
                         ),
@@ -124,9 +124,10 @@ class LoginScreen extends StatelessWidget {
                         CommonTextField(
                           isPassword: true,
                           hintText: '********',
-                          onChanged: (value) {
-                            controller.password.value = value;
-                          },
+                          controller: controller.passwordController,
+                          // onChanged: (value) {
+                          //   controller: controller.passwordController, = value;
+                          // },
                         ),
                         SizedBox(height: 24.h),
                         Row(
@@ -150,6 +151,12 @@ class LoginScreen extends StatelessWidget {
                           ],
                         ),
                         SizedBox(height: 24.h),
+
+                        CommonButton(onTap: (){
+                          Get.toNamed(AppRoute.homeScreen);
+
+                        }, text: "Guest"),
+
                         Obx(
                           () => CommonButton(
                             onTap: controller.isLoading.value
@@ -225,159 +232,52 @@ class LoginScreen extends StatelessWidget {
   }
 }
 
-
-
-// class LoginScreen extends StatelessWidget {
-//   const LoginScreen({super.key});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     final LoginController controller = Get.put(LoginController());
-//     return Scaffold(
-//       resizeToAvoidBottomInset: true,
-//       body: Container(
-//         height: double.infinity,
-//         width: double.infinity,
-//         decoration: BoxDecoration(
-//           image: DecorationImage(
-//             image: AssetImage(AssetPath.splashBackground),
-//             fit: BoxFit.cover,
-//           ),
-//         ),
-//         child: SingleChildScrollView(
-//           physics: const BouncingScrollPhysics(),
-//           child: Column(
-//             children: [
-//               SizedBox(height: 60.h),
-//               Image.asset(AssetPath.splashImage, height: 130, width: 225),
-//               CommonText(
-//                 text: AppString.sinIn,
-//                 color: AppColors.whiteFoundation,
-//                 fontWeight: FontWeight.w600,
-//                 fontSize: 24.sp,
-//               ),
-//               SizedBox(height: 10.h),
-//               CommonText(
-//                 textAlign: TextAlign.center,
-//                 text: AppString.enterYourMobile,
-//                 color: AppColors.whiteFoundation,
-//                 fontWeight: FontWeight.w400,
-//                 fontSize: 18.sp,
-//               ),
-//               CommonText(
-//                 textAlign: TextAlign.center,
-//                 text: AppString.toAccess,
-//                 color: AppColors.whiteFoundation,
-//                 fontWeight: FontWeight.w400,
-//                 fontSize: 18.sp,
-//               ),
-//               SizedBox(height: 34.h),
-//
-//               // ওটিপি স্ক্রিনের মতো এখানেও কন্টেইনারে হাইট দেওয়া হয়েছে
-//               Container(
-//                 // আপনি ওটিপি স্ক্রিনে ০.৬ ব্যবহার করেছেন, এখানে কন্টেন্ট বেশি বলে ০.৭ দিতে পারেন
-//                 height: MediaQuery.of(context).size.height * 0.7,
-//                 width: double.infinity,
-//                 decoration: BoxDecoration(
-//                   borderRadius: BorderRadius.only(
-//                     topLeft: Radius.circular(45.r),
-//                     topRight: Radius.circular(45.r),
-//                   ),
-//                   color: AppColors.appBackgroundColor,
-//                 ),
-//                 child: SingleChildScrollView(
-//                   physics: const BouncingScrollPhysics(),
-//                   child: Padding(
-//                     padding: const EdgeInsets.symmetric(horizontal: 20),
-//                     child: Column(
-//                       crossAxisAlignment: CrossAxisAlignment.start,
-//                       children: [
-//                         SizedBox(height: 60.h),
-//                         CommonText(
-//                           text: AppString.contactNumber,
-//                           style: TextStyle(
-//                             fontSize: 14.sp,
-//                             fontWeight: FontWeight.w400,
-//                             color: AppColors.blue1,
-//                             fontFamily: 'SFPro',
-//                           ),
-//                         ),
-//                         SizedBox(height: 12.h),
-//                         CustomPhoneField(
-//                           hintText: "09 -1897243189",
-//                           onNumberChanged: (phone) {
-//                             controller.phoneNumber.value = phone.completeNumber;
-//                           },
-//                         ),
-//                         SizedBox(height: 24.h),
-//                         CommonText(
-//                           text: AppString.newPassword,
-//                           style: TextStyle(
-//                             fontSize: 14.sp,
-//                             fontWeight: FontWeight.w400,
-//                             color: AppColors.blue1,
-//                             fontFamily: 'SFPro',
-//                           ),
-//                         ),
-//                         SizedBox(height: 12.h),
-//                         CommonTextField(
-//                           isPassword: true,
-//                           hintText: '********',
-//                           onChanged: (value) => controller.password.value = value,
-//                         ),
-//                         SizedBox(height: 20.h),
-//                         Align(
-//                           alignment: Alignment.centerRight,
-//                           child: GestureDetector(
-//                             onTap: () => Get.toNamed(AppRoute.singInVerify),
-//                             child: CommonText(
-//                               text: AppString.forgetPass,
-//                               style: TextStyle(
-//                                 fontSize: 14.sp,
-//                                 fontWeight: FontWeight.w600,
-//                                 color: AppColors.blue1,
-//                               ),
-//                             ),
-//                           ),
-//                         ),
-//                         SizedBox(height: 30.h),
-//                         Obx(() => CommonButton(
-//                           onTap: controller.isLoading.value ? () {} : () => controller.login(),
-//                           text: controller.isLoading.value ? 'Loading...' : AppString.sinIn,
-//                         )),
-//                         SizedBox(height: 40.h),
-//                         Row(
-//                           mainAxisAlignment: MainAxisAlignment.center,
-//                           children: [
-//                             CommonText(text: AppString.becomeAnd, fontSize: 14.sp),
-//                             SizedBox(width: 10.w),
-//                             GestureDetector(
-//                               onTap: () => Get.toNamed(AppRoute.memberFormScreen),
-//                               child: Text(
-//                                 AppString.applyHere,
-//                                 style: TextStyle(
-//                                   fontSize: 14.sp,
-//                                   fontWeight: FontWeight.w600,
-//                                   color: const Color(0xFFDFBB0B),
-//                                   decoration: TextDecoration.underline,
-//                                 ),
-//                               ),
-//                             ),
-//                           ],
-//                         ),
-//                         // কিবোর্ড আসলে নিচের কন্টেন্ট যেন দেখা যায়
-//                         SizedBox(height: MediaQuery.of(context).viewInsets.bottom + 40.h),
-//                       ],
-//                     ),
+// void showRenewalDialog() {
+//   Get.dialog(
+//     Dialog(
+//       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
+//       child: Padding(
+//         padding: EdgeInsets.all(20.w),
+//         child: Column(
+//           mainAxisSize: MainAxisSize.min,
+//           children: [
+//             Icon(Icons.card_membership, size: 50.sp, color: const Color(0xFFD4AF37)),
+//             SizedBox(height: 16.h),
+//             Text(
+//               "Renew Membership",
+//               style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
+//             ),
+//             SizedBox(height: 12.h),
+//             Text(
+//               "To get full Alpha Access, please send a renewal request for this account: ${phoneNumber.value}",
+//               textAlign: TextAlign.center,
+//               style: TextStyle(fontSize: 14.sp, color: Colors.grey[600]),
+//             ),
+//             SizedBox(height: 24.h),
+//             Row(
+//               children: [
+//                 Expanded(
+//                   child: OutlinedButton(
+//                     onPressed: () => Get.back(),
+//                     child: const Text("Cancel"),
 //                   ),
 //                 ),
-//               ),
-//             ],
-//           ),
+//                 SizedBox(width: 12.w),
+//                 Expanded(
+//                   child: ElevatedButton(
+//                     style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF233A66)),
+//                     onPressed: () {
+//                       Get.back();
+//                       sendRenewalRequest();
+//                     },
+//                     child: const Text("Renew Now", style: TextStyle(color: Colors.white)),
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           ],
 //         ),
 //       ),
-//     );
-//   }
+//     ),
+//   );
 // }
-
-

@@ -181,4 +181,5 @@ class AppString {
   static const addFamilyMember = 'Add Family Member';
   static const enterFullName = "Enter Full Name";
   static const forYour = "For your security, would you like to update your password now? Regular updates help keep your account safe.";
+  static const youMembership = "Your Membership has expired, to renew and have full Alpha Access please Renew.";
 }

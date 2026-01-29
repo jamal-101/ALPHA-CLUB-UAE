@@ -6,6 +6,7 @@ import 'package:alpha_club/core/service/logger/app_logger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import '../../../../../../core/service/api/api_service.dart';
 import '../../../../../../core/utils/app_color/app_color.dart';
 
 
@@ -14,6 +15,7 @@ class LogoutDialog extends StatelessWidget {
 
   Future<void> handleLogout() async {
     try {
+      await ApiService.patch("/user", body: {"fcmToken": ""});
       AppLogger.logUserAction(
         action: 'Logout',
         data: {'userId': LocalStorage.userId},
@@ -32,6 +34,7 @@ class LogoutDialog extends StatelessWidget {
       );
 
       // Navigate to login screen
+      await LocalStorage.removeAllPrefData();
       Get.offAllNamed(AppRoute.loginScreen);
     } catch (e, stackTrace) {
       AppLogger.error(

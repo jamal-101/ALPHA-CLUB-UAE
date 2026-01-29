@@ -9,6 +9,7 @@ import '../../../core/service/api/api_response.dart';
 import '../../../core/service/api/api_service.dart';
 import '../../../core/service/logger/app_logger.dart';
 import '../../../core/stroge/storage_service.dart';
+import '../../auth_flow/controller/login_controller.dart';
 import '../model/user_profile_model.dart';
 
 
@@ -480,9 +481,15 @@ class ProfileController extends GetxController {
         imageName: "profileImage",
       );
 
+      if (response.statusCode == 401) {
+        handleUnauthorized();
+        return;
+      }
+
+
       if (response.statusCode == 200 || response.statusCode == 201) {
         Get.back();
-        Get.snackbar("Success", "Profile updated successfully",
+        Get.snackbar("Success", "Profile updated request successfully",
             backgroundColor: Colors.green, colorText: Colors.white);
         fetchFamilyProfile();
       } else {

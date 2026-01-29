@@ -11,7 +11,9 @@ class SplashController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    startProgress();
+
+   // Get.toNamed(AppRoute.homeScreen);
+ startProgress();
   }
 
   void startProgress() {

@@ -147,7 +147,7 @@ class EditeProfileScreen extends StatelessWidget {
                   ? const Center(child: CircularProgressIndicator())
                   : CommonButton(
                 onTap: () => profileController.updateProfile(),
-                text: "Update Profile",
+                text: "Profile Update request",
               )),
             ],
           ),

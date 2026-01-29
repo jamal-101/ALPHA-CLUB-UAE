@@ -62,7 +62,7 @@ class FavoriteGridviewBuilder extends StatelessWidget {
 
       return GridView.builder(
         shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
+        physics: AlwaysScrollableScrollPhysics(),
         itemCount: controller.favouriteOffers.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,

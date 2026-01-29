@@ -1,3 +1,4 @@
+import 'package:alpha_club/core/global/commont_text.dart';
 import 'package:alpha_club/features/event_flow/controller/event_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -44,14 +45,38 @@ class GuestFormDialog extends StatelessWidget {
 
             SizedBox(height: 16.h),
 
-            // Add Guest Button
-            OutlinedButton.icon(
-              onPressed: () => eventController.addGuest(),
-              icon: const Icon(Icons.add, color: Color(0xFFD4AF37)),
-              label: const Text("Add guest", style: TextStyle(color: Color(0xFFD4AF37))),
-              style: OutlinedButton.styleFrom(
-                minimumSize: Size(double.infinity, 45.h),
-                side: const BorderSide(color: Color(0xFFD4AF37)),
+            // OutlinedButton.icon(
+            //   onPressed: () => eventController.addGuest(),
+            //   icon: const Icon(Icons.add, color: Color(0xFFD4AF37)),
+            //   label: const Text("Add guest", style: TextStyle(color: Color(0xFFD4AF37))),
+            //   style: OutlinedButton.styleFrom(
+            //     minimumSize: Size(double.infinity, 45.h),
+            //     side: const BorderSide(color: Color(0xFFD4AF37)),
+            //   ),
+            // ),
+
+            GestureDetector(
+              onTap: (){
+                eventController.addGuest();
+              },
+              child: Container(
+                height: 46.h,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8.r),
+                  border: Border.all(
+                    width: 1.w,
+                    color: Color(0xFFD7A859),
+                  )
+                ),child: Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.add, color: Color(0xFFD4AF37)),
+                    Text("Add guest", style: TextStyle(color: Color(0xFFD4AF37))),
+                  ],
+                ),
+              ),
               ),
             ),
 
@@ -60,19 +85,38 @@ class GuestFormDialog extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                  child: ElevatedButton(
-                    onPressed: () => Get.back(),
-                    style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFFFFE4E1)),
-                    child: const Text("Cancel", style: TextStyle(color: Colors.red)),
-                  ),
+                  child: GestureDetector(
+                    onTap: (){
+                      Get.back();
+                    },
+                    child: Container(
+                      height: 46.h,
+                      width: 128.w,
+                      decoration: BoxDecoration(
+                        color: Color(0xFFFFE4E1),
+                        borderRadius: BorderRadius.circular(8.r)
+                      ),child: Center(child: CommonText(text: "Cancel",fontWeight: FontWeight.w400,fontSize: 16.sp,color: Color(0xFFFD3D32),)),
+                    ),
+                  )
                 ),
                 SizedBox(width: 12.w),
                 Expanded(
-                  child: ElevatedButton(
-                    onPressed: () => eventController.submitRegistration(eventId),
-                    style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF233A66)),
-                    child: const Text("Save", style: TextStyle(color: Colors.white)),
-                  ),
+                  child: GestureDetector(
+                    onTap: (){
+                      eventController.submitRegistration(eventId);
+                      if (Get.isDialogOpen ?? false) {
+                        Get.back();
+                      }
+                    },
+                    child: Container(
+                      height: 46.h,
+                      width: 128.w,
+                      decoration: BoxDecoration(
+                          color: Color(0xFF233A66),
+                          borderRadius: BorderRadius.circular(8.r)
+                      ),child: Center(child: CommonText(text: "Save",fontWeight: FontWeight.w400,fontSize: 16.sp,color: Color(0xFFE9EBF0),)),
+                    ),
+                  )
                 ),
               ],
             ),
@@ -98,7 +142,7 @@ class GuestFormDialog extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text("Guest: ${index + 1 < 10 ? '0' : ''}${index + 1}",
-                  style: const TextStyle(color: Colors.green, fontWeight: FontWeight.bold)),
+                  style: const TextStyle(color: Color(0xFF099F2A), fontWeight: FontWeight.w400,fontSize: 18)),
               if (index >= 0)
                 IconButton(
                   icon: const Icon(Icons.delete_outline, color: Colors.red),
@@ -110,8 +154,8 @@ class GuestFormDialog extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text("Contact Number", style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500)),
-              SizedBox(height: 4.h),
+              const Text("Contact Number", style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400,color: Color(0xFF233A66))),
+              SizedBox(height: 12.h),
               CustomPhoneField(
                 validator: FormValidation.validatePhoneNumber,
                 hintText: "09 -1897243189",
@@ -122,8 +166,6 @@ class GuestFormDialog extends StatelessWidget {
               ),
             ],
           ),
-
-          SizedBox(height: 10.h),
           _inputField("Email", "Enter Email Address", guest.emailController),
         ],
       ),
@@ -134,15 +176,32 @@ class GuestFormDialog extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500)),
-        SizedBox(height: 4.h),
+        Text(label, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400,color: Color(0xFF233A66))),
+        SizedBox(height: 12.h),
         TextField(
           controller: controller,
           decoration: InputDecoration(
             hintText: hint,
+            hintStyle: TextStyle(
+              fontSize: 14.sp,
+              fontWeight: FontWeight.w400,
+              color: Color(0xFF4F6185)
+            ),
             filled: true,
             fillColor: Colors.white,
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.r), borderSide: BorderSide.none),
+            contentPadding: EdgeInsets.symmetric(vertical: 18.h, horizontal: 12.w),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8.r),
+              borderSide: const BorderSide(color: Color(0xFFF1F1F1)),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8.r),
+              borderSide: const BorderSide(color: Color(0xFFF1F1F1), width: 1.5),
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8.r),
+              borderSide: const BorderSide(color: Color(0xFFF1F1F1)),
+            ),
           ),
         ),
         SizedBox(height: 10.h),

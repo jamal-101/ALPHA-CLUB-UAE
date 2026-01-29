@@ -46,7 +46,7 @@ class EventScreen extends StatelessWidget {
                 },
               ),
               SizedBox(height: 16.h),
-              UpComingEvent(),
+              Expanded(child: UpComingEvent()),
             ],
           ),
         ),

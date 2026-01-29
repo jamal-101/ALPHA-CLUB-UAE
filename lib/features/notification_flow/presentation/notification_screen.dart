@@ -13,6 +13,13 @@ class NotificationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final NotificationController notificationController = Get.put(NotificationController());
 
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      notificationController.refreshNotificationData();
+      notificationController.clearNotificationCount();
+      notificationController.clearNotificationCount();
+    });
+
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.w),
