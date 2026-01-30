@@ -60,8 +60,7 @@ class OfferGridviewBuilder extends StatelessWidget {
         },
         child: GridView.builder(
           shrinkWrap: true,
-          physics: const AlwaysScrollableScrollPhysics(),
-          // physics: const NeverScrollableScrollPhysics(),
+          physics: AlwaysScrollableScrollPhysics(),
           itemCount: offerController.offers.length,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,

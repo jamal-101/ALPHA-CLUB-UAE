@@ -93,24 +93,27 @@ class FavoriteGridviewBuilder extends StatelessWidget {
                         padding: EdgeInsets.only(top: 4.h, left: 4.w, right: 4.w),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(8.r),
-                          child: offer.images.isNotEmpty
-                              ? Image.network(
+                          child:
+                          // offer.images.isNotEmpty
+                          //     ?
+                          Image.network(
                             "${ApiEndPoint.imageBaseUrl}${offer.images.first}",
                             height: 120.h,
                             width: double.infinity,
                             fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) => Container(
-                              height: 120.h,
-                              color: AppColors.otpBorderColor,
-                              child: Icon(Icons.image_not_supported_outlined, color: AppColors.blue1),
-                            ),
+                            errorBuilder: (context, error, stackTrace) {
+                              return Container(
+                                height: 115.h,
+                                width: double.infinity,
+                                color: AppColors.otpBorderColor,
+                                child: Icon(
+                                  Icons.image_not_supported_outlined,
+                                  size: 40.sp,
+                                  color: AppColors.blue1.withValues(alpha: 0.3),
+                                ),
+                              );
+                            },
                           )
-                              : Container(
-                            height: 120.h,
-                            width: double.infinity,
-                            color: AppColors.otpBorderColor,
-                            child: Icon(Icons.image_outlined, color: AppColors.blue1),
-                          ),
                         ),
                       ),
 

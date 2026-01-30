@@ -62,7 +62,7 @@ class HomeTabBar extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               children: [
                 NewsListView(),
-                Expanded(child: SponsorWidgetScreen()),
+                SponsorWidgetScreen(),
               ],
             ),
           ),

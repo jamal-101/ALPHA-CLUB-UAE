@@ -56,6 +56,18 @@ class OurSponsorScreen extends StatelessWidget {
                     // height: 219.h,
                     width: double.infinity,
                     fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        height: 115.h,
+                        width: double.infinity,
+                        color: AppColors.otpBorderColor,
+                        child: Icon(
+                          Icons.image_not_supported_outlined,
+                          size: 40.sp,
+                          color: AppColors.blue1.withValues(alpha: 0.3),
+                        ),
+                      );
+                    },
                   ),
                 ),
                 SizedBox(height: 20.h),

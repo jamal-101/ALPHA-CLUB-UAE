@@ -248,7 +248,7 @@ class OfferController extends GetxController {
       isLoadingOffers.value = true;
 
 
-      String endpoint = "${ApiEndPoint.offer}?page=1&limit=70";
+      String endpoint = "${ApiEndPoint.offer}?page=1&limit=300";
 
 
       if (selectedCategory.value.isNotEmpty) {

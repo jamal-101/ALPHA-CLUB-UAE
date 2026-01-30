@@ -205,4 +205,25 @@ class NotificationController extends GetxController {
     );
   }
 
+
+
+  Future<void> markAsSeen(String notificationId) async {
+    ApiResponseModel response = await ApiService.patch(
+        "/notification/$notificationId",
+        body: {"seen": true}
+    );
+
+    if (response.isSuccess) {
+      int index = notifications.indexWhere((n) => n['_id'] == notificationId);
+      if (index != -1) {
+        notifications[index]['seen'] = true;
+        notifications.refresh();
+      }
+      debugPrint("Notification marked as seen: ${response.message}");
+    }
+    // else {
+    //   Get.snackbar("Error", response.message ?? "Failed to update status");
+    // }
+  }
+
 }

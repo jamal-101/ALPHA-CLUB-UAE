@@ -58,10 +58,10 @@ class EventDetailsScreen extends StatelessWidget {
                               height: 219.h,
                               width: double.infinity,
                               color: AppColors.otpBorderColor,
-                              child: Center(
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                ),
+                              child: Icon(
+                                Icons.image_not_supported_outlined,
+                                size: 40.sp,
+                                color: AppColors.blue1.withValues(alpha: 0.3),
                               ),
                             );
                           },

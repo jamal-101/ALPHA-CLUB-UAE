@@ -33,7 +33,6 @@ class NotificationScreen extends StatelessWidget {
             SizedBox(height: 10.h),
             Expanded(
               child: Obx(() {
-
                 return RefreshIndicator(
                   backgroundColor: const Color(0xFF1E1E1E),
                   color: Colors.white,
@@ -43,14 +42,21 @@ class NotificationScreen extends StatelessWidget {
                   child: ListView.builder(
                     physics: AlwaysScrollableScrollPhysics(),
                     itemCount: notificationController.notifications.length,
-                    padding: EdgeInsets.only(top: 10.h),
+                    padding: EdgeInsets.only(top: 12.h),
                     itemBuilder: (context, index) {
                       final item = notificationController.notifications[index];
-                      return _buildNotificationCard(
-                        title: item['title'] ?? " ",
-                        message: item['message'] ?? "",
-                        time: item['createdAt'] ?? "",
-                        isSeen: item['seen'] ?? true,
+                      return GestureDetector(
+                        onTap: (){
+                          if (item['seen'] == false) {
+                            notificationController.markAsSeen(item['_id']);
+                          }
+                        },
+                        child: _buildNotificationCard(
+                          title: item['title'] ?? " ",
+                          message: item['message'] ?? "",
+                          time: item['createdAt'] ?? "",
+                          isSeen: item['seen'] ?? true,
+                        ),
                       );
                     },
                   ),
@@ -71,12 +77,12 @@ class NotificationScreen extends StatelessWidget {
     required bool isSeen,
   }) {
     return Container(
-      margin: EdgeInsets.only(bottom: 14.h),
+      margin: EdgeInsets.only(bottom: 10.h),
       decoration: BoxDecoration(
           color: const Color(0xFFE0F2FE),
-        borderRadius: BorderRadius.circular(4.r),
+        borderRadius: BorderRadius.circular(8.r),
         border: Border.all(
-          color: AppColors.borderColor,
+          color: isSeen ? AppColors.borderColor : Colors.blue.withValues(alpha: 0.5),
           width: 1,
         ),
       ),
@@ -95,10 +101,8 @@ class NotificationScreen extends StatelessWidget {
             //     ),
             //   ),
             Padding(
-              padding: EdgeInsets.all(16.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+              padding: EdgeInsets.all(10.w),
+              child:
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -106,8 +110,8 @@ class NotificationScreen extends StatelessWidget {
                         height: 28.h,
                         width: 28.w,
                         decoration: BoxDecoration(
-                          color: Color(0xFFC3E5FC),
-                          borderRadius: BorderRadius.circular(8.r)
+                          color: isSeen ? const Color(0xFFE0F2FE) : Color(0xFFC3E5FC),
+                          borderRadius: BorderRadius.circular(8.r),
                         ),child: Padding(
                           padding: EdgeInsets.all(5.0),
                           child: Image.asset(AssetPath.notificationIcon,color: Color(0xFF065C95)),
@@ -132,7 +136,7 @@ class NotificationScreen extends StatelessWidget {
                             SizedBox(height: 4.h),
                             Text(
                               message,
-                              maxLines: 1,
+                              maxLines: 20,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 color: Color(0xFF242424),
@@ -153,10 +157,6 @@ class NotificationScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(height: 8.h),
-
-                ],
-              ),
             ),
           ],
         ),

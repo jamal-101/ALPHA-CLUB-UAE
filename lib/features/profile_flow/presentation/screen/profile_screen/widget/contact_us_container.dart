@@ -36,10 +36,21 @@ class ContactUsContainer extends StatelessWidget {
               color: AppColors.borderColor,
               shape: BoxShape.circle,
             ),
-            padding: EdgeInsets.all(10.w),
-            child: Image.asset(
-              image,
-              fit: BoxFit.contain,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Center(
+                child: Image.network(
+                  image,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Icon(
+                      Icons.image_not_supported,
+                      color: Colors.grey,
+                      size: 16.sp,
+                    );
+                  },
+                ),
+              ),
             ),
           ),
           SizedBox(width: 12.w),

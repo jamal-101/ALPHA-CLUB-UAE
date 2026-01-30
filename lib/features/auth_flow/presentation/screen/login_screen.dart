@@ -152,10 +152,10 @@ class LoginScreen extends StatelessWidget {
                         ),
                         SizedBox(height: 24.h),
 
-                        CommonButton(onTap: (){
-                          Get.toNamed(AppRoute.homeScreen);
-
-                        }, text: "Guest"),
+                        // CommonButton(onTap: (){
+                        //   Get.toNamed(AppRoute.homeScreen);
+                        //
+                        // }, text: "Guest"),
 
                         Obx(
                           () => CommonButton(

@@ -33,6 +33,13 @@ class CustomBrandCard extends StatelessWidget {
             imagePath,
             height: 40,
             fit: BoxFit.contain,
+            errorBuilder: (context, error, stackTrace) {
+              return Icon(
+                Icons.image_not_supported,
+                color: Colors.grey,
+                size: 16.sp,
+              );
+            },
           ),
           const SizedBox(height: 12),
           Text(

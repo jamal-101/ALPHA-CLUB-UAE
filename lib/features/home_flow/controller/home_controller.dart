@@ -46,7 +46,7 @@ class HomeController extends GetxController {
     }
 
     ApiResponseModel response = await ApiService.get(
-      "${ApiEndPoint.stories}?page=$currentStoryPage&limit=90",
+      "${ApiEndPoint.stories}?page=$currentStoryPage&limit=200",
     );
 
     response.handleResponse(
@@ -66,7 +66,7 @@ class HomeController extends GetxController {
         } else {
           stories.assignAll(newStories);
         }
-        if (newStories.length < 90) {
+        if (newStories.length < 200) {
           hasMoreStories = false;
         } else {
           currentStoryPage++;
@@ -108,7 +108,7 @@ class HomeController extends GetxController {
 
 
     ApiResponseModel response = await ApiService.get(
-      "${ApiEndPoint.sponsor}?page=$currentPage&limit=90",
+      "${ApiEndPoint.sponsor}?page=$currentPage&limit=200",
     );
 
     response.handleResponse(
@@ -120,7 +120,7 @@ class HomeController extends GetxController {
         } else {
           sponsors.assignAll(newItems);
         }
-        if (newItems.length < 90) {
+        if (newItems.length < 200) {
           hasMoreData = false;
         } else {
           currentPage++;

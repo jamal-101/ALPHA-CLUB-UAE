@@ -143,12 +143,15 @@ class EditeProfileScreen extends StatelessWidget {
                 hintText: "Enter your name",
               ),
               SizedBox(height: 50.h),
-              Obx(() => profileController.isLoading.value
-                  ? const Center(child: CircularProgressIndicator())
-                  : CommonButton(
+              // Obx(() =>
+              // profileController.isLoading.value
+              //     ? const Center(child: CircularProgressIndicator())
+              //     :
+              CommonButton(
                 onTap: () => profileController.updateProfile(),
                 text: "Profile Update request",
-              )),
+              )
+        // ),
             ],
           ),
         ),

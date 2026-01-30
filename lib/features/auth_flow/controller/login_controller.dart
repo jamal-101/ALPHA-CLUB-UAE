@@ -350,14 +350,14 @@ class LoginController extends GetxController {
 
 }
 
-Future<void> handleUnauthorized() async {
-  await LocalStorage.clear();
-  Get.offAllNamed(AppRoute.loginScreen);
-  Get.snackbar(
-      "Session Expired",
-      "Please login again to continue.",
-      backgroundColor: Colors.red,
-      colorText: Colors.white,
-      snackPosition: SnackPosition.BOTTOM
-  );
-}
+// Future<void> handleUnauthorized() async {
+//   await LocalStorage.clear();
+//   Get.offAllNamed(AppRoute.loginScreen);
+//   Get.snackbar(
+//       "Session Expired",
+//       "Please login again to continue.",
+//       backgroundColor: Colors.red,
+//       colorText: Colors.white,
+//       snackPosition: SnackPosition.BOTTOM
+//   );
+// }

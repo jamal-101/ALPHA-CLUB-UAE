@@ -263,6 +263,18 @@ class OfferDetailsScreen extends StatelessWidget {
                                 height: 220.h,
                                 width: double.infinity,
                                 fit: BoxFit.fill,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Container(
+                                    height: 115.h,
+                                    width: double.infinity,
+                                    color: AppColors.otpBorderColor,
+                                    child: Icon(
+                                      Icons.image_not_supported_outlined,
+                                      size: 40.sp,
+                                      color: AppColors.blue1.withValues(alpha: 0.3),
+                                    ),
+                                  );
+                                },
                               ),
                             );
                           }).toList(),

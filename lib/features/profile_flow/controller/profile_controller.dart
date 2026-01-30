@@ -461,47 +461,90 @@ class ProfileController extends GetxController {
     }
   }
 
+  // Future<void> updateProfile() async {
+  //   if (profileNameController.text.isEmpty && selectedImage.value == null) {
+  //     Get.snackbar("Error", "Please change something to update",
+  //         backgroundColor: Colors.redAccent, colorText: Colors.white);
+  //     return;
+  //   }
+  //
+  //   try {
+  //     isLoading.value = true;
+  //     Map<String, String> bodyData = {
+  //       "name": profileNameController.text.trim(),
+  //     };
+  //     final response = await ApiService.multipart(
+  //       ApiEndPoint.updateProfile,
+  //       method: "PATCH",
+  //       body: bodyData,
+  //       imagePath: selectedImage.value?.path,
+  //       imageName: "profileImage",
+  //     );
+  //
+  //     if (response.statusCode == 401) {
+  //       handleUnauthorized();
+  //       return;
+  //     }
+  //
+  //
+  //     if (response.statusCode == 200 || response.statusCode == 201) {
+  //       Get.back();
+  //       Get.snackbar("Success", "Profile updated request successfully",
+  //           backgroundColor: Colors.green, colorText: Colors.white);
+  //       fetchFamilyProfile();
+  //     } else {
+  //       Get.snackbar("Failed", response.data['message'] ?? "Update failed",
+  //           backgroundColor: Colors.redAccent, colorText: Colors.white);
+  //     }
+  //   } catch (e) {
+  //     AppLogger.error("Update Profile Error", error: e);
+  //   } finally {
+  //     isLoading.value = false;
+  //   }
+  // }
+
   Future<void> updateProfile() async {
-    if (profileNameController.text.isEmpty && selectedImage.value == null) {
-      Get.snackbar("Error", "Please change something to update",
-          backgroundColor: Colors.redAccent, colorText: Colors.white);
+    if (profileNameController.text.isEmpty &&
+        selectedImage.value == null) {
+      Get.snackbar(
+        "Error",
+        "Please change something to update",
+        backgroundColor: Colors.redAccent,
+        colorText: Colors.white,
+      );
       return;
     }
 
-    try {
-      isLoading.value = true;
-      Map<String, String> bodyData = {
-        "name": profileNameController.text.trim(),
-      };
-      final response = await ApiService.multipart(
-        ApiEndPoint.updateProfile,
-        method: "PATCH",
-        body: bodyData,
-        imagePath: selectedImage.value?.path,
-        imageName: "profileImage",
-      );
+    isLoading.value = true;
 
-      if (response.statusCode == 401) {
-        handleUnauthorized();
-        return;
-      }
+    Map<String, String> bodyData = {
+      "name": profileNameController.text.trim(),
+    };
 
+    final response = await ApiService.multipart(
+      ApiEndPoint.updateProfile,
+      method: "PATCH",
+      body: bodyData,
+      imagePath: selectedImage.value?.path,
+      imageName: "profileImage",
+    );
 
-      if (response.statusCode == 200 || response.statusCode == 201) {
+    response.handleResponse(
+      onSuccess: (data) {
         Get.back();
-        Get.snackbar("Success", "Profile updated request successfully",
-            backgroundColor: Colors.green, colorText: Colors.white);
+        Get.snackbar(
+          "Success",
+          "Profile update request sent successfully",
+          backgroundColor: Colors.green,
+          colorText: Colors.white,
+        );
         fetchFamilyProfile();
-      } else {
-        Get.snackbar("Failed", response.data['message'] ?? "Update failed",
-            backgroundColor: Colors.redAccent, colorText: Colors.white);
-      }
-    } catch (e) {
-      AppLogger.error("Update Profile Error", error: e);
-    } finally {
-      isLoading.value = false;
-    }
+      },
+    );
+
+    isLoading.value = false;
   }
+
 
   ///>>>>>>>>>>>>>>>>>>>>>> Contact Us <<<<<<<<<<<<<<<<<///
 
@@ -511,7 +554,7 @@ class ProfileController extends GetxController {
   Future<void> fetchContactInfo() async {
     try {
       isLoading.value = true;
-      ApiResponseModel response = await ApiService.get("${ApiEndPoint.contactUs}?page=1&limit=10");
+      ApiResponseModel response = await ApiService.get("${ApiEndPoint.contactUs}?page=1&limit=300");
 
       response.handleResponse(
         onSuccess: (responseData) {

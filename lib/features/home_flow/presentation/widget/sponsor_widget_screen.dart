@@ -62,15 +62,13 @@ class SponsorWidgetScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final HomeController homeController = Get.find<HomeController>();
-    final NotificationController notificationController = Get.put(NotificationController());
+    final NotificationController notificationController = Get.put(
+      NotificationController(),
+    );
     final ProfileController profileController = Get.put(ProfileController());
 
-    return Scaffold(
-      body : Obx(() {
-        // if (homeController.isSponsorLoading.value && homeController.sponsors.isEmpty) {
-        //   return const Center(child: CircularProgressIndicator());
-        // }
-
+    return Obx(
+      () {
         return RefreshIndicator(
           color: Color(0xFF233A66),
           backgroundColor: AppColors.appBackgroundColor,
@@ -81,42 +79,35 @@ class SponsorWidgetScreen extends StatelessWidget {
           },
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.w),
-            child: Column(
-              children: [
-                GridView.builder(
-                  shrinkWrap: true,
-                  physics: AlwaysScrollableScrollPhysics(),
-                  itemCount: homeController.sponsors.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 12.w,
-                    mainAxisSpacing: 12.h,
-                    childAspectRatio: 1.1,
-                  ),
-                  itemBuilder: (context, index) {
-                    final item = homeController.sponsors[index];
-                    return GestureDetector(
-                      onTap: () {
-                        homeController.fetchSponsorDetails(item['_id']);
-                        Get.to(OurSponsorScreen());
-                      },
-                      child: CustomBrandCard(
-                        imagePath: "${ApiEndPoint.imageBaseUrl}${item['logo'].startsWith('/') ? '' : '/'}${item['logo']}",
-                        title: item['title'] ?? "",
-                      ),
-                    );
+            child: GridView.builder(
+              shrinkWrap: true,
+              physics: AlwaysScrollableScrollPhysics(),
+              itemCount: homeController.sponsors.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 12.w,
+                mainAxisSpacing: 12.h,
+                childAspectRatio: 1.1,
+              ),
+              itemBuilder: (context, index) {
+                final item = homeController.sponsors[index];
+                return GestureDetector(
+                  onTap: () {
+                    homeController.fetchSponsorDetails(item['_id']);
+                    Get.to(OurSponsorScreen());
                   },
-                ),
-                if (homeController.isMoreLoading.value)
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 20.h),
-                    child: const CircularProgressIndicator(),
+                  child: CustomBrandCard(
+                    imagePath:
+                        "${ApiEndPoint.imageBaseUrl}${item['logo'].startsWith('/') ? '' : '/'}${item['logo']}",
+                    title: item['title'] ?? "",
                   ),
-              ],
+                );
+              },
             ),
           ),
         );
-      }),
+      },
+      // ),
     );
   }
 }

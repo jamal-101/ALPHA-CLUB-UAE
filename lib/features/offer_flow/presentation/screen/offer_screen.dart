@@ -20,8 +20,8 @@ class OfferScreen extends StatelessWidget {
     return Scaffold(
       bottomNavigationBar: CommonBottomNabVar(selectedIndex: 1),
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -68,7 +68,7 @@ class OfferScreen extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 16.h),
-              OfferGridviewBuilder(),
+              Expanded(child: OfferGridviewBuilder()),
             ],
           ),
         ),
