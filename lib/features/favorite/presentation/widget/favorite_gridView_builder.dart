@@ -5,7 +5,6 @@ import 'package:alpha_club/features/favorite/controller/favourite_controller.dar
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-
 import '../../../offer_flow/controller/offer_details_controller.dart';
 import '../../../offer_flow/presentation/screen/offer_details_screen.dart';
 
@@ -75,7 +74,7 @@ class FavoriteGridviewBuilder extends StatelessWidget {
           return GestureDetector(
             onTap: (){
               final detailsController = Get.put(OfferDetailsController());
-              detailsController.fetchOfferDetails(offer.id);
+              detailsController.fetchOfferDetails(offer.exclusiveOffer.id);
               Get.to(() => OfferDetailsScreen());
             },
             child: Container(
@@ -91,30 +90,27 @@ class FavoriteGridviewBuilder extends StatelessWidget {
                     children: [
                       Padding(
                         padding: EdgeInsets.only(top: 4.h, left: 4.w, right: 4.w),
-                        child: ClipRRect(
+                        child:
+                        ClipRRect(
                           borderRadius: BorderRadius.circular(8.r),
-                          child:
-                          // offer.images.isNotEmpty
-                          //     ?
-                          Image.network(
-                            "${ApiEndPoint.imageBaseUrl}${offer.images.first}",
-                            height: 120.h,
-                            width: double.infinity,
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) {
-                              return Container(
-                                height: 115.h,
-                                width: double.infinity,
-                                color: AppColors.otpBorderColor,
-                                child: Icon(
-                                  Icons.image_not_supported_outlined,
-                                  size: 40.sp,
-                                  color: AppColors.blue1.withValues(alpha: 0.3),
-                                ),
-                              );
+                          child: Builder(
+                            builder: (context) {
+                              final List<String> offerImages = offer.exclusiveOffer.image;
+                              if (offerImages.isNotEmpty) {
+                                return Image.network(
+                                  "${ApiEndPoint.imageBaseUrl}${offerImages[0]}",
+                                  height: 120.h,
+                                  width: double.infinity,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) => _buildErrorPlaceholder(),
+                                );
+                              }
+                              else {
+                                return _buildErrorPlaceholder();
+                              }
                             },
-                          )
-                        ),
+                          ),
+                        )
                       ),
 
                       Positioned(
@@ -130,7 +126,8 @@ class FavoriteGridviewBuilder extends StatelessWidget {
                             borderRadius: BorderRadius.circular(20.r),
                           ),
                           child: CommonText(
-                            text: "${offer.discount?.value ?? 0}% Off",
+                            text: "${offer.exclusiveOffer.discount
+                                .value ?? 0}% Off",
                             fontWeight: FontWeight.w500,
                             fontSize: 10.sp,
                             color: AppColors.green1,
@@ -142,7 +139,7 @@ class FavoriteGridviewBuilder extends StatelessWidget {
                         left: 9.w,
                         child: GestureDetector(
                           onTap: () {
-                            controller.removeFavourite(offer.id);
+                            controller.removeFavourite(offer.exclusiveOffer.id);
                           },
                           child: Container(
                             height: 24.w,
@@ -182,7 +179,7 @@ class FavoriteGridviewBuilder extends StatelessWidget {
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w500,
                             color: AppColors.blue1,
-                            text: offer.name,
+                            text: offer.exclusiveOffer.name,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -192,7 +189,7 @@ class FavoriteGridviewBuilder extends StatelessWidget {
                             fontSize: 12.sp,
                             fontWeight: FontWeight.w400,
                             color: AppColors.blue1,
-                            text: offer.title,
+                            text: offer.exclusiveOffer.title,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -208,4 +205,17 @@ class FavoriteGridviewBuilder extends StatelessWidget {
       );
     });
   }
+}
+
+Widget _buildErrorPlaceholder() {
+  return Container(
+    height: 120.h,
+    width: double.infinity,
+    color: AppColors.otpBorderColor,
+    child: Icon(
+      Icons.image_not_supported_outlined,
+      size: 40.sp,
+      color: AppColors.blue1.withValues(alpha: 0.3),
+    ),
+  );
 }

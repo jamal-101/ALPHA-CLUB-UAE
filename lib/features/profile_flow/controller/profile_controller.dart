@@ -21,6 +21,10 @@ class ProfileController extends GetxController {
   var isLoading = false.obs;
   var userProfile = Rxn<UserProfileModel>();
 
+  final currentPasswordController = TextEditingController();
+  final newPasswordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
+
   @override
   void onInit() {
     super.onInit();
@@ -57,9 +61,9 @@ class ProfileController extends GetxController {
     // addressController.dispose();
     // familyNameController.dispose();
     // familyEmailController.dispose();
-    currentPasswordController.dispose();
-    newPasswordController.dispose();
-    confirmPasswordController.dispose();
+    // currentPasswordController.dispose();
+    // newPasswordController.dispose();
+    // confirmPasswordController.dispose();
     super.onClose();
   }
 
@@ -376,9 +380,7 @@ class ProfileController extends GetxController {
 
   ///>>>>>>>>>>>>>>>>>>>>>>>>>>>> new Password controller  <<<<<<<<<<<<<<<<<<<<<<<//
 
-  final currentPasswordController = TextEditingController();
-  final newPasswordController = TextEditingController();
-  final confirmPasswordController = TextEditingController();
+
 
 
   Future<void> changePassword(context) async {
@@ -535,8 +537,8 @@ class ProfileController extends GetxController {
         Get.snackbar(
           "Success",
           "Profile update request sent successfully",
-          backgroundColor: Colors.green,
-          colorText: Colors.white,
+          backgroundColor: Color(0xFF192948),
+          colorText: Color(0xFFFFCB20),
         );
         fetchFamilyProfile();
       },

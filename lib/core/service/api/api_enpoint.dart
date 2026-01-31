@@ -1,10 +1,10 @@
 
 class ApiEndPoint {
-  static const baseUrl =  'http://10.10.7.11:7000/api/v1';
-  // static const baseUrl = 'http://92.205.234.176:7000/api/v1';
+  // static const baseUrl =  'http://10.10.7.11:7000/api/v1';
+  static const baseUrl = 'http://92.205.234.176:7000/api/v1';
   static const stories = '/stories';
-  // static const imageBaseUrl = 'http://92.205.234.176:7000';
-  static const imageBaseUrl = 'http://10.10.7.11:7000';
+  static const imageBaseUrl = 'http://92.205.234.176:7000';
+  // static const imageBaseUrl = 'http://10.10.7.11:7000';
   static const sponsor = '/sponsor';
   static const event = '/event';
   static const club = '/club';

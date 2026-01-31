@@ -3,9 +3,10 @@ import 'package:alpha_club/core/utils/app_color/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import '../../../../core/route/app_route.dart';
 import '../../../../core/service/api/api_enpoint.dart';
 import '../../controller/offer_controller.dart';
+import '../../controller/offer_details_controller.dart';
+import '../screen/offer_details_screen.dart';
 
 class OfferGridviewBuilder extends StatelessWidget {
      OfferGridviewBuilder({super.key});
@@ -15,17 +16,6 @@ class OfferGridviewBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      // if (offerController.isLoadingOffers.value) {
-      //   return Center(
-      //     child: Padding(
-      //       padding: EdgeInsets.symmetric(vertical: 40.h),
-      //       child: CircularProgressIndicator(
-      //         color: AppColors.blue1,
-      //       ),
-      //     ),
-      //   );
-      // }
-
       if (offerController.offers.isEmpty) {
         return Center(
           child: Padding(
@@ -77,7 +67,9 @@ class OfferGridviewBuilder extends StatelessWidget {
 
             return GestureDetector(
               onTap: () {
-                Get.toNamed(AppRoute.offerDetailsScreen, arguments: offer.id);
+                final controller = Get.put(OfferDetailsController());
+                controller.fetchOfferDetails(offer.id);
+                Get.to(() => OfferDetailsScreen());
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -112,20 +104,6 @@ class OfferGridviewBuilder extends StatelessWidget {
                                   ),
                                 );
                               },
-                              // loadingBuilder: (context, child, loadingProgress) {
-                              //   if (loadingProgress == null) return child;
-                              //   return Container(
-                              //     height: 115.h,
-                              //     width: double.infinity,
-                              //     color: AppColors.otpBorderColor,
-                              //     child: Center(
-                              //       child: CircularProgressIndicator(
-                              //         color: AppColors.blue1,
-                              //         strokeWidth: 2.w,
-                              //       ),
-                              //     ),
-                              //   );
-                              // },
                             ),
                           ),
                         ),

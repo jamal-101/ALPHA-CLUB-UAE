@@ -16,7 +16,8 @@ import '../../../../controller/profile_controller.dart';
 class ChangePasswordScreen extends StatelessWidget {
       ChangePasswordScreen({super.key});
 
-  final ProfileController controller = Get.put(ProfileController());
+  // final ProfileController controller = Get.put(ProfileController());
+      final ProfileController controller = Get.put(ProfileController(),permanent: true);
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override

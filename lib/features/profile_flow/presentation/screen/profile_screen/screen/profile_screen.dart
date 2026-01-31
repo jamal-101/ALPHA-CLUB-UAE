@@ -3,6 +3,7 @@ import 'package:alpha_club/core/utils/app_color/app_color.dart';
 import 'package:alpha_club/core/utils/app_image/app_image.dart';
 import 'package:alpha_club/core/utils/app_string/app_string.dart';
 import 'package:alpha_club/features/common_bottom_nav_bar/presentation/common_bottom_nab_var.dart';
+import 'package:alpha_club/features/profile_flow/controller/profile_controller.dart';
 import 'package:alpha_club/features/profile_flow/presentation/screen/profile_screen/widget/custom_list_view.dart';
 import 'package:alpha_club/features/profile_flow/presentation/screen/profile_screen/widget/digital_memberShip_container.dart';
 import 'package:alpha_club/features/profile_flow/presentation/screen/profile_screen/widget/profile_data_container.dart';
@@ -13,7 +14,9 @@ import '../../../../../../core/route/app_route.dart';
 
 
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+      ProfileScreen({super.key});
+
+  final ProfileController profileController = Get.put(ProfileController());
 
   static final RxBool isFamilyListVisible = false.obs;
   static final RxBool isAlphaVisible = false.obs;
@@ -26,6 +29,7 @@ class ProfileScreen extends StatelessWidget {
         children: [
           Expanded(
             child: SingleChildScrollView(
+              physics: AlwaysScrollableScrollPhysics(),
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20.w),
                 child: Column(

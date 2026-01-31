@@ -14,6 +14,9 @@ class PrivacyPolicyScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      profileController.privacyPolicy();
+    });
     return Scaffold(
       body: Obx(() {
         return RefreshIndicator(

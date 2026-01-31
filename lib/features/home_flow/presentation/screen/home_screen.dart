@@ -43,6 +43,34 @@ class HomeScreen extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+                        Obx(() {
+                          final String userName = profileController.userProfile.value?.name ?? "Guest User";
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              CommonText(
+                                maxLines: 1,
+                                text: "Hi $userName",
+                                style: TextStyle(
+                                  fontFamily: 'SFPro',
+                                  fontSize: 24.sp,
+                                  fontWeight: FontWeight.w500,
+                                  color: const Color(0xFF233A66),
+                                ),
+                              ),
+                              CommonText(
+                                maxLines: 1,
+                                text: "Welcome to Alpha",
+                                style: TextStyle(
+                                  fontFamily: 'SFPro',
+                                 fontSize: 20.sp,
+                                 fontWeight: FontWeight.w500,
+                                 color: const Color(0xFF233A66),
+                               ),
+                              ),
+                            ],
+                          );
+                        }),
                         Obx(() =>
                             Stack(
                               clipBehavior: Clip.none,
@@ -82,16 +110,6 @@ class HomeScreen extends StatelessWidget {
                                   ),
                               ],
                             )),
-                        Obx(() {
-                          final String userName = profileController.userProfile.value?.name ?? "Guest User";
-                          return CommonText(
-                            maxLines: 1,
-                            text: "Hi $userName, Welcome to Alpha. ",
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w400,
-                            color: const Color(0xFF233A66),
-                          );
-                        }),
                       ],
                     ),
                   ),

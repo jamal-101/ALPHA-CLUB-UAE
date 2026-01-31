@@ -18,7 +18,7 @@ class ApiResponseModel {
   String get message {
     if (_statusCode == 502) {
       return AppString.startServer;
-    }else if(_statusCode == 401){
+    }else if(_statusCode == 403){
 
       Get.toNamed(AppRoute.loginScreen);
 

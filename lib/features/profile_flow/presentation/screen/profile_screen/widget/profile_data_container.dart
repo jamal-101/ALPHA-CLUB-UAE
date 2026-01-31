@@ -105,14 +105,16 @@ class _ProfileDataContainerState extends State<ProfileDataContainer> {
             ? Border.all(width: 1.w, color: AppColors.whiteFoundation1)
             : null,
       ),
-      child: isLoading
+      child:
+      isLoading
           ? Center(
               child: CircularProgressIndicator(
                 color: AppColors.goldColor,
                 strokeWidth: 2.w,
               ),
             )
-          : Padding(
+          :
+      Padding(
               padding: widget.usePadding
                   ? EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h)
                   : EdgeInsets.zero,

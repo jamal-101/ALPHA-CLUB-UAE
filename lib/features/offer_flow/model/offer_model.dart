@@ -36,9 +36,7 @@ class OfferModel {
       name: json['name'] ?? '',
       title: json['title'] ?? '',
       address: json['address']?.toString() ?? 'No address found',
-      // image: json['image'] is List && (json['image'] as List).isNotEmpty
-      //     ? (json['image'] as List).first.toString()
-      //     : (json['image']?.toString() ?? ''),
+
       images: imageList,
       discount: json['discount'] != null
           ? Discount.fromJson(json['discount'])

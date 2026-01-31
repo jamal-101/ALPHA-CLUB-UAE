@@ -19,6 +19,9 @@ class FaqScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      profileController.fetchFaqs();
+    });
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
@@ -32,8 +35,6 @@ class FaqScreen extends StatelessWidget {
             SizedBox(height: 20.h),
             Expanded(
               child: Obx(() {
-
-
                 return RefreshIndicator(
                   color: Color(0xFF233A66),
                   backgroundColor: AppColors.appBackgroundColor,

@@ -1,3 +1,4 @@
+import 'package:alpha_club/core/route/app_route.dart';
 import 'package:get/get.dart';
 import 'package:alpha_club/core/service/api/api_service.dart';
 import 'package:alpha_club/core/service/api/api_enpoint.dart';
@@ -8,7 +9,7 @@ import '../../../core/stroge/storage_service.dart';
 import '../../offer_flow/controller/offer_controller.dart';
 
 class FavouriteController extends GetxController {
-  RxList<OfferModel> favouriteOffers = <OfferModel>[].obs;
+  RxList<FavoriteModel> favouriteOffers = <FavoriteModel>[].obs;
   RxBool isLoading = false.obs;
 
   @override
@@ -39,11 +40,7 @@ class FavouriteController extends GetxController {
         final favouriteResponse = FavouriteOfferResponse.fromJson(
           Map<String, dynamic>.from(response.data),
         );
-        final List<OfferModel> extractedOffers = favouriteResponse.data
-            .map((item) => item.exclusiveOffer)
-            .toList();
-
-        favouriteOffers.assignAll(extractedOffers);
+        favouriteOffers.assignAll(favouriteResponse.data);
 
 
 
@@ -70,17 +67,27 @@ class FavouriteController extends GetxController {
     }
   }
 
+
+
   Future<void> removeFavourite(String offerId) async {
     try {
-      favouriteOffers.removeWhere((offer) => offer.id == offerId);
+
+      favouriteOffers.removeWhere(
+            (fav) => fav.exclusiveOffer.id == offerId,
+      );
       favouriteOffers.refresh();
+
       if (Get.isRegistered<OfferController>()) {
         final offerController = Get.find<OfferController>();
-        int index = offerController.offers.indexWhere((element) => element.id == offerId);
+        int index = offerController.offers.indexWhere(
+              (element) => element.id == offerId,
+        );
+
         if (index != -1) {
-          offerController.offers[index] = offerController.offers[index].copyWith(
-            isFavourite: false,
-          );
+          offerController.offers[index] =
+              offerController.offers[index].copyWith(
+                isFavourite: false,
+              );
           offerController.offers.refresh();
         }
       }
@@ -94,12 +101,12 @@ class FavouriteController extends GetxController {
 
       if (!response.isSuccess) {
         fetchFavouriteOffers();
+      }else if(response.statusCode == 403){
+        Get.toNamed(AppRoute.loginScreen);
       }
     } catch (e) {
       AppLogger.error('Error removing favourite: $e');
       fetchFavouriteOffers();
     }
   }
-
-
 }
