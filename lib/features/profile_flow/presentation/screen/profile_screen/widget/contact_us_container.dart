@@ -1,6 +1,7 @@
 import 'package:alpha_club/core/utils/app_color/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
 class ContactUsContainer extends StatelessWidget {
   final String image;
@@ -69,9 +70,18 @@ class ContactUsContainer extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 4.h),
-                Text(
+                // Text(
+                //   subTitle,
+                //   style: TextStyle(
+                //     fontFamily: 'SFPro',
+                //     fontSize: 14.sp,
+                //     fontWeight: FontWeight.w500,
+                //     color: AppColors.blueBase,
+                //   ),
+                // ),
+                HtmlWidget(
                   subTitle,
-                  style: TextStyle(
+                  textStyle: TextStyle(
                     fontFamily: 'SFPro',
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w500,

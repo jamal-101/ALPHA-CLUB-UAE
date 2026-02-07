@@ -1,3 +1,4 @@
+import 'package:alpha_club/core/global/commont_text.dart';
 import 'package:alpha_club/core/utils/app_color/app_color.dart';
 import 'package:alpha_club/core/utils/app_image/app_image.dart';
 import 'package:flutter/material.dart';
@@ -45,10 +46,12 @@ class NotificationScreen extends StatelessWidget {
                     padding: EdgeInsets.only(top: 12.h),
                     itemBuilder: (context, index) {
                       final item = notificationController.notifications[index];
+                      final String notificationId = item['_id'] ?? "";
+
                       return GestureDetector(
-                        onTap: (){
+                        onTap: () {
                           if (item['seen'] == false) {
-                            notificationController.markAsSeen(item['_id']);
+                            notificationController.markAsSeen(notificationId);
                           }
                         },
                         child: _buildNotificationCard(
@@ -56,9 +59,11 @@ class NotificationScreen extends StatelessWidget {
                           message: item['message'] ?? "",
                           time: item['createdAt'] ?? "",
                           isSeen: item['seen'] ?? true,
+                          onDelete: () => notificationController.deleteNotification(notificationId),
                         ),
                       );
                     },
+
                   ),
                 );
               }),
@@ -75,6 +80,7 @@ class NotificationScreen extends StatelessWidget {
     required String message,
     required String time,
     required bool isSeen,
+    required VoidCallback onDelete,
   }) {
     return Container(
       margin: EdgeInsets.only(bottom: 10.h),
@@ -90,16 +96,17 @@ class NotificationScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(20.r),
         child: Stack(
           children: [
-            // if (!isSeen)
-            //   Positioned(
-            //     left: 0,
-            //     top: 0,
-            //     bottom: 0,
-            //     child: Container(
-            //       width: 4.w,
-            //       color: Colors.yellow,
-            //     ),
-            //   ),
+            Positioned(
+              left: 370,
+              child: IconButton(
+                onPressed: onDelete,
+                icon: Icon(
+                  Icons.delete_outline,
+                  color: Colors.red.withValues(alpha: 0.7),
+                  size: 22.sp,
+                ),
+              ),
+            ),
             Padding(
               padding: EdgeInsets.all(10.w),
               child:
@@ -133,26 +140,30 @@ class NotificationScreen extends StatelessWidget {
                                 letterSpacing: 0.5,
                               ),
                             ),
-                            SizedBox(height: 4.h),
-                            Text(
-                              message,
-                              maxLines: 20,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                color: Color(0xFF242424),
-                                fontSize: 13.sp,
-                                height: 1.4,
-                              ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: CommonText(
+                                    textAlign: TextAlign.start,
+                                    text: message,maxLines: 20,
+                                    overflow: TextOverflow.ellipsis,
+                                    color: Color(0xFF242424),
+                                    fontSize: 13.sp,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                                Text(
+                                  formatTimeAgo(time),
+                                  style: TextStyle(
+                                    color: Color(0xFF242424),
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w400
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
-                        ),
-                      ),
-                      Text(
-                        formatTimeAgo(time),
-                        style: TextStyle(
-                          color: Color(0xFF242424),
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w400
                         ),
                       ),
                     ],

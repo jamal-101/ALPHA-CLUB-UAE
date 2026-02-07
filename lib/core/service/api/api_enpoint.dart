@@ -37,8 +37,8 @@ class ApiEndPoint {
   static const login = '/auth/login';
   static const category = '/category';
   static const offer = '/exclusive-offer';
-  static const toggleFavourite = '/exclusive-offer/favourite'; // /{offerId}
+  static const toggleFavourite = '/exclusive-offer/favourite';
   static const favouriteOffers = '/exclusive-offer/all/favourite';
-  static const offerDetails = '/exclusive-offer'; // /{offerId}
+  static const offerDetails = '/exclusive-offer';
   static const myProfile = '/user/my-profile';
 }

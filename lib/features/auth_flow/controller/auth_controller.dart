@@ -19,9 +19,9 @@ class AuthController extends GetxController {
 
   @override
   void onClose() {
-    nameController.dispose();
-    emailController.dispose();
-    messageController.dispose();
+    // nameController.dispose();
+    // emailController.dispose();
+    // messageController.dispose();
     super.onClose();
   }
 
@@ -50,7 +50,7 @@ class AuthController extends GetxController {
         nameController.clear();
         emailController.clear();
         messageController.clear();
-        Get.offAllNamed(AppRoute.loginScreen);
+        Get.toNamed(AppRoute.loginScreen);
       },
     );
     isLoading.value = false;

@@ -226,4 +226,19 @@ class NotificationController extends GetxController {
     // }
   }
 
+  Future<void> deleteNotification(String id) async {
+    try {
+      final response = await ApiService.delete("/notification/$id");
+
+      if (response.statusCode == 200) {
+        notifications.removeWhere((item) => item['_id'] == id);
+      }else if(response.statusCode == 403){
+        Get.toNamed(AppRoute.loginScreen);
+      }
+    }
+    catch (e) {
+      print("Delete Error: $e");
+    }
+  }
+
 }

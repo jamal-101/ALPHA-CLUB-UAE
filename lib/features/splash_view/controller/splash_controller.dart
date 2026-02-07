@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import '../../../core/route/app_route.dart';
 import '../../../core/stroge/storage_service.dart';
@@ -36,6 +37,8 @@ class SplashController extends GetxController {
   void checkAuthAndNavigate() {
     final token = LocalStorage.token;
     final isLogIn = LocalStorage.isLogIn;
+
+    debugPrint("==================>>> token check ${LocalStorage.token}");
     
     // Fix inconsistent state: if isLogIn is true but no token, clear login status
     if (isLogIn && token.isEmpty) {

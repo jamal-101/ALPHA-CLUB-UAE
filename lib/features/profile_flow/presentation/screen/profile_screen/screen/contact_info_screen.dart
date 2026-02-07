@@ -44,15 +44,13 @@ class ContactInfoScreen extends StatelessWidget {
                     itemCount: profileController.contactList.length,
                     itemBuilder: (context, index) {
                       final contact = profileController.contactList[index];
-                      String cleanDescription = (contact['description'] ?? "")
-                          .replaceAll(RegExp(r'<[^>]*>|&nbsp;'), "");
-
+                      String rawHtmlDescription = contact['description'] ?? "";
                       return Padding(
                         padding: EdgeInsets.only(bottom: 12.h),
                         child: ContactUsContainer(
                           image: "${ApiEndPoint.imageBaseUrl}${contact['image']}",
                           title: contact['title'] ?? "",
-                          subTitle: cleanDescription,
+                          subTitle: rawHtmlDescription,
                         ),
                       );
                     },
