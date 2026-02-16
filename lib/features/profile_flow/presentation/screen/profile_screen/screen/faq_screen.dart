@@ -6,7 +6,9 @@ import 'package:alpha_club/core/utils/app_string/app_string.dart';
 import 'package:alpha_club/features/profile_flow/controller/profile_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 
 class FaqScreen extends StatelessWidget {
@@ -87,12 +89,13 @@ class FaqScreen extends StatelessWidget {
                                 if (isOpen)
                                   Padding(
                                     padding: EdgeInsets.only(left: 16.w, right: 16.w, bottom: 16.h),
-                                    child: CommonText(
-                                      textAlign: TextAlign.start,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
-                                      color: AppColors.blueBase,
-                                      text: item['description'] ?? "",
+                                    child: HtmlWidget(
+                                      item['description'] ?? "",
+                                      textStyle: GoogleFonts.poppins(
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.w400,
+                                        color: AppColors.blueBase,
+                                      ),
                                     ),
                                   ),
                               ],

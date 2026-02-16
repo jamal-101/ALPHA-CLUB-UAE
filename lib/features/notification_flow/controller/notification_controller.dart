@@ -78,6 +78,7 @@ class NotificationController extends GetxController {
     );
   }
 
+
   Future<void> getNotifications() async {
     isLoading.value = true;
     ApiResponseModel response = await ApiService.get("/notification?page=1&limit=100");
@@ -179,6 +180,7 @@ class NotificationController extends GetxController {
       },
     );
   }
+
 
   Future<void> _showSystemNotification(String title, String body) async {
     const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(

@@ -10,29 +10,23 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/service/api/api_enpoint.dart';
 
-
 class ClubDetailsScreen extends StatelessWidget {
-
-
   final String clubId;
 
-    ClubDetailsScreen({super.key, required this.clubId});
-
+  ClubDetailsScreen({super.key, required this.clubId});
 
   final ClubController clubController = ClubController();
 
   @override
   Widget build(BuildContext context) {
-
     clubController.fetchClubDetails(clubId);
 
     return Scaffold(
       body: Obx(() {
-
         final club = clubController.singleClubDetails;
 
         return SingleChildScrollView(
-          physics : AlwaysScrollableScrollPhysics(),
+          physics: AlwaysScrollableScrollPhysics(),
           child: Padding(
             padding: const EdgeInsets.only(left: 20, right: 20),
             child: Column(
@@ -86,32 +80,38 @@ class ClubDetailsScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 20.h),
                 CommonText(
-                    fontSize: 18.sp,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.blue1,
-                    text: club['name'] ?? "",
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.blue1,
+                  text: club['name'] ?? "",
                 ),
                 SizedBox(height: 8.h),
                 CommonText(
-                    style: TextStyle(
-                        color: AppColors.blue1,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14,
-                        fontFamily: 'SFPro'
-                    ),
+                  style: TextStyle(
+                    color: AppColors.blue1,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 14,
+                    fontFamily: 'SFPro',
+                  ),
                   text: "${club['limitOfMember'] ?? 0}  Memberships",
                 ),
                 SizedBox(height: 12.h),
                 Row(
                   children: [
                     Image.asset(
-                        AssetPath.locationIcon, height: 20.h, width: 20.w),
+                      AssetPath.locationIcon,
+                      height: 20.h,
+                      width: 20.w,
+                    ),
                     SizedBox(width: 5.w),
-                    CommonText(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.blue1,
-                      text: club['location'] ?? "Location not available",
+                    Expanded(
+                      child: CommonText(
+                        textAlign: TextAlign.start,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: AppColors.blue1,
+                        text: club['location'] ?? "Location not available",
+                      ),
                     ),
                   ],
                 ),
@@ -119,10 +119,11 @@ class ClubDetailsScreen extends StatelessWidget {
                 Divider(height: 1, thickness: 0.4, color: Color(0xFFF3F4F6)),
                 SizedBox(height: 16.h),
                 CommonText(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 16,
-                    color: AppColors.blue1,
-                    text: AppString.description),
+                  fontWeight: FontWeight.w500,
+                  fontSize: 16,
+                  color: AppColors.blue1,
+                  text: AppString.description,
+                ),
                 SizedBox(height: 16.h),
                 HtmlWidget(
                   club['description'] ?? "",
@@ -133,11 +134,9 @@ class ClubDetailsScreen extends StatelessWidget {
                   ),
                 ),
               ],
-            ),
-          ),
+            ),),
         );
-      }
-      ),
+      }),
     );
   }
 }

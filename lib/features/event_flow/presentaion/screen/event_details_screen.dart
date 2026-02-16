@@ -19,17 +19,12 @@ class EventDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     eventController.fetchEventDetails(eventId);
-
     WidgetsBinding.instance.addPostFrameCallback((_) {
       eventController.fetchEventDetails(eventId);
     });
-
     return Scaffold(
       body: Obx(() {
-
-
         final event = eventController.singleEventDetails;
-
         return RefreshIndicator(
           color: const Color(0xFF233A66),
           backgroundColor: Colors.white,
@@ -104,18 +99,25 @@ class EventDetailsScreen extends StatelessWidget {
                   SizedBox(height: 20.h),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      CommonText(
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.blue1,
-                        text: event['name'] ??  "",
+                      Expanded(
+                        child: CommonText(
+                          textAlign: TextAlign.start,
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.blue1,
+                          text: event['name'] ??  "",
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                       EventStatusButton(eventId: eventId,),
                     ]
                   ),
                   SizedBox(height: 8.h),
                   CommonText(
+                    textAlign: TextAlign.start,
                     style: TextStyle(
                       color: AppColors.blue1,
                       fontWeight: FontWeight.w400,
