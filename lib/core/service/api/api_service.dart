@@ -11,6 +11,7 @@ import '../logger/app_logger.dart';
 
 class ApiService {
   static final Dio _dio = _getMyDio();
+  static bool _isSessionExpiredShowing = false;
 
   /// ========== [ HTTP METHODS ] ========== ///
   static Future<ApiResponseModel> post(
@@ -288,11 +289,38 @@ class ApiService {
       onResponse: (response, handler) {
         handler.next(response);
       },
-      onError: (error, handler) {
+      // onError: (error, handler) {
+      //   handler.next(error);
+      // },
+  //   ),
+  // );
+
+      onError: (DioException error, handler) async {
+        if (error.response?.statusCode == 401) {
+          if (!ApiService._isSessionExpiredShowing) {
+            ApiService._isSessionExpiredShowing = true;
+
+            // টোকেন মুছে ফেলুন (আপনার স্টোরেজ ক্লাস অনুযায়ী)
+            // LocalStorage.removeToken();
+
+            // ইউজারকে মেসেজ দিন (Get.snackbar বা অন্য কিছু ব্যবহার করুন)
+            // এখানে আপনি চাইলে সরাসরি UI পপআপ দিতে পারেন
+            AppLogger.warning("Session Expired - Redirecting to Login", tag: "AUTH");
+
+            // লগইন স্ক্রিনে নিয়ে যান (GetX ব্যবহার করলে)
+            // Get.offAllNamed('/loginScreen');
+
+            // ৩ সেকেন্ড পর ফ্ল্যাগ রিসেট করুন যাতে ভবিষ্যতে আবার লগইন করলে মেসেজ আসতে পারে
+            Future.delayed(const Duration(seconds: 3), () {
+              ApiService._isSessionExpiredShowing = false;
+            });
+          }
+        }
         handler.next(error);
       },
     ),
   );
+
 
   return dio;
 }

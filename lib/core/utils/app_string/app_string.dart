@@ -7,7 +7,7 @@ class AppString {
   static const contactNumber = "Contact Number";
   static const enterYourContact = "Enter your contact number";
   static const forgetPass = "Forgot Password?";
-  static const becomeAnd = "Become and APLPHA today";
+  static const becomeAnd = "Become an APLPHA today";
   static const applyHere = "Apply here";
   static const forgotPass = "Forgot password?";
   static const enterYourEmail = "Enter your email below to reset your password";

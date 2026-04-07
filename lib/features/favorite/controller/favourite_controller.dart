@@ -101,7 +101,7 @@ class FavouriteController extends GetxController {
 
       if (!response.isSuccess) {
         fetchFavouriteOffers();
-      }else if(response.statusCode == 403){
+      }else if(response.statusCode == 403 || response.statusCode == 401){
         Get.toNamed(AppRoute.loginScreen);
       }
     } catch (e) {

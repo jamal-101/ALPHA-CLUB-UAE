@@ -234,7 +234,7 @@ class NotificationController extends GetxController {
 
       if (response.statusCode == 200) {
         notifications.removeWhere((item) => item['_id'] == id);
-      }else if(response.statusCode == 403){
+      }else if(response.statusCode == 403 || response.statusCode == 401){
         Get.toNamed(AppRoute.loginScreen);
       }
     }
