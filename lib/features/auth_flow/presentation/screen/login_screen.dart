@@ -9,6 +9,7 @@ import 'package:alpha_club/features/auth_flow/controller/login_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../../core/global/custom_phone_field.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -199,8 +200,17 @@ class LoginScreen extends StatelessWidget {
                                     ),
                                   ),
                               child: GestureDetector(
-                                onTap: () {
-                                  Get.toNamed(AppRoute.memberFormScreen);
+                                onTap: () async {
+                                    final Uri url = Uri.parse('https://alphaclubuae.com/membership-application#application');
+                                    try {
+                                      if (await canLaunchUrl(url)) {
+                                  await launchUrl(url, mode: LaunchMode.externalApplication);
+                                  } else {
+                                  Get.snackbar("Error", "Could not launch the website");
+                                  }
+                                  } catch (e) {
+                                  debugPrint("URL Error: $e");
+                                  }
                                 },
                                 child: Text(
                                   AppString.applyHere,
@@ -232,6 +242,8 @@ class LoginScreen extends StatelessWidget {
   }
 }
 
+
+// Get.toNamed(AppRoute.memberFormScreen);
 // void showRenewalDialog() {
 //   Get.dialog(
 //     Dialog(
