@@ -7,12 +7,13 @@ import 'package:get/get.dart';
 import 'my_app.dart';
 import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb, TargetPlatform;
 import 'core/route/app_route.dart';
-
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await dotenv.load(fileName: ".env");
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   debugPrint("Background Message Received: ${message.messageId}");
@@ -24,6 +25,8 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await dotenv.load(fileName: ".env");
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
@@ -78,11 +81,21 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAcWp2dEAXiVBVvBdM_mj1KN0pCA_NI5uM',
-    appId: '1:780327936098:android:d8ff82d129b34b524e713b',
-    messagingSenderId: '780327936098',
-    projectId: 'biyer-thikana',
-    storageBucket: 'biyer-thikana.firebasestorage.app',
+  // static const FirebaseOptions android = FirebaseOptions(
+  //   apiKey: 'AIzaSyCLx993A564ki1PMDbek5SHZreQo5K8kV8',
+  //   appId: '1:403935590609:android:95608068985569efdeedf0',
+  //   messagingSenderId: '403935590609',
+  //   projectId: 'alpha-club-fa993',
+  //   storageBucket: 'alpha-club-fa993.firebasestorage.app',
+  // );
+
+
+  static FirebaseOptions android = FirebaseOptions(
+    apiKey: dotenv.env['FIREBASE_API_KEY'] ?? '',
+    appId: dotenv.env['FIREBASE_APP_ID'] ?? '',
+    messagingSenderId: dotenv.env['FIREBASE_MESSAGING_SENDER_ID'] ?? '',
+    projectId: dotenv.env['FIREBASE_PROJECT_ID'] ?? '',
+    storageBucket: dotenv.env['FIREBASE_STORAGE_BUCKET'] ?? '',
   );
+
 }

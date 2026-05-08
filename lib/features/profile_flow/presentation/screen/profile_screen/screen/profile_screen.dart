@@ -24,85 +24,87 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              physics: AlwaysScrollableScrollPhysics(),
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 50.h),
-                              ProfileDataContainer(
-                                imagePath: AssetPath.userProfile,
-                                userName: AppString.userName,
-                                membershipType: AppString.alphaMember,
-                                userId: AppString.userId,
-                              ),
-                    SizedBox(height: 16.h),
-                    DigitalMembershipContainer(),
-                    // Obx(
-                    //   () => isFamilyListVisible.value == false
-                    //       ? isAlphaVisible.value == false
-                    //             ? Padding(
-                    //                 padding: EdgeInsets.only(top: 16),
-                    //                 child: CommonText(
-                    //                   style: const TextStyle(
-                    //                     fontWeight: FontWeight.w500,
-                    //                     fontSize: 16,
-                    //                     fontFamily: 'SFPro',
-                    //                   ),
-                    //                   color: AppColors.blue1,
-                    //                   text: AppString.memberShip,
-                    //                 ),
-                    //               )
-                    //             : const SizedBox.shrink()
-                    //       : Padding(
-                    //           padding: EdgeInsets.only(top: 16, bottom: 16),
-                    //           child: CommonText(
-                    //             style: const TextStyle(
-                    //               fontWeight: FontWeight.w500,
-                    //               fontSize: 16,
-                    //               fontFamily: 'SFPro',
-                    //             ),
-                    //             color: AppColors.blue1,
-                    //             text: AppString.familyMembers,
-                    //           ),
-                    //         ),
-                    // ),
-                    // Obx(
-                    //   () => isFamilyListVisible.value == false
-                    //       ? isAlphaVisible.value == false
-                    //             ? Padding(
-                    //                 padding: EdgeInsets.only(top: 16),
-                    //                 child: memberShipContainer(),
-                    //               )
-                    //             : const SizedBox.shrink()
-                    //       : FamilyListWidget(),
-                    // ),
-                    SizedBox(height: 16.h),
-                    CommonText(
-                      style: TextStyle(
-                        fontFamily: 'SFPro',
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
+      body: SafeArea(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                physics: AlwaysScrollableScrollPhysics(),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20.w),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 20.h),
+                                ProfileDataContainer(
+                                  imagePath: AssetPath.userProfile,
+                                  userName: AppString.userName,
+                                  membershipType: AppString.alphaMember,
+                                  userId: AppString.userId,
+                                ),
+                      SizedBox(height: 16.h),
+                      DigitalMembershipContainer(),
+                      // Obx(
+                      //   () => isFamilyListVisible.value == false
+                      //       ? isAlphaVisible.value == false
+                      //             ? Padding(
+                      //                 padding: EdgeInsets.only(top: 16),
+                      //                 child: CommonText(
+                      //                   style: const TextStyle(
+                      //                     fontWeight: FontWeight.w500,
+                      //                     fontSize: 16,
+                      //                     fontFamily: 'SFPro',
+                      //                   ),
+                      //                   color: AppColors.blue1,
+                      //                   text: AppString.memberShip,
+                      //                 ),
+                      //               )
+                      //             : const SizedBox.shrink()
+                      //       : Padding(
+                      //           padding: EdgeInsets.only(top: 16, bottom: 16),
+                      //           child: CommonText(
+                      //             style: const TextStyle(
+                      //               fontWeight: FontWeight.w500,
+                      //               fontSize: 16,
+                      //               fontFamily: 'SFPro',
+                      //             ),
+                      //             color: AppColors.blue1,
+                      //             text: AppString.familyMembers,
+                      //           ),
+                      //         ),
+                      // ),
+                      // Obx(
+                      //   () => isFamilyListVisible.value == false
+                      //       ? isAlphaVisible.value == false
+                      //             ? Padding(
+                      //                 padding: EdgeInsets.only(top: 16),
+                      //                 child: memberShipContainer(),
+                      //               )
+                      //             : const SizedBox.shrink()
+                      //       : FamilyListWidget(),
+                      // ),
+                      SizedBox(height: 16.h),
+                      CommonText(
+                        style: TextStyle(
+                          fontFamily: 'SFPro',
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        color: AppColors.blue1,
+                        text: AppString.setting,
                       ),
-                      color: AppColors.blue1,
-                      text: AppString.setting,
-                    ),
-                    SizedBox(height: 16.h),
-                    CustomListView(),
-                    SizedBox(height: 20.h),
-                  ],
+                      SizedBox(height: 16.h),
+                      CustomListView(),
+                      SizedBox(height: 20.h),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          CommonBottomNabVar(selectedIndex: 4),
-        ],
+            CommonBottomNabVar(selectedIndex: 4),
+          ],
+        ),
       ),
     );
   }

@@ -25,15 +25,38 @@ class FaqScreen extends StatelessWidget {
       profileController.fetchFaqs();
     });
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        centerTitle: true,
+        backgroundColor: AppColors.appBackgroundColor,
+        elevation: 0,
+        leading: IconButton(
+          onPressed: () => Get.back(),
+          icon: Icon(
+            Icons.arrow_back_ios_new,
+            color: AppColors.blue1,
+            size: 20.sp,
+          ),
+        ),
+        title: CommonText(
+          text: AppString.faq,
+          style: TextStyle(
+            fontFamily: 'SFPro',
+            fontWeight: FontWeight.w500,
+            fontSize: 20.sp,
+            color: AppColors.blue1,
+          ),
+        ),
+      ),
       backgroundColor: Colors.white,
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.w),
         child: Column(
           children: [
-            SizedBox(height: 50.h),
-           CommonAppBar(title: AppString.faq,onTap: (){
-             Get.back();
-           },),
+           //  SizedBox(height: 50.h),
+           // CommonAppBar(title: AppString.faq,onTap: (){
+           //   Get.back();
+           // },),
             SizedBox(height: 20.h),
             Expanded(
               child: Obx(() {

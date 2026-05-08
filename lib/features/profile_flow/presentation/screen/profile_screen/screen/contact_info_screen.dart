@@ -1,4 +1,4 @@
-import 'package:alpha_club/core/global/common_app_bar.dart';
+import 'package:alpha_club/core/global/commont_text.dart';
 import 'package:alpha_club/core/utils/app_color/app_color.dart';
 import 'package:alpha_club/core/utils/app_string/app_string.dart';
 import 'package:alpha_club/core/service/api/api_enpoint.dart';
@@ -15,51 +15,61 @@ class ContactInfoScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     WidgetsBinding.instance.addPostFrameCallback((_) {
       profileController.fetchContactInfo();
     });
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        surfaceTintColor: AppColors.appBackgroundColor,
+        centerTitle: true,
+        backgroundColor: AppColors.appBackgroundColor,
+        elevation: 0,
+        leading: IconButton(
+          onPressed: () => Get.back(),
+          icon: Icon(
+            Icons.arrow_back_ios_new,
+            color: AppColors.blue1,
+            size: 20.sp,
+          ),
+        ),
+        title: CommonText(
+          text: AppString.contactUs,
+          style: TextStyle(
+            fontFamily: 'SFPro',
+            fontWeight: FontWeight.w500,
+            fontSize: 20.sp,
+            color: AppColors.blue1,
+          ),
+        ),
+      ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.w),
-        child: Column(
-          children: [
-            SizedBox(height: 50.h),
-            CommonAppBar(
-              title: AppString.contactUs,
-              onTap: () => Get.back(),
-            ),
-            SizedBox(height: 20.h),
-
-            Expanded(
-              child: Obx(() {
-                return RefreshIndicator(
-                  color: Color(0xFF233A66),
-                  backgroundColor: AppColors.appBackgroundColor,
-                  onRefresh: () async {
-                    await profileController.fetchContactInfo();
-                  },
-                  child: ListView.builder(
-                    padding: EdgeInsets.zero,
-                    itemCount: profileController.contactList.length,
-                    itemBuilder: (context, index) {
-                      final contact = profileController.contactList[index];
-                      String rawHtmlDescription = contact['description'] ?? "";
-                      return Padding(
-                        padding: EdgeInsets.only(bottom: 12.h),
-                        child: ContactUsContainer(
-                          image: "${ApiEndPoint.imageBaseUrl}${contact['image']}",
-                          title: contact['title'] ?? "",
-                          subTitle: rawHtmlDescription,
-                        ),
-                      );
-                    },
+        child: Obx(() {
+          return RefreshIndicator(
+            color: const Color(0xFF233A66),
+            backgroundColor: AppColors.appBackgroundColor,
+            onRefresh: () async {
+              await profileController.fetchContactInfo();
+            },
+            child: ListView.builder(
+              padding: EdgeInsets.only(top: 15.h),
+              itemCount: profileController.contactList.length,
+              itemBuilder: (context, index) {
+                final contact = profileController.contactList[index];
+                String rawHtmlDescription = contact['description'] ?? "";
+                return Padding(
+                  padding: EdgeInsets.only(bottom: 12.h),
+                  child: ContactUsContainer(
+                    image: "${ApiEndPoint.imageBaseUrl}${contact['image']}",
+                    title: contact['title'] ?? "",
+                    subTitle: rawHtmlDescription,
                   ),
                 );
-              }),
+              },
             ),
-          ],
-        ),
+          );
+        }),
       ),
     );
   }

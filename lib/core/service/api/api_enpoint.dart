@@ -35,7 +35,6 @@ class ApiEndPoint {
   static const String clearNotification = '/notification/clear';
   static const String contactUs = '/contact-us';
   static const String renewalRequest = '/auth/renewal-request';
-  // ==================================== Atik =====================================
   static const login = '/auth/login';
   static const category = '/category';
   static const offer = '/exclusive-offer';

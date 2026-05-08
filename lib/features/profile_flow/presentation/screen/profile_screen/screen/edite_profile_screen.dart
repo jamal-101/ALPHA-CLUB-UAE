@@ -22,19 +22,36 @@ class EditeProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        centerTitle: true,
+        surfaceTintColor: AppColors.appBackgroundColor,
+        backgroundColor: AppColors.appBackgroundColor,
+        elevation: 0,
+        leading: IconButton(
+          onPressed: () => Get.back(),
+          icon: Icon(
+            Icons.arrow_back_ios_new,
+            color: AppColors.blue1,
+            size: 20.sp,
+          ),
+        ),
+        title: CommonText(
+          text: AppString.information,
+          style: TextStyle(
+            fontFamily: 'SFPro',
+            fontWeight: FontWeight.w500,
+            fontSize: 20.sp,
+            color: AppColors.blue1,
+          ),
+        ),
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 50.h),
-              CommonAppBar(
-                title: AppString.information,
-                onTap: () => Get.back(),
-              ),
-              SizedBox(height: 30.h),
-
               Center(
                 child: Stack(
                   children: [
@@ -109,9 +126,9 @@ class EditeProfileScreen extends StatelessWidget {
                             "$fullRemotePath?v=${DateTime.now().millisecondsSinceEpoch}",
                             fit: BoxFit.cover,
                             errorBuilder: (context, error, stackTrace) =>
-                                Image.asset(AssetPath.informationImage, fit: BoxFit.cover),
+                                Image.asset(AssetPath.profileIcon, fit: BoxFit.cover),
                           )
-                              : Image.asset(AssetPath.informationImage, fit: BoxFit.cover)),
+                              : Image.asset(AssetPath.profileIcon, fit: BoxFit.cover)),
                         ),
                       );
                     }),

@@ -34,7 +34,7 @@ class AlphaInformationScreen extends StatelessWidget {
                 // ProfileScreen.isFamilyListVisible.value = true;
                 Get.toNamed(AppRoute.profileScreen);
               },),
-              SizedBox(height: 30.h),
+              // SizedBox(height: 30.h),
               // Center(
               //   child: Stack(
               //     children: [

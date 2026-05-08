@@ -5,10 +5,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
 import '../../../../../../core/global/common_app_bar.dart';
+import '../../../../../../core/global/commont_text.dart';
 import '../../../../../../core/utils/app_color/app_color.dart';
 
 class PrivacyPolicyScreen extends StatelessWidget {
-     PrivacyPolicyScreen({super.key});
+  PrivacyPolicyScreen({super.key});
 
   final ProfileController profileController = Get.put(ProfileController());
 
@@ -18,6 +19,30 @@ class PrivacyPolicyScreen extends StatelessWidget {
       profileController.privacyPolicy();
     });
     return Scaffold(
+      appBar: AppBar(
+        surfaceTintColor: AppColors.appBackgroundColor,
+        automaticallyImplyLeading: false,
+        centerTitle: true,
+        backgroundColor: AppColors.appBackgroundColor,
+        elevation: 0,
+        leading: IconButton(
+          onPressed: () => Get.back(),
+          icon: Icon(
+            Icons.arrow_back_ios_new,
+            color: AppColors.blue1,
+            size: 20.sp,
+          ),
+        ),
+        title: CommonText(
+          text: AppString.privacyPolicy,
+          style: TextStyle(
+            fontFamily: 'SFPro',
+            fontWeight: FontWeight.w500,
+            fontSize: 20.sp,
+            color: AppColors.blue1,
+          ),
+        ),
+      ),
       body: Obx(() {
         return RefreshIndicator(
           color: Color(0xFF233A66),
@@ -31,22 +56,21 @@ class PrivacyPolicyScreen extends StatelessWidget {
               padding: const EdgeInsets.only(left: 20, right: 20),
               child: Column(
                 children: [
-                  SizedBox(height: 50.h),
-                  CommonAppBar(title: AppString.privacyPolicy, onTap: () {
-                    Get.back();
-                  },),
-                  SizedBox(height: 16.h),
                   HtmlWidget(
                     profileController.privacyPolicyDescription.value,
-                    textStyle: TextStyle(fontSize: 14.sp, color: Colors.black),
+                    textStyle: TextStyle(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.black,
+                      fontFamily: 'SFPro',
+                    ),
                   ),
                 ],
               ),
             ),
           ),
         );
-      }
-      ),
+      }),
     );
   }
 }

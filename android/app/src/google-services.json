@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "780327936098",
-    "project_id": "biyer-thikana",
-    "storage_bucket": "biyer-thikana.firebasestorage.app"
+    "project_number": "403935590609",
+    "project_id": "alpha-club-fa993",
+    "storage_bucket": "alpha-club-fa993.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:780327936098:android:d8ff82d129b34b524e713b",
+        "mobilesdk_app_id": "1:403935590609:android:95608068985569efdeedf0",
         "android_client_info": {
-          "package_name": "com.example.alpha_club"
+          "package_name": "com.alphaclub.app"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAcWp2dEAXiVBVvBdM_mj1KN0pCA_NI5uM"
+          "current_key": "AIzaSyCLx993A564ki1PMDbek5SHZreQo5K8kV8"
         }
       ],
       "services": {

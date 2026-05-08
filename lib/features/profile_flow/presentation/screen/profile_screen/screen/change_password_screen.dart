@@ -16,27 +16,44 @@ import '../../../../controller/profile_controller.dart';
 class ChangePasswordScreen extends StatelessWidget {
       ChangePasswordScreen({super.key});
 
-  // final ProfileController controller = Get.put(ProfileController());
       final ProfileController controller = Get.put(ProfileController(),permanent: true);
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        centerTitle: true,
+        backgroundColor: AppColors.appBackgroundColor,
+        elevation: 0,
+        leading: IconButton(
+          onPressed: () => Get.back(),
+          icon: Icon(
+            Icons.arrow_back_ios_new,
+            color: AppColors.blue1,
+            size: 20.sp,
+          ),
+        ),
+        title: CommonText(
+          text: AppString.changePassword,
+          style: TextStyle(
+            fontFamily: 'SFPro',
+            fontWeight: FontWeight.w500,
+            fontSize: 20.sp,
+            color: AppColors.blue1,
+          ),
+        ),
+      ),
       body: SingleChildScrollView(
-        // physics: NeverScrollableScrollPhysics(),
         child: Padding(
-          padding: const EdgeInsets.only(left: 20,right: 20),
+          padding:  EdgeInsets.only(left: 20,right: 20),
           child: Form(
             key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 50.h),
-                CommonAppBar(title: AppString.changePassword,onTap: (){
-                  Get.back();
-                },),
-                SizedBox(height: 40.h),
+                SizedBox(height: 20.h),
                 CommonText(
                   style: TextStyle(
                     fontSize: 16.sp,

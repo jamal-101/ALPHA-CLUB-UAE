@@ -12,10 +12,6 @@ class CustomSearchField extends StatelessWidget {
     this.onChanged,
     this.controller,
   });
-
-
-
-
   @override
   Widget build(BuildContext context) {
     return Container(

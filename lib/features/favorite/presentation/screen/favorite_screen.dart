@@ -15,7 +15,7 @@ class FavoriteScreen extends StatelessWidget {
           padding: EdgeInsets.only(left: 20,right: 20),
           child: Column(
             children: [
-              SizedBox(height: 40.h),
+              SizedBox(height: 20.h),
               Expanded(child: FavoriteGridviewBuilder())
             ],
           ),

@@ -32,12 +32,6 @@ class EventScreen extends StatelessWidget {
                   fontWeight: FontWeight.w500,
                   color: AppColors.blue1,
                   text: AppString.upcomingEvent),
-              SizedBox(height: 4.h),
-              CommonText(
-                fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                  color: AppColors.blueBase,
-                  text: AppString.upcomingEvent),
               SizedBox(height: 16.h),
               CustomSearchField(
                 controller: eventController.eventSearchController,

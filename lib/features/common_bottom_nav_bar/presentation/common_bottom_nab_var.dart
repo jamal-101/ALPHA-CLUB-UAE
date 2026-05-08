@@ -7,13 +7,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
 import '../../favorite/controller/favourite_controller.dart';
-import '../../favorite/presentation/screen/favorite_screen.dart';
 import '../controller/nab_controller.dart';
 
 class CommonBottomNabVar extends StatelessWidget {
      CommonBottomNabVar({super.key, required int selectedIndex});
-
-
   final FavouriteController favouriteController = Get.put(FavouriteController());
 
   @override

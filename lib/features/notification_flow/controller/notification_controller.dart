@@ -22,6 +22,8 @@ class NotificationController extends GetxController {
     _initializeNotificationLogic();
   }
 
+
+
   Future<void> _initializeNotificationLogic() async {
     await requestPermission();
     await _setupLocalNotifications();
@@ -228,10 +230,10 @@ class NotificationController extends GetxController {
     // }
   }
 
+
   Future<void> deleteNotification(String id) async {
     try {
       final response = await ApiService.delete("/notification/$id");
-
       if (response.statusCode == 200) {
         notifications.removeWhere((item) => item['_id'] == id);
       }else if(response.statusCode == 403 || response.statusCode == 401){

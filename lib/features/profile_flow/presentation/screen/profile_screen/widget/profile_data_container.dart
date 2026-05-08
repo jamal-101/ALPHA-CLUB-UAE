@@ -86,7 +86,8 @@ class _ProfileDataContainerState extends State<ProfileDataContainer> {
   @override
   Widget build(BuildContext context) {
     final profile = userProfile;
-    final String rawImagePath = profile?.getImageUrl(ApiEndPoint.imageBaseUrl).isNotEmpty == true
+    final String rawImagePath =
+        profile?.getImageUrl(ApiEndPoint.imageBaseUrl).isNotEmpty == true
         ? profile!.getImageUrl(ApiEndPoint.imageBaseUrl)
         : widget.imagePath;
     final String imagePath = rawImagePath.startsWith('http')
@@ -105,16 +106,14 @@ class _ProfileDataContainerState extends State<ProfileDataContainer> {
             ? Border.all(width: 1.w, color: AppColors.whiteFoundation1)
             : null,
       ),
-      child:
-      isLoading
+      child: isLoading
           ? Center(
               child: CircularProgressIndicator(
                 color: AppColors.goldColor,
                 strokeWidth: 2.w,
               ),
             )
-          :
-      Padding(
+          : Padding(
               padding: widget.usePadding
                   ? EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h)
                   : EdgeInsets.zero,
@@ -126,7 +125,10 @@ class _ProfileDataContainerState extends State<ProfileDataContainer> {
                     width: 78.w,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16.r),
-                      border: Border.all(width: 2.w, color: AppColors.goldColor),
+                      border: Border.all(
+                        width: 2.w,
+                        color: AppColors.goldColor,
+                      ),
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(14.r),
@@ -135,9 +137,12 @@ class _ProfileDataContainerState extends State<ProfileDataContainer> {
                               imagePath,
                               fit: BoxFit.cover,
                               errorBuilder: (context, error, stackTrace) {
-                                return Image.asset(
-                                  AssetPath.userProfile,
-                                  fit: BoxFit.cover,
+                                return Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Image.asset(
+                                    AssetPath.profileIcon,
+                                    fit: BoxFit.cover,
+                                  ),
                                 );
                               },
                             )
@@ -162,25 +167,29 @@ class _ProfileDataContainerState extends State<ProfileDataContainer> {
                           overflow: TextOverflow.ellipsis,
                         ),
                         CommonText(
-                          text: profile?.membershipType ?? widget.membershipType,
+                          text:
+                              profile?.membershipType ?? widget.membershipType,
                           // text: widget.membershipType,
                           style: TextStyle(
-                              color: AppColors.goldColor, fontSize: 14.sp),
+                            color: AppColors.goldColor,
+                            fontSize: 14.sp,
+                          ),
                         ),
                         CommonText(
                           text: profile?.id ?? widget.userId,
-                          style:
-                              TextStyle(color: Colors.blueGrey, fontSize: 14.sp),
+                          style: TextStyle(
+                            color: Colors.blueGrey,
+                            fontSize: 14.sp,
+                          ),
                         ),
                       ],
                     ),
                   ),
                   if (widget.showEditButton)
                     GestureDetector(
-                      onTap: () async{
+                      onTap: () async {
                         await Get.toNamed(AppRoute.editeProfileScreen);
                         fetchUserProfile();
-
                       },
                       child: Container(
                         height: 36.h,
