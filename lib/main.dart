@@ -72,7 +72,12 @@ void main() async {
 
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
-    // if (kIsWeb) throw UnsupportedError('Web not supported');
+    // debugPrint("API KEY: ${dotenv.env['FIREBASE_API_KEY']}");
+    // debugPrint("PROJECT ID: ${dotenv.env['FIREBASE_PROJECT_ID']}");
+    // debugPrint("MessagingSederId: ${dotenv.env['FIREBASE_MESSAGING_SENDER_ID']}");
+    // debugPrint("AppId: ${dotenv.env['FIREBASE_APP_ID']}");
+    // debugPrint("StorageBucket: ${dotenv.env['FIREBASE_STORAGE_BUCKET']}");
+    if (kIsWeb) throw UnsupportedError('Web not supported');
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         return android;
@@ -80,17 +85,7 @@ class DefaultFirebaseOptions {
         throw UnsupportedError('Platform not configured');
     }
   }
-
-  // static const FirebaseOptions android = FirebaseOptions(
-  //   apiKey: 'AIzaSyCLx993A564ki1PMDbek5SHZreQo5K8kV8',
-  //   appId: '1:403935590609:android:95608068985569efdeedf0',
-  //   messagingSenderId: '403935590609',
-  //   projectId: 'alpha-club-fa993',
-  //   storageBucket: 'alpha-club-fa993.firebasestorage.app',
-  // );
-
-
-  static FirebaseOptions android = FirebaseOptions(
+  static FirebaseOptions get android => FirebaseOptions(
     apiKey: dotenv.env['FIREBASE_API_KEY'] ?? '',
     appId: dotenv.env['FIREBASE_APP_ID'] ?? '',
     messagingSenderId: dotenv.env['FIREBASE_MESSAGING_SENDER_ID'] ?? '',

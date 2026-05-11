@@ -2,7 +2,8 @@
 class ApiEndPoint {
   // static const baseUrl =  'http://10.10.7.11:7000/api/v1';
   // static const baseUrl = 'http://92.205.234.176:7000/api/v1';
-  static const baseUrl = 'http://72.61.74.10:5000/api/v1';
+  // static const baseUrl = 'http://72.61.74.10:5000/api/v1';
+  static const baseUrl = 'https://backend.alphaclubuae.com/api/v1';
   static const stories = '/stories';
   // static const imageBaseUrl = 'http://92.205.234.176:7000';
   static const imageBaseUrl = 'http://72.61.74.10:5000';
