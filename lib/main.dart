@@ -92,5 +92,4 @@ class DefaultFirebaseOptions {
     projectId: dotenv.env['FIREBASE_PROJECT_ID'] ?? '',
     storageBucket: dotenv.env['FIREBASE_STORAGE_BUCKET'] ?? '',
   );
-
 }

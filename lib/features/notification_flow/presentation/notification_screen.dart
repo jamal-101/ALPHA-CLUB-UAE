@@ -4,6 +4,7 @@ import 'package:alpha_club/core/utils/app_image/app_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../controller/notification_controller.dart';
 
 class NotificationScreen extends StatelessWidget {
@@ -91,6 +92,114 @@ class NotificationScreen extends StatelessWidget {
     );
   }
 
+  // Widget _buildNotificationCard({
+  //   required String title,
+  //   required String message,
+  //   required String time,
+  //   required bool isSeen,
+  //   required VoidCallback onDelete,
+  // }) {
+  //   return Container(
+  //     margin: EdgeInsets.only(bottom: 10.h),
+  //     decoration: BoxDecoration(
+  //       color: const Color(0xFFE0F2FE),
+  //       borderRadius: BorderRadius.circular(8.r),
+  //       border: Border.all(
+  //         color: isSeen
+  //             ? AppColors.borderColor
+  //             : Colors.blue.withValues(alpha: 0.5),
+  //         width: 1,
+  //       ),
+  //     ),
+  //     child: ClipRRect(
+  //       borderRadius: BorderRadius.circular(20.r),
+  //       child: Padding(
+  //         padding: EdgeInsets.all(10.w),
+  //         child:
+  //         Row(
+  //           // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //           children: [
+  //             Container(
+  //               height: 28.h,
+  //               width: 28.w,
+  //               decoration: BoxDecoration(
+  //                 color: isSeen
+  //                     ? const Color(0xFFE0F2FE)
+  //                     : Color(0xFFC3E5FC),
+  //                 borderRadius: BorderRadius.circular(8.r),
+  //               ),
+  //               child: Padding(
+  //                 padding: EdgeInsets.all(5.0),
+  //                 child: Image.asset(
+  //                   AssetPath.notificationIcon,
+  //                   color: Color(0xFF065C95),
+  //                 ),
+  //               ),
+  //             ),
+  //             SizedBox(width: 12.w),
+  //             Expanded(
+  //               child: Column(
+  //                 mainAxisAlignment: MainAxisAlignment.start,
+  //                 crossAxisAlignment: CrossAxisAlignment.start,
+  //                 children: [
+  //                   Row(
+  //                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                     children: [
+  //                       Text(
+  //                         title,
+  //                         maxLines: 1,
+  //                         style: TextStyle(
+  //                           color: Color(0xFF242424),
+  //                           fontSize: 15.sp,
+  //                           fontWeight: FontWeight.w400,
+  //                           letterSpacing: 0.5,
+  //                         ),
+  //                       ),
+  //                       IconButton(
+  //                         onPressed: onDelete,
+  //                         icon: Icon(
+  //                           Icons.delete_outline,
+  //                           color: Colors.red.withValues(alpha: 0.7),
+  //                           size: 22.sp,
+  //                         ),
+  //                       ),
+  //                     ],
+  //                   ),
+  //                   Row(
+  //                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                     children: [
+  //                       Expanded(
+  //                         child: CommonText(
+  //                           textAlign: TextAlign.start,
+  //                           text: message,
+  //                           maxLines: 20,
+  //                           overflow: TextOverflow.ellipsis,
+  //                           color: Color(0xFF242424),
+  //                           fontSize: 13.sp,
+  //                           fontWeight: FontWeight.w400,
+  //                         ),
+  //                       ),
+  //                       Text(
+  //                         formatTimeAgo(time),
+  //                         style: TextStyle(
+  //                           color: Color(0xFF242424),
+  //                           fontSize: 12.sp,
+  //                           fontWeight: FontWeight.w400,
+  //                         ),
+  //                       ),
+  //                     ],
+  //                   ),
+  //                 ],
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
+
+
   Widget _buildNotificationCard({
     required String title,
     required String message,
@@ -99,7 +208,7 @@ class NotificationScreen extends StatelessWidget {
     required VoidCallback onDelete,
   }) {
     return Container(
-      margin: EdgeInsets.only(bottom: 10.h),
+      margin: EdgeInsets.only(bottom: 6.h),
       decoration: BoxDecoration(
         color: const Color(0xFFE0F2FE),
         borderRadius: BorderRadius.circular(8.r),
@@ -110,86 +219,84 @@ class NotificationScreen extends StatelessWidget {
           width: 1,
         ),
       ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(20.r),
-        child: Stack(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Positioned(
-              left: 340.sp,
-              bottom: 15.sp,
-              child: IconButton(
-                onPressed: onDelete,
-                icon: Icon(
-                  Icons.delete_outline,
-                  color: Colors.red.withValues(alpha: 0.7),
-                  size: 22.sp,
+            Container(
+              height: 30.h,
+              width: 30.w,
+              margin: EdgeInsets.only(top: 4.h),
+              decoration: BoxDecoration(
+                color: isSeen ? const Color(0xFFE0F2FE) : const Color(0xFFC3E5FC),
+                borderRadius: BorderRadius.circular(6.r),
+              ),
+              child: Padding(
+                padding: EdgeInsets.all(6.0),
+                child: Image.asset(
+                  AssetPath.notificationIcon,
+                  color: const Color(0xFF065C95),
                 ),
               ),
             ),
-            Padding(
-              padding: EdgeInsets.all(10.w),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            SizedBox(width: 10.w),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    height: 28.h,
-                    width: 28.w,
-                    decoration: BoxDecoration(
-                      color: isSeen
-                          ? const Color(0xFFE0F2FE)
-                          : Color(0xFFC3E5FC),
-                      borderRadius: BorderRadius.circular(8.r),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.all(5.0),
-                      child: Image.asset(
-                        AssetPath.notificationIcon,
-                        color: Color(0xFF065C95),
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 12.w),
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Text(
                           title,
                           maxLines: 1,
-                          style: TextStyle(
-                            color: Color(0xFF242424),
-                            fontSize: 15.sp,
-                            fontWeight: FontWeight.w400,
-                            letterSpacing: 0.5,
+                          overflow: TextOverflow.ellipsis,
+                          style: GoogleFonts.poppins(
+                            color:  Color(0xFF242424),
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: CommonText(
-                                textAlign: TextAlign.start,
-                                text: message,
-                                maxLines: 20,
-                                overflow: TextOverflow.ellipsis,
-                                color: Color(0xFF242424),
-                                fontSize: 13.sp,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                            Text(
-                              formatTimeAgo(time),
-                              style: TextStyle(
-                                color: Color(0xFF242424),
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ],
+                      ),
+                      GestureDetector(
+                        onTap: onDelete,
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 8.w, bottom: 4.h),
+                          child: Icon(
+                            Icons.delete_outline,
+                            color: Colors.red.withValues(alpha: 0.7),
+                            size: 22.sp,
+                          ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Expanded(
+                        child: CommonText(
+                          textAlign: TextAlign.start,
+                          text: message,
+                          maxLines: 100,
+                          overflow: TextOverflow.ellipsis,
+                          color: const Color(0xFF4A4A4A),
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      SizedBox(width: 5.w),
+                      Text(
+                        formatTimeAgo(time),
+                        style: GoogleFonts.poppins(
+                          color: const Color(0xFF666666),
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
