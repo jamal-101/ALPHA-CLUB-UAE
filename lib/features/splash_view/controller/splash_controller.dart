@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:alpha_club/core/service/in_app_update_service.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import '../../../core/route/app_route.dart';
@@ -12,9 +13,8 @@ class SplashController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-
-   // Get.toNamed(AppRoute.homeScreen);
- startProgress();
+    InAppUpdateService.checkForUpdate();
+    startProgress();
   }
 
   void startProgress() {
