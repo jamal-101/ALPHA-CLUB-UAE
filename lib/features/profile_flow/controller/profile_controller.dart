@@ -7,9 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import '../../../core/route/app_route.dart';
 import '../../../core/service/api/api_response.dart';
 import '../../../core/service/api/api_service.dart';
-import '../../../core/service/logger/app_logger.dart';
 import '../../../core/stroge/storage_service.dart';
-import '../../auth_flow/controller/login_controller.dart';
 import '../model/user_profile_model.dart';
 
 
@@ -571,7 +569,45 @@ class ProfileController extends GetxController {
   }
 
 
+  // >>>>>>>>>>>>>>>>>>>>> Delete Account <<<<<<<<<<<<<<<<< ///
+  Future<void> deleteAccount() async {
+    try {
+      isLoading.value = true;
+
+      // আপনার পোস্টম্যান স্ক্রিনশট অনুযায়ী Endpoint: /user/delete-my-account
+      ApiResponseModel response = await ApiService.delete(
+        "/user/delete-my-account",
+        header: {
+          'Authorization': 'Bearer ${LocalStorage.token}',
+          'Content-Type': 'application/json',
+        },
+      );
+
+      response.handleResponse(
+        onSuccess: (responseData) {
+          // টোকেন এবং লোকাল ডাটা ক্লিয়ার করুন
+          LocalStorage.preferences?.clear(); // অথবা আপনার প্রজেক্টের লগআউট লজিক
+
+          Get.offAllNamed(AppRoute.loginScreen); // লগইন স্ক্রিনে পাঠিয়ে দিন
+          Get.snackbar(
+            "Account Deleted",
+            "Your account has been deleted successfully.",
+            backgroundColor: Colors.redAccent,
+            colorText: Colors.white,
+          );
+        },
+      );
+    } catch (e) {
+      debugPrint("Delete account error: $e");
+      Get.snackbar("Error", "Something went wrong! Please try again.");
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
 }
+
+
 
 
 

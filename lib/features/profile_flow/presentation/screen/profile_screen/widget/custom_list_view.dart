@@ -11,6 +11,7 @@ import 'package:alpha_club/features/profile_flow/presentation/screen/profile_scr
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'delete_account_dialog.dart';
 import 'logout_dialog.dart';
 
 class CustomListView extends StatelessWidget {
@@ -34,6 +35,8 @@ class CustomListView extends StatelessWidget {
         "title": "Terms & Conditions",
         "icon": Image.asset(AssetPath.termsCondition),
       },
+      {"title": "Delete Account", "icon": const Icon(Icons.delete_forever), "color": Colors.red, "isFlutterIcon": true},
+
       {
         "title": "Logout",
         "icon": Image.asset(AssetPath.logoutImage),
@@ -78,6 +81,14 @@ class CustomListView extends StatelessWidget {
                         Get.to(() => TermsAndConditionScreen());
                         break;
                       case 6:
+                        Get.dialog(
+                          const Dialog(
+                            backgroundColor: Colors.transparent,
+                            child: DeleteAccountDialog(),
+                          ),
+                        );
+                        break;
+                      case 7:
                         Get.dialog(
                           const Dialog(
                             backgroundColor: Colors.transparent,
