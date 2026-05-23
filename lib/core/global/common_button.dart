@@ -12,7 +12,7 @@ class CommonButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        height: 48.h,
+        height: 50.h,
         width: double.infinity,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8.r),
@@ -37,7 +37,7 @@ class CommonButton extends StatelessWidget {
               text,
               style: TextStyle(
                 fontFamily: 'SFPro',
-                fontSize: 16.sp,
+                fontSize: 18.sp,
                 fontWeight: FontWeight.w500,
                 color: Colors.white,
               ),

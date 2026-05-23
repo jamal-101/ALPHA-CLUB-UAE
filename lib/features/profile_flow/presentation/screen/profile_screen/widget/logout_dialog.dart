@@ -1,15 +1,51 @@
 import 'package:alpha_club/core/global/commont_text.dart';
 import 'package:alpha_club/core/route/app_route.dart';
 import 'package:alpha_club/core/utils/app_string/app_string.dart';
+import 'package:alpha_club/core/stroge/storage_service.dart';
+import 'package:alpha_club/core/service/logger/app_logger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:get/get.dart';
+import '../../../../../../core/service/api/api_service.dart';
 import '../../../../../../core/utils/app_color/app_color.dart';
 
 
 class LogoutDialog extends StatelessWidget {
   const LogoutDialog({super.key});
+
+  Future<void> handleLogout() async {
+    try {
+      await ApiService.patch("/user", body: {"fcmToken": ""});
+      AppLogger.logUserAction(
+        action: 'Logout',
+        data: {'userId': LocalStorage.userId},
+        tag: 'LOGOUT',
+      );
+
+      // Clear all storage data
+      await LocalStorage.removeAllPrefData();
+      
+      AppLogger.info('User logged out successfully', tag: 'LOGOUT');
+      AppLogger.logNavigation(
+        from: 'ProfileScreen',
+        to: 'LoginScreen',
+        arguments: {'reason': 'User logout'},
+        tag: 'NAVIGATION',
+      );
+
+      // Navigate to login screen
+      await LocalStorage.removeAllPrefData();
+      Get.offAllNamed(AppRoute.loginScreen);
+    } catch (e, stackTrace) {
+      AppLogger.error(
+        'Logout failed',
+        tag: 'LOGOUT_ERROR',
+        error: e,
+        stackTrace: stackTrace,
+      );
+      Get.snackbar('Error', 'Failed to logout. Please try again.');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,8 +120,9 @@ class LogoutDialog extends StatelessWidget {
                   ),
                 ),
                 GestureDetector(
-                  onTap: (){
-                    Get.toNamed(AppRoute.loginScreen);
+                  onTap: () async {
+                    Get.back(); // Close dialog first
+                    await handleLogout();
                   },
                   child: Container(
                     height: 46.h,

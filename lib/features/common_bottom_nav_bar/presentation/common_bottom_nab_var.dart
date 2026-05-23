@@ -6,17 +6,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
+import '../../favorite/controller/favourite_controller.dart';
 import '../controller/nab_controller.dart';
 
 class CommonBottomNabVar extends StatelessWidget {
-  const CommonBottomNabVar({super.key, required int selectedIndex});
+     CommonBottomNabVar({super.key, required int selectedIndex});
+  final FavouriteController favouriteController = Get.put(FavouriteController());
 
   @override
   Widget build(BuildContext context) {
     final BottomNavController controller = Get.put(BottomNavController());
     return Obx(
       () => Container(
-        height: 80,
+        height: 100,
         decoration: const BoxDecoration(
           border: Border(
             top: BorderSide(color: AppColors.appBackgroundColor, width: 1),
@@ -91,6 +93,9 @@ class CommonBottomNabVar extends StatelessWidget {
                 break;
               case 2:
                 Get.toNamed(AppRoute.favoriteScreen);
+                // Get.to(() => FavoriteScreen())?.then((value) {
+                //   favouriteController.fetchFavouriteOffers();
+                // });
                 break;
               case 3:
                 Get.toNamed(AppRoute.eventScreen);

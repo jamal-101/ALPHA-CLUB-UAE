@@ -1,15 +1,17 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import '../../stroge/storage_service.dart';
 import '../../utils/app_string/app_string.dart';
 import 'api_enpoint.dart';
 import 'api_response.dart';
+import '../logger/app_logger.dart';
 
 
 
 class ApiService {
   static final Dio _dio = _getMyDio();
+  static bool _isSessionExpiredShowing = false;
 
   /// ========== [ HTTP METHODS ] ========== ///
   static Future<ApiResponseModel> post(
@@ -41,6 +43,74 @@ class ApiService {
         Map<String, String>? header,
       }) => _request(url, "DELETE", body: body, header: header);
 
+  // static Future<ApiResponseModel> multipart(
+  //     String url, {
+  //       Map<String, String> header = const {},
+  //       Map<String, String> body = const {},
+  //       String method = "POST",
+  //       String imageName = 'image',
+  //       String? imagePath,
+  //     }) async {
+  //   // Initialize FormData with the body fields
+  //   FormData formData = FormData.fromMap(body);
+  //
+  //   // Check if an image path is provided
+  //   if (imagePath != null) {
+  //     final file = File(imagePath);
+  //     if (await file.exists()) {
+  //       // final compressedFile = await compressImage(file);
+  //       String fileName = file.path.split('/').last;
+  //       String? mimeType = lookupMimeType(file.path);
+  //
+  //       // Add the file to FormData
+  //       formData.files.add(
+  //         MapEntry(
+  //           imageName, // Key as per the API documentation
+  //           await MultipartFile.fromFile(
+  //             file.path,
+  //             filename: fileName,
+  //             contentType:
+  //             mimeType != null ? MediaType.parse(mimeType) : null,
+  //           ),
+  //         ),
+  //       );
+  //     }
+  //   }
+  //
+  //
+  //   FormData formData = FormData();
+  //   if (imagePath != null && imagePath.isNotEmpty) {
+  //     File file = File(imagePath);
+  //     String extension = file.path.split('.').last.toLowerCase();
+  //     String? mimeType = lookupMimeType(imagePath);
+  //
+  //     formData.files.add(
+  //       MapEntry(
+  //         imageName,
+  //         await MultipartFile.fromFile(
+  //           imagePath,
+  //           filename: "$imageName.$extension",
+  //           contentType:
+  //               mimeType != null
+  //                   ? DioMediaType.parse(mimeType)
+  //                   : DioMediaType.parse("image/jpeg"),
+  //         ),
+  //       ),
+  //     );
+  //   }
+  //
+  //
+  //   body.forEach((key, value) {
+  //     formData.fields.add(MapEntry(key, value));
+  //   });
+  //
+  //   header['Content-Type'] = "multipart/form-data";
+  //
+  //   return _request(url, method, body: formData, header: header);
+  // }
+
+
+
   static Future<ApiResponseModel> multipart(
       String url, {
         Map<String, String> header = const {},
@@ -49,62 +119,33 @@ class ApiService {
         String imageName = 'image',
         String? imagePath,
       }) async {
-    // Initialize FormData with the body fields
+
+    // ১. বডি ডাটা দিয়ে FormData শুরু করুন
     FormData formData = FormData.fromMap(body);
 
-    // Check if an image path is provided
-    // if (imagePath != null) {
-    //   final file = File(imagePath);
-    //   if (await file.exists()) {
-    //     // final compressedFile = await compressImage(file);
-    //     String fileName = file.path.split('/').last;
-    //     String? mimeType = lookupMimeType(file.path);
-    //
-    //     // Add the file to FormData
-    //     formData.files.add(
-    //       MapEntry(
-    //         imageName, // Key as per the API documentation
-    //         await MultipartFile.fromFile(
-    //           file.path,
-    //           filename: fileName,
-    //           contentType:
-    //           mimeType != null ? MediaType.parse(mimeType) : null,
-    //         ),
-    //       ),
-    //     );
-    //   }
-    // }
+    // ২. যদি ইমেজ পাথ থাকে তবে সেটি যোগ করুন
+    if (imagePath != null && imagePath.isNotEmpty) {
+      final file = File(imagePath);
+      if (await file.exists()) {
+        String fileName = file.path.split('/').last;
+
+        formData.files.add(
+          MapEntry(
+            imageName,
+            await MultipartFile.fromFile(
+              file.path,
+              filename: fileName,
+            ),
+          ),
+        );
+      }
+    }
 
 
-    // FormData formData = FormData();
-    // if (imagePath != null && imagePath.isNotEmpty) {
-    //   File file = File(imagePath);
-    //   String extension = file.path.split('.').last.toLowerCase();
-    //   String? mimeType = lookupMimeType(imagePath);
+    Map<String, String> finalHeader = Map.from(header);
+    finalHeader['Content-Type'] = "multipart/form-data";
 
-    //   formData.files.add(
-    //     MapEntry(
-    //       imageName,
-    //       await MultipartFile.fromFile(
-    //         imagePath,
-    //         filename: "$imageName.$extension",
-    //         contentType:
-    //             mimeType != null
-    //                 ? DioMediaType.parse(mimeType)
-    //                 : DioMediaType.parse("image/jpeg"),
-    //       ),
-    //     ),
-    //   );
-    // }
-
-
-    // body.forEach((key, value) {
-    //   formData.fields.add(MapEntry(key, value));
-    // });
-
-    // header['Content-Type'] = "multipart/form-data";
-
-    return _request(url, method, body: formData, header: header);
+    return _request(url, method, body: formData, header: finalHeader);
   }
 
   /// ========== [ API REQUEST HANDLER ] ========== ///
@@ -115,13 +156,42 @@ class ApiService {
         Map<String, String>? header,
       }) async {
     try {
+      final startTime = DateTime.now();
+      
+      // Log request
+      AppLogger.logRequest(
+        endpoint: url,
+        method: method,
+        headers: header,
+        body: body,
+        tag: 'API_REQUEST',
+      );
+
       final response = await _dio.request(
         url,
         data: body,
         options: Options(method: method, headers: header),
       );
+
+      final duration = DateTime.now().difference(startTime).inMilliseconds;
+      
+      // Log response
+      AppLogger.logResponse(
+        endpoint: url,
+        statusCode: response.statusCode ?? 0,
+        responseData: response.data,
+        duration: duration,
+        tag: 'API_RESPONSE',
+      );
+
       return _handleResponse(response);
-    } catch (e) {
+    } catch (e, stackTrace) {
+      AppLogger.error(
+        'API Request Failed',
+        tag: 'API_ERROR',
+        error: e,
+        stackTrace: stackTrace,
+      );
       return _handleError(e);
     }
   }
@@ -142,24 +212,54 @@ class ApiService {
   }
 
   static ApiResponseModel _handleDioException(DioException error) {
+    // Log API error
+    AppLogger.logApiError(
+      endpoint: error.requestOptions.uri.toString(),
+      method: error.requestOptions.method,
+      error: error.message,
+      statusCode: error.response?.statusCode,
+      responseData: error.response?.data,
+      tag: 'DIO_EXCEPTION',
+    );
+
     switch (error.type) {
       case DioExceptionType.connectionTimeout:
       case DioExceptionType.receiveTimeout:
       case DioExceptionType.sendTimeout:
+        AppLogger.warning(
+          'Request Timeout',
+          tag: 'TIMEOUT',
+          error: error,
+        );
         return ApiResponseModel(408, {"message": AppString.requestTimeOut});
 
       case DioExceptionType.badResponse:
+        AppLogger.error(
+          'Bad Response: ${error.response?.statusCode}',
+          tag: 'BAD_RESPONSE',
+          error: error,
+        );
         return ApiResponseModel(
           error.response?.statusCode,
           error.response?.data,
         );
 
       case DioExceptionType.connectionError:
+        AppLogger.error(
+          'Connection Error',
+          tag: 'CONNECTION_ERROR',
+          error: error,
+        );
         return ApiResponseModel(503, {
           "message": AppString.noInternetConnection,
         });
 
       default:
+        AppLogger.error(
+          'Unknown Error',
+          tag: 'UNKNOWN_ERROR',
+          error: error,
+        );
         return ApiResponseModel(400, {});
     }
   }
@@ -189,11 +289,38 @@ class ApiService {
       onResponse: (response, handler) {
         handler.next(response);
       },
-      onError: (error, handler) {
+      // onError: (error, handler) {
+      //   handler.next(error);
+      // },
+  //   ),
+  // );
+
+      onError: (DioException error, handler) async {
+        if (error.response?.statusCode == 401) {
+          if (!ApiService._isSessionExpiredShowing) {
+            ApiService._isSessionExpiredShowing = true;
+
+            // টোকেন মুছে ফেলুন (আপনার স্টোরেজ ক্লাস অনুযায়ী)
+            // LocalStorage.removeToken();
+
+            // ইউজারকে মেসেজ দিন (Get.snackbar বা অন্য কিছু ব্যবহার করুন)
+            // এখানে আপনি চাইলে সরাসরি UI পপআপ দিতে পারেন
+            AppLogger.warning("Session Expired - Redirecting to Login", tag: "AUTH");
+
+            // লগইন স্ক্রিনে নিয়ে যান (GetX ব্যবহার করলে)
+            // Get.offAllNamed('/loginScreen');
+
+            // ৩ সেকেন্ড পর ফ্ল্যাগ রিসেট করুন যাতে ভবিষ্যতে আবার লগইন করলে মেসেজ আসতে পারে
+            Future.delayed(const Duration(seconds: 3), () {
+              ApiService._isSessionExpiredShowing = false;
+            });
+          }
+        }
         handler.next(error);
       },
     ),
   );
+
 
   return dio;
 }
@@ -202,18 +329,34 @@ class ApiService {
 Interceptor apiLog() {
   return InterceptorsWrapper(
     onRequest: (options, handler) {
-      debugPrint("REQUEST: ${options.method} ${options.uri}");
-      debugPrint("Headers: ${options.headers}");
-      debugPrint("Body: ${options.data}");
+      AppLogger.logRequest(
+        endpoint: options.uri.toString(),
+        method: options.method,
+        headers: options.headers.cast<String, dynamic>(),
+        body: options.data,
+        tag: 'DIO_INTERCEPTOR',
+      );
       handler.next(options);
     },
     onResponse: (response, handler) {
-      debugPrint("RESPONSE: ${response.statusCode}");
-      debugPrint("Data: ${response.data}");
+      AppLogger.logResponse(
+        endpoint: response.requestOptions.uri.toString(),
+        statusCode: response.statusCode ?? 0,
+        responseData: response.data,
+        duration: 0,
+        tag: 'DIO_INTERCEPTOR',
+      );
       handler.next(response);
     },
     onError: (error, handler) {
-      debugPrint("ERROR: ${error.message}");
+      AppLogger.logApiError(
+        endpoint: error.requestOptions.uri.toString(),
+        method: error.requestOptions.method,
+        error: error.message,
+        statusCode: error.response?.statusCode,
+        responseData: error.response?.data,
+        tag: 'DIO_INTERCEPTOR_ERROR',
+      );
       handler.next(error);
     },
   );

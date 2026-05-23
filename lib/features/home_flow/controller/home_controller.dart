@@ -1,26 +1,12 @@
-import 'package:flutter/cupertino.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import '../../../core/service/api/api_enpoint.dart';
 import '../../../core/service/api/api_response.dart';
 import '../../../core/service/api/api_service.dart';
+import '../../../core/stroge/storage_service.dart';
+import '../../../core/stroge/stroge_key.dart';
 
 class HomeController extends GetxController {
-  RxSet<int> likeIndexes = <int>{}.obs;
-  var baseLikeCount = 567;
-
-  void toggleLike(int index) {
-    if (likeIndexes.contains(index)) {
-      likeIndexes.remove(index);
-    } else {
-      likeIndexes.add(index);
-    }
-  }
-
-  bool isLiked(int index) {
-    return likeIndexes.contains(index);
-  }
-
   //>>>>>>>>>>>>>>>>>>>>> stories <<<<<<<<<<<<<<<<<<<<<<<<<<//
 
   var stories = [].obs;
@@ -35,6 +21,8 @@ class HomeController extends GetxController {
   var isMoreStoriesLoading = false.obs;
   int currentStoryPage = 1;
   bool hasMoreStories = true;
+  var sliderIndices = <int, int>{}.obs;
+  var detailsSliderIndex = 0.obs;
 
   @override
   void onInit() {
@@ -44,7 +32,9 @@ class HomeController extends GetxController {
   }
 
 
-
+  void refreshStories() {
+    fetchLatestStories(isLoadMore: false);
+  }
 
   Future<void> fetchLatestStories({bool isLoadMore = false}) async {
     if (isLoadMore) {
@@ -56,19 +46,27 @@ class HomeController extends GetxController {
     }
 
     ApiResponseModel response = await ApiService.get(
-      "${ApiEndPoint.stories}?page=$currentStoryPage&limit=10",
+      "${ApiEndPoint.stories}?page=$currentStoryPage&limit=200",
     );
 
     response.handleResponse(
       onSuccess: (responseData) {
-        List newStories = responseData['data'] ?? [];
-
+        List rawStories = responseData['data'] ?? [];
+        List newStories = List.from(rawStories);
+        List<String> savedLikes = LocalStorage.preferences?.getStringList('user_likes') ?? [];
+        for (var story in newStories) {
+          String id = story['_id'] ?? "";
+          bool likedStatus = (story['isLiked'] ?? false) || savedLikes.contains(id);
+          int count = story['likeCount'] ?? 0;
+          storyIsLiked[id] = likedStatus;
+          storyLikesCount[id] = count;
+        }
         if (isLoadMore) {
           stories.addAll(newStories);
         } else {
           stories.assignAll(newStories);
         }
-        if (newStories.length < 10) {
+        if (newStories.length < 200) {
           hasMoreStories = false;
         } else {
           currentStoryPage++;
@@ -76,11 +74,9 @@ class HomeController extends GetxController {
         }
       },
     );
-
     isLoading.value = false;
     isMoreStoriesLoading.value = false;
   }
-
 
   Future<void> fetchStoryDetails(String id) async {
     isLoading.value = true;
@@ -109,8 +105,10 @@ class HomeController extends GetxController {
       isSponsorLoading.value = true;
     }
 
+
+
     ApiResponseModel response = await ApiService.get(
-      "${ApiEndPoint.sponsor}?page=$currentPage&limit=10",
+      "${ApiEndPoint.sponsor}?page=$currentPage&limit=200",
     );
 
     response.handleResponse(
@@ -122,7 +120,7 @@ class HomeController extends GetxController {
         } else {
           sponsors.assignAll(newItems);
         }
-        if (newItems.length < 10) {
+        if (newItems.length < 200) {
           hasMoreData = false;
         } else {
           currentPage++;
@@ -134,8 +132,6 @@ class HomeController extends GetxController {
     isSponsorLoading.value = false;
     isMoreLoading.value = false;
   }
-
-
 
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Sponsor Details <<<<<<<<<<<<<<<<<<<<<//
 
@@ -152,7 +148,43 @@ class HomeController extends GetxController {
         singleSponsorDetails.value = responseData['data'] ?? {};
       },
     );
-
     isLoading.value = false;
+  }
+
+  ///>>>>>>>>>>>>>>>>>>>>>>>>>>>> like update <<<<<<<<<<<<<<<<<<<<///
+
+  var storyLikesCount = <String, int>{}.obs;
+  var storyIsLiked = <String, bool>{}.obs;
+
+  Future<void> toggleLikeStory(String storyId) async {
+    String token =
+        LocalStorage.preferences?.getString(LocalStorageKeys.token) ??
+        LocalStorage.token;
+    String url = ApiEndPoint.likeStory(storyId);
+
+    ApiResponseModel response = await ApiService.post(
+      url,
+      header: {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      },
+    );
+    response.handleResponse(
+      onSuccess: (responseData) {
+        bool isLiked = responseData['data']['liked'] ?? false;
+        int likeCount = responseData['data']['likeCount'] ?? 0;
+        storyIsLiked[storyId] = isLiked;
+        storyLikesCount[storyId] = likeCount;
+        List<String> myLikes =
+            LocalStorage.preferences?.getStringList('user_likes') ?? [];
+
+        if (isLiked) {
+          if (!myLikes.contains(storyId)) myLikes.add(storyId);
+        } else {
+          myLikes.remove(storyId);
+        }
+        LocalStorage.preferences?.setStringList('user_likes', myLikes);
+      },
+    );
   }
 }

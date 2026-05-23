@@ -1,0 +1,338 @@
+import 'package:alpha_club/core/global/commont_text.dart';
+import 'package:alpha_club/core/utils/app_color/app_color.dart';
+import 'package:alpha_club/core/utils/app_image/app_image.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import '../controller/notification_controller.dart';
+
+class NotificationScreen extends StatelessWidget {
+  const NotificationScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final NotificationController notificationController = Get.put(
+      NotificationController(),
+    );
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      notificationController.refreshNotificationData();
+      notificationController.clearNotificationCount();
+      notificationController.clearNotificationCount();
+    });
+    return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        centerTitle: true,
+        backgroundColor: AppColors.appBackgroundColor,
+        surfaceTintColor: AppColors.appBackgroundColor,
+        elevation: 0,
+        leading: IconButton(
+          onPressed: () => Get.back(),
+          icon: Icon(
+            Icons.arrow_back_ios_new,
+            color: AppColors.blue1,
+            size: 20.sp,
+          ),
+        ),
+        title: CommonText(
+          text: "Notification",
+          style: TextStyle(
+            fontFamily: 'SFPro',
+            fontWeight: FontWeight.w500,
+            fontSize: 20.sp,
+            color: AppColors.blue1,
+          ),
+        ),
+      ),
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16.w),
+        child: Column(
+          children: [
+            Expanded(
+              child: Obx(() {
+                return RefreshIndicator(
+                  backgroundColor: const Color(0xFF1E1E1E),
+                  color: Colors.white,
+                  onRefresh: () async {
+                    await notificationController.getNotifications();
+                  },
+                  child: ListView.builder(
+                    physics: AlwaysScrollableScrollPhysics(),
+                    itemCount: notificationController.notifications.length,
+                    padding: EdgeInsets.only(top: 12.h),
+                    itemBuilder: (context, index) {
+                      final item = notificationController.notifications[index];
+                      final String notificationId = item['_id'] ?? "";
+
+                      return GestureDetector(
+                        onTap: () {
+                          if (item['seen'] == false) {
+                            notificationController.markAsSeen(notificationId);
+                          }
+                        },
+                        child: _buildNotificationCard(
+                          title: item['title'] ?? " ",
+                          message: item['message'] ?? "",
+                          time: item['createdAt'] ?? "",
+                          isSeen: item['seen'] ?? true,
+                          onDelete: () => notificationController
+                              .deleteNotification(notificationId),
+                        ),
+                      );
+                    },
+                  ),
+                );
+              }),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // Widget _buildNotificationCard({
+  //   required String title,
+  //   required String message,
+  //   required String time,
+  //   required bool isSeen,
+  //   required VoidCallback onDelete,
+  // }) {
+  //   return Container(
+  //     margin: EdgeInsets.only(bottom: 10.h),
+  //     decoration: BoxDecoration(
+  //       color: const Color(0xFFE0F2FE),
+  //       borderRadius: BorderRadius.circular(8.r),
+  //       border: Border.all(
+  //         color: isSeen
+  //             ? AppColors.borderColor
+  //             : Colors.blue.withValues(alpha: 0.5),
+  //         width: 1,
+  //       ),
+  //     ),
+  //     child: ClipRRect(
+  //       borderRadius: BorderRadius.circular(20.r),
+  //       child: Padding(
+  //         padding: EdgeInsets.all(10.w),
+  //         child:
+  //         Row(
+  //           // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //           children: [
+  //             Container(
+  //               height: 28.h,
+  //               width: 28.w,
+  //               decoration: BoxDecoration(
+  //                 color: isSeen
+  //                     ? const Color(0xFFE0F2FE)
+  //                     : Color(0xFFC3E5FC),
+  //                 borderRadius: BorderRadius.circular(8.r),
+  //               ),
+  //               child: Padding(
+  //                 padding: EdgeInsets.all(5.0),
+  //                 child: Image.asset(
+  //                   AssetPath.notificationIcon,
+  //                   color: Color(0xFF065C95),
+  //                 ),
+  //               ),
+  //             ),
+  //             SizedBox(width: 12.w),
+  //             Expanded(
+  //               child: Column(
+  //                 mainAxisAlignment: MainAxisAlignment.start,
+  //                 crossAxisAlignment: CrossAxisAlignment.start,
+  //                 children: [
+  //                   Row(
+  //                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                     children: [
+  //                       Text(
+  //                         title,
+  //                         maxLines: 1,
+  //                         style: TextStyle(
+  //                           color: Color(0xFF242424),
+  //                           fontSize: 15.sp,
+  //                           fontWeight: FontWeight.w400,
+  //                           letterSpacing: 0.5,
+  //                         ),
+  //                       ),
+  //                       IconButton(
+  //                         onPressed: onDelete,
+  //                         icon: Icon(
+  //                           Icons.delete_outline,
+  //                           color: Colors.red.withValues(alpha: 0.7),
+  //                           size: 22.sp,
+  //                         ),
+  //                       ),
+  //                     ],
+  //                   ),
+  //                   Row(
+  //                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                     children: [
+  //                       Expanded(
+  //                         child: CommonText(
+  //                           textAlign: TextAlign.start,
+  //                           text: message,
+  //                           maxLines: 20,
+  //                           overflow: TextOverflow.ellipsis,
+  //                           color: Color(0xFF242424),
+  //                           fontSize: 13.sp,
+  //                           fontWeight: FontWeight.w400,
+  //                         ),
+  //                       ),
+  //                       Text(
+  //                         formatTimeAgo(time),
+  //                         style: TextStyle(
+  //                           color: Color(0xFF242424),
+  //                           fontSize: 12.sp,
+  //                           fontWeight: FontWeight.w400,
+  //                         ),
+  //                       ),
+  //                     ],
+  //                   ),
+  //                 ],
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
+
+
+  Widget _buildNotificationCard({
+    required String title,
+    required String message,
+    required String time,
+    required bool isSeen,
+    required VoidCallback onDelete,
+  }) {
+    return Container(
+      margin: EdgeInsets.only(bottom: 6.h),
+      decoration: BoxDecoration(
+        color: const Color(0xFFE0F2FE),
+        borderRadius: BorderRadius.circular(8.r),
+        border: Border.all(
+          color: isSeen
+              ? AppColors.borderColor
+              : Colors.blue.withValues(alpha: 0.5),
+          width: 1,
+        ),
+      ),
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: 30.h,
+              width: 30.w,
+              margin: EdgeInsets.only(top: 4.h),
+              decoration: BoxDecoration(
+                color: isSeen ? const Color(0xFFE0F2FE) : const Color(0xFFC3E5FC),
+                borderRadius: BorderRadius.circular(6.r),
+              ),
+              child: Padding(
+                padding: EdgeInsets.all(6.0),
+                child: Image.asset(
+                  AssetPath.notificationIcon,
+                  color: const Color(0xFF065C95),
+                ),
+              ),
+            ),
+            SizedBox(width: 10.w),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          title,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: GoogleFonts.poppins(
+                            color:  Color(0xFF242424),
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: onDelete,
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 8.w, bottom: 4.h),
+                          child: Icon(
+                            Icons.delete_outline,
+                            color: Colors.red.withValues(alpha: 0.7),
+                            size: 22.sp,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Expanded(
+                        child: CommonText(
+                          textAlign: TextAlign.start,
+                          text: message,
+                          maxLines: 100,
+                          overflow: TextOverflow.ellipsis,
+                          color: const Color(0xFF4A4A4A),
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      SizedBox(width: 5.w),
+                      Text(
+                        formatTimeAgo(time),
+                        style: GoogleFonts.poppins(
+                          color: const Color(0xFF666666),
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  String formatTimeAgo(String dateTimeString) {
+    if (dateTimeString.isEmpty) return "";
+    try {
+      DateTime dateTime = DateTime.parse(dateTimeString).toLocal();
+      Duration diff = DateTime.now().difference(dateTime);
+
+      if (diff.inDays >= 365) {
+        int years = (diff.inDays / 365).floor();
+        return "${years}y ago";
+      }
+      if (diff.inDays >= 30) {
+        int months = (diff.inDays / 30).floor();
+        return "${months}mo ago";
+      }
+      if (diff.inDays >= 1) {
+        return "${diff.inDays}d ago";
+      }
+      if (diff.inHours >= 1) {
+        return "${diff.inHours}h ago";
+      }
+      if (diff.inMinutes >= 1) {
+        return "${diff.inMinutes}m ago";
+      }
+      return "Just now";
+    } catch (e) {
+      return "";
+    }
+  }
+}
