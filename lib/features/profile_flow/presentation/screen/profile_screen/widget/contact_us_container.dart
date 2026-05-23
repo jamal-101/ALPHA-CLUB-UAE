@@ -1,6 +1,7 @@
 import 'package:alpha_club/core/utils/app_color/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
 class ContactUsContainer extends StatelessWidget {
   final String image;
@@ -36,10 +37,21 @@ class ContactUsContainer extends StatelessWidget {
               color: AppColors.borderColor,
               shape: BoxShape.circle,
             ),
-            padding: EdgeInsets.all(10.w),
-            child: Image.asset(
-              image,
-              fit: BoxFit.contain,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Center(
+                child: Image.network(
+                  image,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Icon(
+                      Icons.image_not_supported,
+                      color: Colors.grey,
+                      size: 16.sp,
+                    );
+                  },
+                ),
+              ),
             ),
           ),
           SizedBox(width: 12.w),
@@ -58,9 +70,18 @@ class ContactUsContainer extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 4.h),
-                Text(
+                // Text(
+                //   subTitle,
+                //   style: TextStyle(
+                //     fontFamily: 'SFPro',
+                //     fontSize: 14.sp,
+                //     fontWeight: FontWeight.w500,
+                //     color: AppColors.blueBase,
+                //   ),
+                // ),
+                HtmlWidget(
                   subTitle,
-                  style: TextStyle(
+                  textStyle: TextStyle(
                     fontFamily: 'SFPro',
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w500,

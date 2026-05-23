@@ -9,14 +9,14 @@ class FavoriteScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: const CommonBottomNabVar(selectedIndex: 3),
+      bottomNavigationBar: CommonBottomNabVar(selectedIndex: 3),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.only(left: 20,right: 20),
           child: Column(
             children: [
-              SizedBox(height: 40.h),
-              FavoriteGridviewBuilder()
+              SizedBox(height: 20.h),
+              Expanded(child: FavoriteGridviewBuilder())
             ],
           ),
         ),

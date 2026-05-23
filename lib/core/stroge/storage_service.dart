@@ -1,6 +1,6 @@
 import 'package:alpha_club/core/stroge/stroge_key.dart';
-import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:alpha_club/core/service/logger/app_logger.dart';
 
 class LocalStorage {
   static String token = "";
@@ -14,64 +14,202 @@ class LocalStorage {
 
   // Create Local Storage Instance
   static SharedPreferences? preferences;
+  static bool _isInitialized = false;
+
+  /// Initialize SharedPreferences
+  static Future<void> init() async {
+    if (_isInitialized) return;
+    
+    try {
+      await Future.delayed(const Duration(milliseconds: 200));
+      preferences = await SharedPreferences.getInstance();
+      _isInitialized = true;
+      AppLogger.info('SharedPreferences initialized successfully', tag: 'STORAGE');
+    } catch (e, stackTrace) {
+      AppLogger.error(
+        'Failed to initialize SharedPreferences, using in-memory storage',
+        tag: 'STORAGE',
+        error: e,
+        stackTrace: stackTrace,
+      );
+      _isInitialized = false;
+    }
+  }
 
   /// Get SharedPreferences Instance
-  static Future<SharedPreferences> _getStorage() async {
-    preferences ??= await SharedPreferences.getInstance();
-    return preferences!;
+  static Future<SharedPreferences?> _getStorage() async {
+    if (!_isInitialized) {
+      await init();
+    }
+    return preferences;
   }
 
   /// Get All Data From SharedPreferences
   static Future<void> getAllPrefData() async {
-    final localStorage = await _getStorage();
-
-    token = localStorage.getString(LocalStorageKeys.token) ?? "";
-    // refreshToken = localStorage.getString(LocalStorageKeys.refreshToken) ?? "";
-    // isLogIn = localStorage.getBool(LocalStorageKeys.isLogIn) ?? false;
-    // userId = localStorage.getString(LocalStorageKeys.userId) ?? "";
-    // myImage = localStorage.getString(LocalStorageKeys.myImage) ?? "";
-    // myName = localStorage.getString(LocalStorageKeys.myName) ?? "";
-    // myEmail = localStorage.getString(LocalStorageKeys.myEmail) ?? "";
-    // myRoll = localStorage.getString(LocalStorageKeys.myRoll) ?? "";
-
-    // appLog(userId, source: "Local Storage");
+    try {
+      final localStorage = await _getStorage();
+      if (localStorage == null) {
+        AppLogger.warning('SharedPreferences not available, using defaults', tag: 'STORAGE');
+        return;
+      }
+      
+      token = localStorage.getString(LocalStorageKeys.token) ?? "";
+      isLogIn = localStorage.getBool(LocalStorageKeys.isLogIn) ?? false;
+      userId = localStorage.getString(LocalStorageKeys.userId) ?? "";
+      myName = localStorage.getString(LocalStorageKeys.myName) ?? "";
+      myEmail = localStorage.getString(LocalStorageKeys.myEmail) ?? "";
+      
+      AppLogger.debug(
+        'Loaded data from storage - isLogIn: $isLogIn, hasToken: ${token.isNotEmpty}',
+        tag: 'STORAGE',
+      );
+    } catch (e, stackTrace) {
+      AppLogger.error(
+        'Failed to get all preference data',
+        tag: 'STORAGE',
+        error: e,
+        stackTrace: stackTrace,
+      );
+    }
   }
 
   /// Remove All Data From SharedPreferences
   static Future<void> removeAllPrefData() async {
-    final localStorage = await _getStorage();
-    await localStorage.clear();
-    _resetLocalStorageData();
-    // Get.offAllNamed(AppRoutes.signIn);
-    await getAllPrefData();
+    try {
+      final localStorage = await _getStorage();
+      if (localStorage == null) {
+        AppLogger.warning('SharedPreferences not available, clearing in-memory data only', tag: 'STORAGE');
+        _resetLocalStorageData();
+        return;
+      }
+      await localStorage.clear();
+      _resetLocalStorageData();
+      AppLogger.info('All preference data cleared - User logged out', tag: 'STORAGE');
+    } catch (e, stackTrace) {
+      AppLogger.error(
+        'Failed to remove all preference data',
+        tag: 'STORAGE',
+        error: e,
+        stackTrace: stackTrace,
+      );
+    }
   }
 
   // Reset LocalStorage Data
   static void _resetLocalStorageData() {
-    final localStorage = preferences!;
-    localStorage.setString(LocalStorageKeys.token, "");
-    // localStorage.setString(LocalStorageKeys.refreshToken, "");
-    // localStorage.setString(LocalStorageKeys.userId, "");
-    // localStorage.setString(LocalStorageKeys.myImage, "");
-    // localStorage.setString(LocalStorageKeys.myName, "");
-    // localStorage.setString(LocalStorageKeys.myEmail, "");
-    // localStorage.setString(LocalStorageKeys.myRoll, "");
-    // localStorage.setBool(LocalStorageKeys.isLogIn, false);
+    try {
+      token = "";
+      refreshToken = "";
+      isLogIn = false;
+      userId = "";
+      myImage = "";
+      myName = "";
+      myEmail = "";
+      myRoll = "";
+    } catch (e, stackTrace) {
+      AppLogger.error(
+        'Failed to reset local storage data',
+        tag: 'STORAGE',
+        error: e,
+        stackTrace: stackTrace,
+      );
+    }
   }
 
   // Save Data To SharedPreferences
   static Future<void> setString(String key, String value) async {
-    final localStorage = await _getStorage();
-    await localStorage.setString(key, value);
+    try {
+      final localStorage = await _getStorage();
+      if (localStorage == null) {
+        AppLogger.warning('SharedPreferences not available, cannot save $key', tag: 'STORAGE');
+        return;
+      }
+      await localStorage.setString(key, value);
+      AppLogger.debug('Saved $key to storage', tag: 'STORAGE');
+    } catch (e, stackTrace) {
+      AppLogger.error(
+        'Failed to set string: $key',
+        tag: 'STORAGE',
+        error: e,
+        stackTrace: stackTrace,
+      );
+    }
   }
 
   static Future<void> setBool(String key, bool value) async {
-    final localStorage = await _getStorage();
-    await localStorage.setBool(key, value);
+    try {
+      final localStorage = await _getStorage();
+      if (localStorage == null) {
+        AppLogger.warning('SharedPreferences not available, cannot save $key', tag: 'STORAGE');
+        return;
+      }
+      await localStorage.setBool(key, value);
+      AppLogger.debug('Saved $key to storage', tag: 'STORAGE');
+    } catch (e, stackTrace) {
+      AppLogger.error(
+        'Failed to set bool: $key',
+        tag: 'STORAGE',
+        error: e,
+        stackTrace: stackTrace,
+      );
+    }
   }
 
   static Future<void> setInt(String key, int value) async {
-    final localStorage = await _getStorage();
-    await localStorage.setInt(key, value);
+    try {
+      final localStorage = await _getStorage();
+      if (localStorage == null) {
+        AppLogger.warning('SharedPreferences not available, cannot save $key', tag: 'STORAGE');
+        return;
+      }
+      await localStorage.setInt(key, value);
+      AppLogger.debug('Saved $key to storage', tag: 'STORAGE');
+    } catch (e, stackTrace) {
+      AppLogger.error(
+        'Failed to set int: $key',
+        tag: 'STORAGE',
+        error: e,
+        stackTrace: stackTrace,
+      );
+    }
   }
+
+  static String get getToken {
+    return preferences?.getString(LocalStorageKeys.token) ?? token;
+  }
+  static Future<void> setStringList(String key, List<String> value) async {
+    try {
+      final localStorage = await _getStorage();
+      await localStorage?.setStringList(key, value);
+    } catch (e) {
+      AppLogger.error('Failed to set string list: $key', error: e);
+    }
+  }
+  static List<String> getStringList(String key) {
+    return preferences?.getStringList(key) ?? [];
+  }
+
+  // LocalStorage ক্লাসের ভেতর এই মেথডগুলো যোগ করুন
+
+  static bool getBool(String key) {
+    return preferences?.getBool(key) ?? false;
+  }
+
+  static String getString(String key) {
+    return preferences?.getString(key) ?? "";
+  }
+
+  // static Future<void> clear() async {
+  //   try {
+  //     final localStorage = await _getStorage();
+  //     if (localStorage != null) {
+  //       await localStorage.clear(); // preferences.clear() এর বদলে এটি ব্যবহার করুন
+  //     }
+  //     _resetLocalStorageData(); // স্ট্যাটিক ভেরিয়েবল রিসেট করবে
+  //     AppLogger.info('Local storage cleared successfully', tag: 'STORAGE');
+  //   } catch (e) {
+  //     AppLogger.error('Failed to clear storage', tag: 'STORAGE', error: e);
+  //   }
+  // }
+
 }

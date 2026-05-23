@@ -1,22 +1,24 @@
-import 'package:alpha_club/core/global/common_button.dart';
-import 'package:alpha_club/core/global/commont_text.dart';
-import 'package:alpha_club/core/route/app_route.dart';
-import 'package:alpha_club/core/utils/app_color/app_color.dart';
-import 'package:alpha_club/core/utils/app_image/app_image.dart';
-import 'package:alpha_club/core/utils/app_string/app_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_pinput/flutter_pinput.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:get/get.dart';
+import '../../../../core/global/common_button.dart';
+import '../../../../core/global/commont_text.dart';
+import '../../../../core/utils/app_color/app_color.dart';
+import '../../../../core/utils/app_image/app_image.dart';
+import '../../../../core/utils/app_string/app_string.dart';
+import '../../controller/login_controller.dart';
 
 class SingInOtp extends StatelessWidget {
-  const SingInOtp({super.key});
+  SingInOtp({super.key});
+
+  final LoginController loginController = Get.find<LoginController>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: Container(
         height: double.infinity,
         width: double.infinity,
@@ -26,11 +28,11 @@ class SingInOtp extends StatelessWidget {
             fit: BoxFit.cover,
           ),
         ),
-        child: Center(
+        child: SingleChildScrollView(
           child: Column(
             children: [
               SizedBox(height: 90.h),
-              Image.asset(AssetPath.splashImage, height: 132, width: 267),
+              Image.asset(AssetPath.splashImage, height: 130, width: 240),
               SizedBox(height: 70.h),
               CommonText(
                 style: TextStyle(
@@ -47,41 +49,46 @@ class SingInOtp extends StatelessWidget {
                 text: AppString.enterThemFourDigit,
                 color: AppColors.whiteFoundation1,
                 fontWeight: FontWeight.w400,
-                fontSize: 14.sp,
+                fontSize: 18.sp,
               ),
               SizedBox(height: 55.h),
-              Expanded(
-                child: Container(
-                  height: double.infinity,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(45.r),
-                      topRight: Radius.circular(45.r),
-                    ),
-                    color: AppColors.appBackgroundColor,
+              Container(
+                height: MediaQuery.of(context).size.height * 0.6,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(45.r),
+                    topRight: Radius.circular(45.r),
                   ),
+                  color: AppColors.appBackgroundColor,
+                ),
+                child: SingleChildScrollView(
+                  physics: const NeverScrollableScrollPhysics(),
+                  // physics: const BouncingScrollPhysics(),
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 20,right: 20),
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        SizedBox(height: 159.h),
+                        SizedBox(height: 100.h),
                         Pinput(
+                          controller: loginController.otpController,
                           length: 4,
                           keyboardType: TextInputType.number,
+                          onChanged: (value) {
+                            loginController.otpError.value = '';
+                          },
+                          // onCompleted: (value) {
+                          //   loginController.verifyOtp();
+                          // },
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly,
                           ],
-                          // controller: singUpOtpController.singUpOtp,
-                          // validator: FormValidation.validatePin,
                           defaultPinTheme: PinTheme(
                             height: 60.h,
                             width: 60.w,
-                            margin: EdgeInsets.symmetric(horizontal: 4, vertical: 16),
+                            margin: EdgeInsets.symmetric(horizontal: 4),
                             textStyle: TextStyle(
-                              fontFamily: 'SFPro',
-                              fontSize: 20,
+                              fontSize: 20.sp,
                               fontWeight: FontWeight.w400,
                               color: AppColors.blue1,
                             ),
@@ -94,51 +101,55 @@ class SingInOtp extends StatelessWidget {
                               ),
                             ),
                           ),
-                          preFilledWidget: Text(
-                            '-',
-                            style: TextStyle(
-                              fontFamily: 'SFPro',
-                              fontSize: 20,
-                              fontWeight: FontWeight.w400,
-                              color: AppColors.blue1,
-                            ),
-                          ),
-                          onCompleted: (value) {
-                            // otpController.otpController.text = value;
-                            // errorMessage.value = '';
-                          },
-                          onChanged: (value) {
-                            if (value.isNotEmpty) {
-                              // errorMessage.value = '';
-                            }
-                          },
                         ),
+
+                        Obx(() => loginController.otpError.value.isNotEmpty
+                            ? Padding(
+                          padding: EdgeInsets.only(top: 12.h),
+                          child: CommonText(
+                            text: loginController.otpError.value,
+                            color: Colors.red,
+                            fontSize: 14.sp,
+                          ),
+                        )
+                            : const SizedBox(height: 20)),
+                        // ==========================================================
+
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             CommonText(
-                              style: TextStyle(
-                                fontFamily: 'SFPro',
-                                fontSize: 20,
-                                fontWeight: FontWeight.w400,
-                                color: AppColors.blue1,
-                              ),
-                                text:AppString.resendCodeIn),
-                            SizedBox(width: 6.w),
-                            CommonText(
                                 style: TextStyle(
                                   fontFamily: 'SFPro',
-                                  fontSize: 20,
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.w400,
+                                  color: AppColors.blue1,
+                                ),
+                                text: AppString.resendCodeIn),
+                            SizedBox(width: 6.w),
+                            Obx(() {
+                              int minutes = loginController.secondsRemaining.value ~/ 60;
+                              int seconds = loginController.secondsRemaining.value % 60;
+
+                              return CommonText(
+                                style: TextStyle(
+                                  fontFamily: 'SFPro',
+                                  fontSize: 18.sp,
                                   fontWeight: FontWeight.w400,
                                   color: AppColors.yellow,
                                 ),
-                                text:AppString.second),
+                                text: "${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}",
+                              );
+                            }),
                           ],
                         ),
-                        SizedBox(height: 60.h),
-                        CommonButton(onTap: (){
-                          Get.toNamed(AppRoute.newPasswordScreen);
-                        }, text: AppString.verifyCode),
+                        SizedBox(height: 40.h),
+                        Obx(() => CommonButton(
+                          onTap: () => loginController.verifyOtp(),
+                          text: loginController.isLoading.value
+                              ? "Verifying..."
+                              : AppString.verifyCode,
+                        )),
                         SizedBox(height: 24.h),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -146,17 +157,26 @@ class SingInOtp extends StatelessWidget {
                             CommonText(
                                 style: TextStyle(
                                   fontFamily: 'SFPro',
-                                  fontSize: 14,
+                                  fontSize: 18.sp,
                                   fontWeight: FontWeight.w400,
                                   color: AppColors.blue1,
                                 ),
-                                text:AppString.donTReceive),
+                                text: AppString.donTReceive),
                             SizedBox(width: 15.w),
-                            CommonText(
-                                text:AppString.resendCode,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 14,
-                              color: AppColors.yellow,
+                            GestureDetector(
+                              onTap: () {
+                                if (loginController.enableResend.value) {
+                                  loginController.resendOtp();
+                                }
+                              },
+                              child: Obx(() => CommonText(
+                                text: AppString.resendCode,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 18.sp,
+                                color: loginController.enableResend.value
+                                    ? AppColors.yellow
+                                    : Colors.grey,
+                              )),
                             ),
                           ],
                         )

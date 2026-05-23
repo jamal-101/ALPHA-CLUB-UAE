@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+
 
 class AppString {
   static const sinIn = "Sign In";
@@ -7,7 +7,7 @@ class AppString {
   static const contactNumber = "Contact Number";
   static const enterYourContact = "Enter your contact number";
   static const forgetPass = "Forgot Password?";
-  static const becomeAnd = "Become and APLPHA today";
+  static const becomeAnd = "Become an APLPHA today";
   static const applyHere = "Apply here";
   static const forgotPass = "Forgot password?";
   static const enterYourEmail = "Enter your email below to reset your password";
@@ -176,5 +176,10 @@ class AppString {
   static const someThingWrong = "Some Thing Wrong";
   static const requestTimeOut = "RequestTimeOut";
   static const noInternetConnection = "No Internet Connection";
-  static const seemore = "See More";
+  static const seeMore = "See More";
+  static const familyMember = 'Family Members';
+  static const addFamilyMember = 'Add Family Member';
+  static const enterFullName = "Enter Full Name";
+  static const forYour = "For your security, would you like to update your password now? Regular updates help keep your account safe.";
+  static const youMembership = "Your Membership has expired, to renew and have full Alpha Access please Renew.";
 }

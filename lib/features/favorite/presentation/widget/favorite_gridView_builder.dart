@@ -1,140 +1,221 @@
 import 'package:alpha_club/core/global/commont_text.dart';
+import 'package:alpha_club/core/service/api/api_enpoint.dart';
 import 'package:alpha_club/core/utils/app_color/app_color.dart';
-import 'package:alpha_club/core/utils/app_image/app_image.dart';
+import 'package:alpha_club/features/favorite/controller/favourite_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:get/get.dart';
+import '../../../offer_flow/controller/offer_details_controller.dart';
+import '../../../offer_flow/presentation/screen/offer_details_screen.dart';
 
 class FavoriteGridviewBuilder extends StatelessWidget {
-  const FavoriteGridviewBuilder({super.key});
+  FavoriteGridviewBuilder({super.key});
+
+  final FavouriteController controller = Get.put(FavouriteController());
 
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, String>> offers = [
-      {
-        "name": "Jumeirah One",
-        "desc": "Buy 1 Get 1 Free at Brunch",
-        "image": AssetPath.gridImage1,
-      },
-      {
-        "name": "Al Tayer",
-        "desc": "FOC Oil and Filter Change with Every Service",
-        "image": AssetPath.gridImage1,
-      },
-      {"name": "Nandos", "desc": "2-4-1", "image": AssetPath.gridImage1},
-      {
-        "name": "Beauty Salon",
-        "desc": "Buy 1 Get 1 Free",
-        "image": AssetPath.gridImage1,
-      },
-    ];
-
-    return GridView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: offers.length,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 12.w,
-        mainAxisSpacing: 12.h,
-        childAspectRatio: 0.91,
-      ),
-      itemBuilder: (context, index) {
-        final item = offers[index];
-        return Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(12.r),
-            border: Border.all(color: AppColors.otpBorderColor),
+    return Obx(() {
+      if (controller.isLoading.value) {
+        return Center(
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 40.h),
+            child: CircularProgressIndicator(
+              color: AppColors.blue1,
+            ),
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Stack(
+        );
+      }
+
+      if (controller.favouriteOffers.isEmpty) {
+        return Center(
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 40.h),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.favorite_border_rounded,
+                  size: 64.sp,
+                  color: AppColors.otpBorderColor,
+                ),
+                SizedBox(height: 16.h),
+                CommonText(
+                  text: "No favourite offers yet",
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.blue1,
+                ),
+                SizedBox(height: 8.h),
+                CommonText(
+                  text: "Start adding offers to your favourites",
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w400,
+                  color: AppColors.blueBase,
+                ),
+              ],
+            ),
+          ),
+        );
+      }
+
+      return GridView.builder(
+        shrinkWrap: true,
+        physics: AlwaysScrollableScrollPhysics(),
+        itemCount: controller.favouriteOffers.length,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 12.w,
+          mainAxisSpacing: 12.h,
+          childAspectRatio: 0.91,
+        ),
+        itemBuilder: (context, index) {
+          final offer = controller.favouriteOffers[index];
+          return GestureDetector(
+            onTap: (){
+              final detailsController = Get.put(OfferDetailsController());
+              detailsController.fetchOfferDetails(offer.exclusiveOffer.id);
+              Get.to(() => OfferDetailsScreen());
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12.r),
+                border: Border.all(color: AppColors.otpBorderColor),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: EdgeInsets.only(top: 4, left: 4, right: 4),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8.0.r),
-                      child: Image.asset(
-                        item["image"]!,
-                        height: 120.h,
-                        width: double.infinity,
-                        fit: BoxFit.cover,
+                  Stack(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(top: 4.h, left: 4.w, right: 4.w),
+                        child:
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(8.r),
+                          child: Builder(
+                            builder: (context) {
+                              final List<String> offerImages = offer.exclusiveOffer.image;
+                              if (offerImages.isNotEmpty) {
+                                return Image.network(
+                                  "${ApiEndPoint.imageBaseUrl}${offerImages[0]}",
+                                  height: 120.h,
+                                  width: double.infinity,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) => _buildErrorPlaceholder(),
+                                );
+                              }
+                              else {
+                                return _buildErrorPlaceholder();
+                              }
+                            },
+                          ),
+                        )
                       ),
-                    ),
+
+                      Positioned(
+                        top: 9.h,
+                        right: 9.w,
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 10.w,
+                            vertical: 6.h,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppColors.blueBase50,
+                            borderRadius: BorderRadius.circular(20.r),
+                          ),
+                          child: CommonText(
+                            text: "${offer.exclusiveOffer.discount
+                                .value ?? 0}% Off",
+                            fontWeight: FontWeight.w500,
+                            fontSize: 10.sp,
+                            color: AppColors.green1,
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        top: 9.h,
+                        left: 9.w,
+                        child: GestureDetector(
+                          onTap: () {
+                            controller.removeFavourite(offer.exclusiveOffer.id);
+                          },
+                          child: Container(
+                            height: 24.w,
+                            width: 24.w,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withValues(alpha: 0.1),
+                                  blurRadius: 4,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child: Center(
+                              child: Icon(
+                                Icons.favorite_rounded,
+                                color: AppColors.redColor,
+                                size: 18.sp,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  Positioned(
-                    top: 9.h,
-                    right: 9.w,
-                    child: Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 10.w,
-                        vertical: 6.h,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppColors.blueBase50,
-                        borderRadius: BorderRadius.circular(20.r),
-                      ),
-                      child: CommonText(
-                        text: "30% Off",
-                        fontWeight: FontWeight.w500,
-                        fontSize: 12.sp,
-                        color: AppColors.green1,
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    top: 9.h,
-                    left: 9.w,
-                    child: Container(
-                      height: 24.w,
-                      width: 24.w,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withValues(alpha: 0.1),
-                            blurRadius: 4,
-                            offset: const Offset(0, 2),
+                  Flexible(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 8.h),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          CommonText(
+                            textAlign: TextAlign.start,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.blue1,
+                            text: offer.exclusiveOffer.name,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          SizedBox(height: 4.h),
+                          CommonText(
+                            textAlign: TextAlign.start,
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.blue1,
+                            text: offer.exclusiveOffer.title,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ],
-                      ),
-                      child: Center(
-                        child: Icon(Icons.favorite_rounded,color: AppColors.redColor,size: 18),
                       ),
                     ),
                   ),
                 ],
               ),
-              Padding(
-                padding: EdgeInsets.only(left: 4, top: 8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CommonText(
-                      textAlign: TextAlign.start,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: AppColors.blue1,
-                      text: item['name']!,
-                    ),
-                    SizedBox(height: 4.h),
-                    CommonText(
-                      textAlign: TextAlign.start,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.blue1,
-                      text: item["desc"]!,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
+            ),
+          );
+        },
+      );
+    });
   }
+}
+
+Widget _buildErrorPlaceholder() {
+  return Container(
+    height: 120.h,
+    width: double.infinity,
+    color: AppColors.otpBorderColor,
+    child: Icon(
+      Icons.image_not_supported_outlined,
+      size: 40.sp,
+      color: AppColors.blue1.withValues(alpha: 0.3),
+    ),
+  );
 }

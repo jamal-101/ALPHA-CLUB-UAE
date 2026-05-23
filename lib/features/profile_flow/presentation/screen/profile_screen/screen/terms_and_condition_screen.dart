@@ -1,90 +1,73 @@
 import 'package:alpha_club/core/global/common_app_bar.dart';
+import 'package:alpha_club/core/utils/app_color/app_color.dart';
 import 'package:alpha_club/core/utils/app_string/app_string.dart';
+import 'package:alpha_club/features/profile_flow/controller/profile_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/src/extension_navigation.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:get/get.dart';
 
 import '../../../../../../core/global/commont_text.dart';
-import '../../../../../../core/utils/app_color/app_color.dart';
 
 class TermsAndConditionScreen extends StatelessWidget {
-  const TermsAndConditionScreen({super.key});
+  TermsAndConditionScreen({super.key});
+
+  final ProfileController profileController = Get.put(ProfileController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.only(left: 16,right: 16),
-        child: Column(
-          children: [
-            SizedBox(height: 50.h),
-            CommonAppBar(title: AppString.termsAndCondition,onTap: (){
-              Get.back();
-            },),
-            SizedBox(height: 24.h),
-            RichText(
-              text: TextSpan(
-                text: AppString.byUsingThe,
-                style: GoogleFonts.poppins(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 14,
-                  color: AppColors.blue1,
-                ),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        surfaceTintColor: AppColors.appBackgroundColor,
+        centerTitle: true,
+        backgroundColor: AppColors.appBackgroundColor,
+        elevation: 0,
+        leading: IconButton(
+          onPressed: () => Get.back(),
+          icon: Icon(
+            Icons.arrow_back_ios_new,
+            color: AppColors.blue1,
+            size: 20.sp,
+          ),
+        ),
+        title: CommonText(
+          text: AppString.termsAndCondition,
+          style: TextStyle(
+            fontFamily: 'SFPro',
+            fontWeight: FontWeight.w500,
+            fontSize: 20.sp,
+            color: AppColors.blue1,
+          ),
+        ),
+      ),
+      body: Obx(() {
+        return RefreshIndicator(
+          color: Color(0xFF233A66),
+          backgroundColor: AppColors.appBackgroundColor,
+          onRefresh: () async {
+            await profileController.termsAndCondition();
+          },
+          child: SingleChildScrollView(
+            physics: AlwaysScrollableScrollPhysics(),
+            child: Padding(
+              padding: EdgeInsets.only(left: 16, right: 16),
+              child: Column(
                 children: [
-                  TextSpan(
-                      text: '  '
-                  ),
-                  TextSpan(
-                    text: AppString.alphaClub,
-                    style: GoogleFonts.poppins(
-                        color: AppColors.goldColor1,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14.sp
-                    ),
-                  ),
-                  TextSpan(
-                      text: '  '
-                  ),
-                  TextSpan(
-                    text: AppString.mobileApp,
-                    style: GoogleFonts.poppins(
+                  HtmlWidget(
+                    profileController.termsDescription.value,
+                    textStyle: TextStyle(
+                      fontSize: 14.sp,
                       fontWeight: FontWeight.w400,
-                      fontSize: 14,
-                      color: AppColors.blue1,
+                      color: AppColors.blueBase,
                     ),
                   ),
                 ],
               ),
             ),
-            SizedBox(height: 20.h),
-            CommonText(
-                maxLines: 10,
-                textAlign: TextAlign.start,
-                fontWeight: FontWeight.w400,
-                fontSize: 14,
-                color: AppColors.blue1,
-                text: AppString.userMustProvide),
-            SizedBox(height: 20.h),
-            CommonText(
-                maxLines: 10,
-                textAlign: TextAlign.start,
-                fontWeight: FontWeight.w400,
-                fontSize: 14,
-                color: AppColors.blue1,
-                text: AppString.subscription),
-            SizedBox(height: 20.h),
-            CommonText(
-                maxLines: 10,
-                textAlign: TextAlign.start,
-                fontWeight: FontWeight.w400,
-                fontSize: 14,
-                color: AppColors.blue1,
-                text: AppString.keyBank),
-          ],
-        ),
-      ),
+          ),
+        );
+      }),
     );
   }
 }
