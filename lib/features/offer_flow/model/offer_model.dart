@@ -10,6 +10,9 @@ class OfferModel {
   final String description;
   final String address;
 
+  final double? latitude;
+  final double? longitude;
+
   OfferModel({
     required this.id,
     required this.name,
@@ -20,6 +23,8 @@ class OfferModel {
     required this.description,
     required this.address,
     this.discount,
+    this.latitude, // 🟢
+    this.longitude,
   });
 
   factory OfferModel.fromJson(Map<String, dynamic> json) {
@@ -29,6 +34,16 @@ class OfferModel {
       imageList = List<String>.from(json['image'].map((x) => x.toString()));
     } else if (json['image'] != null && json['image'].toString().isNotEmpty) {
       imageList = [json['image'].toString()];
+    }
+
+    double? lat;
+    double? lng;
+    if (json['location'] != null && json['location']['coordinates'] is List) {
+      final List<dynamic> coords = json['location']['coordinates'];
+      if (coords.length >= 2) {
+        lng = double.tryParse(coords[0].toString()); // GeoJSON এ প্রথম ভ্যালু Longitude
+        lat = double.tryParse(coords[1].toString()); // GeoJSON এ দ্বিতীয় ভ্যালু Latitude
+      }
     }
 
     return OfferModel(
@@ -44,6 +59,8 @@ class OfferModel {
       description: json['description'] ?? '',
       category: OfferCategory.fromJson(json['category'] ?? {}),
       isFavourite: json['isFavourite'] ?? false,
+      latitude: lat,
+      longitude: lng,
     );
   }
 
@@ -75,6 +92,10 @@ class OfferModel {
       'category': category.toJson(),
       'isFavourite': isFavourite,
       'discount': discount?.toJson(),
+      'location': {
+        'type': 'Point',
+        'coordinates': [longitude, latitude]
+      }
     };
   }
 
@@ -86,6 +107,8 @@ class OfferModel {
     OfferCategory? category,
     List<String>? images,
     String? address,
+    double? latitude, // 🟢
+    double? longitude,
   }) {
     return OfferModel(
       id: id,
@@ -99,6 +122,8 @@ class OfferModel {
       isFavourite: isFavourite ?? this.isFavourite,
       discount: discount ?? this.discount,
       address: address ?? this.address,
+      latitude: latitude ?? this.latitude, // 🟢
+      longitude: longitude ?? this.longitude,
     );
   }
 }

@@ -9,6 +9,7 @@ import 'package:alpha_club/features/auth_flow/controller/login_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../../core/global/custom_phone_field.dart';
 
@@ -40,9 +41,7 @@ class LoginScreen extends StatelessWidget {
                 padding: EdgeInsets.only(right: 20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SizedBox(height: 30.h),
-                  ],
+                  children: [SizedBox(height: 30.h)],
                 ),
               ),
               Image.asset(AssetPath.splashImage, height: 130, width: 225),
@@ -55,7 +54,7 @@ class LoginScreen extends StatelessWidget {
               SizedBox(height: 10.h),
               CommonText(
                 textAlign: TextAlign.center,
-                text: AppString.enterYourMobile,
+                text: "Enter your email address",
                 color: AppColors.whiteFoundation,
                 fontWeight: FontWeight.w400,
                 fontSize: 18.sp,
@@ -97,19 +96,23 @@ class LoginScreen extends StatelessWidget {
                             color: AppColors.blue1,
                             fontFamily: 'SFPro',
                           ),
-                          text: AppString.contactNumber,
+                          text: "Email Address",
                         ),
+                        // SizedBox(height: 12.h),
+                        // CustomPhoneField(
+                        //   fillColor: AppColors.fillColor,
+                        //   hintText: "09 -1897243189",
+                        //   onNumberChanged: (phone) {
+                        //     debugPrint("Full Number: ${phone.completeNumber}");
+                        //     controller.phoneController.text =
+                        //         phone.completeNumber;
+                        //   },
+                        // ),
                         SizedBox(height: 12.h),
-                        CustomPhoneField(
+                        CustomEmailField(
                           fillColor: AppColors.fillColor,
-                          hintText: "09 -1897243189",
-                          onNumberChanged: (phone) {
-                            debugPrint(
-                              "Full Number: ${phone.completeNumber}",
-                            );
-                            controller.phoneController.text =
-                                phone.completeNumber;
-                          },
+                          hintText: "example@email.com",
+                          controller: controller.emailController,
                         ),
                         SizedBox(height: 24.h),
                         CommonText(
@@ -126,6 +129,7 @@ class LoginScreen extends StatelessWidget {
                           isPassword: true,
                           hintText: '********',
                           controller: controller.passwordController,
+
                           // onChanged: (value) {
                           //   controller: controller.passwordController, = value;
                           // },
@@ -157,7 +161,6 @@ class LoginScreen extends StatelessWidget {
                         //   Get.toNamed(AppRoute.homeScreen);
                         //
                         // }, text: "Guest"),
-
                         Obx(
                           () => CommonButton(
                             onTap: controller.isLoading.value
@@ -201,15 +204,23 @@ class LoginScreen extends StatelessWidget {
                                   ),
                               child: GestureDetector(
                                 onTap: () async {
-                                    final Uri url = Uri.parse('https://alphaclubuae.com/membership-application#application');
-                                    try {
-                                      if (await canLaunchUrl(url)) {
-                                  await launchUrl(url, mode: LaunchMode.externalApplication);
-                                  } else {
-                                  Get.snackbar("Error", "Could not launch the website");
-                                  }
+                                  final Uri url = Uri.parse(
+                                    'https://alphaclubuae.com/membership-application#application',
+                                  );
+                                  try {
+                                    if (await canLaunchUrl(url)) {
+                                      await launchUrl(
+                                        url,
+                                        mode: LaunchMode.externalApplication,
+                                      );
+                                    } else {
+                                      Get.snackbar(
+                                        "Error",
+                                        "Could not launch the website",
+                                      );
+                                    }
                                   } catch (e) {
-                                  debugPrint("URL Error: $e");
+                                    debugPrint("URL Error: $e");
                                   }
                                 },
                                 child: Text(
@@ -226,9 +237,11 @@ class LoginScreen extends StatelessWidget {
                               ),
                             ),
                           ],
-
                         ),
-                        SizedBox(height: MediaQuery.of(context).viewInsets.bottom + 40.h),
+                        SizedBox(
+                          height:
+                              MediaQuery.of(context).viewInsets.bottom + 40.h,
+                        ),
                       ],
                     ),
                   ),
@@ -242,6 +255,78 @@ class LoginScreen extends StatelessWidget {
   }
 }
 
+
+
+
+
+class CustomEmailField extends StatelessWidget {
+  final TextEditingController controller;
+  final String hintText;
+  final Color? fillColor;
+
+  const CustomEmailField({
+    super.key,
+    required this.controller,
+    this.hintText = "example@email.com",
+    this.fillColor,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: controller,
+      keyboardType: TextInputType.emailAddress,
+      textInputAction: TextInputAction.next,
+      style: GoogleFonts.montserrat(
+        fontSize: 16.sp,
+        fontWeight: FontWeight.w400,
+        color: const Color(0xFF0F4C5C),
+      ),
+      decoration: InputDecoration(
+        hintText: hintText,
+        hintStyle: GoogleFonts.montserrat(
+          fontSize: 14.sp,
+          fontWeight: FontWeight.w400,
+          color: Colors.grey.withValues(alpha: 0.6),
+        ),
+        fillColor: fillColor ?? const Color(0xFFF5F7FA),
+        filled: true,
+        prefixIcon: Icon(
+          Icons.email_outlined,
+          color: const Color(0xFF0F4C5C).withValues(alpha: 0.7),
+          size: 20.sp,
+        ),
+        contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12.r),
+          borderSide: BorderSide.none,
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12.r),
+          borderSide: BorderSide(color: Colors.grey.withValues(alpha: 0.2), width: 1),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12.r),
+          borderSide: const BorderSide(color: Color(0xFF0F4C5C), width: 1.5),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12.r),
+          borderSide: const BorderSide(color: Colors.red, width: 1),
+        ),
+      ),
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Email cannot be empty';
+        }
+        final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+        if (!emailRegex.hasMatch(value)) {
+          return 'Please enter a valid email address';
+        }
+        return null;
+      },
+    );
+  }
+}
 
 // Get.toNamed(AppRoute.memberFormScreen);
 // void showRenewalDialog() {

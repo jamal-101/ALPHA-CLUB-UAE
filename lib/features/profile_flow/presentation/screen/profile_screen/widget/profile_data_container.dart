@@ -97,7 +97,7 @@ class _ProfileDataContainerState extends State<ProfileDataContainer> {
     final isNetworkImage = imagePath.startsWith('http');
 
     return Container(
-      height: 100.h,
+      height: 130.h,
       width: double.infinity,
       decoration: BoxDecoration(
         color: Colors.white,
@@ -121,8 +121,8 @@ class _ProfileDataContainerState extends State<ProfileDataContainer> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    height: 78.h,
-                    width: 78.w,
+                    height: 110.h,
+                    width: 110.w,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16.r),
                       border: Border.all(
@@ -141,7 +141,7 @@ class _ProfileDataContainerState extends State<ProfileDataContainer> {
                                   padding: const EdgeInsets.all(8.0),
                                   child: Image.asset(
                                     AssetPath.profileIcon,
-                                    fit: BoxFit.cover,
+                                    fit: BoxFit.fill,
                                   ),
                                 );
                               },

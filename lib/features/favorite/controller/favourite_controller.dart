@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:alpha_club/core/service/api/api_service.dart';
 import 'package:alpha_club/core/service/api/api_enpoint.dart';
 import 'package:alpha_club/core/service/logger/app_logger.dart';
-import 'package:alpha_club/features/offer_flow/model/offer_model.dart';
 import 'package:alpha_club/features/favorite/model/favourite_offer_model.dart';
 import '../../../core/stroge/storage_service.dart';
 import '../../offer_flow/controller/offer_controller.dart';

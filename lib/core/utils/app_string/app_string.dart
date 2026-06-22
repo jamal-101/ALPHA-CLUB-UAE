@@ -7,7 +7,7 @@ class AppString {
   static const contactNumber = "Contact Number";
   static const enterYourContact = "Enter your contact number";
   static const forgetPass = "Forgot Password?";
-  static const becomeAnd = "Become an APLPHA today";
+  static const becomeAnd = "Join ALPHA Today";
   static const applyHere = "Apply here";
   static const forgotPass = "Forgot password?";
   static const enterYourEmail = "Enter your email below to reset your password";
@@ -158,7 +158,7 @@ class AppString {
   static const reservation = "Reservation recommended for peak dining hours.";
   static const upcomingEvent = "Upcoming Events";
   static const joinUsfor = "Join us for exclusive experiences";
-  static const searchClubs = "Search clubs....";
+  static const searchClubs = "Search";
   static const discoverClubs = "Discover Clubs";
   static const findYOur = "Find your perfect membership";
   static const veoGym = "Veo Gym";

@@ -109,8 +109,8 @@ class EditeProfileScreen extends StatelessWidget {
                           : "";
 
                       return Container(
-                        height: 80.h,
-                        width: 80.w,
+                        height: 100.h,
+                        width: 100.w,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           border: Border.all(
@@ -136,17 +136,17 @@ class EditeProfileScreen extends StatelessWidget {
               // ),
                     Positioned(
                       bottom: 2,
-                      right: 2,
+                      right: 3,
                       child: GestureDetector(
                         onTap: () => profileController.pickImage(),
                         child: Container(
-                            height: 20.h,
-                            width: 20.w,
+                            height: 30.h,
+                            width: 30.w,
                             decoration: const BoxDecoration(
                               color: Colors.blue,
                               shape: BoxShape.circle,
                             ),
-                            child: Center(child: Icon(Icons.camera_alt, size: 12.sp, color: Colors.white))),
+                            child: Center(child: Icon(Icons.camera_alt, size: 18.sp, color: Colors.white))),
                       ),
                     ),
                   ],

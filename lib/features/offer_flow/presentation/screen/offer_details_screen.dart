@@ -9,11 +9,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
 import '../../../../core/utils/app_image/app_image.dart';
+import '../../controller/offer_controller.dart';
 
 class OfferDetailsScreen extends StatelessWidget {
   OfferDetailsScreen({super.key});
 
   final OfferDetailsController controller = Get.put(OfferDetailsController());
+  final OfferController offerController = Get.put(OfferController());
 
 
   final RxInt _currentImageIndex = 0.obs;
@@ -171,11 +173,16 @@ class OfferDetailsScreen extends StatelessWidget {
                     children: [
                       Image.asset(AssetPath.locationIcon, height: 20.h, width: 20.w),
                       SizedBox(width: 5.w),
-                      CommonText(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.blue1,
-                        text: offer.address,
+                      GestureDetector(
+                        onTap: (){
+                          offerController.openMapNavigation(offer.latitude, offer.longitude);
+                        },
+                        child: CommonText(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.blue1,
+                          text: offer.address,
+                        ),
                       ),
                     ],
                   ),

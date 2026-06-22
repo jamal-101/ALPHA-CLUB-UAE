@@ -16,11 +16,18 @@ class LoginController extends GetxController {
   var isLoading = false.obs;
 
   final phoneController = TextEditingController();
+  final emailController = TextEditingController();
   final passwordController = TextEditingController();
   Future<void> login() async {
-    if (phoneController.text.isEmpty || passwordController.text.isEmpty) {
+    // if (phoneController.text.isEmpty || passwordController.text.isEmpty) {
+    //   AppLogger.warning('Login attempt with empty fields', tag: 'LOGIN_VALIDATION');
+    //   Get.snackbar('Error', 'Please enter phone number and password');
+    //   return;
+    // }
+
+    if (emailController.text.isEmpty || passwordController.text.isEmpty) {
       AppLogger.warning('Login attempt with empty fields', tag: 'LOGIN_VALIDATION');
-      Get.snackbar('Error', 'Please enter phone number and password');
+      Get.snackbar('Error', 'Please enter email address and password');
       return;
     }
 
@@ -29,7 +36,8 @@ class LoginController extends GetxController {
       final response = await ApiService.post(
         ApiEndPoint.login,
         body: {
-          'phone': phoneController.text.trim(),
+          // 'phone': phoneController.text.trim(),
+          'email': emailController.text.trim(),
           'password': passwordController.text.trim(),
         },
       );
@@ -63,7 +71,7 @@ class LoginController extends GetxController {
             barrierDismissible: false,
           );
         } else {
-          Get.snackbar("Login Failed", response.message ?? "Invalid credentials");
+          Get.snackbar("Login Failed", response.message ?? "Invalid credentials",backgroundColor: Colors.white,colorText: Colors.red);
         }
       }
     } catch (e) {

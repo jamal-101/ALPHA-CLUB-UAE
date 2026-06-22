@@ -18,120 +18,134 @@ class DigitalMembershipContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      return Container(
-        height: 88.h,
-        width: double.infinity,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12.r),
-          gradient: LoginScreen.isAppLied.value ?
-          RadialGradient(
-            center: Alignment.center,
-            focal: Alignment.center,
-            focalRadius: 0.0,
-            radius: 1.9,
-            colors: [Color(0xFF9DA1AA), Color(0xFF9DA1AA)],
-            stops: const [0.0, 1.0],
-          ):
-          RadialGradient(
-            center: Alignment.center,
-            focal: Alignment.center,
-            focalRadius: 0.0,
-            radius: 1.9,
-            colors: [AppColors.radialGradiant1, AppColors.radialGradiant2],
-            stops: const [0.0, 1.0],
+      return GestureDetector(
+        onTap: () {
+          final ProfileController profileController = Get.put(ProfileController());
+          profileController.fetchAllPlans();
+          profileController.fetchFamilyProfile();
+          showModalBottomSheet(
+            context: context,
+            isScrollControlled: true,
+            backgroundColor: Colors.transparent,
+            builder: (context) => modelBottomSheet(context),
+          );
+        },
+        child: Container(
+          height: 88.h,
+          width: double.infinity,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12.r),
+            gradient: LoginScreen.isAppLied.value ?
+            RadialGradient(
+              center: Alignment.center,
+              focal: Alignment.center,
+              focalRadius: 0.0,
+              radius: 1.9,
+              colors: [Color(0xFF9DA1AA), Color(0xFF9DA1AA)],
+              stops: const [0.0, 1.0],
+            ):
+            RadialGradient(
+              center: Alignment.center,
+              focal: Alignment.center,
+              focalRadius: 0.0,
+              radius: 1.9,
+              colors: [AppColors.radialGradiant1, AppColors.radialGradiant2],
+              stops: const [0.0, 1.0],
+            ),
           ),
-        ),
-        child: Padding(
-          padding: EdgeInsets.only(left: 20.w, right: 12.w),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                height: 46.h,
-                width: 46.w,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: AppColors.blue1.withValues(alpha: 0.2),
-                ),
-                child: Center(
-                  child: Image.asset(
-                    AssetPath.creditCard,
-                    fit: BoxFit.contain,
-                    height: 25.h,
-                    width: 25.w,
+          child: Padding(
+            padding: EdgeInsets.only(left: 20.w, right: 12.w),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  height: 46.h,
+                  width: 46.w,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: AppColors.blue1.withValues(alpha: 0.2),
+                  ),
+                  child: Center(
+                    child: Image.asset(
+                      AssetPath.creditCard,
+                      fit: BoxFit.contain,
+                      height: 25.h,
+                      width: 25.w,
+                    ),
                   ),
                 ),
-              ),
-              Flexible(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ShaderMask(
-                      blendMode: BlendMode.srcIn,
-                      shaderCallback: (bounds) =>
-                          const LinearGradient(
-                            begin: Alignment.centerLeft,
-                            end: Alignment.centerRight,
-                            colors: [
-                              AppColors.linearGradient1,
-                              AppColors.linearGradient2,
-                            ],
-                          ).createShader(
-                            Rect.fromLTWH(0, 0, bounds.width, bounds.height),
-                          ),
-                      child: CommonText(
-                        text: AppString.digitalMemberShipCard,
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w500,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
+                Flexible(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ShaderMask(
+                        blendMode: BlendMode.srcIn,
+                        shaderCallback: (bounds) =>
+                            const LinearGradient(
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                              colors: [
+                                AppColors.linearGradient1,
+                                AppColors.linearGradient2,
+                              ],
+                            ).createShader(
+                              Rect.fromLTWH(0, 0, bounds.width, bounds.height),
+                            ),
+                        child: CommonText(
+                          text: AppString.digitalMemberShipCard,
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w500,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
-                    ),
-                    ShaderMask(
-                      blendMode: BlendMode.srcIn,
-                      shaderCallback: (bounds) =>
-                          const LinearGradient(
-                            begin: Alignment.centerLeft,
-                            end: Alignment.centerRight,
-                            colors: [
-                              AppColors.linearGradient1,
-                              AppColors.linearGradient2,
-                            ],
-                          ).createShader(
-                            Rect.fromLTWH(0, 0, bounds.width, bounds.height),
-                          ),
-                      child: CommonText(
-                        text: AppString.tapToView,
-                        fontSize: 11.sp,
-                        fontWeight: FontWeight.w400,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
+                      ShaderMask(
+                        blendMode: BlendMode.srcIn,
+                        shaderCallback: (bounds) =>
+                            const LinearGradient(
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                              colors: [
+                                AppColors.linearGradient1,
+                                AppColors.linearGradient2,
+                              ],
+                            ).createShader(
+                              Rect.fromLTWH(0, 0, bounds.width, bounds.height),
+                            ),
+                        child: CommonText(
+                          text: AppString.tapToView,
+                          fontSize: 11.sp,
+                          fontWeight: FontWeight.w400,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              SizedBox(width: 8.w),
-              GestureDetector(
-                onTap: () {
-                  final ProfileController profileController = Get.put(ProfileController());
-                  profileController.fetchAllPlans();
-                  profileController.fetchFamilyProfile();
-                  showModalBottomSheet(
-                    context: context,
-                    isScrollControlled: true,
-                    backgroundColor: Colors.transparent,
-                    builder: (context) => modelBottomSheet(context),
-                  );
-                },
-                child: Icon(
-                  Icons.arrow_forward_ios_outlined,
-                  color: LoginScreen.isAppLied.value ? Colors.white54 : Colors.white,
-                  size: 16.sp,
-                ),
-              ),
-            ],
+                SizedBox(width: 8.w),
+                // GestureDetector(
+                  // onTap: () {
+                  //   final ProfileController profileController = Get.put(ProfileController());
+                  //   profileController.fetchAllPlans();
+                  //   profileController.fetchFamilyProfile();
+                  //   showModalBottomSheet(
+                  //     context: context,
+                  //     isScrollControlled: true,
+                  //     backgroundColor: Colors.transparent,
+                  //     builder: (context) => modelBottomSheet(context),
+                  //   );
+                  // },
+                  // child:
+                  Icon(
+                    Icons.arrow_forward_ios_outlined,
+                    color: LoginScreen.isAppLied.value ? Colors.white54 : Colors.white,
+                    size: 16.sp,
+                  ),
+                // ),
+              ],
+            ),
           ),
         ),
       );
@@ -157,8 +171,8 @@ Widget modelBottomSheet(BuildContext context) {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  height: 40.h,
-                  width: 40.w,
+                  height: 65.h,
+                  width: 65.w,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     gradient: RadialGradient(
@@ -173,7 +187,7 @@ Widget modelBottomSheet(BuildContext context) {
                   child: Center(
                     child: Image.asset(
                       AssetPath.splashImage,
-                      height: 120.h,
+                      height: 130.h,
                       fit: BoxFit.contain,
                     ),
                   ),

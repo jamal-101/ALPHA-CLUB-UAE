@@ -184,6 +184,7 @@ import 'package:alpha_club/core/service/logger/app_logger.dart';
 import 'package:alpha_club/features/offer_flow/model/category_model.dart';
 import 'package:alpha_club/features/offer_flow/model/offer_model.dart';
 import '../../favorite/controller/favourite_controller.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class OfferController extends GetxController {
 
@@ -258,8 +259,6 @@ class OfferController extends GetxController {
       if (selectedMinKm.value.isNotEmpty && selectedMaxKm.value.isNotEmpty) {
         endpoint += '&minKm=${selectedMinKm.value}&maxKm=${selectedMaxKm.value}';
       }
-
-
       endpoint += '&lat=23.801924&lng=90.3523456';
 
       final response = await ApiService.get(endpoint);
@@ -278,7 +277,6 @@ class OfferController extends GetxController {
           } else {
             item['image'] = "";
           }
-
           return OfferModel.fromJson(item);
         }).toList();
 
@@ -333,4 +331,19 @@ class OfferController extends GetxController {
       offers.refresh();
     }
   }
+
+  Future<void> openMapNavigation(double? lat, double? lng) async {
+    if (lat == null || lng == null) {
+      Get.snackbar("Error", "Location coordinates not found");
+      return;
+    }
+    final String mapUrl = "https://www.google.com/maps/search/?api=1&query=$lat,$lng";
+
+    if (await canLaunchUrl(Uri.parse(mapUrl))) {
+      await launchUrl(Uri.parse(mapUrl), mode: LaunchMode.externalApplication);
+    } else {
+      Get.snackbar("Error", "Could not open maps");
+    }
+  }
+
 }
