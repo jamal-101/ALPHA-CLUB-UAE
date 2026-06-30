@@ -44,7 +44,7 @@ class OurSponsorScreen extends StatelessWidget {
                 SizedBox(height: 50.h),
                 GestureDetector(
                     onTap: () {
-                      Get.back();
+                      Navigator.pop(context);
                     },
                     child: Icon(Icons.arrow_back_ios_new_rounded, size: 18,
                       color: AppColors.blue1,)),

@@ -16,9 +16,10 @@ class CommonBottomNabVar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final BottomNavController controller = Get.put(BottomNavController());
+    final double bottomPadding = MediaQuery.of(context).padding.bottom;
     return Obx(
       () => Container(
-        height: 100,
+        height: 88.h + bottomPadding,
         decoration: const BoxDecoration(
           border: Border(
             top: BorderSide(color: AppColors.appBackgroundColor, width: 1),

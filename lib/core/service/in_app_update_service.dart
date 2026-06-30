@@ -3,7 +3,7 @@ import 'package:in_app_update/in_app_update.dart';
 
 class InAppUpdateService {
   static Future<void> checkForUpdate() async {
-    if (kIsWeb) return;
+    if (kIsWeb || defaultTargetPlatform != TargetPlatform.android) return;
 
     try {
       final info = await InAppUpdate.checkForUpdate();
@@ -16,6 +16,8 @@ class InAppUpdateService {
   }
 
   static Future<void> checkAndShowUpdate() async {
+    if (kIsWeb || defaultTargetPlatform != TargetPlatform.android) return;
+
     try {
       InAppUpdate.checkForUpdate().then((info) {
         if (info.updateAvailability == UpdateAvailability.updateAvailable) {
