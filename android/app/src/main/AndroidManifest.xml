@@ -15,7 +15,7 @@
     </queries>
 
     <application
-        android:label="Alpha Club"
+        android:label="ALPHA Club UAE"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
 

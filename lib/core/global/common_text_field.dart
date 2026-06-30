@@ -118,7 +118,7 @@ class CommonTextField extends StatelessWidget {
     this.height,
     this.hintText,
     this.prefixIcon,
-    this.isPassword = false,
+    this.isPassword = true,
     this.controller,
     this.onChanged,
     this.validator,
@@ -138,7 +138,7 @@ class CommonTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    RxBool isVisible = false.obs;
+    RxBool isVisible = true.obs;
 
     return Obx(()=>
        TextFormField(
@@ -188,21 +188,19 @@ class CommonTextField extends StatelessWidget {
               borderRadius: BorderRadius.circular(8.r),
               borderSide: const BorderSide(color: Colors.red, width: 1),
             ),
-
             prefixIcon: prefixIcon != null
                 ? Padding(
                     padding: EdgeInsets.symmetric(horizontal: 12.w),
                     child: prefixIcon,
                   )
                 : null,
-            suffixIcon: isPassword
+             suffixIcon: isPassword
                 ? Obx(()=>
                   InkWell(
                       onTap: () => isVisible.value = !isVisible.value,
                       child: Icon(
                         isVisible.value
-                            ? Icons.visibility_off_outlined
-                            : Icons.visibility_outlined,
+                            ?  Icons.visibility_off_outlined : Icons.visibility_outlined ,
                         color: const Color(0xFF808080),
                       ),
                     ),
