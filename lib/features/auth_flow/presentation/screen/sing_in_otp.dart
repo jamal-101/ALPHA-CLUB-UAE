@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../../../../core/global/common_button.dart';
 import '../../../../core/global/commont_text.dart';
+import '../../../../core/route/app_route.dart';
 import '../../../../core/utils/app_color/app_color.dart';
 import '../../../../core/utils/app_image/app_image.dart';
 import '../../../../core/utils/app_string/app_string.dart';
@@ -19,6 +20,37 @@ class SingInOtp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: AppColors.radialGradiant2,
+        surfaceTintColor: AppColors.radialGradiant2,
+        elevation: 0,
+        leadingWidth: 50.w,
+        leading: Padding(
+          padding: EdgeInsets.only(left: 16.w, top: 8.h, bottom: 8.h),
+          child: GestureDetector(
+            onTap: () => Navigator.pop(context),
+            child: Container(
+              width: 30.w,
+              height: 20.h,
+              decoration: BoxDecoration(
+                color: Colors.white70.withValues(alpha: 0.3),
+                borderRadius: BorderRadius.circular(8.r),
+              ),
+              child: Center(
+                child: Padding(
+                  padding: EdgeInsets.only(left: 9.w),
+                  child: Icon(
+                    Icons.arrow_back_ios,
+                    color: Colors.black87.withValues(alpha: 0.9),
+                    size: 28.sp,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
       body: Container(
         height: double.infinity,
         width: double.infinity,
@@ -29,9 +61,10 @@ class SingInOtp extends StatelessWidget {
           ),
         ),
         child: SingleChildScrollView(
+          // physics: NeverScrollableScrollPhysics(),
           child: Column(
             children: [
-              SizedBox(height: 90.h),
+              // SizedBox(height: 90.h),
               Image.asset(AssetPath.splashImage, height: 130, width: 240),
               SizedBox(height: 70.h),
               CommonText(

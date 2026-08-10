@@ -2,7 +2,7 @@
 
 class AppString {
   static const sinIn = "Sign In";
-  static const enterYourMobile = "Enter your mobile number to";
+  static const enterYourMobile = "Enter your email";
   static const toAccess = "access your account";
   static const contactNumber = "Contact Number";
   static const enterYourContact = "Enter your contact number";

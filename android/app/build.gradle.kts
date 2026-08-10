@@ -30,9 +30,9 @@ android {
     defaultConfig {
         applicationId = "com.alphaclub.app"
         minSdk = flutter.minSdkVersion
-        targetSdk = 35
-        versionCode = 9
-        versionName = "1.0.4"
+        targetSdk = 36
+        versionCode = 10
+        versionName = "1.0.5"
         multiDexEnabled = true
     }
 

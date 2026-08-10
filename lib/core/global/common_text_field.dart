@@ -146,8 +146,8 @@ class CommonTextField extends StatelessWidget {
           onChanged: onChanged,
           validator: validator,
         autovalidateMode: AutovalidateMode.onUserInteraction,
-          // obscureText: isPassword ? isVisible.value : false,
-         obscureText: isVisible.value,
+          obscureText: isPassword ? isVisible.value : false,
+         // obscureText: isVisible.value,
           style: TextStyle(
             fontFamily: 'SFPro',
             fontSize: 18.sp,
