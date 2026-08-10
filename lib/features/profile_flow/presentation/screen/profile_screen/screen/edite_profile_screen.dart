@@ -4,10 +4,12 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../../../../../core/global/common_app_bar.dart';
 import '../../../../../../core/global/common_button.dart';
 import '../../../../../../core/global/common_text_field.dart';
 import '../../../../../../core/global/commont_text.dart';
+import '../../../../../../core/global/commont_text_field_email.dart';
 import '../../../../../../core/service/api/api_enpoint.dart';
 import '../../../../../../core/utils/app_color/app_color.dart';
 import '../../../../../../core/utils/app_image/app_image.dart';
@@ -155,9 +157,10 @@ class EditeProfileScreen extends StatelessWidget {
               SizedBox(height: 16.h),
               CommonText(text: AppString.fullName, fontSize: 14.sp, color: AppColors.blue1),
               SizedBox(height: 8.h),
-              CommonTextField(
+              CommonTextFieldEdite(
                 controller: profileController.profileNameController,
                 hintText: "Enter your name",
+                // isPassword: false,
               ),
               SizedBox(height: 50.h),
               // Obx(() =>
@@ -171,6 +174,83 @@ class EditeProfileScreen extends StatelessWidget {
         // ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+
+
+class CommonTextFieldEdite extends StatelessWidget {
+  const CommonTextFieldEdite({
+    super.key,
+    this.containerColor = AppColors.fillColor,
+    this.borderColor = AppColors.borderColor,
+    this.height,
+    this.hintText,
+    this.prefixIcon,
+    this.controller,
+    this.onChanged,
+    this.validator,
+    this.isPopins = false,
+  });
+
+  final Color containerColor;
+  final double? height;
+  final Color borderColor;
+  final String? hintText;
+  final Widget? prefixIcon;
+  final TextEditingController? controller;
+  final Function(String)? onChanged;
+  final String? Function(String?)? validator;
+  final bool isPopins;
+
+  @override
+  Widget build(BuildContext context) {
+
+    return TextFormField(
+      controller: controller,
+      onChanged: onChanged,
+      validator: validator,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      style: TextStyle(
+        fontFamily: 'SFPro',
+        fontSize: 18.sp,
+        fontWeight: FontWeight.w400,
+        color: AppColors.blueBase,
+      ),
+
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: containerColor,
+        hintText: hintText,
+        hintStyle: isPopins ? GoogleFonts.poppins(
+          fontWeight: FontWeight.w400,
+          fontSize: 18.sp,
+          color: AppColors.blueBase,
+        ) : TextStyle(
+            fontFamily: 'SFPro',
+            fontSize: 18.sp,
+            fontWeight: FontWeight.w400,
+            color: AppColors.blueBase
+        ),
+        contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8.r),
+          borderSide: BorderSide(color: borderColor, width: 1.w),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8.r),
+          borderSide: BorderSide(color: borderColor, width: 1.w),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8.r),
+          borderSide: BorderSide(color: AppColors.blueBase, width: 1.w),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8.r),
+          borderSide: const BorderSide(color: Colors.red, width: 1),
         ),
       ),
     );

@@ -9,7 +9,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../../../../core/global/commont_text_field_email.dart';
 import '../../../../core/helper/from_validation.dart';
-import '../../../../core/route/app_route.dart';
+
 
 class SingInVerify extends StatelessWidget {
   SingInVerify({super.key});
