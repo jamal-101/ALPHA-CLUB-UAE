@@ -256,10 +256,10 @@ class OfferController extends GetxController {
         endpoint += '&category=${selectedCategory.value}';
       }
 
-      if (selectedMinKm.value.isNotEmpty && selectedMaxKm.value.isNotEmpty) {
-        endpoint += '&minKm=${selectedMinKm.value}&maxKm=${selectedMaxKm.value}';
-      }
-      endpoint += '&lat=23.801924&lng=90.3523456';
+      // if (selectedMinKm.value.isNotEmpty && selectedMaxKm.value.isNotEmpty) {
+      //   endpoint += '&minKm=${selectedMinKm.value}&maxKm=${selectedMaxKm.value}';
+      // }
+      // endpoint += '&lat=23.801924&lng=90.3523456';
 
       final response = await ApiService.get(endpoint);
 

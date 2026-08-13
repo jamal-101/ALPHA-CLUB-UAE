@@ -8,6 +8,7 @@ class OfferModel {
   final bool isFavourite;
   final Discount? discount;
   final String description;
+  final String businessDescription;
   final String address;
 
   final double? latitude;
@@ -21,6 +22,7 @@ class OfferModel {
     required this.category,
     required this.isFavourite,
     required this.description,
+    required this.businessDescription,
     required this.address,
     this.discount,
     this.latitude, // 🟢
@@ -57,6 +59,7 @@ class OfferModel {
           ? Discount.fromJson(json['discount'])
           : Discount(enable: false, value: 0),
       description: json['description'] ?? '',
+      businessDescription: json['businessDescription'] ?? '',
       category: OfferCategory.fromJson(json['category'] ?? {}),
       isFavourite: json['isFavourite'] ?? false,
       latitude: lat,
@@ -118,6 +121,7 @@ class OfferModel {
       // image: image,
       images: images ?? this.images,
       description: description,
+      businessDescription: businessDescription,
       category: category ?? this.category,
       isFavourite: isFavourite ?? this.isFavourite,
       discount: discount ?? this.discount,
