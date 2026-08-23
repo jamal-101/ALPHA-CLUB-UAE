@@ -15,12 +15,21 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterL
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await dotenv.load(fileName: ".env");
 
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  debugPrint("Background Message Received: ${message.messageId}");
-  String? token = await FirebaseMessaging.instance.getToken();
+  final options = DefaultFirebaseOptions.currentPlatform;
+  if (options.apiKey.isNotEmpty && options.appId.isNotEmpty) {
+    try {
+      await Firebase.initializeApp(options: options);
+      debugPrint("Background Message Received: ${message.messageId}");
+      String? token = await FirebaseMessaging.instance.getToken();
 
-  debugPrint("📩 [Background Message] Title: ${message.notification?.title}");
-  debugPrint("🔑 [Background Token]: $token");
+      debugPrint("📩 [Background Message] Title: ${message.notification?.title}");
+      debugPrint("🔑 [Background Token]: $token");
+    } catch (e) {
+      debugPrint("Failed to initialize Firebase in background: $e");
+    }
+  } else {
+    debugPrint("Firebase options are empty. Skipping background initialization.");
+  }
 }
 
 void main() async {
@@ -28,10 +37,22 @@ void main() async {
 
   await dotenv.load(fileName: ".env");
 
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  bool isFirebaseConfigured = false;
+  final options = DefaultFirebaseOptions.currentPlatform;
+  if (options.apiKey.isNotEmpty && options.appId.isNotEmpty) {
+    try {
+      await Firebase.initializeApp(options: options);
+      isFirebaseConfigured = true;
+    } catch (e) {
+      debugPrint("Failed to initialize Firebase: $e");
+    }
+  } else {
+    debugPrint("Firebase configuration is empty. Skipping initialization.");
+  }
 
-
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  if (isFirebaseConfigured) {
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  }
 
   const AndroidNotificationChannel channel = AndroidNotificationChannel(
     'high_importance_channel',
@@ -48,8 +69,18 @@ void main() async {
   const AndroidInitializationSettings initializationSettingsAndroid =
   AndroidInitializationSettings('@mipmap/launcher_icon');
 
+  const DarwinInitializationSettings initializationSettingsDarwin =
+  DarwinInitializationSettings(
+    requestAlertPermission: true,
+    requestBadgePermission: true,
+    requestSoundPermission: true,
+  );
+
   const InitializationSettings initializationSettings =
-  InitializationSettings(android: initializationSettingsAndroid);
+  InitializationSettings(
+    android: initializationSettingsAndroid,
+    iOS: initializationSettingsDarwin,
+  );
 
   await flutterLocalNotificationsPlugin.initialize(
     initializationSettings,
@@ -58,11 +89,13 @@ void main() async {
     },
   );
 
-  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-    alert: true,
-    badge: true,
-    sound: true,
-  );
+  if (isFirebaseConfigured) {
+    await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+  }
 
   await LocalStorage.init();
   await LocalStorage.getAllPrefData();
@@ -81,6 +114,8 @@ class DefaultFirebaseOptions {
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         return android;
+      case TargetPlatform.iOS:
+        return ios;
       default:
         throw UnsupportedError('Platform not configured');
     }
@@ -91,5 +126,13 @@ class DefaultFirebaseOptions {
     messagingSenderId: dotenv.env['FIREBASE_MESSAGING_SENDER_ID'] ?? '',
     projectId: dotenv.env['FIREBASE_PROJECT_ID'] ?? '',
     storageBucket: dotenv.env['FIREBASE_STORAGE_BUCKET'] ?? '',
+  );
+  static FirebaseOptions get ios => FirebaseOptions(
+    apiKey: dotenv.env['FIREBASE_API_KEY'] ?? '',
+    appId: dotenv.env['FIREBASE_APP_ID'] ?? '',
+    messagingSenderId: dotenv.env['FIREBASE_MESSAGING_SENDER_ID'] ?? '',
+    projectId: dotenv.env['FIREBASE_PROJECT_ID'] ?? '',
+    storageBucket: dotenv.env['FIREBASE_STORAGE_BUCKET'] ?? '',
+    iosBundleId: 'com.alphaclub.app',
   );
 }
