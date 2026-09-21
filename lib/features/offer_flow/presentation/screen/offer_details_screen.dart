@@ -2,7 +2,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:alpha_club/core/global/commont_text.dart';
 import 'package:alpha_club/core/service/api/api_enpoint.dart';
 import 'package:alpha_club/core/utils/app_color/app_color.dart';
-import 'package:alpha_club/core/utils/app_string/app_string.dart';
 import 'package:alpha_club/features/offer_flow/controller/offer_details_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -209,7 +208,7 @@ class OfferDetailsScreen extends StatelessWidget {
                                   );
                                 },
                                 child: CommonText(
-                                  fontSize: 14.sp,
+                                  fontSize: 16.sp,
                                   fontWeight: FontWeight.w400,
                                   color: AppColors.blue1,
                                   text: offer.address,
@@ -228,9 +227,9 @@ class OfferDetailsScreen extends StatelessWidget {
                         SizedBox(height: 16.h),
                         CommonText(
                           fontWeight: FontWeight.w500,
-                          fontSize: 16.sp,
+                          fontSize: 18,
                           color: AppColors.blue1,
-                          text: AppString.description,
+                          text: "Description",
                         ),
                         SizedBox(height: 8.h),
                         HtmlWidget(
@@ -245,7 +244,7 @@ class OfferDetailsScreen extends StatelessWidget {
                         SizedBox(height: 16.h),
                         CommonText(
                           fontWeight: FontWeight.w500,
-                          fontSize: 16.sp,
+                          fontSize: 18,
                           color: AppColors.blue1,
                           text: "Business Description",
                         ),

@@ -2,6 +2,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
@@ -163,14 +164,13 @@ class LatestStoriesDetailsScreen extends StatelessWidget {
                   SizedBox(height: 16.h),
                   CommonText(fontWeight: FontWeight.w500, fontSize: 18, color: AppColors.blue1, text: "Description"),
                   SizedBox(height: 16.h),
-                  CommonText(
-                    maxLines: 1000,
-                    textAlign: TextAlign.start,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 16,
-                    color: AppColors.blue1,
-                    text: (homeController.singleStoryDetails['description'] ?? "")
-                        .replaceAll(RegExp(r'<[^>]*>|&nbsp;'), ""),
+                  HtmlWidget(
+                    homeController.singleStoryDetails['description'] ?? "",
+                    textStyle: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.blue1,
+                    ),
                   ),
                   SizedBox(height: 30.h),
                 ],

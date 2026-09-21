@@ -203,8 +203,6 @@ class ProfileController extends GetxController {
       if (data['data'] != null) {
         List allData = data['data'];
         combinedPlans.addAll(allData);
-
-        // Filtering logic
         for (var plan in allData) {
           if (plan['membershipType'] == "Alpha") {
             regularMembershipPlans.add(plan);
@@ -573,8 +571,6 @@ class ProfileController extends GetxController {
   Future<void> deleteAccount() async {
     try {
       isLoading.value = true;
-
-      // আপনার পোস্টম্যান স্ক্রিনশট অনুযায়ী Endpoint: /user/delete-my-account
       ApiResponseModel response = await ApiService.delete(
         "/user/delete-my-account",
         header: {
@@ -585,10 +581,9 @@ class ProfileController extends GetxController {
 
       response.handleResponse(
         onSuccess: (responseData) {
-          // টোকেন এবং লোকাল ডাটা ক্লিয়ার করুন
-          LocalStorage.preferences?.clear(); // অথবা আপনার প্রজেক্টের লগআউট লজিক
+          LocalStorage.preferences?.clear();
 
-          Get.offAllNamed(AppRoute.loginScreen); // লগইন স্ক্রিনে পাঠিয়ে দিন
+          Get.offAllNamed(AppRoute.loginScreen);
           Get.snackbar(
             "Account Deleted",
             "Your account has been deleted successfully.",

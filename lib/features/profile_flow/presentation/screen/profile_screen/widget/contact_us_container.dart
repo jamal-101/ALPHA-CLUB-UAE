@@ -70,15 +70,6 @@ class ContactUsContainer extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 4.h),
-                // Text(
-                //   subTitle,
-                //   style: TextStyle(
-                //     fontFamily: 'SFPro',
-                //     fontSize: 14.sp,
-                //     fontWeight: FontWeight.w500,
-                //     color: AppColors.blueBase,
-                //   ),
-                // ),
                 HtmlWidget(
                   subTitle,
                   textStyle: TextStyle(

@@ -25,7 +25,7 @@ class ClubDetailsScreen extends StatelessWidget {
       body: SafeArea(
         child: Obx(() {
           final club = clubController.singleClubDetails;
-        
+
           return SingleChildScrollView(
             physics: AlwaysScrollableScrollPhysics(),
             child: Padding(
@@ -121,9 +121,9 @@ class ClubDetailsScreen extends StatelessWidget {
                   SizedBox(height: 16.h),
                   CommonText(
                     fontWeight: FontWeight.w500,
-                    fontSize: 16,
+                    fontSize: 18,
                     color: AppColors.blue1,
-                    text: AppString.description,
+                    text: "Description",
                   ),
                   SizedBox(height: 16.h),
                   HtmlWidget(
@@ -135,7 +135,8 @@ class ClubDetailsScreen extends StatelessWidget {
                     ),
                   ),
                 ],
-              ),),
+              ),
+            ),
           );
         }),
       ),

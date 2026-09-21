@@ -9,7 +9,6 @@ import '../../../../core/utils/app_color/app_color.dart';
 import '../../../../core/utils/app_image/app_image.dart';
 import '../../controller/event_controller.dart';
 
-
 class EventDetailsScreen extends StatelessWidget {
   final String eventId;
   EventDetailsScreen({super.key, required this.eventId});
@@ -33,7 +32,7 @@ class EventDetailsScreen extends StatelessWidget {
               await eventController.fetchEventDetails(eventId);
             },
             child: SingleChildScrollView(
-              physics : AlwaysScrollableScrollPhysics(),
+              physics: AlwaysScrollableScrollPhysics(),
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20.w),
                 child: Column(
@@ -74,7 +73,11 @@ class EventDetailsScreen extends StatelessWidget {
                                 color: AppColors.gold50,
                                 shape: BoxShape.circle,
                               ),
-                              child: Icon(Icons.arrow_back_sharp, size: 22.sp, color: AppColors.blue1),
+                              child: Icon(
+                                Icons.arrow_back_sharp,
+                                size: 22.sp,
+                                color: AppColors.blue1,
+                              ),
                             ),
                           ),
                         ),
@@ -100,7 +103,7 @@ class EventDetailsScreen extends StatelessWidget {
                     SizedBox(height: 20.h),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Expanded(
                           child: CommonText(
@@ -108,13 +111,13 @@ class EventDetailsScreen extends StatelessWidget {
                             fontSize: 18.sp,
                             fontWeight: FontWeight.w500,
                             color: AppColors.blue1,
-                            text: event['name'] ??  "",
+                            text: event['name'] ?? "",
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        EventStatusButton(eventId: eventId,),
-                      ]
+                        EventStatusButton(eventId: eventId),
+                      ],
                     ),
                     SizedBox(height: 8.h),
                     CommonText(
@@ -130,7 +133,11 @@ class EventDetailsScreen extends StatelessWidget {
                     SizedBox(height: 12.h),
                     Row(
                       children: [
-                        Image.asset(AssetPath.locationIcon, height: 20.h, width: 20.w),
+                        Image.asset(
+                          AssetPath.locationIcon,
+                          height: 20.h,
+                          width: 20.w,
+                        ),
                         SizedBox(width: 5.w),
                         CommonText(
                           fontSize: 14.sp,
@@ -141,18 +148,22 @@ class EventDetailsScreen extends StatelessWidget {
                       ],
                     ),
                     SizedBox(height: 16.h),
-                    Divider(height: 1, thickness: 0.3, color: Color(0xFFF3F4F6)),
+                    Divider(
+                      height: 1,
+                      thickness: 0.3,
+                      color: Color(0xFFF3F4F6),
+                    ),
                     SizedBox(height: 16.h),
-            
+
                     CommonText(
                       fontWeight: FontWeight.w500,
-                      fontSize: 16.sp,
+                      fontSize: 18,
                       color: AppColors.blue1,
                       text: "Description",
                     ),
-            
+
                     SizedBox(height: 12.h),
-            
+
                     HtmlWidget(
                       event['description'] ?? " ",
                       textStyle: TextStyle(
@@ -161,7 +172,7 @@ class EventDetailsScreen extends StatelessWidget {
                         fontWeight: FontWeight.w400,
                       ),
                     ),
-            
+
                     SizedBox(height: 20.h),
                   ],
                 ),
@@ -173,5 +184,3 @@ class EventDetailsScreen extends StatelessWidget {
     );
   }
 }
-
-

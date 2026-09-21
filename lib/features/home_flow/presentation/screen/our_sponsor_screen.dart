@@ -113,7 +113,6 @@ class OurSponsorScreen extends StatelessWidget {
                     color: AppColors.blueBase,
                     fontFamily: 'SFPro',
                   ),
-                  renderMode: RenderMode.column,
                 ),
                 SizedBox(height: 16.h),
               ],
