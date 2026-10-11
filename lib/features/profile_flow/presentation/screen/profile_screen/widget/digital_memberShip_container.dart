@@ -170,28 +170,29 @@ Widget modelBottomSheet(BuildContext context) {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                  height: 65.h,
-                  width: 65.w,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    gradient: RadialGradient(
-                      center: Alignment.center,
-                      radius: 0.8,
-                      colors: [
-                        AppColors.radialGradiant1,
-                        AppColors.radialGradiant2,
-                      ],
-                    ),
-                  ),
-                  child: Center(
-                    child: Image.asset(
-                      AssetPath.splashImage,
-                      height: 130.h,
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                ),
+                // Container(
+                //   height: 65.h,
+                //   width: 65.w,
+                //   decoration: BoxDecoration(
+                //     shape: BoxShape.circle,
+                //     gradient: RadialGradient(
+                //       center: Alignment.center,
+                //       radius: 0.8,
+                //       colors: [
+                //         AppColors.radialGradiant1,
+                //         AppColors.radialGradiant2,
+                //       ],
+                //     ),
+                //   ),
+                  // child: Center(
+                  //   child: Image.asset(
+                  //     AssetPath.splashImage,
+                  //     height: 130.h,
+                  //     fit: BoxFit.contain,
+                  //   ),
+                  // ),
+                // ),
+                SizedBox(),
                 IconButton(
                   onPressed: () {
                     Navigator.pop(context);

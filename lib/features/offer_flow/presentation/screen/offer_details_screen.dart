@@ -224,13 +224,13 @@ class OfferDetailsScreen extends StatelessWidget {
                           thickness: 0.9,
                           color: AppColors.tabSelectedBorderColor,
                         ),
-                        SizedBox(height: 16.h),
-                        CommonText(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 18,
-                          color: AppColors.blue1,
-                          text: "Description",
-                        ),
+                        // SizedBox(height: 16.h),
+                        // CommonText(
+                        //   fontWeight: FontWeight.w500,
+                        //   fontSize: 18,
+                        //   color: AppColors.blue1,
+                        //   text: "Description",
+                        // ),
                         SizedBox(height: 8.h),
                         HtmlWidget(
                           offer.description,
@@ -241,13 +241,13 @@ class OfferDetailsScreen extends StatelessWidget {
                             fontFamily: 'SFPro',
                           ),
                         ),
-                        SizedBox(height: 16.h),
-                        CommonText(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 18,
-                          color: AppColors.blue1,
-                          text: "Business Description",
-                        ),
+                        // SizedBox(height: 16.h),
+                        // CommonText(
+                        //   fontWeight: FontWeight.w500,
+                        //   fontSize: 18,
+                        //   color: AppColors.blue1,
+                        //   text: "Business Description",
+                        // ),
                         SizedBox(height: 8.h),
                         HtmlWidget(
                           offer.businessDescription,

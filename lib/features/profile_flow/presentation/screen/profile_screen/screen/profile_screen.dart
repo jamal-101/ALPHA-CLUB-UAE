@@ -12,9 +12,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../../../../../../core/route/app_route.dart';
 
-
 class ProfileScreen extends StatelessWidget {
-      ProfileScreen({super.key});
+  ProfileScreen({super.key});
 
   final ProfileController profileController = Get.put(ProfileController());
 
@@ -37,12 +36,12 @@ class ProfileScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(height: 20.h),
-                                ProfileDataContainer(
-                                  imagePath: AssetPath.userProfile,
-                                  userName: AppString.userName,
-                                  membershipType: AppString.alphaMember,
-                                  userId: AppString.userId,
-                                ),
+                      ProfileDataContainer(
+                        imagePath: AssetPath.userProfile,
+                        userName: AppString.userName,
+                        membershipType: AppString.alphaMember,
+                        userId: AppString.userId,
+                      ),
                       SizedBox(height: 16.h),
                       DigitalMembershipContainer(),
                       // Obx(
