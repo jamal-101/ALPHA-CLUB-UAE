@@ -230,7 +230,6 @@ class FilterSheet extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Header অংশ
             Padding(
               padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
               child: Row(
