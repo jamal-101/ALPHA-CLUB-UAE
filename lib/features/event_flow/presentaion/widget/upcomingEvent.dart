@@ -1,10 +1,160 @@
+// import 'package:alpha_club/features/event_flow/presentaion/screen/event_details_screen.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutter_screenutil/flutter_screenutil.dart';
+// import 'package:get/get_core/src/get_main.dart';
+// import 'package:get/get_instance/src/extension_instance.dart';
+// import 'package:get/get_navigation/src/extension_navigation.dart';
+// import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+// import '../../../../core/global/commont_text.dart';
+// import '../../../../core/service/api/api_enpoint.dart';
+// import '../../../../core/utils/app_color/app_color.dart';
+// import '../../../../core/utils/app_image/app_image.dart';
+// import '../../controller/event_controller.dart';
+//
+// class UpComingEvent extends StatelessWidget {
+//   UpComingEvent({super.key});
+//
+//   final EventController eventController = Get.put(EventController());
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Obx(() {
+//       return RefreshIndicator(
+//         color: Color(0xFF233A66),
+//         backgroundColor: AppColors.appBackgroundColor,
+//         onRefresh: () async {
+//           await eventController.fetchEvents();
+//         },
+//         child: GridView.builder(
+//           physics: AlwaysScrollableScrollPhysics(),
+//           shrinkWrap: true,
+//           itemCount: eventController.eventList.length,
+//           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+//             crossAxisCount: 2,
+//             crossAxisSpacing: 12.w,
+//             mainAxisSpacing: 12.h,
+//             childAspectRatio: 0.70,
+//           ),
+//           itemBuilder: (context, index) {
+//             final item = eventController.eventList[index];
+//            final String eventId = item['_id'] ?? "";
+//
+//             return GestureDetector(
+//               onTap: () => Get.to(EventDetailsScreen(eventId: eventId)),
+//               child: Container(
+//                 decoration: BoxDecoration(
+//                   color: Colors.white,
+//                   borderRadius: BorderRadius.circular(16.r),
+//                   border: Border.all(color: Colors.grey.shade200),
+//                 ),
+//                 child: Column(
+//                   crossAxisAlignment: CrossAxisAlignment.start,
+//                   children: [
+//                     Padding(
+//                       padding: EdgeInsets.all(4.w),
+//                       child: ClipRRect(
+//                         borderRadius: BorderRadius.circular(8.r),
+//                         child: Image.network(
+//                           "${ApiEndPoint.imageBaseUrl}${item["image"] ?? ""}",
+//                           height: 144.h,
+//                           width: double.infinity,
+//                           fit: BoxFit.cover,
+//                           errorBuilder: (context, error, stackTrace) {
+//                             return Container(
+//                               height: 115.h,
+//                               width: double.infinity,
+//                               color: AppColors.otpBorderColor,
+//                               child: Icon(
+//                                 Icons.image_not_supported_outlined,
+//                                 size: 40.sp,
+//                                 color: AppColors.blue1.withValues(alpha: 0.3),
+//                               ),
+//                             );
+//                           },
+//                         ),
+//                       ),
+//                     ),
+//                     SizedBox(height: 4.h),
+//                     Expanded(
+//                       child: Padding(
+//                         padding: EdgeInsets.fromLTRB(4.w, 4.h, 4.w, 6.h),
+//                         child: Column(
+//                           crossAxisAlignment: CrossAxisAlignment.start,
+//                           children: [
+//                             CommonText(
+//                               style: TextStyle(
+//                                 fontSize: 14.sp,
+//                                 fontWeight: FontWeight.w500,
+//                                 color: AppColors.blue1,
+//                                 fontFamily: 'SFPro',
+//                               ),
+//                               maxLines: 1,
+//                               text: item["title"] ?? "",
+//                             ),
+//                             SizedBox(height: 6.h),
+//                             CommonText(
+//                               textAlign: TextAlign.start,
+//                               maxLines: 2,
+//                               overflow: TextOverflow.ellipsis,
+//                               style: TextStyle(
+//                                 fontFamily: 'SFPro',
+//                                 fontWeight: FontWeight.w400,
+//                                 fontSize: 12.sp,
+//                                 color: AppColors.blueBase,
+//                               ),
+//                               text: (item["description"] ?? "").replaceAll(RegExp(r'<[^>]*>|&nbsp;'), ""),
+//                             ),
+//                             const Spacer(),
+//                             Row(
+//                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                               children: [
+//                                 Flexible(
+//                                   child: Row(
+//                                     children: [
+//                                       Image.asset(AssetPath.calenderIcon, height: 16.h, width: 16.w, color: AppColors.goldColor1),
+//                                       SizedBox(width: 4.w),
+//                                       Flexible(
+//                                         child: CommonText(
+//                                           fontSize: 10.sp,
+//                                           text: item["eventDate"] != null ? item["eventDate"].toString().split('T')[0] : "",
+//                                         ),
+//                                       ),
+//                                     ],
+//                                   ),
+//                                 ),
+//                                 Row(
+//                                   children: [
+//                                     Icon(Icons.access_time, size: 16.sp, color: AppColors.goldColor1),
+//                                     SizedBox(width: 2.w),
+//                                     CommonText(
+//                                       fontSize: 10.sp,
+//                                       text: item["eventTime"] ?? "",
+//                                     ),
+//                                   ],
+//                                 ),
+//                               ],
+//                             ),
+//                           ],
+//                         ),
+//                       ),
+//                     ),
+//                   ],
+//                 ),
+//               ),
+//             );
+//           },
+//         ),
+//       );
+//     });
+//   }
+// }
+
+
 import 'package:alpha_club/features/event_flow/presentaion/screen/event_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/src/extension_instance.dart';
-import 'package:get/get_navigation/src/extension_navigation.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:get/get.dart';
+import 'package:shimmer/shimmer.dart'; // 🟢 Shimmer package
 import '../../../../core/global/commont_text.dart';
 import '../../../../core/service/api/api_enpoint.dart';
 import '../../../../core/utils/app_color/app_color.dart';
@@ -14,21 +164,34 @@ import '../../controller/event_controller.dart';
 class UpComingEvent extends StatelessWidget {
   UpComingEvent({super.key});
 
-  final EventController eventController = Get.put(EventController());
+  final EventController eventController = Get.find<EventController>();
 
   @override
   Widget build(BuildContext context) {
     return Obx(() {
+      // 🟢 প্রথমবার লোড হওয়ার সময় শিমার দেখাবে
+      if (eventController.isLoading.value && eventController.eventList.isEmpty) {
+        return _buildEventShimmerLoader();
+      }
+
+      if (eventController.eventList.isEmpty) {
+        return const Center(
+          child: Text("No events available"),
+        );
+      }
+
       return RefreshIndicator(
-        color: Color(0xFF233A66),
+        color: const Color(0xFF233A66),
         backgroundColor: AppColors.appBackgroundColor,
         onRefresh: () async {
-          await eventController.fetchEvents();
+          await eventController.fetchEvents(isRefresh: true);
         },
         child: GridView.builder(
-          physics: AlwaysScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: eventController.eventList.length,
+          controller: eventController.scrollController,
+          physics: const AlwaysScrollableScrollPhysics(),
+          shrinkWrap: false,
+          itemCount: eventController.eventList.length +
+              (eventController.isMoreLoading.value ? 1 : 0),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             crossAxisSpacing: 12.w,
@@ -36,11 +199,20 @@ class UpComingEvent extends StatelessWidget {
             childAspectRatio: 0.70,
           ),
           itemBuilder: (context, index) {
+            if (index == eventController.eventList.length) {
+              return const Center(
+                child: Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                ),
+              );
+            }
+
             final item = eventController.eventList[index];
-           final String eventId = item['_id'] ?? "";
+            final String eventId = item['_id'] ?? "";
 
             return GestureDetector(
-              onTap: () => Get.to(EventDetailsScreen(eventId: eventId)),
+              onTap: () => Get.to(() => EventDetailsScreen(eventId: eventId)),
               child: Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -61,7 +233,7 @@ class UpComingEvent extends StatelessWidget {
                           fit: BoxFit.cover,
                           errorBuilder: (context, error, stackTrace) {
                             return Container(
-                              height: 115.h,
+                              height: 144.h,
                               width: double.infinity,
                               color: AppColors.otpBorderColor,
                               child: Icon(
@@ -102,7 +274,8 @@ class UpComingEvent extends StatelessWidget {
                                 fontSize: 12.sp,
                                 color: AppColors.blueBase,
                               ),
-                              text: (item["description"] ?? "").replaceAll(RegExp(r'<[^>]*>|&nbsp;'), ""),
+                              text: (item["description"] ?? "")
+                                  .replaceAll(RegExp(r'<[^>]*>|&nbsp;'), ""),
                             ),
                             const Spacer(),
                             Row(
@@ -111,12 +284,19 @@ class UpComingEvent extends StatelessWidget {
                                 Flexible(
                                   child: Row(
                                     children: [
-                                      Image.asset(AssetPath.calenderIcon, height: 16.h, width: 16.w, color: AppColors.goldColor1),
+                                      Image.asset(AssetPath.calenderIcon,
+                                          height: 16.h,
+                                          width: 16.w,
+                                          color: AppColors.goldColor1),
                                       SizedBox(width: 4.w),
                                       Flexible(
                                         child: CommonText(
                                           fontSize: 10.sp,
-                                          text: item["eventDate"] != null ? item["eventDate"].toString().split('T')[0] : "",
+                                          text: item["eventDate"] != null
+                                              ? item["eventDate"]
+                                              .toString()
+                                              .split('T')[0]
+                                              : "",
                                         ),
                                       ),
                                     ],
@@ -124,7 +304,9 @@ class UpComingEvent extends StatelessWidget {
                                 ),
                                 Row(
                                   children: [
-                                    Icon(Icons.access_time, size: 16.sp, color: AppColors.goldColor1),
+                                    Icon(Icons.access_time,
+                                        size: 16.sp,
+                                        color: AppColors.goldColor1),
                                     SizedBox(width: 2.w),
                                     CommonText(
                                       fontSize: 10.sp,
@@ -146,5 +328,30 @@ class UpComingEvent extends StatelessWidget {
         ),
       );
     });
+  }
+
+  Widget _buildEventShimmerLoader() {
+    return Shimmer.fromColors(
+      baseColor: Colors.grey[300]!,
+      highlightColor: Colors.grey[100]!,
+      child: GridView.builder(
+        itemCount: 6,
+        physics: const NeverScrollableScrollPhysics(),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 12.w,
+          mainAxisSpacing: 12.h,
+          childAspectRatio: 0.70,
+        ),
+        itemBuilder: (context, index) {
+          return Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16.r),
+            ),
+          );
+        },
+      ),
+    );
   }
 }
